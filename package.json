@@ -1,0 +1,69 @@
+{
+  "name": "bingo",
+  "author": {
+    "name": "sunwenteng"
+  },
+  "main": "index.js",
+  "homepage": "https://github.com/sunwenteng/bingo",
+  "version": "0.0.1",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/sunwenteng/bingo/LICENSE.txt"
+    }
+  ],
+  "description": "bingo is a server based on node, redis and mysql",
+  "keywords": [
+    "node",
+    "redis",
+    "mysql",
+    "gameserver"
+  ],
+  "bugs": {
+    "url": "https://github.com/sunwenteng/bingo/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sunwenteng/bingo/bingo.git"
+  },
+  "preferGlobal": true,
+  "bin": {},
+  "engines": {
+    "node": ">=8.11.1 <8.11.2"
+  },
+  "dependencies": {
+    "body": "^5.1.0",
+    "express": "^4.16.3",
+    "hiredis": "^0.5.0",
+    "log4js": "^2.7.0",
+    "mkdirp": "^0.5.1",
+    "mysql": "^2.15.0",
+    "protobufjs": "^6.8.6",
+    "redis": "^2.8.0",
+    "request": "^2.87.0",
+    "source-map-support": "^0.5.6"
+  },
+  "devDependencies": {
+    "@types/core-js": "^0.9.46",
+    "@types/log4js": "^2.3.5",
+    "@types/mkdirp": "^0.5.2",
+    "@types/mysql": "^2.15.4",
+    "@types/node": "^10.1.2",
+    "@types/source-map-support": "^0.4.0",
+    "gulp": "^3.9.1",
+    "gulp-cli": "^2.0.1",
+    "gulp-rm": "^1.0.5",
+    "gulp-sourcemaps": "^2.6.4",
+    "gulp-typescript": "^4.0.2",
+    "typescript": "^2.8.3"
+  },
+  "scripts": {},
+  "maintainers": [
+    {
+      "username": "sunwenteng",
+      "email": "elvessun@gmail.com"
+    }
+  ],
+  "directories": {},
+  "readme": "README.md"
+}
