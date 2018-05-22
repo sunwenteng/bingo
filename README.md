@@ -1,0 +1,2 @@
+# bingo
+Designed for server
