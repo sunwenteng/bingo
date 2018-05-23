@@ -60,10 +60,9 @@ function parseFrame(line): FrameMatch {
 
 export class Log {
     private static m_logger: log4js.Logger;
-    private static m_haveInit: boolean = false;
 
-    public static isInit(): boolean {
-        return this.m_haveInit;
+    constructor() {
+
     }
 
     public static init(dirName: any, logLevel?: string): void {
@@ -75,7 +74,7 @@ export class Log {
             layout: {
                 type: "pattern",
                 /* 多加了颜色 */
-                pattern: "%[%d{yyyy-MM-dd hh:mm:ss},%p,%x{roleId},%x{operation},%x{line},%x{content}%]",
+                pattern: "%[%d{yyyy-MM-dd hh:mm:ss},%p,%x{roleId},%x{line},%x{content}%]",
                 tokens: {
                     line: (log: log4js.LoggingEvent) => {
                         return log.data[0];
@@ -83,12 +82,9 @@ export class Log {
                     roleId: (log: log4js.LoggingEvent) => {
                         return log.data[1];
                     },
-                    operation: (log: log4js.LoggingEvent) => {
-                        return log.data[2];
-                    },
                     /* 此处 pattern 中使用 %x{content} 代替 %m 是为了支持 roleId */
                     content: (log: log4js.LoggingEvent) => {
-                        return util.format.apply(util, log.data.slice(3));
+                        return util.format.apply(util, log.data.slice(2));
                     }
                 }
             }
@@ -100,7 +96,7 @@ export class Log {
             pattern: ".yyyy-MM-dd",
             layout: {
                 type: "pattern",
-                pattern: "%d{yyyy-MM-dd hh:mm:ss},%x{level},%x{roleId},%x{operation},%x{line},%x{content}",
+                pattern: "%d{yyyy-MM-dd hh:mm:ss},%x{level},%x{roleId},%x{line},%x{content}",
                 tokens: {
                     line: (log: log4js.LoggingEvent) => {
                         return log.data[0];
@@ -108,15 +104,12 @@ export class Log {
                     roleId: (log: log4js.LoggingEvent) => {
                         return log.data[1];
                     },
-                    operation: (log: log4js.LoggingEvent) => {
-                        return log.data[2];
-                    },
                     /* 此处 pattern 中使用 %x{content} 代替 %m 是为了支持 roleId */
                     content: (log: log4js.LoggingEvent) => {
-                        return util.format.apply(util, log.data.slice(3));
+                        return util.format.apply(util, log.data.slice(2));
                     },
                     level: (log: log4js.LoggingEvent) => {
-                        switch (log.level['level']) {
+                        switch ((log.level as any).level) {
                             case 10000  :
                                 return 1;   /* debug */
                             case 20000  :

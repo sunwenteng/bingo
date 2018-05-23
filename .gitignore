@@ -1,6 +1,5 @@
 # directory
 .idea/
-config/
 dist/
 node_modules/
 tool/
