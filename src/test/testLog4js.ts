@@ -1,5 +1,5 @@
 import * as mysql from 'mysql';
-import {Log} from './util/log'
+import {Log} from '../util/log'
 
 let conn = mysql.createConnection({host: '127.1.0.1', port: 3306});
 

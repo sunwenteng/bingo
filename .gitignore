@@ -1,10 +1,10 @@
 # directory
 .idea/
-./node_modules/
-src/config/untrack/
-./dist
+config/
+dist/
+node_modules/
+tool/
 
 # files
 *.log
-*.log.*
-src/config/data/*.json
+
