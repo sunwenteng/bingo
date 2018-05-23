@@ -49,6 +49,7 @@
     "@types/mkdirp": "^0.5.2",
     "@types/mysql": "^2.15.4",
     "@types/node": "^10.1.2",
+    "@types/request": "^2.47.0",
     "@types/source-map-support": "^0.4.0",
     "gulp": "^3.9.1",
     "gulp-cli": "^2.0.1",
