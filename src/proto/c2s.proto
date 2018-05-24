@@ -1,0 +1,19 @@
+syntax = "proto3";
+package C2S;
+
+message CS_ECHO{
+    option code = 1001;
+
+    enum Color {
+        option allow_alias = true;
+        RED = 0;
+        BLUE = 1;
+        YELLOW = 1;
+    }
+    string name = 1;
+    string msg = 2;
+    int64 b = 3;
+    repeated int32 data  = 4;
+    Color color = 5;
+    map<uint64, string> map = 6;
+}

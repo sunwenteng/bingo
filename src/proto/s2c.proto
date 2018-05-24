@@ -1,0 +1,8 @@
+syntax = "proto3";
+package S2C;
+
+message SC_ECHO_REPLY {
+    int32 cmd_id = 1;
+    string msg = 2;
+}
+
