@@ -2,9 +2,9 @@ const gulp = require('gulp');
 const ts = require('gulp-typescript');
 const sourceMaps = require('gulp-sourcemaps');
 const rm = require('gulp-rm');
+const shell = require('gulp-shell');
 
-// 编译ts
-gulp.task('compile_src', () => {
+gulp.task('scripts_src', ['clear'], () => {
     return gulp.src('src/**/*.ts')
         .pipe(sourceMaps.init())
         .pipe(ts({
@@ -19,8 +19,21 @@ gulp.task('compile_src', () => {
         .pipe(gulp.dest('dist/'));
 });
 
-// 清除dist
-gulp.task('rm', () => {
+gulp.task('clear', () => {
     return gulp.src('dist/**/*', {read: false})
         .pipe(rm({async: false}))
 });
+
+gulp.task('compile', ['scripts_src'], () => {
+    return gulp.src(['src/**/*.js', '!src/addons/stringchecker/StringChecker.js', 'src/**/*.json', 'src/**/*.node'])
+        .pipe(gulp.dest('dist/'));
+});
+
+// proto文件解析
+let protoFiles = ['./src/proto/c2s.proto', './src/proto/s2c.proto'];
+// 这个文件小一点 速度比后者稍微慢一点
+gulp.task('proto2json', shell.task('./node_modules/protobufjs/bin/pbjs -t json-module -w commonjs -o ./src/proto/cmd.js ' + protoFiles.join(' ') + ' && ' +
+    './node_modules/protobufjs/bin/pbjs -t static-module ' + protoFiles.join(' ') + ' | ./node_modules/protobufjs/bin/pbts --no-comments -o ./src/proto/cmd.d.ts -'));
+// 生成的文件较大
+gulp.task('proto2js', shell.task('./node_modules/protobufjs/bin/pbjs -t static-module -w commonjs -o ./src/proto/cmd.js ' + protoFiles.join(' ') + ' && ' +
+    './node_modules/protobufjs/bin/pbts --no-comments -o ./src/proto/cmd.d.ts ./src/proto/cmd.js'));
