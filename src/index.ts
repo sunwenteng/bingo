@@ -1,18 +1,19 @@
 import {Log} from './util/log'
 
 const Config = require('../config/config.json');
+// import * as Config from '../config/config.json'
 Log.init(__dirname + Config.log.dir, Config.log.level);
 
-import {C2S, S2C} from './proto/cmd'
+import {Server} from './net/ws/web_socket'
+import {PlayerSession} from "./net/ws/player_session";
+import {World} from "./net/ws/world";
 
-let msg = C2S.CS_ECHO.create({
-    name: "123123",
-    b: 123123123123123,
-    color: C2S.CS_ECHO.Color.BLUE,
-    data: [1, 2, 3],
-    map: {12: '12'}
-});
+async function start(server: Server) {
+    await server.start(PlayerSession);
+    setInterval(async () => {
+        await World.getInstance().update();
+    }, 100)
+}
 
-let buffer = C2S.CS_ECHO.encode(msg).finish();
-let decoded = C2S.CS_ECHO.decode(buffer);
-Log.sInfo(buffer.length + " " + decoded + ' ' + msg['$type'].options.code);
+let server = new Server(Config.server.host, Config.server.port);
+start(server);

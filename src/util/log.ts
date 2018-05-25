@@ -65,6 +65,10 @@ export class Log {
 
     }
 
+    public static getLogger():log4js.Logger {
+        return this.m_logger;
+    }
+
     public static init(dirName: any, logLevel?: string): void {
         let logDir: string = dirName;
         mkdirp.sync(logDir);
