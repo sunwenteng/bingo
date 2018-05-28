@@ -1,7 +1,7 @@
 {
   "log": {
     "dir": "/log",
-    "level": "debug"
+    "level": "error"
   },
   "game_db": {
     "name": "game_db",

@@ -6,6 +6,3 @@ tool/
 
 # files
 *.log
-
-src/proto/cmd.d.ts
-src/proto/cmd.js

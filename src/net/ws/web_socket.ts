@@ -43,7 +43,9 @@ export class WebSocket {
     }
 
     send(data: any): void {
-        this.m_webSocket.send(data);
+        if (this.m_state === SocketStatus.VALID) {
+            this.m_webSocket.send(data);
+        }
     }
 }
 

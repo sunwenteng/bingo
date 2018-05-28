@@ -1,10 +1,12 @@
 import {WebSocket} from "./web_socket";
 
 export abstract class UserSession {
+    m_accountId:number;
     m_packets: any[];
     m_socket: WebSocket | any;
 
     protected constructor() {
+        this.m_accountId = 0;
         this.m_packets = [];
     }
 

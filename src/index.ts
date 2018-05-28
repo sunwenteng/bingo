@@ -1,12 +1,9 @@
-import {Log} from './util/log'
-
-const Config = require('../config/config.json');
-// import * as Config from '../config/config.json'
-Log.init(__dirname + Config.log.dir, Config.log.level);
-
-import {Server} from './net/ws/web_socket'
 import {PlayerSession} from "./net/ws/player_session";
 import {World} from "./net/ws/world";
+import {Server} from './net/ws/web_socket'
+import {Log} from './util/log'
+const Config = require('../config/config.json');
+Log.init(__dirname + Config.log.dir, Config.log.level);
 
 async function start(server: Server) {
     await server.start(PlayerSession);
@@ -17,3 +14,4 @@ async function start(server: Server) {
 
 let server = new Server(Config.server.host, Config.server.port);
 start(server);
+
