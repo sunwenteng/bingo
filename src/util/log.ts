@@ -167,7 +167,7 @@ export class Log {
     }
 
     // system
-    public static sDebug(operation: string, message: string, ...args: any[]): void {
+    public static sDebug(...args: any[]): void {
         let arg = [LineInfoDefault(), 0].concat(Array.prototype.slice.call(arguments));
         this.m_logger.debug.apply(this.m_logger, arg);
     }
@@ -177,7 +177,7 @@ export class Log {
         this.m_logger.info.apply(this.m_logger, arg);
     }
 
-    public static sWarn(operation: string, message: string, ...args: any[]): void {
+    public static sWarn(...args: any[]): void {
         let arg = [LineInfoDefault(), 0].concat(Array.prototype.slice.call(arguments));
         this.m_logger.warn.apply(this.m_logger, arg);
     }
@@ -187,7 +187,7 @@ export class Log {
         this.m_logger.error.apply(this.m_logger, arg);
     }
 
-    public static sFatal(operation: string, message: string, ...args: any[]): void {
+    public static sFatal(...args: any[]): void {
         let arg = [LineInfoDefault(), 0].concat(Array.prototype.slice.call(arguments));
         this.m_logger.fatal.apply(this.m_logger, arg);
     }

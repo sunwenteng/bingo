@@ -14,6 +14,7 @@ gulp.task('scripts_src', ['clear'], () => {
             noEmitOnError: true,        // 错误不生成js
             target: "es2017",
             module: "commonjs",
+            experimentalDecorators: true
         })).js
         .pipe(sourceMaps.write())
         .pipe(gulp.dest('dist/'));
