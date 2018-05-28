@@ -1,6 +1,11 @@
 import {Log} from "./log";
 
-export function logTime(bToLog: boolean = true) {
+/**
+ * 类函数装饰器，计算函数执行是
+ * @param {boolean} bToLog
+ * @returns {(target: Object, methodName: string, descriptor: TypedPropertyDescriptor<Function>) => void}
+ */
+export function execTime(bToLog: boolean = true) {
     return (target: Object, methodName: string, descriptor: TypedPropertyDescriptor<Function>) => {
         let originalMethod = descriptor.value;
         descriptor.value = async (...args) => {
@@ -24,7 +29,7 @@ export function logTime(bToLog: boolean = true) {
     }
 }
 
-// export function logTime() {
+// export function execTime() {
 //     return (target: Object, methodName: string, descriptor: TypedPropertyDescriptor<Function>) => {
 //         let originalMethod = descriptor.value;
 //         descriptor.value = (...args) => {

@@ -5,18 +5,18 @@ import {Log} from './util/log'
 import * as util from 'util';
 
 const Config = require('../config/config.json');
-import {logTime} from './util/descriptor'
+import {execTime} from './util/descriptor'
 
 Log.init(__dirname + Config.log.dir, Config.log.level);
 
 class test {
 
-    @logTime()
+    @execTime()
     end() {
         console.log('i am end');
     }
 
-    @logTime(true)
+    @execTime(true)
     async start(server: Server) {
         await server.start(PlayerSession);
         return new Promise<void>((resolve => {
@@ -26,7 +26,7 @@ class test {
         }));
     }
 
-    @logTime()
+    @execTime()
     async start1() {
         return new Promise<void>((resolve => {
             setTimeout(async () => {
