@@ -166,7 +166,6 @@ export class Log {
         this.m_logger.error.apply(this.m_logger, arg);
     }
 
-    // system
     public static sDebug(...args: any[]): void {
         let arg = [LineInfoDefault(), 0].concat(Array.prototype.slice.call(arguments));
         this.m_logger.debug.apply(this.m_logger, arg);

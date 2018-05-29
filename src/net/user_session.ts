@@ -1,12 +1,11 @@
-import {WebSocket} from "./web_socket";
+import {WebSocket} from "./ws/web_socket";
+import {C2S} from "../proto/cmd";
 
 export abstract class UserSession {
-    m_accountId:number;
     m_packets: any[];
     m_socket: WebSocket | any;
 
     protected constructor() {
-        this.m_accountId = 0;
         this.m_packets = [];
     }
 
@@ -14,7 +13,7 @@ export abstract class UserSession {
 
     public abstract addSessionToWorker(): void;
 
-    public pushPacket(packet: any) {
+    public pushPacket(packet: C2S.Message) {
         this.m_packets.push(packet);
     }
 }

@@ -446,3 +446,7 @@ function parseHttpResBody(error: any, response: any, body: string, dataType: Enu
         }
     }
 }
+
+export function capitalize(str: string): string {
+    return str.toLowerCase().replace(/( |^)[a-z]/g, (L) => L.toUpperCase());
+}

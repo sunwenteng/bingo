@@ -7,10 +7,32 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
 .addJSON({
   C2S: {
     nested: {
-      CS_ECHO: {
-        options: {
-          code: 1001
+      Message: {
+        oneofs: {
+          kind: {
+            oneof: [
+              "CS_TEST_ECHO",
+              "CS_ROLE_ONLINE",
+              "CS_TEST_GET_PROPERTY"
+            ]
+          }
         },
+        fields: {
+          CS_TEST_ECHO: {
+            type: "CS_TEST_ECHO",
+            id: 1
+          },
+          CS_ROLE_ONLINE: {
+            type: "CS_ROLE_ONLINE",
+            id: 2
+          },
+          CS_TEST_GET_PROPERTY: {
+            type: "CS_TEST_GET_PROPERTY",
+            id: 3
+          }
+        }
+      },
+      CS_TEST_ECHO: {
         fields: {
           name: {
             type: "string",
@@ -51,12 +73,69 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
             }
           }
         }
+      },
+      CS_ROLE_ONLINE: {
+        fields: {
+          passport: {
+            type: "string",
+            id: 1
+          },
+          pwd: {
+            type: "string",
+            id: 2
+          }
+        }
+      },
+      CS_TEST_GET_PROPERTY: {
+        fields: {
+          type: {
+            type: "string",
+            id: 1
+          }
+        }
       }
     }
   },
   S2C: {
     nested: {
-      SC_ECHO_REPLY: {
+      Message: {
+        oneofs: {
+          kind: {
+            oneof: [
+              "Error",
+              "SC_TEST_ECHO",
+              "SC_ROLE_ONLINE"
+            ]
+          }
+        },
+        fields: {
+          Error: {
+            type: "Error",
+            id: 1
+          },
+          SC_TEST_ECHO: {
+            type: "SC_TEST_ECHO",
+            id: 2
+          },
+          SC_ROLE_ONLINE: {
+            type: "SC_ROLE_ONLINE",
+            id: 3
+          }
+        }
+      },
+      Error: {
+        fields: {
+          code: {
+            type: "int32",
+            id: 1
+          },
+          msg: {
+            type: "string",
+            id: 2
+          }
+        }
+      },
+      SC_TEST_ECHO: {
         fields: {
           cmdId: {
             type: "int32",
@@ -67,6 +146,9 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
             id: 2
           }
         }
+      },
+      SC_ROLE_ONLINE: {
+        fields: {}
       }
     }
   }

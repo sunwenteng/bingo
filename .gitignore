@@ -1,8 +1,9 @@
 # directory
 .idea/
-dist/
 node_modules/
 tool/
+dist/**/*
 
 # files
 *.log
+

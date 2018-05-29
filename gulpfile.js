@@ -4,7 +4,7 @@ const sourceMaps = require('gulp-sourcemaps');
 const rm = require('gulp-rm');
 const shell = require('gulp-shell');
 
-gulp.task('scripts_src', ['clear'], () => {
+gulp.task('scripts_src'/*, ['clear']*/, () => {
     return gulp.src('src/**/*.ts')
         .pipe(sourceMaps.init())
         .pipe(ts({
@@ -21,7 +21,7 @@ gulp.task('scripts_src', ['clear'], () => {
 });
 
 gulp.task('clear', () => {
-    return gulp.src('dist/**/*', {read: false})
+    return gulp.src('dist/*', {read: false})
         .pipe(rm({async: false}))
 });
 

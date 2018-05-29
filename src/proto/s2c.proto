@@ -1,8 +1,26 @@
 syntax = "proto3";
 package S2C;
 
-message SC_ECHO_REPLY {
+message Message {
+    oneof kind {
+        Error Error = 1;
+        SC_TEST_ECHO SC_TEST_ECHO = 2;
+        SC_ROLE_ONLINE SC_ROLE_ONLINE = 3;
+
+    }
+}
+
+message Error {
+    int32 code = 1;
+    string msg = 2;
+}
+
+message SC_TEST_ECHO {
     int32 cmd_id = 1;
     string msg = 2;
 }
+
+message SC_ROLE_ONLINE {
+}
+
 

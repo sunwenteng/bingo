@@ -1,9 +1,15 @@
 syntax = "proto3";
 package C2S;
 
-message CS_ECHO{
-    option code = 1001;
+message Message {
+    oneof kind {
+        CS_TEST_ECHO CS_TEST_ECHO = 1;
+        CS_ROLE_ONLINE CS_ROLE_ONLINE = 2;
+        CS_TEST_GET_PROPERTY CS_TEST_GET_PROPERTY = 3;
+    }
+}
 
+message CS_TEST_ECHO {
     enum Color {
         option allow_alias = true;
         RED = 0;
@@ -13,7 +19,16 @@ message CS_ECHO{
     string name = 1;
     string msg = 2;
     int64 b = 3;
-    repeated int32 data  = 4;
+    repeated int32 data = 4;
     Color color = 5;
     map<uint64, string> map = 6;
+}
+
+message CS_ROLE_ONLINE {
+    string passport = 1;
+    string pwd = 2;
+}
+
+message CS_TEST_GET_PROPERTY {
+    string type = 1;
 }

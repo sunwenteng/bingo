@@ -8,48 +8,48 @@ export interface MysqlConfig extends mysql.PoolConfig {
 }
 
 export class MysqlConnection {
-    _pool: mysql.Pool;
-    configCopy: MysqlConfig;
+    private m_pool: mysql.Pool;
+    private m_configCopy: MysqlConfig;
 
     constructor() {
     }
 
     public startDb(config: mysql.PoolConfig): void {
-        this._pool = mysql.createPool(config);
-        this.configCopy = config;
-        Log.sInfo('mysql pool ' + this.configCopy.name + ' created, db=' + this.configCopy.database + ', ip=' + this.configCopy.host +
-            ', auth=' + this.configCopy.user + ':' + this.configCopy.password);
-        this._pool.on('connection', (connection: mysql.PoolConnection) => {
+        this.m_pool = mysql.createPool(config);
+        this.m_configCopy = config;
+        Log.sInfo('mysql pool ' + this.m_configCopy.name + ' created, db=' + this.m_configCopy.database + ', ip=' + this.m_configCopy.host +
+            ', auth=' + this.m_configCopy.user + ':' + this.m_configCopy.password);
+        this.m_pool.on('connection', (connection: mysql.PoolConnection) => {
             connection.query('SET SESSION auto_increment_increment=1');
             connection.on('error', (err: mysql.MysqlError) => {
                 Log.sError(err.code);
                 if (err.code === 'PROTOCOL_CONNECTION_LOST') {
                     setTimeout(() => {
-                        return this.startDb(this.configCopy);
+                        return this.startDb(this.m_configCopy);
                     }, 2000);
                     Log.sInfo('server disconnect, so reconnect');
                 }
             });
-            Log.sInfo(this.configCopy.name + ' connected as id successfully, connectionId=' + connection.threadId);
+            Log.sInfo(this.m_configCopy.name + ' connected as id successfully, connectionId=' + connection.threadId);
         });
 
-        this._pool.on('enqueue', () => {
-            Log.sInfo(this.configCopy.name + ' Waiting for available connection slot');
+        this.m_pool.on('enqueue', () => {
+            Log.sInfo(this.m_configCopy.name + ' Waiting for available connection slot');
         });
-        this._pool.on("error", (err) => {
+        this.m_pool.on("error", (err) => {
             Log.sError(err);
         })
     }
 
     public closeDb(): Promise<void> {
         return new Promise(((resolve, reject) => {
-            this._pool.end((err) => {
+            this.m_pool.end((err) => {
                 if (err) {
-                    Log.sError(this.configCopy.name + ' database pool close failed');
+                    Log.sError(this.m_configCopy.name + ' database pool close failed');
                     reject(err);
                 }
                 else {
-                    Log.sInfo(this.configCopy.name + ' database pool close success');
+                    Log.sInfo(this.m_configCopy.name + ' database pool close success');
                     resolve();
                 }
             });
@@ -58,7 +58,7 @@ export class MysqlConnection {
 
     public async execute(sql: string, param?: any): Promise<any[]> {
         return new Promise<any[]>(((resolve, reject) => {
-            this._pool.getConnection((err: mysql.MysqlError, connection: mysql.PoolConnection) => {
+            this.m_pool.getConnection((err: mysql.MysqlError, connection: mysql.PoolConnection) => {
                 if (err) {
                     Log.sError('sql:' + sql + param ? '\nparam:' + JSON.stringify(param) : '' + '\n' + err.stack);
                     reject(err);
@@ -87,14 +87,14 @@ export class MysqlConnection {
     public async existColumn(table: string, column: string): Promise<boolean> {
         let queryResult = await this.execute(
             "select 1 as res from information_schema.columns where table_name=? and column_name=? and table_schema = ?",
-            [table, column, this.configCopy.database]);
+            [table, column, this.m_configCopy.database]);
         return new Promise<boolean>((resolve => resolve(queryResult.length > 0)));
     }
 
     public async existIndex(table: string, index: string): Promise<boolean> {
         let queryResult = await this.execute(
             "select 1 as res from information_schema.statistics where table_name=? and index_name=? and table_schema=?",
-            [table, index, this.configCopy.database]);
+            [table, index, this.m_configCopy.database]);
         return new Promise<boolean>((resolve => resolve(queryResult.length > 0)));
     }
 
