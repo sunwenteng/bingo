@@ -1,7 +1,6 @@
 import {UserSession} from '../net/user_session'
 import {Log} from "../util/log";
 import {World} from "./world";
-import {C2S} from "../proto/cmd";
 
 export class PlayerSession extends UserSession {
     public m_role: any;
