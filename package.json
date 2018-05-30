@@ -52,6 +52,7 @@
     "@types/mysql": "^2.15.4",
     "@types/node": "^10.1.2",
     "@types/protobufjs": "^6.0.0",
+    "@types/redis": "^2.8.6",
     "@types/request": "^2.47.0",
     "@types/source-map-support": "^0.4.0",
     "@types/ws": "^5.1.1",

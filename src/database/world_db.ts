@@ -26,14 +26,12 @@ export async function init(config: MysqlConfig): Promise<void> {
             "createTime	    INT 		UNSIGNED 	NOT NULL 	DEFAULT '0'," +
             "gold 			INT 		UNSIGNED	NOT NULL	DEFAULT '0'," +
             "level 			INT		 	UNSIGNED	NOT NULL	DEFAULT '0'," +
-            "roomLvl 		INT		 	UNSIGNED	NOT NULL	DEFAULT '0'," +
-            "equips 		blob NULL," +
-            "heroes 		blob NULL," +
-            "res 		    blob NULL," +
-            "blueprints 	blob NULL," +
-            "pve 	    	blob NULL," +
-            "pvp     		blob NULL," +
-            "techs     		blob NULL," +
+            "equips 		long_blob   NULL," +
+            "heroes 		long_blob   NULL," +
+            "res 		    long_blob   NULL," +
+            "pve 	    	long_blob   NULL," +
+            "pvp     		long_blob   NULL," +
+            "techs     		long_blob   NULL," +
             "PRIMARY KEY (uid)" +
             ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 

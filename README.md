@@ -69,21 +69,21 @@ npm install pm2 -g
 Listing all running processes:
 
 ```bash
-$ pm2 list
+pm2 list
 ```
 
 Managing your processes is straightforward:
 
 ```bash
-$ pm2 stop     <app_name|id|all>
-$ pm2 restart  <app_name|id|all>
-$ pm2 delete   <app_name|id|all>
+pm2 stop     <app_name|id|all>
+pm2 restart  <app_name|id|all>
+pm2 delete   <app_name|id|all>
 ```
 
 To have more details on a specific process:
 
 ```bash
-$ pm2 describe 0
+pm2 describe 0
 ```
 
 ### Monitoring
@@ -91,7 +91,7 @@ $ pm2 describe 0
 Monitoring all processes launched:
 
 ```bash
-$ pm2 monit
+pm2 monit
 ```
 
 ### Log facilities
@@ -99,21 +99,31 @@ $ pm2 monit
 Displaying logs of a specified process or all processes, in real time:
 
 ```bash
-$ pm2 logs
-$ pm2 logs --raw
-$ pm2 logs big-api
-$ pm2 flush          # Clear all the logs
+pm2 logs
+pm2 logs --raw
+pm2 logs big-api
+pm2 flush          # Clear all the logs
 ```
 
-### C++ AddOns
+## C++ AddOns
 
 write c++ addons within addons folder
 
 ```bash
-$ sudo npm install node-gyp -g  
-$ cd [your_path]  
-$ node-gyp configure  
-$ node-gyp build  
+sudo npm install node-gyp -g  
+cd [your_path]  
+node-gyp configure  
+node-gyp build  
 ```
 
-*********
+## redis
+
+使用redis4.0.9稳定版本，客户端工具使用redis-desktop-manager。
+
+```bash
+wget http://download.redis.io/releases/redis-4.0.9.tar.gz
+tar xzf redis-4.0.9.tar.gz
+cd redis-4.0.9
+make
+sudo make install
+```
