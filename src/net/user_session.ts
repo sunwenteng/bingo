@@ -28,4 +28,8 @@ export abstract class UserSession {
     public isSessionValid():boolean {
         return this.m_socket.state === SocketStatus.VALID;
     }
+
+    public closeSocket(){
+        this.m_socket.close();
+    }
 }
