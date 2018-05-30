@@ -59,14 +59,14 @@ function parseFrame(line): FrameMatch {
 }
 
 export class Log {
-    private static m_logger: log4js.Logger;
+    private static _logger: log4js.Logger;
 
     constructor() {
 
     }
 
     public static getLogger():log4js.Logger {
-        return this.m_logger;
+        return this._logger;
     }
 
     public static init(dirName: any, logLevel?: string): void {
@@ -141,68 +141,68 @@ export class Log {
             }
         });
 
-        this.m_logger = log4js.getLogger('default');
+        this._logger = log4js.getLogger('default');
     }
 
     // user
     public static uDebug(roleId: number, operation: string, message: string, ...args: any[]): void {
         let arg = [LineInfoDefault()].concat(Array.prototype.slice.call(arguments));
 
-        this.m_logger.debug.apply(this.m_logger, arg);
+        this._logger.debug.apply(this._logger, arg);
     }
 
     public static uInfo(roleId: number, operation: string, message: any, ...args: any[]): void {
         let i, arg = [LineInfoDefault()].concat(Array.prototype.slice.call(arguments));
-        this.m_logger.info.apply(this.m_logger, arg);
+        this._logger.info.apply(this._logger, arg);
     }
 
     public static uWarn(roleId: number, operation: string, message: string, ...args: any[]): void {
         let arg = [LineInfoDefault()].concat(Array.prototype.slice.call(arguments));
-        this.m_logger.warn.apply(this.m_logger, arg);
+        this._logger.warn.apply(this._logger, arg);
     }
 
     public static uError(roleId: number, operation: string, message: string, ...args: any[]): void {
         let arg = [LineInfoDefault()].concat(Array.prototype.slice.call(arguments));
-        this.m_logger.error.apply(this.m_logger, arg);
+        this._logger.error.apply(this._logger, arg);
     }
 
     public static sDebug(...args: any[]): void {
         let arg = [LineInfoDefault(), 0].concat(Array.prototype.slice.call(arguments));
-        this.m_logger.debug.apply(this.m_logger, arg);
+        this._logger.debug.apply(this._logger, arg);
     }
 
     public static sInfo(...args: any[]): void {
         let arg = [LineInfoDefault(), 0].concat(Array.prototype.slice.call(arguments));
-        this.m_logger.info.apply(this.m_logger, arg);
+        this._logger.info.apply(this._logger, arg);
     }
 
     public static sWarn(...args: any[]): void {
         let arg = [LineInfoDefault(), 0].concat(Array.prototype.slice.call(arguments));
-        this.m_logger.warn.apply(this.m_logger, arg);
+        this._logger.warn.apply(this._logger, arg);
     }
 
     public static sError(...args: any[]): void {
         let arg = [LineInfoDefault(), 0].concat(Array.prototype.slice.call(arguments));
-        this.m_logger.error.apply(this.m_logger, arg);
+        this._logger.error.apply(this._logger, arg);
     }
 
     public static sFatal(...args: any[]): void {
         let arg = [LineInfoDefault(), 0].concat(Array.prototype.slice.call(arguments));
-        this.m_logger.fatal.apply(this.m_logger, arg);
+        this._logger.fatal.apply(this._logger, arg);
     }
 
     public static sFatalError(err: Error, operation: string, message: string, ...args: any[]): void {
         let arg = [LineInfoFromStack(err['stack']), 0].concat(Array.prototype.slice.call(arguments, 1));
-        this.m_logger.fatal.apply(this.m_logger, arg);
+        this._logger.fatal.apply(this._logger, arg);
     }
 
     public static userError(err: Error, roleId: number, operation: string, message: string, ...args: any[]): void {
         let arg = [LineInfoFromStack(err['stack'])].concat(Array.prototype.slice.call(arguments, 1));
-        this.m_logger.error.apply(this.m_logger, arg);
+        this._logger.error.apply(this._logger, arg);
     }
 
     public static stackError(err: Error, operation: string, message: string, ...args: any[]): void {
         let arg = [LineInfoFromStack(err['stack']), 0].concat(Array.prototype.slice.call(arguments, 1));
-        this.m_logger.error.apply(this.m_logger, arg);
+        this._logger.error.apply(this._logger, arg);
     }
 }

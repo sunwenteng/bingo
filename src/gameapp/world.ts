@@ -9,7 +9,7 @@ type AuthedSessionMap = { [index: number]: UserSession };
 type ControllerMap = { [index: string]: Function };
 
 export class World {
-    private static instance: World;
+    private static _instance: World;
     private readonly _sessionList: LinkedList<UserSession>;
     private readonly _authedSessionMap: AuthedSessionMap; // 玩家上线通过后加入进来
     private readonly _allControllers: ControllerMap;
@@ -21,10 +21,10 @@ export class World {
     }
 
     public static getInstance(): World {
-        if (!this.instance) {
-            this.instance = new World();
+        if (!this._instance) {
+            this._instance = new World();
         }
-        return this.instance;
+        return this._instance;
     }
 
     public async update() {
