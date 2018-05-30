@@ -6,7 +6,7 @@ message Message {
         Error Error = 1;
         SC_TEST_ECHO SC_TEST_ECHO = 2;
         SC_ROLE_ONLINE SC_ROLE_ONLINE = 3;
-
+        SC_ROLE_HEART_BEAT SC_ROLE_HEART_BEAT = 4;
     }
 }
 
@@ -21,6 +21,10 @@ message SC_TEST_ECHO {
 }
 
 message SC_ROLE_ONLINE {
+}
+
+message SC_ROLE_HEART_BEAT {
+
 }
 
 

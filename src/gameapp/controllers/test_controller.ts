@@ -8,5 +8,5 @@ export async function echo(sesson: PlayerSession, msg: C2S.CS_TEST_ECHO) {
             msg: msg.name + ' is reply'
         }
     });
-    sesson.m_socket.sendProtocol(ret);
+    sesson.sendProtocol(ret);
 }

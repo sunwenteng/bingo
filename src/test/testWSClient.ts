@@ -23,7 +23,6 @@ ws.on('message', (data: Buffer) => {
     try {
         let msg = C2S.Message.decode(data);
         console.log('data=%j', msg.toJSON());
-        this.m_session.pushPacket(msg);
     } catch (e) {
         console.error(e);
     }

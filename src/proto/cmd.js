@@ -13,7 +13,7 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
             oneof: [
               "CS_TEST_ECHO",
               "CS_ROLE_ONLINE",
-              "CS_TEST_GET_PROPERTY"
+              "CS_ROLE_HEART_BEAT"
             ]
           }
         },
@@ -26,8 +26,8 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
             type: "CS_ROLE_ONLINE",
             id: 2
           },
-          CS_TEST_GET_PROPERTY: {
-            type: "CS_TEST_GET_PROPERTY",
+          CS_ROLE_HEART_BEAT: {
+            type: "CS_ROLE_HEART_BEAT",
             id: 3
           }
         }
@@ -74,6 +74,9 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
           }
         }
       },
+      CS_ROLE_HEART_BEAT: {
+        fields: {}
+      },
       CS_ROLE_ONLINE: {
         fields: {
           passport: {
@@ -83,14 +86,6 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
           pwd: {
             type: "string",
             id: 2
-          }
-        }
-      },
-      CS_TEST_GET_PROPERTY: {
-        fields: {
-          type: {
-            type: "string",
-            id: 1
           }
         }
       }
@@ -104,7 +99,8 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
             oneof: [
               "Error",
               "SC_TEST_ECHO",
-              "SC_ROLE_ONLINE"
+              "SC_ROLE_ONLINE",
+              "SC_ROLE_HEART_BEAT"
             ]
           }
         },
@@ -120,6 +116,10 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
           SC_ROLE_ONLINE: {
             type: "SC_ROLE_ONLINE",
             id: 3
+          },
+          SC_ROLE_HEART_BEAT: {
+            type: "SC_ROLE_HEART_BEAT",
+            id: 4
           }
         }
       },
@@ -148,6 +148,9 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
         }
       },
       SC_ROLE_ONLINE: {
+        fields: {}
+      },
+      SC_ROLE_HEART_BEAT: {
         fields: {}
       }
     }

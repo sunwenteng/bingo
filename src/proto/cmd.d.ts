@@ -5,15 +5,15 @@ export namespace C2S {
     interface IMessage {
         CS_TEST_ECHO?: (C2S.ICS_TEST_ECHO|null);
         CS_ROLE_ONLINE?: (C2S.ICS_ROLE_ONLINE|null);
-        CS_TEST_GET_PROPERTY?: (C2S.ICS_TEST_GET_PROPERTY|null);
+        CS_ROLE_HEART_BEAT?: (C2S.ICS_ROLE_HEART_BEAT|null);
     }
 
     class Message implements IMessage {
         constructor(properties?: C2S.IMessage);
         public CS_TEST_ECHO?: (C2S.ICS_TEST_ECHO|null);
         public CS_ROLE_ONLINE?: (C2S.ICS_ROLE_ONLINE|null);
-        public CS_TEST_GET_PROPERTY?: (C2S.ICS_TEST_GET_PROPERTY|null);
-        public kind?: ("CS_TEST_ECHO"|"CS_ROLE_ONLINE"|"CS_TEST_GET_PROPERTY");
+        public CS_ROLE_HEART_BEAT?: (C2S.ICS_ROLE_HEART_BEAT|null);
+        public kind?: ("CS_TEST_ECHO"|"CS_ROLE_ONLINE"|"CS_ROLE_HEART_BEAT");
         public static create(properties?: C2S.IMessage): C2S.Message;
         public static encode(message: C2S.IMessage, writer?: $protobuf.Writer): $protobuf.Writer;
         public static encodeDelimited(message: C2S.IMessage, writer?: $protobuf.Writer): $protobuf.Writer;
@@ -62,6 +62,22 @@ export namespace C2S {
         }
     }
 
+    interface ICS_ROLE_HEART_BEAT {
+    }
+
+    class CS_ROLE_HEART_BEAT implements ICS_ROLE_HEART_BEAT {
+        constructor(properties?: C2S.ICS_ROLE_HEART_BEAT);
+        public static create(properties?: C2S.ICS_ROLE_HEART_BEAT): C2S.CS_ROLE_HEART_BEAT;
+        public static encode(message: C2S.ICS_ROLE_HEART_BEAT, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: C2S.ICS_ROLE_HEART_BEAT, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): C2S.CS_ROLE_HEART_BEAT;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): C2S.CS_ROLE_HEART_BEAT;
+        public static verify(message: { [k: string]: any }): (string|null);
+        public static fromObject(object: { [k: string]: any }): C2S.CS_ROLE_HEART_BEAT;
+        public static toObject(message: C2S.CS_ROLE_HEART_BEAT, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public toJSON(): { [k: string]: any };
+    }
+
     interface ICS_ROLE_ONLINE {
         passport?: (string|null);
         pwd?: (string|null);
@@ -81,24 +97,6 @@ export namespace C2S {
         public static toObject(message: C2S.CS_ROLE_ONLINE, options?: $protobuf.IConversionOptions): { [k: string]: any };
         public toJSON(): { [k: string]: any };
     }
-
-    interface ICS_TEST_GET_PROPERTY {
-        type?: (string|null);
-    }
-
-    class CS_TEST_GET_PROPERTY implements ICS_TEST_GET_PROPERTY {
-        constructor(properties?: C2S.ICS_TEST_GET_PROPERTY);
-        public type: string;
-        public static create(properties?: C2S.ICS_TEST_GET_PROPERTY): C2S.CS_TEST_GET_PROPERTY;
-        public static encode(message: C2S.ICS_TEST_GET_PROPERTY, writer?: $protobuf.Writer): $protobuf.Writer;
-        public static encodeDelimited(message: C2S.ICS_TEST_GET_PROPERTY, writer?: $protobuf.Writer): $protobuf.Writer;
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): C2S.CS_TEST_GET_PROPERTY;
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): C2S.CS_TEST_GET_PROPERTY;
-        public static verify(message: { [k: string]: any }): (string|null);
-        public static fromObject(object: { [k: string]: any }): C2S.CS_TEST_GET_PROPERTY;
-        public static toObject(message: C2S.CS_TEST_GET_PROPERTY, options?: $protobuf.IConversionOptions): { [k: string]: any };
-        public toJSON(): { [k: string]: any };
-    }
 }
 
 export namespace S2C {
@@ -107,6 +105,7 @@ export namespace S2C {
         Error?: (S2C.IError|null);
         SC_TEST_ECHO?: (S2C.ISC_TEST_ECHO|null);
         SC_ROLE_ONLINE?: (S2C.ISC_ROLE_ONLINE|null);
+        SC_ROLE_HEART_BEAT?: (S2C.ISC_ROLE_HEART_BEAT|null);
     }
 
     class Message implements IMessage {
@@ -114,7 +113,8 @@ export namespace S2C {
         public Error?: (S2C.IError|null);
         public SC_TEST_ECHO?: (S2C.ISC_TEST_ECHO|null);
         public SC_ROLE_ONLINE?: (S2C.ISC_ROLE_ONLINE|null);
-        public kind?: ("Error"|"SC_TEST_ECHO"|"SC_ROLE_ONLINE");
+        public SC_ROLE_HEART_BEAT?: (S2C.ISC_ROLE_HEART_BEAT|null);
+        public kind?: ("Error"|"SC_TEST_ECHO"|"SC_ROLE_ONLINE"|"SC_ROLE_HEART_BEAT");
         public static create(properties?: S2C.IMessage): S2C.Message;
         public static encode(message: S2C.IMessage, writer?: $protobuf.Writer): $protobuf.Writer;
         public static encodeDelimited(message: S2C.IMessage, writer?: $protobuf.Writer): $protobuf.Writer;
@@ -179,6 +179,22 @@ export namespace S2C {
         public static verify(message: { [k: string]: any }): (string|null);
         public static fromObject(object: { [k: string]: any }): S2C.SC_ROLE_ONLINE;
         public static toObject(message: S2C.SC_ROLE_ONLINE, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public toJSON(): { [k: string]: any };
+    }
+
+    interface ISC_ROLE_HEART_BEAT {
+    }
+
+    class SC_ROLE_HEART_BEAT implements ISC_ROLE_HEART_BEAT {
+        constructor(properties?: S2C.ISC_ROLE_HEART_BEAT);
+        public static create(properties?: S2C.ISC_ROLE_HEART_BEAT): S2C.SC_ROLE_HEART_BEAT;
+        public static encode(message: S2C.ISC_ROLE_HEART_BEAT, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: S2C.ISC_ROLE_HEART_BEAT, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): S2C.SC_ROLE_HEART_BEAT;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): S2C.SC_ROLE_HEART_BEAT;
+        public static verify(message: { [k: string]: any }): (string|null);
+        public static fromObject(object: { [k: string]: any }): S2C.SC_ROLE_HEART_BEAT;
+        public static toObject(message: S2C.SC_ROLE_HEART_BEAT, options?: $protobuf.IConversionOptions): { [k: string]: any };
         public toJSON(): { [k: string]: any };
     }
 }

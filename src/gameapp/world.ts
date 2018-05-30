@@ -1,5 +1,4 @@
 import {UserSession} from '../net/user_session'
-import {SocketStatus} from '../net/ws/web_socket'
 import {LinkedList, ListNode} from '../util/linked_list'
 import * as GameUtil from '../util/game_util'
 import * as fs from 'fs'
@@ -7,18 +6,18 @@ import {Log} from "../util/log"
 import {C2S} from "../proto/cmd"
 
 type AuthedSessionMap = { [index: number]: UserSession };
-type ControllerMap = { [index: string]: any };
+type ControllerMap = { [index: string]: Function };
 
 export class World {
-    public static instance: World;
-    public m_sessionList: LinkedList<UserSession>;
-    public m_authedSessionMap: AuthedSessionMap; // 玩家上线通过后加入进来
-    public m_allControllers: ControllerMap;
+    private static instance: World;
+    private readonly _sessionList: LinkedList<UserSession>;
+    private readonly _authedSessionMap: AuthedSessionMap; // 玩家上线通过后加入进来
+    private readonly _allControllers: ControllerMap;
 
     constructor() {
-        this.m_sessionList = new LinkedList<UserSession>();
-        this.m_authedSessionMap = {};
-        this.m_allControllers = {};
+        this._sessionList = new LinkedList<UserSession>();
+        this._authedSessionMap = {};
+        this._allControllers = {};
     }
 
     public static getInstance(): World {
@@ -28,10 +27,10 @@ export class World {
         return this.instance;
     }
 
-    public async update(): Promise<void> {
-        let cur = this.m_sessionList.head(), t = null;
+    public async update() {
+        let cur = this._sessionList.head(), t = null;
         while (cur) {
-            if (cur.element.m_socket._state === SocketStatus.VALID) {
+            if (cur.element.isSessionValid()) {
                 await cur.element.update();
                 cur = cur.next;
             }
@@ -44,30 +43,45 @@ export class World {
         }
     }
 
-    public init(): boolean {
+    public getController(cmd: string): Function {
+        return this._allControllers[cmd];
+    }
+
+    private registerController(): void {
         for (let cmd in C2S.Message['fields']) {
+            if (!C2S.Message['fields'].hasOwnProperty(cmd))
+                continue;
             if (cmd.indexOf('CS') !== -1) {
                 let arr = cmd.split('_');
                 if (arr.length > 2) {
                     let controllerPath = __dirname + '/controllers/' + arr[1].toLowerCase() + '_controller.js';
                     if (!fs.existsSync(controllerPath)) {
-                        Log.sError('controllerName=' + controllerPath + ' not exists');
-                        return false;
+                        Log.sWarn('cmd=' + cmd + ', controller=' + arr[1].toLowerCase() + '_controller not exists');
                     }
-                    for (let i = 0; i < arr.length; ++i) {
-                        if (i > 3) {
-                            arr[i] = GameUtil.capitalize(arr[i]);
+                    else {
+                        for (let i = 0; i < arr.length; ++i) {
+                            if (i > 2) {
+                                arr[i] = GameUtil.capitalize(arr[i]);
+                            }
+                            else {
+                                arr[i] = arr[i].toLowerCase();
+                            }
                         }
-                        else{
-                            arr[i] = arr[i].toLowerCase();
+                        let methodName = arr.slice(2, arr.length).join('');
+                        if (require('./controllers/' + arr[1].toLowerCase() + '_controller')[methodName]) {
+                            this._allControllers[cmd] = require('./controllers/' + arr[1].toLowerCase() + '_controller')[methodName];
+                        }
+                        else {
+                            Log.sWarn('cmd=' + cmd + ', controller=' + arr[1].toLowerCase() + '_controller, method=' + methodName + ' not exists');
                         }
                     }
-                    let methodName = arr.slice(2, arr.length).join('');
-                    this.m_allControllers[cmd] = require('./controllers/' + arr[1].toLowerCase() + '_controller')[methodName];
                 }
             }
         }
+    }
 
+    public init(): boolean {
+        this.registerController();
         return true;
     }
 
@@ -85,20 +99,20 @@ export class World {
 
     public addSession(session: UserSession): void {
         Log.sInfo('add session to world, socketUid=' + session.m_socket.m_uid);
-        this.m_sessionList.append(session);
+        this._sessionList.append(session);
     }
 
     public delSession(node: ListNode<UserSession>): void {
         Log.sInfo('del session of world, socketUid=' + node.element.m_socket.m_uid);
-        this.m_sessionList.deleteNode(node);
+        this._sessionList.deleteNode(node);
     }
 
     public addAuthedSession(accountId: number, session: UserSession): void {
-        this.m_authedSessionMap[accountId] = session;
+        this._authedSessionMap[accountId] = session;
     }
 
     public delAuthedSession(accountId: number): void {
-        delete this.m_authedSessionMap[accountId];
+        delete this._authedSessionMap[accountId];
     }
 
 }

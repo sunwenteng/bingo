@@ -1,9 +1,9 @@
-import {WebSocket} from "./ws/web_socket";
-import {C2S} from "../proto/cmd";
+import {WebSocket, SocketStatus} from "./ws/web_socket";
+import {C2S, S2C} from "../proto/cmd";
 
 export abstract class UserSession {
-    m_packets: any[];
-    m_socket: WebSocket | any;
+    public m_packets: any[];
+    public m_socket: WebSocket | any;
 
     protected constructor() {
         this.m_packets = [];
@@ -15,5 +15,17 @@ export abstract class UserSession {
 
     public pushPacket(packet: C2S.Message) {
         this.m_packets.push(packet);
+    }
+
+    public send(data: any): void {
+        this.m_socket.sendProtocol(data);
+    }
+
+    public sendProtocol(data: S2C.Message): void {
+        this.m_socket.sendProtocol(data);
+    }
+
+    public isSessionValid():boolean {
+        return this.m_socket.state === SocketStatus.VALID;
     }
 }

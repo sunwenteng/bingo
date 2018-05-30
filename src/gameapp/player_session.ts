@@ -4,24 +4,25 @@ import {World} from "./world";
 import {C2S} from "../proto/cmd";
 
 export class PlayerSession extends UserSession {
-    m_role: any;
+    public m_role: any;
 
     constructor() {
         super();
         this.m_role = null;
     }
 
-    public async update(): Promise<void> {
-        return new Promise<void>((async (resolve) => {
-            for (let packet of this.m_packets) {
-                Log.sInfo('name=%s, data=%j', packet.kind, packet[packet.kind]);
-                World.getInstance().m_allControllers
+    public async update() {
+        let controller;
+        for (let packet of this.m_packets) {
+            Log.sInfo('name=%s, data=%j', packet.kind, packet[packet.kind]);
+            controller = World.getInstance().getController(packet.kind);
+            if (controller) {
+                await controller(this, packet[packet.kind]);
             }
-            if (this.m_packets.length) {
-                this.m_packets = [];
-            }
-            resolve();
-        }));
+        }
+        if (this.m_packets.length) {
+            this.m_packets = [];
+        }
     }
 
     public addSessionToWorker(): void {

@@ -5,7 +5,7 @@ message Message {
     oneof kind {
         CS_TEST_ECHO CS_TEST_ECHO = 1;
         CS_ROLE_ONLINE CS_ROLE_ONLINE = 2;
-        CS_TEST_GET_PROPERTY CS_TEST_GET_PROPERTY = 3;
+        CS_ROLE_HEART_BEAT CS_ROLE_HEART_BEAT = 3;
     }
 }
 
@@ -24,11 +24,10 @@ message CS_TEST_ECHO {
     map<uint64, string> map = 6;
 }
 
+message CS_ROLE_HEART_BEAT {
+}
+
 message CS_ROLE_ONLINE {
     string passport = 1;
     string pwd = 2;
-}
-
-message CS_TEST_GET_PROPERTY {
-    string type = 1;
 }
