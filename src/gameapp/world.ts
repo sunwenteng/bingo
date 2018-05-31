@@ -28,7 +28,7 @@ export class World {
     }
 
     public async update() {
-        let cur = this._sessionList.head(), t = null;
+        let cur = this._sessionList.head, t = null;
         while (cur) {
             if (cur.element.isSessionValid()) {
                 await cur.element.update();

@@ -9,7 +9,7 @@ export function execTime(bToLog: boolean = true) {
     return (target: Object, methodName: string, descriptor: TypedPropertyDescriptor<Function>) => {
         let originalMethod = descriptor.value;
         descriptor.value = async (...args) => {
-            let start = new Date().getTime();
+            let start = Date.now();
             let returnValue = null;
             if (Object.prototype.toString.call(originalMethod) === "[object AsyncFunction]") {
                 returnValue = await originalMethod.apply(this, args);
@@ -17,7 +17,7 @@ export function execTime(bToLog: boolean = true) {
             else {
                 returnValue = originalMethod.apply(this, args);
             }
-            let end = new Date().getTime();
+            let end = Date.now();
             if (bToLog) {
                 Log.sInfo('time consumed: ' + methodName + ': ' + (end - start) + 'ms');
             }
@@ -28,16 +28,3 @@ export function execTime(bToLog: boolean = true) {
         }
     }
 }
-
-// export function execTime() {
-//     return (target: Object, methodName: string, descriptor: TypedPropertyDescriptor<Function>) => {
-//         let originalMethod = descriptor.value;
-//         descriptor.value = (...args) => {
-//             let start = new Date().getTime();
-//             let returnValue = originalMethod.apply(this, args);
-//             let end = new Date().getTime();
-//             Log.sInfo('time consumed: ' + methodName + ': ' + (end - start) + 'ms');
-//             return returnValue;
-//         }
-//     }
-// }

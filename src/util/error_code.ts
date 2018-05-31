@@ -30,7 +30,8 @@ export let ErrorCode = {
         GETRANGE_ERROR: 11012,
         HGETALL_ERROR: 11013,
         ZADD_ERROR: 11014,
-        ZREVRANGE_ERROR: 11015
+        ZREVRANGE_ERROR: 11015,
+        DBSZIE_ERROR: 11016,
     },
     MYSQL: {
         GET_CONN_ERROR: 12001,

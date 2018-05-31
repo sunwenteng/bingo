@@ -26,6 +26,18 @@ export class LinkedList<T> {
         }
     }
 
+    get head(): ListNode<T> {
+        return this._head;
+    }
+
+    get tail(): ListNode<T> {
+        return this._tail;
+    }
+
+    get length(): number {
+        return this._length;
+    }
+
     public prepend(element: T): void {
         let node = new ListNode<T>(element);
         if (this._length == 0) {
@@ -151,15 +163,23 @@ export class LinkedList<T> {
         return ret.substring(0, ret.length - 1);
     }
 
-    public length(): number {
-        return this._length;
+    public reverse(): void {
+        if (this._length) {
+            let t = this._head;
+            this._head = this._tail;
+            this._tail = t;
+        }
     }
 
-    public head(): ListNode<T> {
-        return this._head;
+    public clear(): void {
+        if (this._length) {
+            this._length = 0;
+            this._head = null;
+            this._tail = null;
+        }
     }
 
-    public tail(): ListNode<T> {
-        return this._tail;
+    public sort(): void {
+        // TODO
     }
 }

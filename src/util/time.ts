@@ -26,16 +26,13 @@ export function setOffset(os: number) {
 }
 
 export function isSameDay(time1: number, time2: number): boolean {
-    let d1 = new Date(),
-        d2 = new Date();
-    d1.setTime(time1 * 1000);
-    d2.setTime(time2 * 1000);
+    let d1 = new Date(time1 * 1000),
+        d2 = new Date(time2 * 1000);
     return d1.getDate() === d2.getDate() && d1.getMonth() === d2.getMonth() && d1.getFullYear() === d2.getFullYear();
 }
 
 export function isToday(time: number): boolean {
-    let d1 = new Date(), d2 = new Date();
-    d1.setTime(time * 1000);
+    let d1 = new Date(time * 1000), d2 = new Date();
     return d1.getDate() === d2.getDate() && d1.getMonth() === d2.getMonth() && d1.getFullYear() === d2.getFullYear();
 }
 
@@ -44,8 +41,7 @@ export function isYesterday(time: number): boolean {
 }
 
 export function getDaySeconds(time: number): number {
-    let date = new Date();
-    date.setTime(time * 1000);
+    let date = new Date(time * 1000);
     return date.getHours() * 3600 + date.getMinutes() * 60 + date.getSeconds();
 }
 

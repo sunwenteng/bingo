@@ -2,7 +2,7 @@ import * as WorldDB from '../database/world_db'
 import * as LoginDB from '../database/login_db'
 import {Log} from '../util/log'
 
-const Config = require('../config/config.json');
+const Config = require('../../config/config.json');
 Log.init(__dirname + Config.log.dir, Config.log.level);
 
 async function test(config) {
@@ -19,5 +19,5 @@ async function test1(config) {
 }
 
 
-test(Config.game_db);
-test1(Config.login_db);
+test(Config.mysql.game_db);
+test1(Config.mysql.login_db);

@@ -127,3 +127,12 @@ cd redis-4.0.9
 make
 sudo make install
 ```
+
+## production
+
+NODE_ENV=production
+
+# 性能注意
+* 尽量不适用Map或者Set，速度太慢
+* 能使用Date.now()的地方少用new Date()，前者性能好一些
+* 循环尽量for做，而不是forEach

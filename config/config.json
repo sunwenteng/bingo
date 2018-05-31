@@ -3,36 +3,51 @@
     "dir": "/log",
     "level": "debug"
   },
-  "game_db": {
-    "name": "game_db",
-    "host": "172.16.1.83",
-    "port": 3306,
-    "user": "root",
-    "password": "root",
-    "database": "test",
-    "connectionLimit": 1,
-    "charset": "UTF8",
-    "supportBigNumbers": true,
-    "waitForConnections": true,
-    "heartBeatSec": 5,
-    "tableSplitCount": 10
+  "mysql": {
+    "game_db": {
+      "name": "game_db",
+      "host": "172.16.1.83",
+      "port": 3306,
+      "user": "root",
+      "password": "root",
+      "database": "test",
+      "connectionLimit": 1,
+      "charset": "UTF8",
+      "supportBigNumbers": true,
+      "waitForConnections": true,
+      "heartBeatSec": 5,
+      "tableSplitCount": 10
+    },
+    "login_db": {
+      "name": "login_db",
+      "host": "172.16.1.83",
+      "port": 3306,
+      "user": "root",
+      "password": "root",
+      "database": "test",
+      "connectionLimit": 1,
+      "charset": "UTF8",
+      "supportBigNumbers": true,
+      "waitForConnections": true,
+      "heartBeatSec": 5,
+      "tableSplitCount": 10
+    }
   },
-  "login_db": {
-    "name": "login_db",
-    "host": "172.16.1.83",
-    "port": 3306,
-    "user": "root",
-    "password": "root",
-    "database": "test",
-    "connectionLimit": 1,
-    "charset": "UTF8",
-    "supportBigNumbers": true,
-    "waitForConnections": true,
-    "heartBeatSec": 5,
-    "tableSplitCount": 10
+  "redis": {
+    "gameRedis": {
+      "name": "gameRedis",
+      "port": 6379,
+      "host": "172.16.1.83",
+      "options": {
+        "connect_timeout": 36000000,
+        "retry_delay": 100,
+        "password": "redis@ime"
+      }
+    }
   },
   "server": {
     "host": "0.0.0.0",
-    "port": 5555
+    "port": 5555,
+    "sessionPacketMaxLength": 10000
   }
 }

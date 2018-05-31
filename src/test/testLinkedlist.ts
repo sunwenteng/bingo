@@ -21,7 +21,7 @@ console.log(ll.toString(true));
 console.log(ll.toString(false));
 
 ll.delete(0);
-ll.delete(ll.length() - 1);
+ll.delete(ll.length - 1);
 console.log(ll.toString());
 ll.delete(2);
 console.log(ll.toString());
@@ -30,14 +30,14 @@ console.log(ll.toString());
 ll.delete(0);
 console.log(ll.toString());
 ll.delete(0);
-console.log(ll.toString() + ' ' + ll.length());
+console.log(ll.toString() + ' ' + ll.length);
 
 ll = new LinkedList<number>([1, 2, 3, 4, 5]);
 console.log(ll.toString());
 ll = new LinkedList<number>([1, 2, 3, 4, 5]);
 console.log(ll.toString());
 
-let cur = ll.head(), t;
+let cur = ll.head, t;
 while(cur) {
     console.log(cur.element + ' -- ');
     t = cur;
@@ -45,4 +45,4 @@ while(cur) {
     cur = cur.next;
 }
 
-console.log(ll.length() + '--------');
+console.log(ll.length + '--------');
