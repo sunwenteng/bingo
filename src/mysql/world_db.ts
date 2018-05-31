@@ -1,7 +1,8 @@
 import {Log} from '../util/log'
 import {MysqlConnection, MysqlConfig} from "./lib/mysql_connection";
 
-let conn: MysqlConnection, _timer;
+export let conn: MysqlConnection;
+let _timer;
 
 export async function init(config: MysqlConfig): Promise<void> {
     conn = new MysqlConnection();

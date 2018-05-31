@@ -3,38 +3,42 @@ import {Log} from '../../util/log'
 
 export interface MysqlConfig extends mysql.PoolConfig {
     name?: string;
-    tableSplitNumber?:number;
-    heartBeatSec?:number;
+    tableSplitNumber?: number;
+    heartBeatSec?: number;
 }
 
 export class MysqlConnection {
     private _pool: mysql.Pool;
-    private _configCopy: MysqlConfig;
+    private _config: MysqlConfig;
+
+    get config(): MysqlConfig {
+        return this._config;
+    }
 
     constructor() {
     }
 
     public startDb(config: mysql.PoolConfig): void {
         this._pool = mysql.createPool(config);
-        this._configCopy = config;
-        Log.sInfo('mysql pool ' + this._configCopy.name + ' created, db=' + this._configCopy.database + ', ip=' + this._configCopy.host +
-            ', auth=' + this._configCopy.user + ':' + this._configCopy.password);
+        this._config = config;
+        Log.sInfo('mysql pool ' + this._config.name + ' created, db=' + this._config.database + ', ip=' + this._config.host +
+            ', auth=' + this._config.user + ':' + this._config.password);
         this._pool.on('connection', (connection: mysql.PoolConnection) => {
             connection.query('SET SESSION auto_increment_increment=1');
             connection.on('error', (err: mysql.MysqlError) => {
                 Log.sError(err.code);
                 if (err.code === 'PROTOCOL_CONNECTION_LOST') {
                     setTimeout(() => {
-                        return this.startDb(this._configCopy);
+                        return this.startDb(this._config);
                     }, 2000);
                     Log.sInfo('server disconnect, so reconnect');
                 }
             });
-            Log.sInfo(this._configCopy.name + ' connected as id successfully, connectionId=' + connection.threadId);
+            Log.sInfo(this._config.name + ' connected as id successfully, connectionId=' + connection.threadId);
         });
 
         this._pool.on('enqueue', () => {
-            Log.sInfo(this._configCopy.name + ' Waiting for available connection slot');
+            Log.sInfo(this._config.name + ' Waiting for available connection slot');
         });
         this._pool.on("error", (err) => {
             Log.sError(err);
@@ -45,11 +49,11 @@ export class MysqlConnection {
         return new Promise(((resolve, reject) => {
             this._pool.end((err) => {
                 if (err) {
-                    Log.sError(this._configCopy.name + ' database pool close failed');
+                    Log.sError(this._config.name + ' mysql pool close failed');
                     reject(err);
                 }
                 else {
-                    Log.sInfo(this._configCopy.name + ' database pool close success');
+                    Log.sInfo(this._config.name + ' mysql pool close success');
                     resolve();
                 }
             });
@@ -87,14 +91,14 @@ export class MysqlConnection {
     public async existColumn(table: string, column: string): Promise<boolean> {
         let queryResult = await this.execute(
             "select 1 as res from information_schema.columns where table_name=? and column_name=? and table_schema = ?",
-            [table, column, this._configCopy.database]);
+            [table, column, this._config.database]);
         return new Promise<boolean>((resolve => resolve(queryResult.length > 0)));
     }
 
     public async existIndex(table: string, index: string): Promise<boolean> {
         let queryResult = await this.execute(
             "select 1 as res from information_schema.statistics where table_name=? and index_name=? and table_schema=?",
-            [table, index, this._configCopy.database]);
+            [table, index, this._config.database]);
         return new Promise<boolean>((resolve => resolve(queryResult.length > 0)));
     }
 

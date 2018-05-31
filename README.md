@@ -126,6 +126,7 @@ tar xzf redis-4.0.9.tar.gz
 cd redis-4.0.9
 make
 sudo make install
+sudo mkdir /data/redis -p && chown redis:redis -R /data/redis/
 ```
 
 ## production

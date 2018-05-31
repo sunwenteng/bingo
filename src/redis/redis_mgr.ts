@@ -2,6 +2,7 @@ import * as redis from 'redis';
 import {Log} from "../util/log";
 import {ErrorCode} from "../util/error_code";
 import * as util from 'util';
+
 const Config = require('../../config/config.json');
 /**
  * 管理游戏内部所有redis实例，每个redis连接可能对应多个db
@@ -17,6 +18,119 @@ export enum RedisDB {
 
 export enum RedisType {
     GAME = 'gameRedis'
+}
+
+export abstract class RedisData<T> {
+    data: T;
+    private readonly _dirtyFields: Set<string>;
+    private readonly _redisPrefix: string;
+    private readonly _redisKeyExpire: number;
+    private _isDirty: boolean;
+
+    get dirtyFields(): Set<string> {
+        return this._dirtyFields;
+    }
+
+    get isDirty(): boolean {
+        return this._isDirty;
+    }
+
+    get redisKeyExpire(): number {
+        return this._redisKeyExpire;
+    }
+
+    protected constructor(redisPrefix: string, expireTime: number = 3600) {
+        this._dirtyFields = new Set<string>();
+        this._isDirty = false;
+        this._redisPrefix = redisPrefix;
+        this._redisKeyExpire = expireTime;
+    }
+
+    protected get(name: string) {
+        return this.data[name];
+    }
+
+    protected set(name: string, val: any) {
+        this.data[name] = val;
+        this._dirtyFields.add(name);
+        this._isDirty = true;
+    }
+
+    protected getRedisKey() {
+        if (this.data['uid']) {
+            return this._redisPrefix + '_' + this.data['uid'];
+        }
+        else {
+            return this._redisPrefix;
+        }
+    }
+
+    protected getDataFields(): string[] {
+        let ret = [];
+        for (let obj in this.data) {
+            if (this.data.hasOwnProperty(obj)) {
+                ret.push(obj.toString());
+            }
+        }
+        return ret;
+    }
+
+    protected deserialize(reply: { [key: string]: any }): void {
+        for (let obj in reply) {
+            if (this.data.hasOwnProperty(obj)) {
+                switch (typeof this.data[obj]) {
+                    case 'number' :
+                    case 'boolean' :
+                        this.data[obj] = parseInt(reply[obj]);
+                        break;
+                    case 'object' :
+                        try {
+                            if (reply[obj] === "") {
+                                this.data[obj] = {};
+                            }
+                            else {
+                                this.data[obj] = JSON.parse(reply[obj]);
+                            }
+                        } catch (err) {
+                            Log.sError('redis data parse failed, key=%s, val=%s', obj, reply[obj]);
+                            this.data[obj] = {};
+                        }
+
+                        break;
+                    case 'string' :
+                        this.data[obj] = reply[obj];
+                        break;
+                    default:
+                        Log.sError('wrong type, key=%s, type=%s', obj, typeof this.data[obj]);
+                        break;
+                }
+            }
+        }
+    }
+
+    protected serialize(): { [key: string]: any } {
+        let reply: { [key: string]: any } = {};
+        for (let obj in this.data) {
+            if (this.data.hasOwnProperty(obj)) {
+                switch (typeof this.data[obj]) {
+                    case 'number' :
+                    case 'string' :
+                    case 'boolean':
+                        reply[obj] = this.data[obj];
+                        break;
+                    case 'object' :
+                        reply[obj] = JSON.stringify(this.data[obj]);
+                        break;
+                    default:
+                        Log.sError('wrong type, key=%s, type=%s', obj, typeof this.data[obj]);
+                        break;
+                }
+            }
+        }
+
+        return reply;
+    }
+
 }
 
 export class RedisMgr {
@@ -39,7 +153,7 @@ export class RedisMgr {
     }
 
     public static getInstance(type: RedisType): RedisMgr {
-        if(!Config['redis'] || !Config['redis'][type]) {
+        if (!Config['redis'] || !Config['redis'][type]) {
             throw new Error('Config Not Valid in key redis, not found name=' + type);
         }
         let key = Config['redis'][type].host + '_' + Config['redis'][type].port;
@@ -224,20 +338,20 @@ export class RedisMgr {
         }));
     }
 
-    public async hmget(key, value: string[], db: number = 0): Promise<Map<string, string>> {
+    public async hmget(key, value: string[] | string, db: number = 0): Promise<{ [key: string]: string }> {
         Log.sInfo('name=%s, redis hmget %s %s', this._name, key, util.inspect(value));
         let client = await this.getClient(db);
-        return new Promise<Map<string, string>>(((resolve, reject) => {
+        return new Promise<{ [key: string]: string }>(((resolve, reject) => {
             client.hmget(key, value, (error, reply) => {
                 if (error) {
                     Log.sError('name=%s, redis hmget error: ' + error, this._name);
                     reject(ErrorCode.REDIS.HMGET_ERROR);
                 } else {
                     //将结果以键值对的形式返回
-                    let ret = new Map<string, string>();
+                    let ret = {};
                     for (let i = 0; i < value.length; i++) {
                         if (reply[i])
-                            ret.set(value[i], reply[i]);
+                            ret[value[i]] = reply[i];
                     }
                     resolve(ret);
                 }
@@ -284,7 +398,7 @@ export class RedisMgr {
                     Log.sError('name=%s, redis zadd error ' + error, this._name);
                     reject(ErrorCode.REDIS.ZADD_ERROR);
                 } else {
-                    if (expire) {
+                    if (expire > 0) {
                         client.expire(key, expire);
                     }
                     resolve();

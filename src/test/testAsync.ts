@@ -1,4 +1,4 @@
-import {MysqlConnection} from '../database/lib/mysql_connection'
+import {MysqlConnection} from '../mysql/lib/mysql_connection'
 import {Log} from '../util/log'
 
 const Config = require('../config/config.json');

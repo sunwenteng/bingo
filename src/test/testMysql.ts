@@ -1,5 +1,5 @@
-import * as WorldDB from '../database/world_db'
-import * as LoginDB from '../database/login_db'
+import * as WorldDB from '../mysql/world_db'
+import * as LoginDB from '../mysql/login_db'
 import {Log} from '../util/log'
 
 const Config = require('../../config/config.json');
