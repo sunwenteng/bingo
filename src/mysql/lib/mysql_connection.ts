@@ -3,7 +3,7 @@ import {Log} from '../../util/log'
 
 export interface MysqlConfig extends mysql.PoolConfig {
     name?: string;
-    tableSplitNumber?: number;
+    tableSplitCount?: number;
     heartBeatSec?: number;
 }
 

@@ -36,25 +36,25 @@ export class Hero {
 }
 
 export class RoleData {
-    uid: number;
-    nickname: string;
-    headimgurl: string;
-    diamond: number;
-    exp: number;
-    gold: number;
-    level: number;
-    lastLoginTime: number;
-    lastAliveTime: number;
-    createTime: number;
+    uid?: number;
+    nickname?: string;
+    headimgurl?: string;
+    diamond?: number;
+    exp?: number;
+    gold?: number;
+    level?: number;
+    lastLoginTime?: number;
+    lastAliveTime?: number;
+    createTime?: number;
 
-    heroes: { [id: number]: Hero }
-    equips: { [id: number]: Equip };
-    res: { [id: number]: Res };
-    techs: { [id: number]: Tech };
-    pve: {
+    heroes?: { [id: number]: Hero };
+    equips?: { [id: number]: Equip };
+    res?: { [id: number]: Res };
+    techs?: { [id: number]: Tech };
+    pve?: {
         monsterId?: number;
     };
-    pvp: {
+    pvp?: {
         time?: number;
         progress?: number;
         list?: [{

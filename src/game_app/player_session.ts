@@ -1,16 +1,19 @@
 import {UserSession} from '../net/user_session'
 import {Log} from "../util/log";
-import {World} from "./world";
+import {World, WorldDataRedisKey} from "./world";
 import {execTime} from "../util/descriptor";
+import {RedisMgr, RedisType} from "../redis/redis_mgr";
+import {Role} from "./role";
 
 const MAX_PACKET_COUNT = 100000;
 
+let roleRedis = RedisMgr.getInstance(RedisType.GAME);
+
 export class PlayerSession extends UserSession {
-    public m_role: any;
+    private _roleId: number;
 
     constructor() {
         super();
-        this.m_role = null;
     }
 
     @execTime(false)
@@ -40,5 +43,13 @@ export class PlayerSession extends UserSession {
 
     public addSessionToWorker(): void {
         World.getInstance().addSession(this);
+    }
+
+    public async online() {
+        await roleRedis.sadd(WorldDataRedisKey.ONLINE_ROLES, this._roleId);
+    }
+
+    public async offline() {
+        await roleRedis.srem(WorldDataRedisKey.ONLINE_ROLES, this._roleId);
     }
 }

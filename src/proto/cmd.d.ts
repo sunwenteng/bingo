@@ -6,6 +6,7 @@ export namespace C2S {
         CS_TEST_ECHO?: (C2S.ICS_TEST_ECHO|null);
         CS_ROLE_ONLINE?: (C2S.ICS_ROLE_ONLINE|null);
         CS_ROLE_HEART_BEAT?: (C2S.ICS_ROLE_HEART_BEAT|null);
+        CS_ABC_DEF?: (C2S.ICS_ABC_DEF|null);
     }
 
     class Message implements IMessage {
@@ -13,7 +14,8 @@ export namespace C2S {
         public CS_TEST_ECHO?: (C2S.ICS_TEST_ECHO|null);
         public CS_ROLE_ONLINE?: (C2S.ICS_ROLE_ONLINE|null);
         public CS_ROLE_HEART_BEAT?: (C2S.ICS_ROLE_HEART_BEAT|null);
-        public kind?: ("CS_TEST_ECHO"|"CS_ROLE_ONLINE"|"CS_ROLE_HEART_BEAT");
+        public CS_ABC_DEF?: (C2S.ICS_ABC_DEF|null);
+        public kind?: ("CS_TEST_ECHO"|"CS_ROLE_ONLINE"|"CS_ROLE_HEART_BEAT"|"CS_ABC_DEF");
         public static create(properties?: C2S.IMessage): C2S.Message;
         public static encode(message: C2S.IMessage, writer?: $protobuf.Writer): $protobuf.Writer;
         public static encodeDelimited(message: C2S.IMessage, writer?: $protobuf.Writer): $protobuf.Writer;
@@ -75,6 +77,22 @@ export namespace C2S {
         public static verify(message: { [k: string]: any }): (string|null);
         public static fromObject(object: { [k: string]: any }): C2S.CS_ROLE_HEART_BEAT;
         public static toObject(message: C2S.CS_ROLE_HEART_BEAT, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public toJSON(): { [k: string]: any };
+    }
+
+    interface ICS_ABC_DEF {
+    }
+
+    class CS_ABC_DEF implements ICS_ABC_DEF {
+        constructor(properties?: C2S.ICS_ABC_DEF);
+        public static create(properties?: C2S.ICS_ABC_DEF): C2S.CS_ABC_DEF;
+        public static encode(message: C2S.ICS_ABC_DEF, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: C2S.ICS_ABC_DEF, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): C2S.CS_ABC_DEF;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): C2S.CS_ABC_DEF;
+        public static verify(message: { [k: string]: any }): (string|null);
+        public static fromObject(object: { [k: string]: any }): C2S.CS_ABC_DEF;
+        public static toObject(message: C2S.CS_ABC_DEF, options?: $protobuf.IConversionOptions): { [k: string]: any };
         public toJSON(): { [k: string]: any };
     }
 

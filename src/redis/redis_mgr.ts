@@ -46,17 +46,19 @@ export abstract class RedisData<T> {
         this._redisKeyExpire = expireTime;
     }
 
-    protected get(name: string) {
-        return this.data[name];
+    /**
+     * 会保存脏数据到redis或者同步给前端
+     * @param {T} obj
+     */
+    public set(obj: T) {
+        for (let i in obj) {
+            this.data[i] = obj[i];
+            this._dirtyFields.add(i);
+            this._isDirty = true;
+        }
     }
 
-    protected set(name: string, val: any) {
-        this.data[name] = val;
-        this._dirtyFields.add(name);
-        this._isDirty = true;
-    }
-
-    protected getRedisKey() {
+    public getRedisKey() {
         if (this.data['uid']) {
             return this._redisPrefix + '_' + this.data['uid'];
         }
@@ -241,8 +243,41 @@ export class RedisMgr {
         }));
     }
 
+    public async setnx(key: string, value: any, expire: number = 0, db: number = 0): Promise<boolean> {
+        Log.sInfo('name=%s, redis setnx %s %s', this._name, key, value);
+        let client = await this.getClient(db);
+        return new Promise<boolean>(((resolve, reject) => {
+            client.setnx(key, value, (error, reply) => {
+                if (error) {
+                    Log.sError('name=%s, redis set error ' + error, this._name);
+                    reject(ErrorCode.REDIS.SET_ERROR);
+                } else {
+                    if (expire > 0) {
+                        client.expire(key, expire); //不捕获expire是否成功
+                    }
+                    resolve(reply === 1);
+                }
+            });
+        }));
+    }
+
+    public async lock<T>(key: string, callback: () => Promise<T>, lockTime: number = 5) {
+        let mutexKey = key + '_mutex';
+        let success = await this.setnx(mutexKey, 1);
+        if (!success) {
+            setTimeout(async () => {
+                await this.lock(key, callback);
+            }, 10);
+        }
+        else {
+            await this.expire(mutexKey, lockTime);
+            await callback();
+            await this.del(mutexKey);
+        }
+    }
+
     public async set(key: string, value: any, expire: number = 0, db: number = 0): Promise<void> {
-        //Log.sInfo('name=%s, redis set %s %s', this._name, key, value);
+        Log.sInfo('name=%s, redis set %s %s', this._name, key, value);
         let client = await this.getClient(db);
         return new Promise<void>(((resolve, reject) => {
             client.set(key, value, (error) => {
@@ -319,6 +354,21 @@ export class RedisMgr {
         }));
     }
 
+    public async hsetnx(hkey: string, key: string, value: any, db: number = 0): Promise<boolean> {
+        Log.sInfo('name=%s, redis hsetnx %s %s %s', this._name, hkey, key, value);
+        let client = await this.getClient(db);
+        return new Promise<boolean>(((resolve, reject) => {
+            client.hsetnx(hkey, key, value, (error, reply) => {
+                if (error) {
+                    Log.sError('name=%s, hset error ' + error, this._name);
+                    return reject(ErrorCode.REDIS.HSET_ERROR);
+                } else {
+                    return resolve(reply === 1);
+                }
+            });
+        }));
+    }
+
     public async hmset(hkey: string, obj: { [key: string]: any }, expire: number = 0, db: number = 0): Promise<void> {
         Log.sInfo('name=%s, redis hmset %s, data=%j', this._name, hkey, obj);
         let client = await this.getClient(db);
@@ -338,10 +388,10 @@ export class RedisMgr {
         }));
     }
 
-    public async hmget(key, value: string[] | string, db: number = 0): Promise<{ [key: string]: string }> {
+    public async hmget(key, value: string[] | string, db: number = 0): Promise<{ [key: string]: any }> {
         Log.sInfo('name=%s, redis hmget %s %s', this._name, key, util.inspect(value));
         let client = await this.getClient(db);
-        return new Promise<{ [key: string]: string }>(((resolve, reject) => {
+        return new Promise<{ [key: string]: any }>(((resolve, reject) => {
             client.hmget(key, value, (error, reply) => {
                 if (error) {
                     Log.sError('name=%s, redis hmget error: ' + error, this._name);
@@ -467,6 +517,51 @@ export class RedisMgr {
                     reject(ErrorCode.REDIS.ZSCORE_ERROR);
                 } else {
                     resolve(reply);
+                }
+            });
+        }));
+    }
+
+    public async sadd(key: string, member: any, db: number = 0): Promise<void> {
+        Log.sInfo('name=%s, redis sadd key=%s, member=%s', this._name, key, member);
+        let client = await this.getClient(db);
+        return new Promise<void>(((resolve, reject) => {
+            client.sadd(key, member, (error) => {
+                if (error) {
+                    Log.sError('name=%s, redis sadd error ' + error, this._name);
+                    reject(ErrorCode.REDIS.SADD_ERROR);
+                } else {
+                    resolve();
+                }
+            });
+        }));
+    }
+
+    public async smember(key: string, db: number = 0): Promise<string[]> {
+        Log.sInfo('name=%s, redis smember key=%s', this._name, key);
+        let client = await this.getClient(db);
+        return new Promise<string[]>(((resolve, reject) => {
+            client.smembers(key, (error, reply) => {
+                if (error) {
+                    Log.sError('name=%s, redis smember error ' + error, this._name);
+                    reject(ErrorCode.REDIS.SMEMBERS_ERROR);
+                } else {
+                    resolve(reply);
+                }
+            });
+        }));
+    }
+
+    public async srem(key: string, fields: any | any[], db: number = 0): Promise<void> {
+        Log.sInfo('name=%s, redis srem key=%s fields=%s', this._name, key, fields);
+        let client = await this.getClient(db);
+        return new Promise<void>(((resolve, reject) => {
+            client.srem(key, fields, (error, reply) => {
+                if (error) {
+                    Log.sError('name=%s, redis srem error ' + error, this._name);
+                    reject(ErrorCode.REDIS.SREM_ERROR);
+                } else {
+                    resolve();
                 }
             });
         }));

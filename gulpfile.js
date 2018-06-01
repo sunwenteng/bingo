@@ -38,3 +38,6 @@ gulp.task('proto2json', shell.task('./node_modules/protobufjs/bin/pbjs -t json-m
 // 生成的文件较大
 gulp.task('proto2js', shell.task('./node_modules/protobufjs/bin/pbjs -t static-module -w commonjs -o ./src/proto/cmd.js ' + protoFiles.join(' ') + ' && ' +
     './node_modules/protobufjs/bin/pbts --no-comments -o ./src/proto/cmd.d.ts ./src/proto/cmd.js'));
+
+gulp.task('proto2client', shell.task('./node_modules/protobufjs/bin/pbjs -t static-module -w amd -o ./src/proto/cmd.js ' + protoFiles.join(' ') + ' && ' +
+    './node_modules/protobufjs/bin/pbts --no-comments -o ./src/proto/cmd.d.ts ./src/proto/cmd.js'));

@@ -13,7 +13,8 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
             oneof: [
               "CS_TEST_ECHO",
               "CS_ROLE_ONLINE",
-              "CS_ROLE_HEART_BEAT"
+              "CS_ROLE_HEART_BEAT",
+              "CS_ABC_DEF"
             ]
           }
         },
@@ -29,6 +30,10 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
           CS_ROLE_HEART_BEAT: {
             type: "CS_ROLE_HEART_BEAT",
             id: 3
+          },
+          CS_ABC_DEF: {
+            type: "CS_ABC_DEF",
+            id: 4
           }
         }
       },
@@ -75,6 +80,9 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
         }
       },
       CS_ROLE_HEART_BEAT: {
+        fields: {}
+      },
+      CS_ABC_DEF: {
         fields: {}
       },
       CS_ROLE_ONLINE: {

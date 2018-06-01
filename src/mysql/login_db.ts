@@ -14,7 +14,7 @@ export async function init(config: MysqlConfig): Promise<void> {
 
     // 玩家分表
     let tableName = '';
-    for (let i = 0; i < config.tableSplitNumber; i++) {
+    for (let i = 0; i < config.tableSplitCount; i++) {
         tableName = 'player_info_' + i;
         tables[tableName] =
             "CREATE TABLE IF NOT EXISTS " + tableName + " (" +

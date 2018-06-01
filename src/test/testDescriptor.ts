@@ -1,5 +1,5 @@
-import {PlayerSession} from "../gameapp/player_session";
-import {World} from "../gameapp/world";
+import {PlayerSession} from "../game_app/player_session";
+import {World} from "../game_app/world";
 import {Server} from '../net/ws/web_socket'
 import {Log} from '../util/log'
 import * as util from 'util';

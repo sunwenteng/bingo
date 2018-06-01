@@ -14,7 +14,7 @@ export async function init(config: MysqlConfig): Promise<void> {
 
     // 玩家分表
     let tableName = '';
-    for (let i = 0; i < config.tableSplitNumber; i++) {
+    for (let i = 0; i < config.tableSplitCount; i++) {
         tableName = 'player_info_' + i;
         tables[tableName] =
             "CREATE TABLE IF NOT EXISTS " + tableName + " (" +
@@ -27,12 +27,12 @@ export async function init(config: MysqlConfig): Promise<void> {
             "createTime	    INT 		UNSIGNED 	NOT NULL 	DEFAULT '0'," +
             "gold 			INT 		UNSIGNED	NOT NULL	DEFAULT '0'," +
             "level 			INT		 	UNSIGNED	NOT NULL	DEFAULT '0'," +
-            "equips 		long_blob   NULL," +
-            "heroes 		long_blob   NULL," +
-            "res 		    long_blob   NULL," +
-            "pve 	    	long_blob   NULL," +
-            "pvp     		long_blob   NULL," +
-            "techs     		long_blob   NULL," +
+            "equips 		longblob    NULL," +
+            "heroes 		longblob    NULL," +
+            "res 		    longblob    NULL," +
+            "pve 	    	longblob    NULL," +
+            "pvp     		longblob    NULL," +
+            "techs     		longblob    NULL," +
             "PRIMARY KEY (uid)" +
             ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 

@@ -26,5 +26,3 @@ message SC_ROLE_ONLINE {
 message SC_ROLE_HEART_BEAT {
 
 }
-
-

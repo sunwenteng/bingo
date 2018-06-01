@@ -6,6 +6,7 @@ message Message {
         CS_TEST_ECHO CS_TEST_ECHO = 1;
         CS_ROLE_ONLINE CS_ROLE_ONLINE = 2;
         CS_ROLE_HEART_BEAT CS_ROLE_HEART_BEAT = 3;
+        CS_ABC_DEF CS_ABC_DEF = 4;
     }
 }
 
@@ -25,6 +26,10 @@ message CS_TEST_ECHO {
 }
 
 message CS_ROLE_HEART_BEAT {
+}
+
+message CS_ABC_DEF {
+
 }
 
 message CS_ROLE_ONLINE {

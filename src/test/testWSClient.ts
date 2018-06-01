@@ -22,6 +22,7 @@ ws.on('open', () => {
 ws.on('message', (data: Buffer) => {
     try {
         let msg = C2S.Message.decode(data);
+        msg.kind
         console.log('data=%j', msg.toJSON());
     } catch (e) {
         console.error(e);
