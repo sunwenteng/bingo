@@ -70,6 +70,7 @@ export class Log {
     }
 
     public static init(dirName: any, logLevel?: string): void {
+        sourceMap.install();
         let logDir: string = dirName;
         mkdirp.sync(logDir);
 

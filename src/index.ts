@@ -54,6 +54,7 @@ class Test {
     }
 }
 
-let t = new Test();
-t.testRole();
+throw new Error('test');
+// let t = new Test();
+// t.testRole();
 

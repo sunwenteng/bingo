@@ -7,9 +7,11 @@ import {C2S} from "../proto/cmd"
 
 type AuthedSessionMap = { [index: number]: UserSession };
 type ControllerMap = { [index: string]: Function };
+
 export enum WorldDataRedisKey {
-    DIRTY_ROLES = 'dirty_roleIds',
-    ONLINE_ROLES = 'online_roleIds',
+    DIRTY_ROLES = 'dirty_roles',
+    ONLINE_ROLES = 'online_roles',
+    SERVER_ROLES = 'server_roles',
     BROAD_MSGS = 'broad_msgs',
     ROLE_MSGS = 'role_msgs',
 }
