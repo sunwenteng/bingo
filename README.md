@@ -4,9 +4,6 @@
 ## Contents
 后续生成目录
 
-##DefinitelyTyped
-例如：`npm install --save-dev @types/node`，可以根据个人需要安装指定ts声明文件。
-
 ## mocha usage
 
 1. specify file or folder:
@@ -26,84 +23,15 @@
 * npm install --production
 > will not install modules listed in devDependencies
 
-## protobufjs usage
-* node_modules/protobufjs/bin/pbjs src/share/cmd.proto -target=commonjs > src/share/cmd.js
-> will generate server used file
-* node_modules/protobufjs/bin/pbjs src/share/cmd.proto -target=json > src/share/cmd.json
-> will generate client used file
-
-## tools
-* parse_cmd.js
-> will parse src/share/cmd.proto for client and svn ci
-* parse_db.js
-> will parse src/share/db.proto for server
-
-## grunt
-* npm install grunt-cli -g
-> is dependence
-* grunt-ts
-> is a npm, help to compile ts to js
-* gruntfile.js
-> all grunt job config here
-* grunt ts
-> 1. is command line exec within three/, and will auto compile ts to js. If missing the param 'ts', will default compile ts to js
->
-> 2. doesn't help to clear the folder, which means if you delete some *.ts, it will auto remove the *.js or *.js.map in /bin
-
-## uglify reserved vars and props
-write your reserved vars and props to uglify-reserved.json file.
-
-## tsd
-* npm install tsd -g
-> is dependence
-* tsd init
-> is command line to init tsd support
-* tsd install async -s
-> is command line exec within three/, will install async.d.ts and save to typing.d.ts and tsd.json which will help to code
-* tsd update -s -o
-> update tsd file and overwrite
-
-## pm2
-npm install pm2 -g
-
-Listing all running processes:
-
-```bash
-pm2 list
-```
-
-Managing your processes is straightforward:
-
-```bash
-pm2 stop     <app_name|id|all>
-pm2 restart  <app_name|id|all>
-pm2 delete   <app_name|id|all>
-```
-
-To have more details on a specific process:
-
-```bash
-pm2 describe 0
-```
-
-### Monitoring
-
-Monitoring all processes launched:
-
-```bash
-pm2 monit
-```
-
-### Log facilities
-
-Displaying logs of a specified process or all processes, in real time:
-
-```bash
-pm2 logs
-pm2 logs --raw
-pm2 logs big-api
-pm2 flush          # Clear all the logs
-```
+## 关于负载均衡解决方案
+* 粘性会话
+> * 说明：直接设置Nginx允许ip_hash使得每次链接都定向至指定服务器。
+> * 优点：简单无需复制会话，性能较高。
+> * 缺点：单个节点挂了，用户会话数据丢失，对于游戏而言需要重新登录，走重连逻辑，如果服务器稳定性较高，建议粘性会话。
+* 共享会话
+> * 说明：通过redis来存储会话数据，这样利用Nginx可以完美使用负载均衡策略。
+> * 优点：任意节点挂对于用户而言没有任何影响，会话数据不丢失。
+> * 缺点：实现管理复杂，单个请求需要额外存储会话状态，无疑增大了不必要的通信频率以及次数，且请求频繁的时候会出现部分网络拥塞（主要是读取以及存储新的会话状态）
 
 ## C++ AddOns
 
