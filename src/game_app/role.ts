@@ -6,10 +6,11 @@ import {RoleData} from "./defines";
 import {WorldDataRedisKey} from "./world";
 
 let roleRedis = RedisMgr.getInstance(RedisType.GAME);
+export const RoleRedisPrefix: string = 'role';
 
 export class Role extends RedisData<RoleData> {
     constructor(uid: number) {
-        super('role');
+        super(RoleRedisPrefix);
         this.data = new RoleData();
         this.data.uid = uid;
         this.data.nickname = '';
@@ -35,14 +36,7 @@ export class Role extends RedisData<RoleData> {
         return new Promise<void>(async (resolve) => {
             await roleRedis.lock(this.getRedisKey(), async () => {
                 if (this.isDirty) {
-                    let pckData = this.serialize();
-                    let checkFields = bSaveAll ? this.data : this.dirtyFields;
-                    let saveData: { [key: string]: any } = {};
-                    for (let obj in checkFields) {
-                        if (checkFields.hasOwnProperty(obj))
-                            saveData[obj] = pckData[obj];
-                    }
-
+                    let saveData = this.getSaveData(bSaveAll);
                     // TODO 这块有待商榷，代码层做控制总有脏数据的隐患
                     // 同步存储到redis
                     await roleRedis.hmset(this.getRedisKey(), saveData, this.redisKeyExpire);
@@ -91,13 +85,24 @@ export class Role extends RedisData<RoleData> {
         });
     }
 
+    public getSaveData(bSaveAll): { [key: string]: any } {
+        let pckData = this.serialize();
+        let checkFields = bSaveAll ? this.data : this.dirtyFields;
+        let saveData: { [key: string]: any } = {};
+        for (let obj in checkFields) {
+            if (checkFields.hasOwnProperty(obj))
+                saveData[obj] = pckData[obj];
+        }
+        return saveData;
+    }
+
     public async create() {
         this.set({createTime: Time.realNow()});
         let pckData = this.serialize();
         await WorldDB.conn.execute('insert into player_info_' + this.getTableNum() + ' set ?', pckData);
     }
 
-    private getTableNum(): number {
+    public getTableNum(): number {
         return this.data.uid % WorldDB.conn.config.tableSplitCount;
     }
 }

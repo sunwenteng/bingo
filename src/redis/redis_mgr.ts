@@ -537,7 +537,7 @@ export class RedisMgr {
         }));
     }
 
-    public async smember(key: string, db: number = 0): Promise<string[]> {
+    public async smembers(key: string, db: number = 0): Promise<string[]> {
         Log.sInfo('name=%s, redis smember key=%s', this._name, key);
         let client = await this.getClient(db);
         return new Promise<string[]>(((resolve, reject) => {
@@ -566,4 +566,20 @@ export class RedisMgr {
             });
         }));
     }
+
+    public async spop(key: string, db: number = 0): Promise<string> {
+        Log.sInfo('name=%s, redis spop key=%s', this._name, key);
+        let client = await this.getClient(db);
+        return new Promise<string>(((resolve, reject) => {
+            client.spop(key, (error, reply) => {
+                if (error) {
+                    Log.sError('name=%s, redis spop error ' + error, this._name);
+                    reject(ErrorCode.REDIS.SREM_ERROR);
+                } else {
+                    resolve(reply);
+                }
+            });
+        }));
+    }
+
 }
