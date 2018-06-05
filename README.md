@@ -68,3 +68,26 @@ NODE_ENV=production
 * 尽量不使用Map，速度太慢
 * 能使用Date.now()的地方少用new Date()，前者性能好一些
 * 循环尽量for做，而不是forEach
+
+## nginx
+版本需要大于1.3，在http标签中配置如下：
+```$xslt
+upstream io_nodes {
+ ip_hash;
+ server 127.0.0.1:5555;
+ server 127.0.0.1:5556;
+ server 127.0.0.1:5557;
+ }
+```
+在server中，配置location：
+```
+location / {
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+    proxy_set_header X-Forwarded-For  $proxy_add_x_forwarded_for;
+    proxy_set_header Host $host;
+    proxy_http_version 1.1;
+    proxy_pass http://io_nodes;
+    proxy_redirect off;
+}
+```

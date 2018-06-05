@@ -21,7 +21,7 @@ WorldDB.init(Config.mysql.game_db).then(() => {
                 Log.sInfo('save role successfully, roleKey=%s', roleKey);
             }
             else {
-                Log.sWarn('role not found in cache, uid=' + roleKey);
+                Log.sWarn('role not found in cache, roleKey=%s', roleKey);
             }
             await roleRedis.srem(WorldDataRedisKey.DIRTY_ROLES, roleKey);
         }
