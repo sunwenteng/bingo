@@ -1,5 +1,5 @@
 import * as util from 'util';
-import {LinkedList, ListNode} from "../util/linked_list";
+import {LinkedList, ListNode} from "../lib/util/linked_list";
 
 let map = new Map<number, number>();
 let obj = {};

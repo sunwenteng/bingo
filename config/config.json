@@ -15,7 +15,7 @@
       "charset": "UTF8",
       "supportBigNumbers": true,
       "waitForConnections": true,
-      "heartBeatSec": 5,
+      "heartBeatSec": 60,
       "tableSplitCount": 10
     },
     "login_db": {
@@ -29,7 +29,7 @@
       "charset": "UTF8",
       "supportBigNumbers": true,
       "waitForConnections": true,
-      "heartBeatSec": 5,
+      "heartBeatSec": 60,
       "tableSplitCount": 10
     }
   },
@@ -45,9 +45,16 @@
       }
     }
   },
-  "server": {
-    "host": "0.0.0.0",
-    "port": 5555,
-    "sessionPacketMaxLength": 10000
+  "app": {
+    "cache": {
+      "saveInterval": 2000,
+      "instances": 0
+    },
+    "game": {
+      "host": "0.0.0.0",
+      "port": 5555,
+      "sessionPacketMaxLength": 10000,
+      "instances": 0
+    }
   }
 }

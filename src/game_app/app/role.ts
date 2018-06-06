@@ -1,7 +1,7 @@
-import {Log} from '../util/log';
-import Time = require('../util/time');
-import {RedisMgr, RedisType, RedisData} from '../redis/redis_mgr';
-import * as WorldDB from '../mysql/world_db';
+import {Log} from '../../lib/util/log';
+import Time = require('../../lib/util/time');
+import {RedisMgr, RedisType, RedisData} from '../../lib/redis/redis_mgr';
+import * as WorldDB from '../../lib/mysql/world_db';
 import {RoleData} from "./defines";
 import {WorldDataRedisKey} from "./world";
 

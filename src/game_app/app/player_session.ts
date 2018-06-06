@@ -1,8 +1,8 @@
-import {UserSession} from '../net/user_session'
-import {Log} from "../util/log";
+import {UserSession} from '../../lib/net/user_session'
+import {Log} from "../../lib/util/log";
 import {World, WorldDataRedisKey} from "./world";
-import {execTime} from "../util/descriptor";
-import {RedisMgr, RedisType} from "../redis/redis_mgr";
+import {execTime} from "../../lib/util/descriptor";
+import {RedisMgr, RedisType} from "../../lib/redis/redis_mgr";
 import {Role} from "./role";
 
 const MAX_PACKET_COUNT = 100000;
@@ -34,10 +34,14 @@ export class PlayerSession extends UserSession {
                 if (controller) {
                     await this.doController(controller, this, packet[packet.kind]);
                 }
+                else {
+                    Log.sError('controller not found, name=%s', packet.kind);
+                }
             }
-        }
-        if (this.m_packets.length) {
-            this.m_packets = [];
+
+            if (this.m_packets.length) {
+                this.m_packets = [];
+            }
         }
     }
 

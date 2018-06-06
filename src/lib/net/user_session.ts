@@ -1,4 +1,4 @@
-import {WebSocket, SocketStatus} from "./ws/web_socket";
+import {WebSocket, SocketStatus, isServerValid} from "./ws/web_socket";
 import {C2S, S2C} from "../proto/cmd";
 
 export abstract class UserSession {
@@ -26,7 +26,7 @@ export abstract class UserSession {
     }
 
     public isSessionValid():boolean {
-        return this.m_socket.state === SocketStatus.VALID;
+        return isServerValid && this.m_socket.state === SocketStatus.VALID;
     }
 
     public closeSocket(){

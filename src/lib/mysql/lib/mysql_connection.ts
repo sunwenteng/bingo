@@ -53,7 +53,7 @@ export class MysqlConnection {
                     reject(err);
                 }
                 else {
-                    Log.sInfo(this._config.name + ' mysql pool close success');
+                    Log.sInfo(this._config.name + ' mysql pool close successfully');
                     resolve();
                 }
             });

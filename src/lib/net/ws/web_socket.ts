@@ -5,6 +5,7 @@ import {UserSession} from "../user_session"
 import {C2S, S2C} from "../../proto/cmd";
 
 let uid: number = 0;
+export var isServerValid: boolean = false;
 
 export enum SocketStatus {
     VALID,
@@ -55,13 +56,13 @@ export class WebSocket {
     }
 
     public send(data: any): void {
-        if (this._state === SocketStatus.VALID) {
+        if (isServerValid && this._state === SocketStatus.VALID) {
             this._webSocket.send(data);
         }
     }
 
     public sendProtocol(data: S2C.Message): void {
-        if (this._state === SocketStatus.VALID) {
+        if (isServerValid && this._state === SocketStatus.VALID) {
             let buffer = S2C.Message.encode(data).finish();
             this._webSocket.send(buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.length));
         }
@@ -88,15 +89,33 @@ export class WebSocket {
 export class Server {
     private readonly _port: number;
     private readonly _host: string;
+    private _server: ws.Server;
 
     constructor(host: string, port: number) {
         this._port = port;
         this._host = host;
+        this._server = null;
+    }
+
+    public async close(): Promise<void> {
+        return new Promise<void>((resolve, reject) => {
+            isServerValid = false;
+            this._server.close((err) => {
+                if (err) {
+                    reject();
+                }
+                else {
+                    Log.sInfo('server close at ' + this._host + ':' + this._port);
+                    resolve();
+                }
+            })
+        });
     }
 
     public start<T extends UserSession>(sessionClass: new () => T): Promise<void> {
         return new Promise<void>((resolve => {
-            const wss = new ws.Server({
+            isServerValid = true;
+            this._server = new ws.Server({
                 host: this._host,
                 port: this._port,
                 maxPayload: 10240,
@@ -108,16 +127,16 @@ export class Server {
                 }
             });
 
-            wss.on('listening', () => {
-                Log.sInfo('Web_socket server start, address=%j', wss.address());
+            this._server.on('listening', () => {
+                Log.sInfo('Web_socket server start, address=%j', this._server.address());
                 resolve();
             });
 
-            wss.on('error', (error: Error) => {
+            this._server.on('error', (error: Error) => {
                 Log.sError(error);
             });
 
-            wss.on('connection', ((s: ws, req: http.IncomingMessage) => {
+            this._server.on('connection', ((s: ws, req: http.IncomingMessage) => {
                 const ip = req.connection.remoteAddress;
                 /*nginx way: const ip = req.headers['x-forwarded-for'].split(/\s*,\s*!/)[0];*/
                 let socket = new WebSocket(ip);

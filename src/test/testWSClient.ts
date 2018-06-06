@@ -1,5 +1,5 @@
 import * as WebSocket from 'ws';
-import {C2S, S2C} from "../proto/cmd";
+import {C2S, S2C} from "../lib/proto/cmd";
 
 const ws = new WebSocket('ws://127.0.0.1:5555/abc/efg');
 

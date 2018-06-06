@@ -1,9 +1,9 @@
-import {Log} from '../util/log'
+import {Log} from '../lib/util/log'
 
 const Config = require('../config/config.json');
 Log.init(__dirname + Config.log.dir, Config.log.level);
 
-import {C2S, S2C} from '../proto/cmd'
+import {C2S, S2C} from '../lib/proto/cmd'
 
 let msg = C2S.CS_TEST_ECHO.create({
     name: "123123",

@@ -1,4 +1,4 @@
-import {Log} from '../util/log'
+import {Log} from '../lib/util/log'
 
 const Config = require('../config/config.json');
 // import * as Config from '../config/config.json'

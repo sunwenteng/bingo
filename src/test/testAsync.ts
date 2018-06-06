@@ -1,5 +1,5 @@
-import {MysqlConnection} from '../mysql/lib/mysql_connection'
-import {Log} from '../util/log'
+import {MysqlConnection} from '../lib/mysql/lib/mysql_connection'
+import {Log} from '../lib/util/log'
 
 const Config = require('../config/config.json');
 Log.init(__dirname + Config.log.dir, Config.log.level);

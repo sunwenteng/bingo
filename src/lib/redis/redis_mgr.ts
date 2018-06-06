@@ -2,8 +2,9 @@ import * as redis from 'redis';
 import {Log} from "../util/log";
 import {ErrorCode} from "../util/error_code";
 import * as util from 'util';
+import Timer = NodeJS.Timer;
 
-const Config = require('../../config/config.json');
+const Config = require('../../../config/config.json');
 /**
  * 管理游戏内部所有redis实例，每个redis连接可能对应多个db
  * @type {{}}
@@ -135,6 +136,12 @@ export abstract class RedisData<T> {
 
 }
 
+// export function closeAll() {
+//     for (let idx in _instances) {
+//         _instances[idx].close();
+//     }
+// }
+
 export class RedisMgr {
     private readonly _name: string;
     private readonly _config: any;
@@ -142,12 +149,14 @@ export class RedisMgr {
     private readonly _pool: { [db: number]: redis.RedisClient };
     //redis服务是否可用标识,比如在redis服务断开或连不上redis的时候，connected为false
     private _connected: boolean;
+    private readonly _aliveTimer: { [db: number]: Timer };
 
     constructor(config: any, name: string) {
         this._config = config;
         this._pool = {};
         this._name = name;
         this._connected = false;
+        this._aliveTimer = {};
     }
 
     get connected(): boolean {
@@ -164,6 +173,14 @@ export class RedisMgr {
             _instances[key] = new RedisMgr(Config['redis'][type], Config['redis'][type].name);
         }
         return _instances[key];
+    }
+
+    public close() {
+        for (let idx in this._pool) {
+            this._pool[idx].end(true);
+            clearInterval(this._aliveTimer[idx]);
+            Log.sInfo('redis close successfully, name=' + this._name + ', db=' + idx);
+        }
     }
 
     //根据db从实例的连接池中获取对应的client
@@ -202,7 +219,7 @@ export class RedisMgr {
                             reject(ErrorCode.REDIS.SELECT_ERROR);
                         } else {
                             // 定时使用连接，keeplive
-                            setInterval(() => {
+                            this._aliveTimer[db] = setInterval(() => {
                                 Log.sInfo('name=%s, redis keeplive,db:' + db, this._name);
                                 this._pool[db].set('redis_keeplive_' + db, Date.now().toString());
                             }, 3 * 60 * 1000);
