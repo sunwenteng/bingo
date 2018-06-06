@@ -37,18 +37,11 @@ export class Role extends RedisData<RoleData> {
             await roleRedis.lock(this.getRedisKey(), async () => {
                 if (this.isDirty) {
                     let saveData = this.getSaveData(bSaveAll);
-                    // TODO 这块有待商榷，代码层做控制总有脏数据的隐患
                     // 同步存储到redis
                     await roleRedis.hmset(this.getRedisKey(), saveData, this.redisKeyExpire);
                     // 往脏数据集合添加
                     await roleRedis.sadd(WorldDataRedisKey.DIRTY_ROLES, this.data.uid);
                     // 这种做法保证缓存数据最新，数据库会有部分脏数据
-                    if (async) {
-                        WorldDB.conn.execute('update player_info_' + this.getTableNum() + ' set ? where ?', [saveData, {uid: this.data.uid}])
-                    }
-                    else {
-                        await WorldDB.conn.execute('update player_info_' + this.getTableNum() + ' set ? where ?', [saveData, {uid: this.data.uid}]);
-                    }
                     resolve();
                 }
             });

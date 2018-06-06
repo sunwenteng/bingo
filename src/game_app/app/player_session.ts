@@ -16,7 +16,7 @@ export class PlayerSession extends UserSession {
         super();
     }
 
-    @execTime(false)
+    // @execTime(false)
     private async doController(controller: Function, session: PlayerSession, packet: any) {
         await controller(session, packet);
     }

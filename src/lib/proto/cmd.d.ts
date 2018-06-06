@@ -185,10 +185,12 @@ export namespace S2C {
     }
 
     interface ISC_ROLE_ONLINE {
+        roleId?: (number|null);
     }
 
     class SC_ROLE_ONLINE implements ISC_ROLE_ONLINE {
         constructor(properties?: S2C.ISC_ROLE_ONLINE);
+        public roleId: number;
         public static create(properties?: S2C.ISC_ROLE_ONLINE): S2C.SC_ROLE_ONLINE;
         public static encode(message: S2C.ISC_ROLE_ONLINE, writer?: $protobuf.Writer): $protobuf.Writer;
         public static encodeDelimited(message: S2C.ISC_ROLE_ONLINE, writer?: $protobuf.Writer): $protobuf.Writer;

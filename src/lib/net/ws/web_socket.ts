@@ -55,17 +55,19 @@ export class WebSocket {
         });
     }
 
+    public isSocketValid() {
+        return isServerValid && this._state === SocketStatus.VALID && this._webSocket.readyState === ws.OPEN;
+    }
+
     public send(data: any): void {
-        if (isServerValid && this._state === SocketStatus.VALID) {
+        if (this.isSocketValid()) {
             this._webSocket.send(data);
         }
     }
 
     public sendProtocol(data: S2C.Message): void {
-        if (isServerValid && this._state === SocketStatus.VALID) {
-            let buffer = S2C.Message.encode(data).finish();
-            this._webSocket.send(buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.length));
-        }
+        let buffer = S2C.Message.encode(data).finish();
+        this.send(buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.length))
     }
 
     public close() {

@@ -21,6 +21,7 @@ message SC_TEST_ECHO {
 }
 
 message SC_ROLE_ONLINE {
+    int32 role_id = 1;
 }
 
 message SC_ROLE_HEART_BEAT {

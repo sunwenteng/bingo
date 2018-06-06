@@ -47,7 +47,7 @@
   },
   "app": {
     "cache": {
-      "saveInterval": 2000,
+      "saveInterval": 60000,
       "instances": 0
     },
     "game": {

@@ -5,7 +5,7 @@ export async function echo(session: PlayerSession, msg: C2S.CS_TEST_ECHO):Promis
     let ret = S2C.Message.create({
         SC_TEST_ECHO: {
             cmdId: 1,
-            msg: msg.name + ' is reply'
+            msg: msg.b.toString()
         }
     });
     session.sendProtocol(ret);

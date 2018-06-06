@@ -25,10 +25,6 @@ export abstract class UserSession {
         this.m_socket.sendProtocol(data);
     }
 
-    public isSessionValid():boolean {
-        return isServerValid && this.m_socket.state === SocketStatus.VALID;
-    }
-
     public closeSocket(){
         this.m_socket.close();
     }

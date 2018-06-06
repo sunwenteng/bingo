@@ -156,7 +156,12 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
         }
       },
       SC_ROLE_ONLINE: {
-        fields: {}
+        fields: {
+          roleId: {
+            type: "int32",
+            id: 1
+          }
+        }
       },
       SC_ROLE_HEART_BEAT: {
         fields: {}

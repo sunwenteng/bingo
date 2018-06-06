@@ -38,7 +38,7 @@ export class World {
     public async update() {
         let cur = this._sessionList.head, t = null;
         while (cur) {
-            if (cur.element.isSessionValid()) {
+            if (cur.element.m_socket.isSocketValid()) {
                 await cur.element.update();
                 cur = cur.next;
             }

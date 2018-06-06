@@ -4,13 +4,14 @@ import {World} from "./world";
 import {Server} from "../../lib/net/ws/web_socket";
 import {PlayerSession} from "./player_session";
 import {clearTimeout} from "timers";
+import {RedisMgr, RedisType} from "../../lib/redis/redis_mgr";
 
 const Config = require('../../../config/config.json');
 Log.init(__dirname + Config.log.dir, Config.log.level);
 
 async function main() {
     await WorldDB.init(Config['mysql']['game_db']);
-
+    RedisMgr.getInstance(RedisType.GAME).close();
     World.getInstance().init();
     await World.getInstance().initControllers();
 

@@ -1,30 +1,42 @@
 import * as WebSocket from 'ws';
 import {C2S, S2C} from "../lib/proto/cmd";
 
-const ws = new WebSocket('ws://127.0.0.1:5555/abc/efg');
+let count = 1;
+let time = {};
 
-ws.on('open', () => {
-    let msg = C2S.Message.create({
-        CS_TEST_ECHO: {
-            name: "123123",
-            b: 123123123123123,
-            color: C2S.CS_TEST_ECHO.Color.BLUE,
-            data: [1, 2, 3],
-            map: {12: '12'}
-        }
-    });
-    let buffer = C2S.Message.encode(msg).finish();
-    for (let i = 0; i < 2000; i++) {
-        ws.send(buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.length));
-    }
-});
+class Client {
+    constructor() {
+        let ws = new WebSocket('ws://127.0.0.1:5555/abc/efg');
 
-ws.on('message', (data: Buffer) => {
-    try {
-        let msg = C2S.Message.decode(data);
-        msg.kind
-        console.log('data=%j', msg.toJSON());
-    } catch (e) {
-        console.error(e);
+        ws.on('open', () => {
+            setInterval(() => {
+                for (let i = 0; i < 10; i++) {
+                    let id = Math.floor(Math.random() * 10000);
+                    id = id === 0 ? 1 : id;
+                    let msg = C2S.Message.create({
+                        CS_ROLE_ONLINE: {
+                            passport: id.toString()
+                        }
+                    });
+
+                    let buffer = C2S.Message.encode(msg).finish();
+                    ws.send(buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.length));
+                    time[count++] = Date.now();
+                }
+            }, 1000);
+        });
+
+        ws.on('message', (data: Buffer) => {
+            try {
+                let msg = S2C.Message.decode(data);
+                console.log('idx=%s, time=%d, data=%j', msg.SC_ROLE_ONLINE.roleId, Date.now() - time[msg.SC_ROLE_ONLINE.roleId], msg.toJSON(),);
+            } catch (e) {
+                console.error(e);
+            }
+        });
     }
-});
+}
+
+for (let i = 0; i < 4000; i++) {
+    new Client();
+}
