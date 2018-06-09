@@ -94,3 +94,6 @@ location / {
     proxy_redirect off;
 }
 ```
+
+## PM2
+No need for pm2 log: `"error_file": "/dev/null","out_file": "/dev/null",`

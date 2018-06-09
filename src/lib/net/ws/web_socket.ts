@@ -36,7 +36,7 @@ export class WebSocket {
                     let msg = C2S.Message.decode(new Uint8Array(data));
                     this._session.pushPacket(msg);
                 } catch (e) {
-                    Log.sFatal(e);
+                    Log.sError(e);
                 }
             }
         });

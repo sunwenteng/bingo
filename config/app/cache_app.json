@@ -1,0 +1,22 @@
+{
+  "apps": [
+    {
+      "name": "cache",
+      "script": "app.js",
+      "instances": 4,
+      "instance_var": "INSTANCE_ID",
+      "exec_mode": "cluster",
+      "cwd": "../../dist/cache_app",
+      "args": [],
+      "node_args": "--harmony",
+      "merge_logs": false,
+      "autorestart": false,
+      "wait-ready": true,
+      "listen-timeout": 60000,
+      "max_memory_restart": "2048M",
+      "env": {
+        "NODE_ENV": "production"
+      }
+    }
+  ]
+}

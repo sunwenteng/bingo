@@ -17,7 +17,9 @@
     "node",
     "redis",
     "mysql",
-    "gameserver"
+    "winston",
+    "cache",
+    "game"
   ],
   "bugs": {
     "url": "https://github.com/sunwenteng/bingo/issues"
@@ -35,26 +37,29 @@
     "body": "^5.1.0",
     "express": "^4.16.3",
     "hiredis": "^0.5.0",
-    "log4js": "^2.7.0",
     "mkdirp": "^0.5.1",
+    "moment": "^2.22.2",
     "mysql": "^2.15.0",
     "protobufjs": "^6.8.6",
     "redis": "^2.8.0",
     "request": "^2.87.0",
     "source-map-support": "^0.5.6",
+    "winston": "^2.4.2",
+    "winston-daily-rotate-file": "^3.2.1",
     "ws": "^5.2.0"
   },
   "devDependencies": {
     "@types/core-js": "^0.9.46",
     "@types/express": "^4.11.1",
-    "@types/log4js": "^2.3.5",
     "@types/mkdirp": "^0.5.2",
+    "@types/moment": "^2.13.0",
     "@types/mysql": "^2.15.4",
     "@types/node": "^10.1.2",
     "@types/protobufjs": "^6.0.0",
     "@types/redis": "^2.8.6",
     "@types/request": "^2.47.0",
     "@types/source-map-support": "^0.4.0",
+    "@types/winston": "^2.3.9",
     "@types/ws": "^5.1.1",
     "gulp": "^3.9.1",
     "gulp-cli": "^2.0.1",
@@ -64,7 +69,9 @@
     "gulp-typescript": "^4.0.2",
     "typescript": "^2.8.3"
   },
-  "scripts": {},
+  "scripts": {
+    "preinstall": "npm install pm2 -g && pm2 install pm2-logrotate"
+  },
   "maintainers": [
     {
       "username": "sunwenteng",

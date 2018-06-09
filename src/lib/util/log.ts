@@ -1,13 +1,10 @@
-import * as log4js from 'log4js'
-import * as sourceMap from 'source-map-support'
+import * as winston from "winston";
+import * as sourceMap from "source-map-support";
 import * as util from 'util'
-import * as mkdirp from 'mkdirp'
+import * as moment from 'moment';
 
-function LineInfoFromStack(stack) {
-    let lines = stack ? stack.split('\n') : [''];
-    let firstFrame = parseFrame(lines[1]);
-    return /([^\/]*)$/.exec(firstFrame.file)[1] + ":" + firstFrame.func + ":" + firstFrame.line;
-}
+require('winston-daily-rotate-file');
+winston.cli();
 
 function LineInfoDefault(): string {
     let dummyObject: any = {};
@@ -22,188 +19,93 @@ function LineInfoDefault(): string {
     return /([^\/]*)$/.exec(frame.getFileName())[1] + ":" + frame.getFunctionName() + ":" + frame.getLineNumber();
 }
 
-interface FrameMatch {
-    func: string;
-    file: string;
-    line: number;
-    column: number;
-}
-
-function parseFrame(line): FrameMatch {
-    function namedFrame(line) {
-        let match = /at ([^(]+) \((.+):(\d+):(\d+)\)/i.exec(line);
-        return match ? {
-            func: match[1],
-            file: match[2],
-            line: parseInt(match[3]),
-            column: parseInt(match[4])
-        } : {
-            func: '<native>',
-            file: '<native>',
-            line: 0,
-            column: 0
-        };
+const myCustomLevels = {
+    levels: {
+        debug: 1,
+        info: 2,
+        warn: 3,
+        error: 4
     }
-
-    function unnamedFrame(line) {
-        let match = /at (.+):(\d+):(\d+)/i.exec(line);
-        return match ? {
-            func: '<anonymous>',
-            file: match[1],
-            line: parseInt(match[2], 10),
-            column: parseInt(match[3], 10)
-        } : null;
-    }
-
-    return line.indexOf('(') !== -1 ? namedFrame(line) : unnamedFrame(line);
-}
+};
 
 export class Log {
-    private static _logger: log4js.Logger;
+    private static _logger: winston.LoggerInstance;
 
-    constructor() {
-
-    }
-
-    public static getLogger():log4js.Logger {
+    public static getLogger(): winston.LoggerInstance {
         return this._logger;
     }
 
-    public static init(dirName: any, logLevel?: string): void {
+    public static init(dirName?: any, logLevel?: string): void {
         sourceMap.install();
-        let logDir: string = dirName;
-        mkdirp.sync(logDir);
-
-        let consoleAppender: log4js.Appender = {
-            type: "console",
-            layout: {
-                type: "pattern",
-                /* 多加了颜色 */
-                pattern: "%[%d{yyyy-MM-dd hh:mm:ss},%p,%x{roleId},%x{line},%x{content}%]",
-                tokens: {
-                    line: (log: log4js.LoggingEvent) => {
-                        return log.data[0];
+        let config = winston.config;
+        this._logger = new (winston.Logger)({
+            level: logLevel ? logLevel : 'debug',
+            // levels: myCustomLevels.levels,
+            transports: [
+                new (winston.transports.Console)({
+                    timestamp: () => {
+                        return moment().format('YYYY-MM-DD HH:mm:ss');
                     },
-                    roleId: (log: log4js.LoggingEvent) => {
-                        return log.data[1];
-                    },
-                    /* 此处 pattern 中使用 %x{content} 代替 %m 是为了支持 roleId */
-                    content: (log: log4js.LoggingEvent) => {
-                        return util.format.apply(util, log.data.slice(2));
+                    formatter: (options) => {
+                        return config.colorize(options.level, options.timestamp() + ',' + options.level.toUpperCase() + ',' +
+                            (options.message ? options.message : ''));
                     }
-                }
-            }
-        };
-
-        let logFileAppender: log4js.Appender = {
-            type: "dateFile",
-            filename: logDir + "/server.log",
-            pattern: ".yyyy-MM-dd",
-            layout: {
-                type: "pattern",
-                pattern: "%d{yyyy-MM-dd hh:mm:ss},%x{level},%x{roleId},%x{line},%x{content}",
-                tokens: {
-                    line: (log: log4js.LoggingEvent) => {
-                        return log.data[0];
+                }),
+                new (winston.transports.DailyRotateFile)({
+                    filename: 'app.log',
+                    dirname: dirName ? dirName : './log',
+                    timestamp: () => {
+                        return moment().format('YYYY-MM-DD HH:mm:ss');
                     },
-                    roleId: (log: log4js.LoggingEvent) => {
-                        return log.data[1];
-                    },
-                    /* 此处 pattern 中使用 %x{content} 代替 %m 是为了支持 roleId */
-                    content: (log: log4js.LoggingEvent) => {
-                        return util.format.apply(util, log.data.slice(2));
-                    },
-                    level: (log: log4js.LoggingEvent) => {
-                        switch ((log.level as any).level) {
-                            case 10000  :
-                                return 1;   /* debug */
-                            case 20000  :
-                                return 2;   /* info */
-                            case 30000  :
-                                return 3;   /* warning */
-                            case 40000  :
-                                return 4;   /* error */
-                            case 50000  :
-                                return 4;   /* fatal */
-                        }
-                        return 0;
+                    formatter: (options) => {
+                        let processInfo = process.env.INSTANCE_ID ? ('[' + process.env.name + process.env.INSTANCE_ID + '] ') : '';
+                        return processInfo + options.timestamp() + ',' + myCustomLevels.levels[options.level] + ',' +
+                            (options.message ? options.message : '');
                     }
-                }
-            }
-        };
-
-        log4js.configure({
-            appenders: {
-                console: consoleAppender,
-                file: logFileAppender,
-            },
-            categories: {
-                default: {appenders: ['console', 'file'], level: logLevel},
-            }
+                })
+            ]
         });
-
-        this._logger = log4js.getLogger('default');
+        // winston.addColors(myCustomLevels.colors);
     }
 
     // user
     public static uDebug(roleId: number, operation: string, message: string, ...args: any[]): void {
-        let arg = [LineInfoDefault()].concat(Array.prototype.slice.call(arguments));
-
-        this._logger.debug.apply(this._logger, arg);
+        let arg = roleId + ',' + LineInfoDefault() + ',' + util.format.apply(util, args);
+        this._logger.debug(arg);
     }
 
     public static uInfo(roleId: number, operation: string, message: any, ...args: any[]): void {
-        let i, arg = [LineInfoDefault()].concat(Array.prototype.slice.call(arguments));
-        this._logger.info.apply(this._logger, arg);
+        let arg = roleId + ',' + LineInfoDefault() + ',' + util.format.apply(util, args);
+        this._logger.info(arg);
     }
 
     public static uWarn(roleId: number, operation: string, message: string, ...args: any[]): void {
-        let arg = [LineInfoDefault()].concat(Array.prototype.slice.call(arguments));
-        this._logger.warn.apply(this._logger, arg);
+        let arg = roleId + ',' + LineInfoDefault() + ',' + util.format.apply(util, args);
+        this._logger.warn(arg);
     }
 
     public static uError(roleId: number, operation: string, message: string, ...args: any[]): void {
-        let arg = [LineInfoDefault()].concat(Array.prototype.slice.call(arguments));
-        this._logger.error.apply(this._logger, arg);
+        let arg = roleId + ',' + LineInfoDefault() + ',' + util.format.apply(util, args);
+        this._logger.error(arg);
     }
 
     public static sDebug(...args: any[]): void {
-        let arg = [LineInfoDefault(), 0].concat(Array.prototype.slice.call(arguments));
-        this._logger.debug.apply(this._logger, arg);
+        let arg = '0,' + LineInfoDefault() + ',' + util.format.apply(util, args);
+        this._logger.debug(arg);
     }
 
     public static sInfo(...args: any[]): void {
-        let arg = [LineInfoDefault(), 0].concat(Array.prototype.slice.call(arguments));
-        this._logger.info.apply(this._logger, arg);
+        let arg = '0,' + LineInfoDefault() + ',' + util.format.apply(util, args);
+        this._logger.info(arg);
     }
 
     public static sWarn(...args: any[]): void {
-        let arg = [LineInfoDefault(), 0].concat(Array.prototype.slice.call(arguments));
-        this._logger.warn.apply(this._logger, arg);
+        let arg = '0,' + LineInfoDefault() + ',' + util.format.apply(util, args);
+        this._logger.warn(arg);
     }
 
     public static sError(...args: any[]): void {
-        let arg = [LineInfoDefault(), 0].concat(Array.prototype.slice.call(arguments));
-        this._logger.error.apply(this._logger, arg);
-    }
-
-    public static sFatal(...args: any[]): void {
-        let arg = [LineInfoDefault(), 0].concat(Array.prototype.slice.call(arguments));
-        this._logger.fatal.apply(this._logger, arg);
-    }
-
-    public static sFatalError(err: Error, operation: string, message: string, ...args: any[]): void {
-        let arg = [LineInfoFromStack(err['stack']), 0].concat(Array.prototype.slice.call(arguments, 1));
-        this._logger.fatal.apply(this._logger, arg);
-    }
-
-    public static userError(err: Error, roleId: number, operation: string, message: string, ...args: any[]): void {
-        let arg = [LineInfoFromStack(err['stack'])].concat(Array.prototype.slice.call(arguments, 1));
-        this._logger.error.apply(this._logger, arg);
-    }
-
-    public static stackError(err: Error, operation: string, message: string, ...args: any[]): void {
-        let arg = [LineInfoFromStack(err['stack']), 0].concat(Array.prototype.slice.call(arguments, 1));
-        this._logger.error.apply(this._logger, arg);
+        let arg = '0,' + LineInfoDefault() + ',' + util.format.apply(util, args);
+        this._logger.error(arg);
     }
 }

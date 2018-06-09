@@ -1,4 +1,4 @@
-import {C2S, S2C} from "../../../lib/proto/cmd";
+import {C2S, S2C} from "../../lib/proto/cmd";
 import {PlayerSession} from "../player_session";
 import {Role} from "../role";
 

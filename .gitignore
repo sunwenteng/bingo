@@ -5,5 +5,4 @@ tool/
 dist/**/*
 
 # files
-*.log
 

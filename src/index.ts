@@ -1,59 +1,117 @@
-import {Log} from "./lib/util/log";
-import {RedisDB, RedisMgr, RedisType} from "./lib/redis/redis_mgr";
-import {execTime} from "./lib/util/descriptor";
-import {Role} from "./game_app/app/role";
-import * as WorldDB from './lib/mysql/world_db';
+import * as winston from "winston";
+import * as sourceMap from "source-map-support";
+import * as util from 'util'
+import * as moment from 'moment';
 
-const Config = require('../config/config.json');
-Log.init(__dirname + Config.log.dir, Config.log.level);
+require('winston-daily-rotate-file');
+winston.cli();
 
-class Test {
+function LineInfoDefault(): string {
+    let dummyObject: any = {};
+    let v8Handler = Error['prepareStackTrace'];
+    Error['prepareStackTrace'] = (error, stack: any[]) => {
+        return [sourceMap.wrapCallSite(stack[1])];
+    };
+    Error['captureStackTrace'](dummyObject, arguments.callee);
 
-    @execTime()
-    async test() {
-        // Log.sInfo('ret=' + await RedisMgr.getInstance(RedisType.GAME).dbsize(RedisDB.RoleDB));
-        // await RedisMgr.getInstance(RedisType.GAME).set("1", "1");
-        Log.sInfo('start................');
-        for (let i = 1; i <= 100; i++) {
-            // let o = await RedisMgr.getInstance(RedisType.GAME).hmget('role_1', ['gold']);
-            // if (parseInt(o.gold) > 0) {
-            //     o.gold = parseInt(o.gold) - 1;
-            // }
-            // await RedisMgr.getInstance(RedisType.GAME).hmset('role_1', o);
-            // await RedisMgr.getInstance(RedisType.GAME).hincrby('role_1', 'gold', i);
-            RedisMgr.getInstance(RedisType.GAME).hsetnx('role_2', 'uid', i).then((ret) => console.log(ret + '   ' + i));
-        }
-        Log.sInfo('end................');
-        // RedisMgr.getInstance(RedisType.GAME).hmset('role_1', {book: JSON.stringify({"ok": "ok"})});
-        // Log.sInfo('ret=' + await RedisMgr.getInstance(RedisType.GAME).hmget('role_1', 'a'));
+    let frame: any = dummyObject.stack[0];
+    Error['prepareStackTrace'] = v8Handler;
+    return /([^\/]*)$/.exec(frame.getFileName())[1] + ":" + frame.getFunctionName() + ":" + frame.getLineNumber();
+}
+
+// const myCustomLevels = {
+//     levels: {
+//         debug: 1,
+//         info: 2,
+//         warn: 3,
+//         error: 4
+//     },
+//     colors: {
+//         debug: 'blue',
+//         info: 'green',
+//         warn: 'yellow',
+//         error: 'red'
+//     }
+// };
+
+class Log {
+    private static _logger: winston.LoggerInstance;
+
+    public static getLogger(): winston.LoggerInstance {
+        return this._logger;
     }
 
-    @execTime()
-    async testLock() {
+    public static init(dirName?: any, logLevel?: string): void {
+        sourceMap.install();
+        let config = winston.config;
+        this._logger = new (winston.Logger)({
+            level: logLevel ? logLevel : 'debug',
+            // levels: myCustomLevels.levels,
+            transports: [
+                new (winston.transports.Console)({
+                    timestamp: () => {
+                        return moment().format('YYYY-MM-DD HH:mm:ss');
+                    },
+                    formatter: (options) => {
+                        return config.colorize(options.level, options.timestamp() + ',' + options.level.toUpperCase() + ',' +
+                            (options.message ? options.message : ''));
+                    }
+                }),
+                new (winston.transports.DailyRotateFile)({
+                    filename: 'app.log',
+                    dirname: dirName ? dirName : './log'
+                })
+            ]
+        });
+        // winston.addColors(myCustomLevels.colors);
     }
 
-    @execTime()
-    async testRole() {
-        await WorldDB.init(Config.mysql.game_db);
-        for (let i = 1; i <= 1000; i++) {
-            let role = new Role(i);
-            let exist = await role.load();
-            if (!exist) {
-                await role.create();
-                role.set({
-                    nickname: 'robot' + i,
-                    headimgurl: 'headimgurl ' + i,
-                    diamond: Math.floor(Math.random() * 10000),
-                    exp: Math.floor(Math.random() * 10000),
-                    gold: Math.floor(Math.random() * 10000),
-                    level: Math.floor(Math.random() * 10000),
-                });
-                await role.save(true, false);
-            }
-        }
+    // user
+    public static uDebug(roleId: number, operation: string, message: string, ...args: any[]): void {
+        let arg = roleId + ',' + LineInfoDefault() + ',' + util.format.apply(util, args);
+        this._logger.debug(arg);
+    }
+
+    public static uInfo(roleId: number, operation: string, message: any, ...args: any[]): void {
+        let arg = roleId + ',' + LineInfoDefault() + ',' + util.format.apply(util, args);
+        this._logger.info(arg);
+    }
+
+    public static uWarn(roleId: number, operation: string, message: string, ...args: any[]): void {
+        let arg = roleId + ',' + LineInfoDefault() + ',' + util.format.apply(util, args);
+        this._logger.warn(arg);
+    }
+
+    public static uError(roleId: number, operation: string, message: string, ...args: any[]): void {
+        let arg = roleId + ',' + LineInfoDefault() + ',' + util.format.apply(util, args);
+        this._logger.error(arg);
+    }
+
+    public static sDebug(...args: any[]): void {
+        let arg = '0,' + LineInfoDefault() + ',' + util.format.apply(util, args);
+        this._logger.debug(arg);
+    }
+
+    public static sInfo(...args: any[]): void {
+        let arg = '0,' + LineInfoDefault() + ',' + util.format.apply(util, args);
+        this._logger.info(arg);
+    }
+
+    public static sWarn(...args: any[]): void {
+        let arg = '0,' + LineInfoDefault() + ',' + util.format.apply(util, args);
+        this._logger.warn(arg);
+    }
+
+    public static sError(...args: any[]): void {
+        let arg = '0,' + LineInfoDefault() + ',' + util.format.apply(util, args);
+        this._logger.error(arg);
     }
 }
 
-let t = new Test();
-t.testRole();
-
+Log.init();
+setInterval(() => {
+    Log.sInfo([1, 2, 23], '1');
+    Log.sDebug('111 %d', 111);
+    Log.sWarn('111 %d', 111);
+    Log.sError('111 %d', 111);
+}, 1000);

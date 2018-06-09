@@ -1,12 +1,12 @@
-import {Log} from "../../lib/util/log";
-import * as WorldDB from "../../lib/mysql/world_db";
+import {Log} from "../lib/util/log";
+import * as WorldDB from "../lib/mysql/world_db";
 import {World} from "./world";
-import {Server} from "../../lib/net/ws/web_socket";
+import {Server} from "../lib/net/ws/web_socket";
 import {PlayerSession} from "./player_session";
 import {clearTimeout} from "timers";
-import {RedisMgr, RedisType} from "../../lib/redis/redis_mgr";
+import {RedisMgr, RedisType} from "../lib/redis/redis_mgr";
 
-const Config = require('../../../config/config.json');
+const Config = require('../../config/config.json');
 Log.init(__dirname + Config.log.dir, Config.log.level);
 
 async function main() {
@@ -25,9 +25,11 @@ async function main() {
         await World.getInstance().saveControllers();
         // TODO 注册redis链接关闭
         await WorldDB.shutDownDB();
+        process.exit(0);
     });
 
     let timer;
+
     function update() {
         timer = setTimeout(() => {
             World.getInstance().update().then(update);
@@ -37,4 +39,4 @@ async function main() {
     update();
 }
 
-main();
+main().then(() => process.send('ready'));

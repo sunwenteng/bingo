@@ -1,10 +1,10 @@
-import {Log} from "../../lib/util/log";
-import {RedisMgr, RedisType} from "../../lib/redis/redis_mgr";
-import {Role, RoleRedisPrefix} from "../../game_app/app/role";
-import * as WorldDB from '../../lib/mysql/world_db';
-import {WorldDataRedisKey} from "../../game_app/app/world";
+import {Log} from "../lib/util/log";
+import {RedisMgr, RedisType} from "../lib/redis/redis_mgr";
+import {Role, RoleRedisPrefix} from "../game_app/role";
+import * as WorldDB from '../lib/mysql/world_db';
+import {WorldDataRedisKey} from "../game_app/world";
 
-const Config = require('../../../config/config.json');
+const Config = require('../../config/config.json');
 Log.init(__dirname + Config.log.dir, Config.log.level);
 let roleRedis = RedisMgr.getInstance(RedisType.GAME);
 
@@ -16,6 +16,7 @@ async function main() {
         await save();
         roleRedis.close();
         await WorldDB.shutDownDB();
+        process.exit(0);
     });
 
     async function save() {
@@ -46,4 +47,4 @@ async function main() {
     update();
 }
 
-main();
+main().then(() => process.send('ready'));

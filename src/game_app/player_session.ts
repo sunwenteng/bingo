@@ -1,8 +1,8 @@
-import {UserSession} from '../../lib/net/user_session'
-import {Log} from "../../lib/util/log";
+import {UserSession} from '../lib/net/user_session'
+import {Log} from "../lib/util/log";
 import {World, WorldDataRedisKey} from "./world";
-import {execTime} from "../../lib/util/descriptor";
-import {RedisMgr, RedisType} from "../../lib/redis/redis_mgr";
+import {execTime} from "../lib/util/descriptor";
+import {RedisMgr, RedisType} from "../lib/redis/redis_mgr";
 import {Role} from "./role";
 
 const MAX_PACKET_COUNT = 100000;
