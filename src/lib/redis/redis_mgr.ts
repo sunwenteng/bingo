@@ -149,7 +149,7 @@ export class RedisMgr {
     private readonly _pool: { [db: number]: redis.RedisClient };
     //redis服务是否可用标识,比如在redis服务断开或连不上redis的时候，connected为false
     private _connected: boolean;
-    private readonly _aliveTimer: { [db: number]: Timer };
+    private readonly _aliveTimer: { [db: number]: any };
 
     constructor(config: any, name: string) {
         this._config = config;
@@ -260,7 +260,7 @@ export class RedisMgr {
         }));
     }
 
-    public async setnx(key: string, value: any, expire: number = 0, db: number = 0): Promise<boolean> {
+    public async setnx(key: string, value: any, db: number = 0): Promise<boolean> {
         Log.sInfo('name=%s, redis setnx %s %s', this._name, key, value);
         let client = await this.getClient(db);
         return new Promise<boolean>(((resolve, reject) => {
@@ -269,43 +269,51 @@ export class RedisMgr {
                     Log.sError('name=%s, redis set error ' + error, this._name);
                     reject(ErrorCode.REDIS.SET_ERROR);
                 } else {
-                    if (expire > 0) {
-                        client.expire(key, expire); //不捕获expire是否成功
-                    }
                     resolve(reply === 1);
                 }
             });
         }));
     }
 
-    public async lock<T>(key: string, callback: () => Promise<T>, lockTime: number = 5) {
+    public async lock<T>(key: string, callback: () => Promise<T>, lockTime: number = 5000) {
         let mutexKey = key + '_mutex';
-        let success = await this.setnx(mutexKey, 1);
+        let success = await this.setWithParams(mutexKey, 1, 'PX', lockTime, 'NX');
         if (!success) {
             setTimeout(async () => {
                 await this.lock(key, callback);
             }, 10);
         }
         else {
-            await this.expire(mutexKey, lockTime);
             await callback();
             await this.del(mutexKey);
         }
     }
 
-    public async set(key: string, value: any, expire: number = 0, db: number = 0): Promise<void> {
-        Log.sInfo('name=%s, redis set %s %s', this._name, key, value);
+    public async setWithParams(key: string, value: any, mod: string, duration: number, flag: string, db: number = 0): Promise<boolean> {
+        Log.sInfo('name=%s, redis set %s %s %s %d %s', this._name, key, value, mod, duration, flag);
         let client = await this.getClient(db);
-        return new Promise<void>(((resolve, reject) => {
-            client.set(key, value, (error) => {
+        return new Promise<boolean>(((resolve, reject) => {
+            client.set(key, value, mod, duration, flag, (error, reply) => {
                 if (error) {
                     Log.sError('name=%s, redis set error ' + error, this._name);
                     reject(ErrorCode.REDIS.SET_ERROR);
                 } else {
-                    if (expire > 0) {
-                        client.expire(key, expire); //不捕获expire是否成功
-                    }
-                    resolve();
+                    resolve(reply === 'OK');
+                }
+            });
+        }));
+    }
+
+    public async set(key: string, value: any, db: number = 0): Promise<boolean> {
+        Log.sInfo('name=%s, redis set %s %s', this._name, key, value);
+        let client = await this.getClient(db);
+        return new Promise<boolean>(((resolve, reject) => {
+            client.set(key, value, (error, reply) => {
+                if (error) {
+                    Log.sError('name=%s, redis set error ' + error, this._name);
+                    reject(ErrorCode.REDIS.SET_ERROR);
+                } else {
+                    resolve(reply === 'OK');
                 }
             });
         }));
