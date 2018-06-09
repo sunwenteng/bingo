@@ -1,11 +1,9 @@
 # bingo
 这个项目准备作为node的游戏服务器，使用node8.0相关的库以及技术支持，并且后续会尽可能的对语言新特性进行升。
 
-## Contents
-后续生成目录
+[TOC]
 
-## node安装
-
+## node安装 
 
 ## mocha usage
 
