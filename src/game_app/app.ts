@@ -6,12 +6,11 @@ import {PlayerSession} from "./player_session";
 import {clearTimeout} from "timers";
 import {RedisMgr, RedisType} from "../lib/redis/redis_mgr";
 
-const Config = require('../../config/config.json');
-Log.init(__dirname + Config.log.dir, Config.log.level);
-
 async function main() {
+    const Config = require('../../config/config.json');
+    Log.init(__dirname + Config.log.dir, Config.log.level);
+
     await WorldDB.init(Config['mysql']['game_db']);
-    RedisMgr.getInstance(RedisType.GAME).close();
     World.getInstance().init();
     await World.getInstance().initControllers();
 
@@ -23,7 +22,7 @@ async function main() {
         await World.getInstance().update();
         await server.close();
         await World.getInstance().saveControllers();
-        // TODO 注册redis链接关闭
+        RedisMgr.getInstance(RedisType.GAME).close();
         await WorldDB.shutDownDB();
         process.exit(0);
     });
