@@ -38,4 +38,8 @@ async function main() {
     update();
 }
 
-main().then(() => process.send('ready'));
+main().then(() => {
+    if (process.env.INSTANCE_ID) {
+        process.send('ready')
+    }
+});
