@@ -9,10 +9,10 @@ using **Node.js**, **typescript**, **web socket** as server, **nginx** as gate, 
 * [`How to install`](#how-to-install)
 * [`How to run`](#how-to-run)
 * [`How to develop my own game`](#how-to-develop-my-own-game)
-* [`Redis`](#Redis)
-* [`Mysql`](#Mysql)
-* [`Nginx`](#Nginx)
-* [`Others`](#Others)
+* [`Redis`](#redis)
+* [`Mysql`](#mysql)
+* [`Nginx`](#nginx)
+* [`Others`](#others)
 
 ## How to install
 
@@ -29,8 +29,8 @@ gulp compile
 The project contains several applications to support a game server. Please first make sure you have config the `config/config.json`.
 It contains several **key** you must be aware of.
 * **log**: specify the log params, such as the dir name and the log level.
-* **redis**: start your own redis-server, and change the config, check [`Redis`](#Redis).
-* **mysql**: start your own mysql-server, and change the config, check [`Mysql`](#Mysql).
+* **redis**: start your own redis-server, and change the config, check [`Redis`](#redis).
+* **mysql**: start your own mysql-server, and change the config, check [`Mysql`](#mysql).
     * **game_db**: game database to save normal player data, guild data etc.
         * **tableSplitCount**: all the player info is save to the database, so proper table split is necessary.
     * **login_db**: login data for passport auth.
