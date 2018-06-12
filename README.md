@@ -6,9 +6,9 @@ using **Node.js**, **typescript**, **web socket** as server, **nginx** as gate, 
 
 ## Contents
 
-* [`How to install`](#How to install)
-* [`How to run`](#How to run)
-* [`How to develop my own game`](#How to develop my own game)
+* [`How to install`](#how-to-install)
+* [`How to run`](#how-to-run)
+* [`How to develop my own game`](#how-to-develop-my-own-game)
 * [`Redis`](#Redis)
 * [`Mysql`](#Mysql)
 * [`Nginx`](#Nginx)
