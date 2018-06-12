@@ -131,9 +131,9 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
           }
         }
       },
-      Error: {
+      SC_TEST_ECHO: {
         fields: {
-          code: {
+          cmdId: {
             type: "int32",
             id: 1
           },
@@ -143,9 +143,9 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
           }
         }
       },
-      SC_TEST_ECHO: {
+      Error: {
         fields: {
-          cmdId: {
+          code: {
             type: "int32",
             id: 1
           },

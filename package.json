@@ -70,6 +70,7 @@
     "typescript": "^2.8.3"
   },
   "scripts": {
+    "preinstall": "sudo npm install pm2 -g && sudo npm install gulp-cli -g"
   },
   "maintainers": [
     {

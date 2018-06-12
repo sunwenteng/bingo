@@ -6,7 +6,7 @@
   "mysql": {
     "game_db": {
       "name": "game_db",
-      "host": "127.0.0.1",
+      "host": "172.16.1.83",
       "port": 3306,
       "user": "root",
       "password": "root",
@@ -15,12 +15,11 @@
       "charset": "UTF8",
       "supportBigNumbers": true,
       "waitForConnections": true,
-      "heartBeatSec": 60,
       "tableSplitCount": 10
     },
     "login_db": {
       "name": "login_db",
-      "host": "127.0.0.1",
+      "host": "172.16.1.83",
       "port": 3306,
       "user": "root",
       "password": "root",
@@ -28,16 +27,14 @@
       "connectionLimit": 1,
       "charset": "UTF8",
       "supportBigNumbers": true,
-      "waitForConnections": true,
-      "heartBeatSec": 60,
-      "tableSplitCount": 10
+      "waitForConnections": true
     }
   },
   "redis": {
     "gameRedis": {
       "name": "gameRedis",
       "port": 6379,
-      "host": "127.0.0.1",
+      "host": "172.16.1.83",
       "options": {
         "connect_timeout": 36000000,
         "retry_delay": 100,
@@ -47,14 +44,12 @@
   },
   "app": {
     "cache": {
-      "saveInterval": 60000,
-      "instances": 0
+      "saveInterval": 60000
     },
     "game": {
       "host": "0.0.0.0",
       "port": 5555,
-      "sessionPacketMaxLength": 10000,
-      "instances": 0
+      "sessionPacketMaxLength": 10000
     }
   }
 }

@@ -31,13 +31,13 @@ gulp.task('compile', ['scripts_src'], () => {
 });
 
 // proto文件解析
-let protoFiles = ['./src/lib/proto/c2s.proto', './src/lib/proto/s2c.proto'];
+let protoFiles = ['./src/proto/c2s.proto', './src/proto/s2c.proto'];
 // 这个文件小一点 速度比后者稍微慢一点
-gulp.task('proto2json', shell.task('./node_modules/protobufjs/bin/pbjs -t json-module -w commonjs -o ./src/lib/proto/cmd.js ' + protoFiles.join(' ') + ' && ' +
-    './node_modules/protobufjs/bin/pbjs -t static-module ' + protoFiles.join(' ') + ' | ./node_modules/protobufjs/bin/pbts --no-comments -o ./src/lib/proto/cmd.d.ts -'));
+gulp.task('proto2json', shell.task('./node_modules/protobufjs/bin/pbjs -t json-module -w commonjs -o ./src/proto/cmd.js ' + protoFiles.join(' ') + ' && ' +
+    './node_modules/protobufjs/bin/pbjs -t static-module ' + protoFiles.join(' ') + ' | ./node_modules/protobufjs/bin/pbts --no-comments -o ./src/proto/cmd.d.ts -'));
 // 生成的文件较大
-gulp.task('proto2js', shell.task('./node_modules/protobufjs/bin/pbjs -t static-module -w commonjs -o ./src/lib/proto/cmd.js ' + protoFiles.join(' ') + ' && ' +
-    './node_modules/protobufjs/bin/pbts --no-comments -o ./src/lib/proto/cmd.d.ts ./src/lib/proto/cmd.js'));
+gulp.task('proto2js', shell.task('./node_modules/protobufjs/bin/pbjs -t static-module -w commonjs -o ./src/proto/cmd.js ' + protoFiles.join(' ') + ' && ' +
+    './node_modules/protobufjs/bin/pbts --no-comments -o ./src/proto/cmd.d.ts ./src/proto/cmd.js'));
 
-gulp.task('proto2client', shell.task('./node_modules/protobufjs/bin/pbjs -t static-module -w amd -o ./src/lib/proto/cmd.js ' + protoFiles.join(' ') + ' && ' +
-    './node_modules/protobufjs/bin/pbts --no-comments -o ./src/lib/proto/cmd.d.ts ./src/lib/proto/cmd.js'));
+gulp.task('proto2client', shell.task('./node_modules/protobufjs/bin/pbjs -t static-module -w amd -o ./src/proto/cmd.js ' + protoFiles.join(' ') + ' && ' +
+    './node_modules/protobufjs/bin/pbts --no-comments -o ./src/proto/cmd.d.ts ./src/proto/cmd.js'));

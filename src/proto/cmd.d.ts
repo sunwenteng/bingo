@@ -144,26 +144,6 @@ export namespace S2C {
         public toJSON(): { [k: string]: any };
     }
 
-    interface IError {
-        code?: (number|null);
-        msg?: (string|null);
-    }
-
-    class Error implements IError {
-        constructor(properties?: S2C.IError);
-        public code: number;
-        public msg: string;
-        public static create(properties?: S2C.IError): S2C.Error;
-        public static encode(message: S2C.IError, writer?: $protobuf.Writer): $protobuf.Writer;
-        public static encodeDelimited(message: S2C.IError, writer?: $protobuf.Writer): $protobuf.Writer;
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): S2C.Error;
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): S2C.Error;
-        public static verify(message: { [k: string]: any }): (string|null);
-        public static fromObject(object: { [k: string]: any }): S2C.Error;
-        public static toObject(message: S2C.Error, options?: $protobuf.IConversionOptions): { [k: string]: any };
-        public toJSON(): { [k: string]: any };
-    }
-
     interface ISC_TEST_ECHO {
         cmdId?: (number|null);
         msg?: (string|null);
@@ -181,6 +161,26 @@ export namespace S2C {
         public static verify(message: { [k: string]: any }): (string|null);
         public static fromObject(object: { [k: string]: any }): S2C.SC_TEST_ECHO;
         public static toObject(message: S2C.SC_TEST_ECHO, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public toJSON(): { [k: string]: any };
+    }
+
+    interface IError {
+        code?: (number|null);
+        msg?: (string|null);
+    }
+
+    class Error implements IError {
+        constructor(properties?: S2C.IError);
+        public code: number;
+        public msg: string;
+        public static create(properties?: S2C.IError): S2C.Error;
+        public static encode(message: S2C.IError, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: S2C.IError, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): S2C.Error;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): S2C.Error;
+        public static verify(message: { [k: string]: any }): (string|null);
+        public static fromObject(object: { [k: string]: any }): S2C.Error;
+        public static toObject(message: S2C.Error, options?: $protobuf.IConversionOptions): { [k: string]: any };
         public toJSON(): { [k: string]: any };
     }
 

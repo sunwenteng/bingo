@@ -4,7 +4,6 @@ import {Log} from '../../util/log'
 export interface MysqlConfig extends mysql.PoolConfig {
     name?: string;
     tableSplitCount?: number;
-    heartBeatSec?: number;
 }
 
 export class MysqlConnection {

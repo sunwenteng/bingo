@@ -54,7 +54,7 @@ export async function init(config: MysqlConfig): Promise<void> {
     _timer = setInterval(async () => {
         await conn.execute('select 1');
         Log.sInfo('keep mysql alive');
-    }, config.heartBeatSec * 1000);
+    }, 60000);
 }
 
 export async function getDBTime(): Promise<Number> {

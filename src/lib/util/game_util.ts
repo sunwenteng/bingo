@@ -395,7 +395,7 @@ export async function deleteFileInDir(dir: string, reg: RegExp) {
  * @example: httpGet('http://10.1.1.156/test?cmd=redis',function(error,body){},'json')
  *      获取http://10.1.1.156/test?cmd=redis返回的结果并解析为json对象
  */
-export function httpGet(url: string, callback: (err, data) => void, dataType?: Enum.HTTP_RES_DATA_TYPE, timeout?: number) {
+export function httpGet(url: string, callback: (err, data) => void, dataType?: HTTP_RES_DATA_TYPE, timeout?: number) {
     let options = {'url': url, 'form': null};
     typeof(timeout) != 'undefined' ? options['timeout'] = timeout : '';
     request.get(options, (error, response, body) => {
@@ -409,7 +409,7 @@ export function httpGet(url: string, callback: (err, data) => void, dataType?: E
  * 比httpGet函数多了个form表单参数(Json对象)，其他参数参考httpGet
  * @example:
  */
-export function httpPost(url: string, form: any, callback: (err, data) => void, dataType?: Enum.HTTP_RES_DATA_TYPE, timeout?: number) {
+export function httpPost(url: string, form: any, callback: (err, data) => void, dataType?: HTTP_RES_DATA_TYPE, timeout?: number) {
     let options = {'url': url, 'form': form};
     typeof(timeout) != 'undefined' ? options['timeout'] = timeout : '';
 

@@ -1,6 +1,7 @@
 syntax = "proto3";
 package S2C;
 
+/** remember to put your message here as a kind support**/
 message Message {
     oneof kind {
         Error Error = 1;
@@ -10,15 +11,17 @@ message Message {
     }
 }
 
+/** you must name the message in the following format: [PACKAGE_NAME]_[CONTROLLER_NAME]_[METHOD_NAME]**/
+message SC_TEST_ECHO {
+    int32 cmd_id = 1;
+    string msg = 2;
+}
+
 message Error {
     int32 code = 1;
     string msg = 2;
 }
 
-message SC_TEST_ECHO {
-    int32 cmd_id = 1;
-    string msg = 2;
-}
 
 message SC_ROLE_ONLINE {
     int32 role_id = 1;
