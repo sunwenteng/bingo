@@ -1,6 +1,6 @@
 # bingo
 
-It is designed to build a stateless game server for most cases(RPG, MMO, etc.). 
+It is designed to build a stateless game server for most cases(RPG, MMO, etc.). For sure, it's well designed for H5 server for full-stack develop.
 The project is pretty simple and easy to handle or expand, 
 using **Node.js**, **typescript**, **web socket** as server, **nginx** as gate, **redis** as cache and MQ, **mysql** as database, **pm2** as cluster management, **protobuf** for message exchange.
 
