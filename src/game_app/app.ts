@@ -29,13 +29,17 @@ async function main() {
 
     let timer;
 
-    function update() {
+    function update(time) {
+        let start = Date.now();
         timer = setTimeout(() => {
-            World.getInstance().update().then(update);
-        }, 100)
+            World.getInstance().update().then(() => {
+                let cost = Date.now() - start;
+                update(cost > 100 ? 10 : 100);
+            });
+        }, time)
     }
 
-    update();
+    update(100);
 }
 
 main().then(() => {

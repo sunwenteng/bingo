@@ -2,7 +2,7 @@ import * as ws from 'ws';
 import * as http from "http";
 import {Log} from '../../util/log'
 import {UserSession} from "../user_session"
-import {C2S, S2C} from "../../proto/cmd";
+import {C2S, S2C} from "../../../proto/cmd";
 
 let uid: number = 0;
 export var isServerValid: boolean = false;

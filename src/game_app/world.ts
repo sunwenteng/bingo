@@ -3,7 +3,7 @@ import {LinkedList, ListNode} from '../lib/util/linked_list'
 import * as GameUtil from '../lib/util/game_util'
 import * as fs from 'fs'
 import {Log} from "../lib/util/log"
-import {C2S} from "../lib/proto/cmd"
+import {C2S} from "../proto/cmd"
 
 type AuthedSessionMap = { [index: number]: UserSession };
 type ControllerMap = { [index: string]: Function };

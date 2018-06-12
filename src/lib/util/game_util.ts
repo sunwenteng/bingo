@@ -1,7 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as http from 'http';
-import * as Enum from './enum'
 import {ErrorCode} from './error_code';
 import * as crypto from 'crypto';
 import * as request from 'request'
@@ -420,8 +419,13 @@ export function httpPost(url: string, form: any, callback: (err, data) => void, 
     });
 }
 
+enum HTTP_RES_DATA_TYPE {
+    JSON = 0,
+    RAW_DATA = 1
+}
+
 //http get/post请求，返回包体解析函数
-function parseHttpResBody(error: any, response: any, body: string, dataType: Enum.HTTP_RES_DATA_TYPE) {
+function parseHttpResBody(error: any, response: any, body: string, dataType: HTTP_RES_DATA_TYPE) {
     if (error) {
         //TODO:根据error.code是否为ETIMEDOUT可判断请求或响应是否超时
         //如果需要可在这里增加判断是否超时的错误码
@@ -429,7 +433,7 @@ function parseHttpResBody(error: any, response: any, body: string, dataType: Enu
     }
     if (response.statusCode == 200) {
         if (body) {
-            if (dataType == Enum.HTTP_RES_DATA_TYPE.JSON) { //body返回的结果为json字符串
+            if (dataType === HTTP_RES_DATA_TYPE.JSON) { //body返回的结果为json字符串
                 try {
                     body = body.replace("\n", '');
                     let data = JSON.parse(body);

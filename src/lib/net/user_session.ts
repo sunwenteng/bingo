@@ -1,5 +1,5 @@
 import {WebSocket, SocketStatus, isServerValid} from "./ws/web_socket";
-import {C2S, S2C} from "../proto/cmd";
+import {C2S, S2C} from "../../proto/cmd";
 
 export abstract class UserSession {
     public m_packets: any[];
