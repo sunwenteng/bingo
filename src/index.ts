@@ -1,11 +1,11 @@
-import {RedisMgr, RedisType} from "./lib/redis/redis_mgr";
+import {ConfigMgr} from "./config/data/config_struct";
 import {Log} from "./lib/util/log";
 
 Log.init();
-let roleRedis = RedisMgr.getInstance(RedisType.GAME);
-for (let i = 0; i < 100; i++) {
-    roleRedis.lock('a', async () => {
-        let a = await roleRedis.get('a');
-        await roleRedis.set('a', parseInt(a) + 1);
-    });
+
+ConfigMgr.getInstance().loadAllConfig(__dirname + '/config/data/');
+
+let allEquip = ConfigMgr.getInstance().equipdb.all();
+for (let idx in allEquip) {
+    console.log(idx + ',' + allEquip[idx].Text_name + ',' + allEquip[idx].Text_des);
 }

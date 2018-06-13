@@ -4,7 +4,7 @@ import {Server} from '../lib/net/ws/web_socket'
 import {Log} from '../lib/util/log'
 import * as util from 'util';
 
-const Config = require('../../config/config.json');
+const Config = require('../config/config.json');
 import {execTime} from '../lib/util/descriptor'
 
 Log.init(__dirname + Config.log.dir, Config.log.level);

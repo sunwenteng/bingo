@@ -5,10 +5,13 @@ import {Server} from "../lib/net/ws/web_socket";
 import {PlayerSession} from "./player_session";
 import {clearTimeout} from "timers";
 import {RedisMgr, RedisType} from "../lib/redis/redis_mgr";
+import {ConfigMgr} from "../config/data/config_struct";
 
 async function main() {
-    const Config = require('../../config/config.json');
-    Log.init(__dirname + Config.log.dir, Config.log.level);
+    const Config = require('../config/config.json');
+    Log.init(__dirname + '/' + Config.log.dir, Config.log.level);
+
+    ConfigMgr.getInstance().loadAllConfig(__dirname + '/' + Config['app']['game']['config']);
 
     await WorldDB.init(Config['mysql']['game_db']);
     World.getInstance().init();

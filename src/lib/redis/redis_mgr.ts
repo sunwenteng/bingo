@@ -4,7 +4,7 @@ import {ErrorCode} from "../util/error_code";
 import * as util from 'util';
 import Timer = NodeJS.Timer;
 
-const Config = require('../../../config/config.json');
+const Config = require('../../config/config.json');
 /**
  * 管理游戏内部所有redis实例，每个redis连接可能对应多个db
  * @type {{}}

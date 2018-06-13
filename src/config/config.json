@@ -1,6 +1,6 @@
 {
   "log": {
-    "dir": "/log",
+    "dir": "./log",
     "level": "debug"
   },
   "mysql": {
@@ -49,6 +49,7 @@
     "game": {
       "host": "0.0.0.0",
       "port": 5555,
+      "config": "/../config/data/",
       "sessionPacketMaxLength": 10000
     }
   }

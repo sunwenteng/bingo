@@ -3,7 +3,7 @@ import * as child_process from "child_process";
 import * as os from "os";
 import * as fs from "fs";
 
-const Config = require('../../../config/config.json');
+const Config = require('../../config/config.json');
 
 export class AppCluster {
     private readonly _appPath: string;

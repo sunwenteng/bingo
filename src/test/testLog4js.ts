@@ -1,6 +1,6 @@
 import {Log} from '../lib/util/log'
 
-const Config = require('../../config/config.json');
+const Config = require('../config/config.json');
 
 Log.init(__dirname + Config.log.dir, Config.log.level);
 Log.sWarn('trace', 'trace123');

@@ -4,7 +4,7 @@ import {execTime} from "../lib/util/descriptor";
 import {Role} from "../game_app/role";
 import * as WorldDB from '../lib/mysql/world_db';
 
-const Config = require('../../config/config.json');
+const Config = require('../config/config.json');
 Log.init(__dirname + Config.log.dir, Config.log.level);
 
 class Test {

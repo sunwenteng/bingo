@@ -1,5 +1,5 @@
 import * as WebSocket from 'ws';
-import {C2S, S2C} from "../proto/cmd";
+import {C2S, S2C} from "../game_app/proto/cmd";
 
 let count = 1;
 let time = {};

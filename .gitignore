@@ -1,7 +1,6 @@
 # directory
 .idea/
 node_modules/
-tool/
 dist/**/*
 
 # files

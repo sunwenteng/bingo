@@ -5,8 +5,8 @@ import * as WorldDB from '../lib/mysql/world_db';
 import {WorldDataRedisKey} from "../game_app/world";
 
 async function main() {
-    const Config = require('../../config/config.json');
-    Log.init(__dirname + Config.log.dir, Config.log.level);
+    const Config = require('../config/config.json');
+    Log.init(__dirname + '/' + Config.log.dir, Config.log.level);
     let roleRedis = RedisMgr.getInstance(RedisType.GAME);
 
     await WorldDB.init(Config['mysql']['game_db']);
