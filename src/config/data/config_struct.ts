@@ -163,12 +163,16 @@ export class ConfigMgr {
             this.instance = new ConfigMgr();
         return this.instance;
     }
+    public static getConfigList():Array<string> {
+        return ["equipdb","itemdb","textdb"];
+    }
 
     public loadAllConfig(jsonDir) {
         let contents, json;
 
         /// textdb
         try {
+            //json = Laya.loader.getRes(jsonDir+ 'textdb.json');
             contents = fs.readFileSync(jsonDir + 'textdb.json');
             json = JSON.parse(contents);
             this.textdb = new textDBMgr();
@@ -178,6 +182,7 @@ export class ConfigMgr {
         }
         /// equipdb
         try {
+            //json = Laya.loader.getRes(jsonDir+ 'equipdb.json');
             contents = fs.readFileSync(jsonDir + 'equipdb.json');
             json = JSON.parse(contents);
             this.equipdb = new equipDBMgr();
@@ -187,6 +192,7 @@ export class ConfigMgr {
         }
         /// itemdb
         try {
+            //json = Laya.loader.getRes(jsonDir+ 'itemdb.json');
             contents = fs.readFileSync(jsonDir + 'itemdb.json');
             json = JSON.parse(contents);
             this.itemdb = new itemDBMgr();
