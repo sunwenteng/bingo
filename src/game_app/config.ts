@@ -12,12 +12,6 @@
 //
 // export let configMgr = new ConfigStruct.ConfigMgr();
 //
-// export function reloadAllConfig() {
-//     let dataPath = index.sourceRoot + '/src/config/data/';
-//     configMgr.loadAllConfig(dataPath);
-//     log.sInfo('all config has been loaded');
-// }
-//
 // export function updateConfigRevision(baseUrl:string, revision:number, callback:(err)=>void):void {
 //     async.waterfall([
 //         (next) => {

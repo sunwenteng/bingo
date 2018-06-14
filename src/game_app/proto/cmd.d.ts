@@ -1,5 +1,11 @@
 import * as $protobuf from "protobufjs";
 
+export enum Protocol {
+	SC_TEST_ECHO_ID = "SC_TEST_ECHO",
+	SC_ROLE_ONLINE_ID = "SC_ROLE_ONLINE",
+	SC_ROLE_HEART_BEAT_ID = "SC_ROLE_HEART_BEAT",
+}
+
 export namespace C2S {
 
     interface IMessage {
