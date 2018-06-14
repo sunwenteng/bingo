@@ -43,17 +43,23 @@ gulp.task('proto2closure', shell.task('./node_modules/protobufjs/bin/pbjs -t sta
     './node_modules/protobufjs/bin/pbts --no-comments -o ./src/game_app/proto/cmd.d.ts ./src/game_app/proto/cmd.client.js'));
 // 客户端用
 gulp.task('proto2client', ['proto2closure'], () => {
-    let file = fs.readFileSync('./src/game_app/proto/cmd.d.ts');
-    let lineInfo = file.toString().split('\n');
-    let content = "\nexport enum Protocol {\n";
+    let _class_txt = "";
+
+    function write(str) {
+        _class_txt += str + "\n";
+    }
+
+    write("module Game{");
+    write("\texport class Protocol{");
+
     for (let cmd  in S2C.Message['fields']) {
         if (cmd.indexOf("SC_") !== -1) {
-            content += "\t" + cmd + "_ID = \"" + cmd + "\",\n";
+            write("\t\t public static " + cmd + "_ID = \"" + cmd + "\";")
         }
     }
-    content += "}\n";
-    lineInfo[1] = content;
-    fs.writeFileSync("./src/game_app/proto/cmd.d.ts", lineInfo.join('\n'));
+    write("\t}\n}");
+
+    fs.writeFileSync("./src/game_app/proto/Protocol.ts", _class_txt)
 });
 
 gulp.task('proto2all', ['proto2json', 'proto2client']);
