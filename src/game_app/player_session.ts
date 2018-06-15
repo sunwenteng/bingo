@@ -50,10 +50,10 @@ export class PlayerSession extends UserSession {
     }
 
     public async online() {
-        await roleRedis.sadd(WorldDataRedisKey.ONLINE_ROLES, this._roleId);
+        await roleRedis.sadd(World.getInstance().getServerRedisKey(), this._roleId);
     }
 
     public async offline() {
-        await roleRedis.srem(WorldDataRedisKey.ONLINE_ROLES, this._roleId);
+        await roleRedis.srem(World.getInstance().getServerRedisKey(), this._roleId);
     }
 }

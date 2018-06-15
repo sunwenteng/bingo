@@ -394,7 +394,7 @@ export class RedisMgr {
         }));
     }
 
-    public async hmset(hkey: string, obj: { [key: string]: any }, expire: number = 0, db: number = 0): Promise<void> {
+    public async hmset(hkey: string, obj: { [key: string]: any } | any[], expire: number = 0, db: number = 0): Promise<void> {
         Log.sInfo('name=%s, redis hmset %s, data=%j', this._name, hkey, obj);
         let client = await this.getClient(db);
         return new Promise<void>(((resolve, reject) => {

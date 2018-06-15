@@ -50,6 +50,7 @@
       "host": "0.0.0.0",
       "port": 5555,
       "config": "/../config/data/",
+      "version": "1.0.0",
       "sessionPacketMaxLength": 10000
     }
   }

@@ -5,29 +5,41 @@ import * as fs from 'fs'
 import {Log} from "../lib/util/log"
 import {C2S} from "./proto/cmd"
 import {RedisMgr, RedisType} from "../lib/redis/redis_mgr";
+import Timer = NodeJS.Timer;
 
+const Config = require('../config/config.json');
 type AuthedSessionMap = { [index: number]: UserSession };
 type ControllerMap = { [index: string]: Function };
 let gameRedis = RedisMgr.getInstance(RedisType.GAME);
 
 export enum WorldDataRedisKey {
     DIRTY_ROLES = 'dirty_roles',
-    ONLINE_ROLES = 'online_roles',
     SERVER_ROLES = 'server_roles',
     BROAD_MSGS = 'broad_msgs',
     ROLE_MSGS = 'role_msgs',
 }
 
+interface ServerInfo {
+    serverId: number;
+    host: string;
+    port: number;
+    version: string;
+    resVersion: string;
+}
+
 export class World {
     private static _instance: World;
+    private _info: ServerInfo;
     private readonly _sessionList: LinkedList<UserSession>;
     private readonly _authedSessionMap: AuthedSessionMap; // 玩家上线通过后加入进来
     private readonly _allControllers: ControllerMap;
+    private _timers: Timer[];
 
     constructor() {
         this._sessionList = new LinkedList<UserSession>();
         this._authedSessionMap = {};
         this._allControllers = {};
+        this._timers = [];
     }
 
     public static getInstance(): World {
@@ -41,7 +53,8 @@ export class World {
         let cur = this._sessionList.head, t = null;
         while (cur) {
             if (cur.element.m_socket.isSocketValid()) {
-                await cur.element.update();
+                //可以不await只要对于单链接包有序就行
+                cur.element.update();
                 cur = cur.next;
             }
             else {
@@ -91,21 +104,68 @@ export class World {
 
     public async start() {
         this.registerController();
+        await this.registerServer();
         await this.initControllers();
+
+    }
+
+    private addTimer(timer: Timer) {
+        this._timers.push(timer);
+    }
+
+    private clearAllTimer() {
+        for (let timer of this._timers) {
+            clearImmediate(timer);
+        }
+    }
+
+    private async registerServer() {
+        this._info = {
+            serverId: process.env.INSTANCE_ID ? parseInt(process.env.INSTANCE_ID) : 0,
+            resVersion: '',
+            version: Config['app']['game']['version'],
+            host: Config['app']['game']['host'],
+            port: Config['app']['game']['port'],
+        };
+
+        let self = this;
+
+        function updateServerInfo() {
+            self.addTimer(setTimeout(() => {
+                let data = [
+                    self.getServerRedisKey(), JSON.stringify({
+                        onlineCount: Object.keys(self._authedSessionMap).length,
+                        updateMS: Date.now(),
+                        resVersion: self._info.port,
+                        version: self._info.version,
+                        host: self._info.host,
+                        port: self._info.port
+                    })];
+                Log.sInfo('updateServerInfo, data=%j', data);
+                gameRedis.hmset('game_servers', data).then(updateServerInfo);
+            }, 5000));
+        }
+
+        updateServerInfo();
+    }
+
+    public getServerRedisKey() {
+        return 'server_' + this._info.serverId + '_' + this._info.host + '_' + this._info.port;
     }
 
     public async stop() {
+        this.clearAllTimer();
         await this.update();
         await World.getInstance().saveControllers();
     }
 
-    public async initControllers(): Promise<void> {
+    private async initControllers(): Promise<void> {
         return new Promise<void>((resolve => {
             resolve();
         }));
     }
 
-    public async saveControllers(): Promise<void> {
+    private async saveControllers(): Promise<void> {
         return new Promise<void>((resolve => {
             Log.sInfo('save controllers');
             resolve();
