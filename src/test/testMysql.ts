@@ -9,13 +9,13 @@ async function test(config) {
     await WorldDB.init(config);
     let time = await WorldDB.getDBTime();
     console.log(time);
-    await WorldDB.shutDownDB();
+    await WorldDB.stop();
 }
 async function test1(config) {
     await LoginDB.init(config);
     let time = await LoginDB.getDBTime();
     console.log(time);
-    await LoginDB.shutDownDB();
+    await LoginDB.stop();
 }
 
 

@@ -14,19 +14,17 @@ async function main() {
     ConfigMgr.getInstance().loadAllConfig(__dirname + '/' + Config['app']['game']['config']);
 
     await WorldDB.init(Config['mysql']['game_db']);
-    World.getInstance().init();
-    await World.getInstance().initControllers();
+    await World.getInstance().start();
 
     let server = new Server(Config['app']['game']['host'], process.argv.length >= 3 ? parseInt(process.argv[2]) : parseInt(Config['app']['game']['port']));
     await server.start(PlayerSession);
 
     process.on("SIGINT", async () => {
         clearTimeout(timer);
-        await World.getInstance().update();
-        await server.close();
-        await World.getInstance().saveControllers();
-        RedisMgr.getInstance(RedisType.GAME).close();
-        await WorldDB.shutDownDB();
+        await World.getInstance().stop();
+        await server.stop();
+        RedisMgr.getInstance(RedisType.GAME).stop();
+        await WorldDB.stop();
         process.exit(0);
     });
 

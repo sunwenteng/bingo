@@ -5,7 +5,7 @@ import * as WorldDB from '../lib/mysql/world_db';
 import {RoleData} from "./defines";
 import {WorldDataRedisKey} from "./world";
 
-let roleRedis = RedisMgr.getInstance(RedisType.GAME);
+let gameRedis = RedisMgr.getInstance(RedisType.GAME);
 export const RoleRedisPrefix: string = 'role';
 
 export class Role extends RedisData<RoleData> {
@@ -34,13 +34,13 @@ export class Role extends RedisData<RoleData> {
 
     public async save(bSaveAll: boolean = false, async: boolean = false): Promise<void> {
         return new Promise<void>(async (resolve) => {
-            await roleRedis.lock(this.getRedisKey(), async () => {
+            await gameRedis.lock(this.getRedisKey(), async () => {
                 if (this.isDirty) {
                     let saveData = this.getSaveData(bSaveAll);
                     // 同步存储到redis
-                    await roleRedis.hmset(this.getRedisKey(), saveData, this.redisKeyExpire);
+                    await gameRedis.hmset(this.getRedisKey(), saveData, this.redisKeyExpire);
                     // 往脏数据集合添加
-                    await roleRedis.sadd(WorldDataRedisKey.DIRTY_ROLES, this.data.uid);
+                    await gameRedis.sadd(WorldDataRedisKey.DIRTY_ROLES, this.data.uid);
                     // 这种做法保证缓存数据最新，数据库会有部分脏数据
                     resolve();
                 }
@@ -53,8 +53,8 @@ export class Role extends RedisData<RoleData> {
             if (!this.data.uid || this.data.uid === 0) {
                 return resolve(false);
             }
-            await roleRedis.lock(this.getRedisKey(), async () => {
-                let reply = await roleRedis.hmget(this.getRedisKey(), this.getDataFields());
+            await gameRedis.lock(this.getRedisKey(), async () => {
+                let reply = await gameRedis.hmget(this.getRedisKey(), this.getDataFields());
                 // 缓存不存在，从db查询然后放到缓存
                 if (Object.keys(reply).length === 0) {
                     let result = await WorldDB.conn.execute('select * from player_info_' + this.getTableNum() + ' where ?', {uid: this.data.uid});
@@ -63,7 +63,7 @@ export class Role extends RedisData<RoleData> {
                         resolve(false);
                     }
                     else {
-                        await roleRedis.hmset(this.getRedisKey(), result[0], this.redisKeyExpire);
+                        await gameRedis.hmset(this.getRedisKey(), result[0], this.redisKeyExpire);
                         this.deserialize(result[0]);
                         resolve(true);
                     }

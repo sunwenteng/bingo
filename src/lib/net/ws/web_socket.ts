@@ -99,7 +99,7 @@ export class Server {
         this._server = null;
     }
 
-    public async close(): Promise<void> {
+    public async stop(): Promise<void> {
         return new Promise<void>((resolve, reject) => {
             isServerValid = false;
             this._server.close((err) => {

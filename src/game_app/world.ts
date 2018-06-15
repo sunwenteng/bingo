@@ -4,9 +4,11 @@ import * as GameUtil from '../lib/util/game_util'
 import * as fs from 'fs'
 import {Log} from "../lib/util/log"
 import {C2S} from "./proto/cmd"
+import {RedisMgr, RedisType} from "../lib/redis/redis_mgr";
 
 type AuthedSessionMap = { [index: number]: UserSession };
 type ControllerMap = { [index: string]: Function };
+let gameRedis = RedisMgr.getInstance(RedisType.GAME);
 
 export enum WorldDataRedisKey {
     DIRTY_ROLES = 'dirty_roles',
@@ -87,9 +89,14 @@ export class World {
         }
     }
 
-    public init(): boolean {
+    public async start() {
         this.registerController();
-        return true;
+        await this.initControllers();
+    }
+
+    public async stop() {
+        await this.update();
+        await World.getInstance().saveControllers();
     }
 
     public async initControllers(): Promise<void> {

@@ -14,8 +14,8 @@ async function main() {
     process.on("SIGINT", async () => {
         clearTimeout(timer);
         await save();
-        roleRedis.close();
-        await WorldDB.shutDownDB();
+        roleRedis.stop();
+        await WorldDB.stop();
         process.exit(0);
     });
 

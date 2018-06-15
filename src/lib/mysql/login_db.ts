@@ -64,7 +64,7 @@ export async function getDBTime(): Promise<Number> {
     return new Promise<Number>(resolve => resolve(queryResult[0]['dbTime']));
 }
 
-export async function shutDownDB(): Promise<void> {
+export async function stop(): Promise<void> {
     clearInterval(_timer);
     return conn.closeDb();
 }

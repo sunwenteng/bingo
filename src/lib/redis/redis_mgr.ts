@@ -175,7 +175,7 @@ export class RedisMgr {
         return _instances[key];
     }
 
-    public close() {
+    public stop() {
         for (let idx in this._pool) {
             this._pool[idx].end(true);
             clearInterval(this._aliveTimer[idx]);
