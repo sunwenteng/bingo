@@ -33,7 +33,7 @@ export class World {
     private readonly _sessionList: LinkedList<UserSession>;
     private readonly _authedSessionMap: AuthedSessionMap; // 玩家上线通过后加入进来
     private readonly _allControllers: ControllerMap;
-    private _timers: Timer[];
+    private readonly _timers: Timer[];
 
     constructor() {
         this._sessionList = new LinkedList<UserSession>();
@@ -50,11 +50,12 @@ export class World {
     }
 
     public async update() {
+        // all block, session by session, pck by pck
+
         let cur = this._sessionList.head, t = null;
         while (cur) {
             if (cur.element.m_socket.isSocketValid()) {
-                //可以不await只要对于单链接包有序就行
-                cur.element.update();
+                await cur.element.update();
                 cur = cur.next;
             }
             else {
@@ -63,6 +64,24 @@ export class World {
                 cur = cur.next;
             }
         }
+
+        // only block within session, pck by pck
+
+        // let cur = this._sessionList.head, t = null;
+        // let promises = [];
+        // while (cur) {
+        //     if (cur.element.m_socket.isSocketValid()) {
+        //         promises.push(cur.element.update());
+        //         cur = cur.next;
+        //     }
+        //     else {
+        //         t = cur;
+        //         this.delSession(t);
+        //         cur = cur.next;
+        //     }
+        // }
+        //
+        // await Promise.all(promises);
     }
 
     public getController(cmd: string): Function {
