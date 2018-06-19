@@ -6,6 +6,7 @@ import {Log} from "../lib/util/log"
 import {C2S} from "./proto/cmd"
 import {RedisMgr, RedisType} from "../lib/redis/redis_mgr";
 import Timer = NodeJS.Timer;
+import {isServerValid} from "../lib/net/ws/web_socket";
 
 const Config = require('../config/config.json');
 type AuthedSessionMap = { [index: number]: UserSession };
@@ -27,19 +28,19 @@ interface ServerInfo {
     resVersion: string;
 }
 
+
 export class World {
+    public _isUpdating: boolean;
     private static _instance: World;
     private _info: ServerInfo;
     private readonly _sessionList: LinkedList<UserSession>;
     private readonly _authedSessionMap: AuthedSessionMap; // 玩家上线通过后加入进来
     private readonly _allControllers: ControllerMap;
-    private readonly _timers: Timer[];
 
     constructor() {
         this._sessionList = new LinkedList<UserSession>();
         this._authedSessionMap = {};
         this._allControllers = {};
-        this._timers = [];
     }
 
     public static getInstance(): World {
@@ -50,8 +51,7 @@ export class World {
     }
 
     public async update() {
-        // all block, session by session, pck by pck
-
+        this._isUpdating = true;
         let cur = this._sessionList.head, t = null;
         while (cur) {
             if (cur.element.m_socket.isSocketValid()) {
@@ -61,27 +61,11 @@ export class World {
             else {
                 t = cur;
                 this.delSession(t);
+                await cur.element.offline();
                 cur = cur.next;
             }
         }
-
-        // only block within session, pck by pck
-
-        // let cur = this._sessionList.head, t = null;
-        // let promises = [];
-        // while (cur) {
-        //     if (cur.element.m_socket.isSocketValid()) {
-        //         promises.push(cur.element.update());
-        //         cur = cur.next;
-        //     }
-        //     else {
-        //         t = cur;
-        //         this.delSession(t);
-        //         cur = cur.next;
-        //     }
-        // }
-        //
-        // await Promise.all(promises);
+        this._isUpdating = false;
     }
 
     public getController(cmd: string): Function {
@@ -128,16 +112,6 @@ export class World {
 
     }
 
-    private addTimer(timer: Timer) {
-        this._timers.push(timer);
-    }
-
-    private clearAllTimer() {
-        for (let timer of this._timers) {
-            clearImmediate(timer);
-        }
-    }
-
     private async registerServer() {
         this._info = {
             serverId: process.env.INSTANCE_ID ? parseInt(process.env.INSTANCE_ID) : 0,
@@ -150,7 +124,7 @@ export class World {
         let self = this;
 
         function updateServerInfo() {
-            self.addTimer(setTimeout(() => {
+            setTimeout(() => {
                 let data = [
                     self.getServerRedisKey(), JSON.stringify({
                         onlineCount: Object.keys(self._authedSessionMap).length,
@@ -162,7 +136,7 @@ export class World {
                     })];
                 Log.sInfo('updateServerInfo, data=%j', data);
                 gameRedis.hmset('game_servers', data).then(updateServerInfo);
-            }, 5000));
+            }, 5000);
         }
 
         updateServerInfo();
@@ -173,9 +147,23 @@ export class World {
     }
 
     public async stop() {
-        this.clearAllTimer();
-        await this.update();
-        await World.getInstance().saveControllers();
+        return new Promise<void>((async (resolve, reject) => {
+            let self = this;
+
+            async function doStop() {
+                await self.allOffline();
+                await self.saveControllers();
+            }
+
+            if (this._isUpdating) {
+                setTimeout(async () => {
+                    World.getInstance().stop().then(resolve);
+                }, 100)
+            }
+            else {
+                doStop().then(resolve);
+            }
+        }));
     }
 
     private async initControllers(): Promise<void> {
@@ -191,13 +179,19 @@ export class World {
         }));
     }
 
+    private async allOffline() {
+        for (let idx in this._authedSessionMap) {
+            await this._authedSessionMap[idx].offline();
+        }
+    }
+
     public addSession(session: UserSession): void {
-        Log.sInfo('add session to world, socketUid=' + session.m_socket.m_uid);
+        Log.sInfo('add session to world, socketUid=' + session.m_socket.uid);
         this._sessionList.append(session);
     }
 
     public delSession(node: ListNode<UserSession>): void {
-        Log.sInfo('del session of world, socketUid=' + node.element.m_socket.m_uid);
+        Log.sInfo('del session of world, socketUid=' + node.element.m_socket.uid);
         this._sessionList.deleteNode(node);
     }
 

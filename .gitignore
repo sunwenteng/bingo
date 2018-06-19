@@ -1,7 +1,7 @@
 # directory
 .idea/
 node_modules/
-dist/**/*
+dist/
 
 # files
 

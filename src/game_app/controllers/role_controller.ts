@@ -2,7 +2,7 @@ import {C2S, S2C} from "../proto/cmd";
 import {PlayerSession} from "../player_session";
 import {Role} from "../role";
 
-export async function online(sesson: PlayerSession, msg: C2S.CS_ROLE_ONLINE) {
+export async function online(session: PlayerSession, msg: C2S.CS_ROLE_ONLINE) {
     let roleId = parseInt(msg.passport);
     let role = new Role(roleId);
     let exist = await role.load();
@@ -17,8 +17,10 @@ export async function online(sesson: PlayerSession, msg: C2S.CS_ROLE_ONLINE) {
         gold: Math.floor(Math.random() * 10000),
         level: Math.floor(Math.random() * 10000),
     });
+    session.roleId = roleId;
+    await session.online();
     await role.save(true, false);
-    sesson.sendProtocol(
+    session.sendProtocol(
         S2C.Message.create({
             SC_ROLE_ONLINE: {
                 roleId: roleId

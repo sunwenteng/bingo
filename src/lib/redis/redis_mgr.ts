@@ -175,10 +175,19 @@ export class RedisMgr {
         return _instances[key];
     }
 
-    public stop() {
+    public async stop() {
+        async function quit(client: redis.RedisClient) {
+            return new Promise<void>(((resolve, reject) => {
+                client.quit(() => {
+                    resolve();
+                });
+            }));
+        }
+
         for (let idx in this._pool) {
-            this._pool[idx].end(true);
             clearInterval(this._aliveTimer[idx]);
+            await quit(this._pool[idx]);
+            // quit(this._pool[idx];
             Log.sInfo('redis close successfully, name=' + this._name + ', db=' + idx);
         }
     }
@@ -261,7 +270,7 @@ export class RedisMgr {
     }
 
     public async setnx(key: string, value: any, db: number = 0): Promise<boolean> {
-        Log.sInfo('name=%s, redis setnx %s %s', this._name, key, value);
+        // Log.sInfo('name=%s, redis setnx %s %s', this._name, key, value);
         let client = await this.getClient(db);
         return new Promise<boolean>(((resolve, reject) => {
             client.setnx(key, value, (error, reply) => {
@@ -290,12 +299,12 @@ export class RedisMgr {
     }
 
     public async setWithParams(key: string, value: any, mod: string, duration: number, flag: string, db: number = 0): Promise<boolean> {
-        Log.sInfo('name=%s, redis set %s %s %s %d %s', this._name, key, value, mod, duration, flag);
+        // Log.sInfo('name=%s, redis set %s %s %s %d %s', this._name, key, value, mod, duration, flag);
         let client = await this.getClient(db);
         return new Promise<boolean>(((resolve, reject) => {
             client.set(key, value, mod, duration, flag, (error, reply) => {
                 if (error) {
-                    Log.sError('name=%s, redis set error ' + error, this._name);
+                    Log.sError('name=%s, redis set %s %s %s %d %s, redis setWithParams error ' + error, this._name, key, value, mod, duration, flag);
                     reject(ErrorCode.REDIS.SET_ERROR);
                 } else {
                     resolve(reply === 'OK');
@@ -305,12 +314,12 @@ export class RedisMgr {
     }
 
     public async set(key: string, value: any, db: number = 0): Promise<boolean> {
-        Log.sInfo('name=%s, redis set %s %s', this._name, key, value);
+        // Log.sInfo('name=%s, redis set %s %s', this._name, key, value);
         let client = await this.getClient(db);
         return new Promise<boolean>(((resolve, reject) => {
             client.set(key, value, (error, reply) => {
                 if (error) {
-                    Log.sError('name=%s, redis set error ' + error, this._name);
+                    Log.sError('name=%s, redis set %s %s, redis set error ' + error, this._name, key, value);
                     reject(ErrorCode.REDIS.SET_ERROR);
                 } else {
                     resolve(reply === 'OK');
@@ -320,12 +329,12 @@ export class RedisMgr {
     }
 
     public async get(key: string, db: number = 0): Promise<string> {
-        Log.sInfo('name=%s, redis get %s', this._name, key);
+        // Log.sInfo('name=%s, redis get %s', this._name, key);
         let client = await this.getClient(db);
         return new Promise<string>(((resolve, reject) => {
             client.get(key, (error, reply) => {
                 if (error) {
-                    Log.sError('name=%s, redis get error ' + error, this._name);
+                    Log.sError('name=%s, param=%s, redis get error ' + error, this._name, key);
                     reject(ErrorCode.REDIS.GET_ERROR);
                 } else {
                     resolve(reply);
@@ -335,7 +344,7 @@ export class RedisMgr {
     }
 
     public async incr(key: string, db: number = 0): Promise<void> {
-        Log.sInfo('name=%s, redis incr %s', this._name, key);
+        // Log.sInfo('name=%s, redis incr %s', this._name, key);
         let client = await this.getClient(db);
         return new Promise<void>(((resolve, reject) => {
             client.incr(key, (error) => {
@@ -350,12 +359,12 @@ export class RedisMgr {
     }
 
     public async del(key: string, db: number = 0): Promise<void> {
-        Log.sInfo('name=%s, redis del %s', this._name, key);
+        // Log.sInfo('name=%s, redis del %s', this._name, key);
         let client = await this.getClient(db);
         return new Promise<void>(((resolve, reject) => {
             client.del(key, (error) => {
                 if (error) {
-                    Log.sError('name=%s, redis del error ' + error, this._name);
+                    Log.sError('name=%s, param=%s, redis del error ' + error, this._name, key);
                     reject(ErrorCode.REDIS.DEL_ERROR);
                 } else {
                     resolve();
@@ -365,7 +374,7 @@ export class RedisMgr {
     }
 
     public async hset(hkey: string, key: string, value: any, db: number = 0): Promise<void> {
-        Log.sInfo('name=%s, redis hset %s %s %s', this._name, hkey, key, value);
+        // Log.sInfo('name=%s, redis hset %s %s %s', this._name, hkey, key, value);
         let client = await this.getClient(db);
         return new Promise<void>(((resolve, reject) => {
             client.hset(hkey, key, value, (error) => {
@@ -380,7 +389,7 @@ export class RedisMgr {
     }
 
     public async hsetnx(hkey: string, key: string, value: any, db: number = 0): Promise<boolean> {
-        Log.sInfo('name=%s, redis hsetnx %s %s %s', this._name, hkey, key, value);
+        // Log.sInfo('name=%s, redis hsetnx %s %s %s', this._name, hkey, key, value);
         let client = await this.getClient(db);
         return new Promise<boolean>(((resolve, reject) => {
             client.hsetnx(hkey, key, value, (error, reply) => {
@@ -395,7 +404,7 @@ export class RedisMgr {
     }
 
     public async hmset(hkey: string, obj: { [key: string]: any } | any[], expire: number = 0, db: number = 0): Promise<void> {
-        Log.sInfo('name=%s, redis hmset %s, data=%j', this._name, hkey, obj);
+        // Log.sInfo('name=%s, redis hmset %s, data=%j', this._name, hkey, obj);
         let client = await this.getClient(db);
         return new Promise<void>(((resolve, reject) => {
             client.hmset(hkey, obj, (error) => {
@@ -414,7 +423,7 @@ export class RedisMgr {
     }
 
     public async hmget(key, value: string[] | string, db: number = 0): Promise<{ [key: string]: any }> {
-        Log.sInfo('name=%s, redis hmget %s %s', this._name, key, util.inspect(value));
+        // Log.sInfo('name=%s, redis hmget %s %s', this._name, key, util.inspect(value));
         let client = await this.getClient(db);
         return new Promise<{ [key: string]: any }>(((resolve, reject) => {
             client.hmget(key, value, (error, reply) => {
@@ -435,7 +444,7 @@ export class RedisMgr {
     }
 
     public async hincrby(hkey: string, key: string, incrValue: number, db: number = 0): Promise<void> {
-        Log.sInfo('name=%s, redis hincrby %s %s +%s', this._name, hkey, key, incrValue);
+        // Log.sInfo('name=%s, redis hincrby %s %s +%s', this._name, hkey, key, incrValue);
         let client = await this.getClient(db);
         return new Promise<void>(((resolve, reject) => {
             client.hincrby(hkey, key, incrValue, (error, reply) => {
@@ -450,7 +459,7 @@ export class RedisMgr {
     }
 
     public async hgetall(hkey: string, db: number = 0): Promise<{ [key: string]: string }> {
-        Log.sInfo('name=%s, redis hgetall %s', this._name, hkey);
+        // Log.sInfo('name=%s, redis hgetall %s', this._name, hkey);
         let client = await this.getClient(db);
         return new Promise<{ [key: string]: string }>(((resolve, reject) => {
             client.hgetall(hkey, (error, reply) => {
@@ -465,7 +474,7 @@ export class RedisMgr {
     }
 
     public async zadd(key, arr: any[], expire?: number, db: number = 0): Promise<void> {
-        Log.sInfo('name=%s, redis zadd', this._name);
+        // Log.sInfo('name=%s, redis zadd', this._name);
         let client = await this.getClient(db);
         return new Promise<void>(((resolve, reject) => {
             client.zadd(key, arr, (error) => {
@@ -491,7 +500,7 @@ export class RedisMgr {
      * @param db
      */
     public async zrevrange(key: string, start: number, end: number, db: number = 0): Promise<string[]> {
-        Log.sInfo('name=%s, redis zrevrange key=%s, start=%d, end=%d', this._name, key, start, end);
+        // Log.sInfo('name=%s, redis zrevrange key=%s, start=%d, end=%d', this._name, key, start, end);
         let client = await this.getClient(db);
         return new Promise<string[]>(((resolve, reject) => {
             client.zrevrange(key, start, end, 'WITHSCORES', (error, reply) => {
@@ -512,7 +521,7 @@ export class RedisMgr {
      * @param db
      */
     public async zrevrank(key: string, field: string, db: number = 0): Promise<number> {
-        Log.sInfo('name=%s, redis zrevrank key=%s, field=%s', this._name, key, field);
+        // Log.sInfo('name=%s, redis zrevrank key=%s, field=%s', this._name, key, field);
         let client = await this.getClient(db);
         return new Promise<number>(((resolve, reject) => {
             client.zrevrank(key, field, (error, reply) => {
@@ -533,7 +542,7 @@ export class RedisMgr {
      * @param db
      */
     public async zscore(key: string, field: string, db: number = 0): Promise<string> {
-        Log.sInfo('name=%s, redis score key=%s, field=%s', this._name, key, field);
+        // Log.sInfo('name=%s, redis score key=%s, field=%s', this._name, key, field);
         let client = await this.getClient(db);
         return new Promise<string>(((resolve, reject) => {
             client.zscore(key, field, (error, reply) => {
@@ -548,7 +557,7 @@ export class RedisMgr {
     }
 
     public async sadd(key: string, member: any, db: number = 0): Promise<void> {
-        Log.sInfo('name=%s, redis sadd key=%s, member=%s', this._name, key, member);
+        // Log.sInfo('name=%s, redis sadd key=%s, member=%s', this._name, key, member);
         let client = await this.getClient(db);
         return new Promise<void>(((resolve, reject) => {
             client.sadd(key, member, (error) => {
@@ -563,7 +572,7 @@ export class RedisMgr {
     }
 
     public async smembers(key: string, db: number = 0): Promise<string[]> {
-        Log.sInfo('name=%s, redis smember key=%s', this._name, key);
+        // Log.sInfo('name=%s, redis smember key=%s', this._name, key);
         let client = await this.getClient(db);
         return new Promise<string[]>(((resolve, reject) => {
             client.smembers(key, (error, reply) => {
@@ -578,7 +587,7 @@ export class RedisMgr {
     }
 
     public async srem(key: string, fields: any | any[], db: number = 0): Promise<void> {
-        Log.sInfo('name=%s, redis srem key=%s fields=%s', this._name, key, fields);
+        // Log.sInfo('name=%s, redis srem key=%s fields=%s', this._name, key, fields);
         let client = await this.getClient(db);
         return new Promise<void>(((resolve, reject) => {
             client.srem(key, fields, (error, reply) => {
@@ -593,7 +602,7 @@ export class RedisMgr {
     }
 
     public async spop(key: string, db: number = 0): Promise<string> {
-        Log.sInfo('name=%s, redis spop key=%s', this._name, key);
+        // Log.sInfo('name=%s, redis spop key=%s', this._name, key);
         let client = await this.getClient(db);
         return new Promise<string>(((resolve, reject) => {
             client.spop(key, (error, reply) => {

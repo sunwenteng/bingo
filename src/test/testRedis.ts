@@ -34,7 +34,7 @@ class Test {
 
     @execTime()
     async testRole() {
-        await WorldDB.init(Config.mysql.game_db);
+        await WorldDB.start(Config.mysql.game_db);
         for (let i = 1; i <= 10000; i++) {
             let role = new Role(i);
             let exist = await role.load();

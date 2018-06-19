@@ -4,7 +4,7 @@ import {MysqlConnection, MysqlConfig} from "./lib/mysql_connection";
 export let conn: MysqlConnection;
 let _timer;
 
-export async function init(config: MysqlConfig): Promise<void> {
+export async function start(config: MysqlConfig): Promise<void> {
     conn = new MysqlConnection();
     conn.startDb(config);
 

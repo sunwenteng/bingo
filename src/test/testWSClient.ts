@@ -11,7 +11,7 @@ class Client {
         ws.on('open', () => {
             setInterval(() => {
                 for (let i = 0; i < 10; i++) {
-                    let id = Math.floor(Math.random() * 10000);
+                    let id = Math.floor(Math.random() * 100);
                     id = id === 0 ? 1 : id;
                     let msg = C2S.Message.create({
                         CS_ROLE_ONLINE: {
@@ -20,6 +20,7 @@ class Client {
                     });
 
                     let buffer = C2S.Message.encode(msg).finish();
+
                     ws.send(buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.length));
                     time[count++] = Date.now();
                 }
@@ -37,6 +38,6 @@ class Client {
     }
 }
 
-for (let i = 0; i < 4000; i++) {
+for (let i = 0; i < 100; i++) {
     new Client();
 }

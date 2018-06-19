@@ -38,34 +38,42 @@ export class Log {
     public static init(dirName?: any, logLevel?: string): void {
         sourceMap.install();
         let config = winston.config;
-        this._logger = new (winston.Logger)({
-            level: logLevel ? logLevel : 'debug',
-            // levels: myCustomLevels.levels,
-            transports: [
-                new (winston.transports.Console)({
-                    timestamp: () => {
-                        return moment().format('YYYY-MM-DD HH:mm:ss');
-                    },
-                    formatter: (options) => {
-                        return config.colorize(options.level, options.timestamp() + ',' + options.level.toUpperCase() + ',' +
-                            (options.message ? options.message : ''));
-                    }
-                }),
-                new (winston.transports.DailyRotateFile)({
-                    filename: 'app.log',
-                    dirname: dirName ? dirName : './log',
-                    timestamp: () => {
-                        return moment().format('YYYY-MM-DD HH:mm:ss');
-                    },
-                    formatter: (options) => {
-                        let processInfo = process.env.INSTANCE_ID ? ('[' + process.env.name + process.env.INSTANCE_ID + '] ') : '';
-                        return processInfo + options.timestamp() + ',' + myCustomLevels.levels[options.level] + ',' +
-                            (options.message ? options.message : '');
-                    }
-                })
-            ]
-        });
-        // winston.addColors(myCustomLevels.colors);
+        let file = new winston.transports.DailyRotateFile({
+                filename: 'app.log',
+                dirname: dirName ? dirName : './log',
+                timestamp: () => {
+                    return moment().format('YYYY-MM-DD HH:mm:ss');
+                },
+                formatter: (options) => {
+                    let processInfo = process.env.INSTANCE_ID ? ('[' + process.env.name + process.env.INSTANCE_ID + '] ') : '';
+                    return processInfo + options.timestamp() + ',' + myCustomLevels.levels[options.level] + ',' +
+                        (options.message ? options.message : '');
+                }
+            }),
+            console = new winston.transports.Console({
+                timestamp: () => {
+                    return moment().format('YYYY-MM-DD HH:mm:ss');
+                },
+                formatter: (options) => {
+                    return config.colorize(options.level, options.timestamp() + ',' + options.level.toUpperCase() + ',' +
+                        (options.message ? options.message : ''));
+                }
+            });
+        if (!process.env.INSTANCE_ID) {
+            this._logger = new (winston.Logger)({
+                level: logLevel ? logLevel : 'debug',
+                // levels: myCustomLevels.levels,
+                transports: [file, console]
+            });
+            // winston.addColors(myCustomLevels.colors);
+        }
+        else {
+            this._logger = new (winston.Logger)({
+                level: logLevel ? logLevel : 'debug',
+                // levels: myCustomLevels.levels,
+                transports: [file]
+            });
+        }
     }
 
     // user

@@ -6,13 +6,13 @@ const Config = require('../config/config.json');
 Log.init(__dirname + Config.log.dir, Config.log.level);
 
 async function test(config) {
-    await WorldDB.init(config);
+    await WorldDB.start(config);
     let time = await WorldDB.getDBTime();
     console.log(time);
     await WorldDB.stop();
 }
 async function test1(config) {
-    await LoginDB.init(config);
+    await LoginDB.start(config);
     let time = await LoginDB.getDBTime();
     console.log(time);
     await LoginDB.stop();

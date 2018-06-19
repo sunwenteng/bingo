@@ -178,9 +178,11 @@ node-gyp build
 * 循环尽量for做，而不是forEach
 
 ### node command
+
 * `node --trace_gc --trace_gc_verbose app.js` will log gc info when starts
 * `node --max-old-space-size=4096 app.js` will log gc info when starts
-
+* `node --inspect=0.0.0.0:5556 app.js` debug mode, [Reference](http://morning.work/page/maintainable-nodejs/debuging-nodejs-with-chrome-devtools.html)
+* `kill -s SIGUSR1 pid` dynamic open debug mode
 ### PM2
 
 No need for pm2 log: `"error_file": "/dev/null","out_file": "/dev/null",`

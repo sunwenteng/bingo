@@ -6,7 +6,7 @@
       "instances": 4,
       "instance_var": "INSTANCE_ID",
       "exec_mode": "cluster",
-      "cwd": "../../dist/cache_app",
+      "cwd": "../../cache_app",
       "args": [],
       "node_args": "--harmony",
       "merge_logs": false,
@@ -16,7 +16,9 @@
       "max_memory_restart": "2048M",
       "env": {
         "NODE_ENV": "production"
-      }
+      },
+      "error_file": "/dev/null",
+      "out_file": "/dev/null"
     }
   ]
 }

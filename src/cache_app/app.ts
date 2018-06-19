@@ -4,22 +4,29 @@ import {Role, RoleRedisPrefix} from "../game_app/role";
 import * as WorldDB from '../lib/mysql/world_db';
 import {WorldDataRedisKey} from "../game_app/world";
 
+let isAppValid = true;
+
 async function main() {
     const Config = require('../config/config.json');
     Log.init(__dirname + '/' + Config.log.dir, Config.log.level);
     let roleRedis = RedisMgr.getInstance(RedisType.GAME);
 
-    await WorldDB.init(Config['mysql']['game_db']);
+    await WorldDB.start(Config['mysql']['game_db']);
 
     process.on("SIGINT", async () => {
-        clearTimeout(timer);
-        await save();
-        roleRedis.stop();
-        await WorldDB.stop();
-        process.exit(0);
+        isAppValid = false;
+        await stop();
+        process.nextTick(async ()=>{
+            await roleRedis.stop();
+            await WorldDB.stop();
+            process.exit(0);
+        });
     });
 
+    let isSaving = false;
+
     async function save() {
+        isSaving = true;
         let role;
         let roleKeys = await roleRedis.smembers(WorldDataRedisKey.DIRTY_ROLES);
         for (let roleKey of roleKeys) {
@@ -34,11 +41,28 @@ async function main() {
             }
             await roleRedis.srem(WorldDataRedisKey.DIRTY_ROLES, roleKey);
         }
+        isSaving = false;
+    }
+
+    function stop() {
+        return new Promise<void>(((resolve, reject) => {
+            if (isSaving) {
+                setTimeout(() => {
+                    stop().then(resolve);
+                }, 100);
+            }
+            else {
+                resolve();
+            }
+        }));
     }
 
     let timer;
 
     function update() {
+        if (!isAppValid) {
+            return;
+        }
         timer = setTimeout(async () => {
             save().then(update);
         }, Config['app']['cache']['saveInterval']);

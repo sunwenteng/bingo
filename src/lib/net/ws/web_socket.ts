@@ -31,7 +31,7 @@ export class WebSocket {
         this._session.addSessionToWorker();
         this._state = SocketStatus.VALID;
         this._webSocket.on('message', (data: ArrayBuffer) => {
-            if (this._webSocket.readyState === ws.OPEN) {
+            if (this.isSocketValid()) {
                 try {
                     let msg = C2S.Message.decode(new Uint8Array(data));
                     this._session.pushPacket(msg);
