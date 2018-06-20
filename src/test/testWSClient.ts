@@ -38,6 +38,6 @@ class Client {
     }
 }
 
-for (let i = 0; i < 100; i++) {
+for (let i = 0; i < 200; i++) {
     new Client();
 }

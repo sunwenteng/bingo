@@ -44,6 +44,9 @@ export class Role extends RedisData<RoleData> {
                     // 这种做法保证缓存数据最新，数据库会有部分脏数据
                     resolve();
                 }
+                else {
+                    resolve();
+                }
             });
         });
     }
@@ -51,30 +54,32 @@ export class Role extends RedisData<RoleData> {
     public async load(): Promise<boolean> {
         return new Promise<boolean>(async (resolve) => {
             if (!this.data.uid || this.data.uid === 0) {
-                return resolve(false);
+                resolve(false);
             }
-            await gameRedis.lock(this.getRedisKey(), async () => {
-                let reply = await gameRedis.hmget(this.getRedisKey(), this.getDataFields());
-                // 缓存不存在，从db查询然后放到缓存
-                if (Object.keys(reply).length === 0) {
-                    let result = await WorldDB.conn.execute('select * from player_info_' + this.getTableNum() + ' where ?', {uid: this.data.uid});
+            else {
+                await gameRedis.lock(this.getRedisKey(), async () => {
+                    let reply = await gameRedis.hmget(this.getRedisKey(), this.getDataFields());
+                    // 缓存不存在，从db查询然后放到缓存
+                    if (Object.keys(reply).length === 0) {
+                        let result = await WorldDB.conn.execute('select * from player_info_' + this.getTableNum() + ' where ?', {uid: this.data.uid});
 
-                    if (!result || result.length === 0) {
-                        resolve(false);
+                        if (!result || result.length === 0) {
+                            resolve(false);
+                        }
+                        else {
+                            await gameRedis.hmset(this.getRedisKey(), result[0], this.redisKeyExpire);
+                            this.deserialize(result[0]);
+                            resolve(true);
+                        }
                     }
+                    // 缓存命中
                     else {
-                        await gameRedis.hmset(this.getRedisKey(), result[0], this.redisKeyExpire);
-                        this.deserialize(result[0]);
+                        // TODO 命中后可以考虑延长role存续时间
+                        this.deserialize(reply);
                         resolve(true);
                     }
-                }
-                // 缓存命中
-                else {
-                    // TODO 命中后可以考虑延长role存续时间
-                    this.deserialize(reply);
-                    resolve(true);
-                }
-            });
+                });
+            }
         });
     }
 

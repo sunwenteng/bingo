@@ -8,7 +8,7 @@ import {Log} from "./log";
 export function execTime(bToLog: boolean = true) {
     return (target: Object, methodName: string, descriptor: TypedPropertyDescriptor<Function>) => {
         let originalMethod = descriptor.value;
-        descriptor.value = async (...args) => {
+        descriptor.value = async function (...args) {
             let start = Date.now();
             let returnValue = null;
             if (Object.prototype.toString.call(originalMethod) === "[object AsyncFunction]") {
@@ -19,10 +19,10 @@ export function execTime(bToLog: boolean = true) {
             }
             let end = Date.now();
             if (bToLog) {
-                Log.sInfo('time consumed: ' + methodName + ': ' + (end - start) + 'ms');
+                Log.sInfo('time consumed: ' + this.constructor.name + ':' + methodName + ': ' + (end - start) + 'ms');
             }
             else {
-                console.log('time consumed: ' + methodName + ': ' + (end - start) + 'ms');
+                console.log('time consumed: ' + this.constructor.name + ':' + methodName + ': ' + (end - start) + 'ms');
             }
             return returnValue;
         }

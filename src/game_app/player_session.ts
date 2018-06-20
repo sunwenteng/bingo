@@ -5,7 +5,7 @@ import {execTime} from "../lib/util/descriptor";
 import {RedisMgr, RedisType} from "../lib/redis/redis_mgr";
 import {Role} from "./role";
 
-const MAX_PACKET_COUNT = 1000000;
+const MAX_PACKET_COUNT = 10000;
 
 let roleRedis = RedisMgr.getInstance(RedisType.GAME);
 
@@ -32,8 +32,16 @@ export class PlayerSession extends UserSession {
             cur = this.m_packets.head,
             t;
         while (cur) {
+            if (this.m_packets.length > MAX_PACKET_COUNT) {
+                Log.sError('packet array length too long, force close socket, uid=%d, ip=%s, length=%d', this.m_socket.uid, this.m_socket.ip, this.m_packets.length);
+                this.closeSocket();
+            }
+
             packet = cur.element;
-            Log.sInfo('name=%s, data=%j', packet.kind, packet[packet.kind]);
+            t = cur;
+            this.m_packets.deleteNode(t);
+            cur = cur.next;
+            Log.sInfo('socketUid=%d, roleId=%d, name=%s, data=%j', this.m_socket.uid, this._roleId ? this._roleId : 0, packet.kind, packet[packet.kind]);
             controller = World.getInstance().getController(packet.kind);
             if (controller) {
                 await this.doController(controller, this, packet[packet.kind]);
@@ -41,16 +49,9 @@ export class PlayerSession extends UserSession {
             else {
                 Log.sError('controller not found, name=%s', packet.kind);
             }
-            t = cur;
-            this.m_packets.deleteNode(t);
-            cur = cur.next;
 
-            // if (this.m_packets.length > MAX_PACKET_COUNT) {
-            //     Log.sError('packet array length too long, force close socket, uid=%d, ip=%s, length=%d', this.m_socket.uid, this.m_socket.ip, this.m_packets.length);
-            //     this.closeSocket();
-            // }
-
-            if(++counter > 10) {
+            // per loop do 5 packet
+            if (++counter > 5) {
                 break;
             }
         }

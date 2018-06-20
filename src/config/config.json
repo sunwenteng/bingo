@@ -6,7 +6,7 @@
   "mysql": {
     "game_db": {
       "name": "game_db",
-      "host": "172.16.1.83",
+      "host": "127.0.0.1",
       "port": 3306,
       "user": "root",
       "password": "root",
@@ -19,7 +19,7 @@
     },
     "login_db": {
       "name": "login_db",
-      "host": "172.16.1.83",
+      "host": "127.0.0.1",
       "port": 3306,
       "user": "root",
       "password": "root",
@@ -34,7 +34,7 @@
     "gameRedis": {
       "name": "gameRedis",
       "port": 6379,
-      "host": "172.16.1.83",
+      "host": "127.0.0.1",
       "options": {
         "connect_timeout": 36000000,
         "retry_delay": 100,

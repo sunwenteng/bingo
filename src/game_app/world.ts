@@ -5,8 +5,7 @@ import * as fs from 'fs'
 import {Log} from "../lib/util/log"
 import {C2S} from "./proto/cmd"
 import {RedisMgr, RedisType} from "../lib/redis/redis_mgr";
-import Timer = NodeJS.Timer;
-import {isServerValid} from "../lib/net/ws/web_socket";
+import {execTime} from "../lib/util/descriptor";
 
 const Config = require('../config/config.json');
 type AuthedSessionMap = { [index: number]: UserSession };
@@ -52,10 +51,12 @@ export class World {
 
     public async update() {
         this._isUpdating = true;
+        // half block mode, async session, sync packet within session
         let cur = this._sessionList.head, t = null;
+        let promises = [];
         while (cur) {
             if (cur.element.m_socket.isSocketValid()) {
-                await cur.element.update();
+                promises.push(cur.element.update());
                 cur = cur.next;
             }
             else {
@@ -65,6 +66,8 @@ export class World {
                 cur = cur.next;
             }
         }
+        await Promise.all(promises);
+
         this._isUpdating = false;
     }
 
