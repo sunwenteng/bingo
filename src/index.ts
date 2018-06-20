@@ -1,27 +1,28 @@
-import {ConfigMgr} from "./config/data/config_struct";
-import {Log} from "./lib/util/log";
-import * as WorldDB from "./lib/mysql/world_db";
-import {RedisMgr, RedisType} from "./lib/redis/redis_mgr";
+import * as redis from 'redis';
 
-Log.init();
-const Config = require('./config/config.json');
-setTimeout(() => {
-    WorldDB.start(Config['mysql']['game_db']).then(async () => {
-        await WorldDB.stop();
-    });
-}, 100);
+let sub = redis.createClient(6379, '127.0.0.1', {
+    connect_timeout: 36000000,
+    password: "redis@ime"
+}), pub = redis.createClient(6379, '127.0.0.1', {
+    connect_timeout: 36000000,
+    password: "redis@ime"
+});
+let msg_count = 0;
 
-RedisMgr.getInstance(RedisType.GAME).sadd('dirty_roles', 111).then(async () => {
-    await RedisMgr.getInstance(RedisType.GAME).stop();
+sub.on("subscribe", function (channel, count) {
+    pub.publish("a nice channel", "I am sending a message.");
+    pub.publish("a nice channel", "I am sending a second message.");
+    pub.publish("a nice channel", "I am sending my last message.");
 });
 
-ConfigMgr.getInstance().loadAllConfig(__dirname + '/config/data/');
-
-let allEquip = ConfigMgr.getInstance().equipdb.all();
-for (let idx in allEquip) {
-    console.log(idx + ',' + allEquip[idx].Text_name + ',' + allEquip[idx].Text_des);
-}
-
-process.on('beforeExit', () => {
-    console.log(111);
+sub.on("message", function (channel, message) {
+    console.log("sub channel " + channel + ": " + message);
+    msg_count += 1;
+    if (msg_count === 3) {
+        sub.unsubscribe();
+        sub.quit();
+        pub.quit();
+    }
 });
+
+sub.subscribe("a nice channel");

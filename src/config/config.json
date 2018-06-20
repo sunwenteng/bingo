@@ -37,7 +37,7 @@
       "host": "127.0.0.1",
       "options": {
         "connect_timeout": 36000000,
-        "retry_delay": 100,
+        "retry_max_delay": 100,
         "password": "redis@ime"
       }
     }

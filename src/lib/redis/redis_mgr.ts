@@ -1,8 +1,6 @@
 import * as redis from 'redis';
 import {Log} from "../util/log";
 import {ErrorCode} from "../util/error_code";
-import * as util from 'util';
-import Timer = NodeJS.Timer;
 
 const Config = require('../../config/config.json');
 /**
@@ -11,6 +9,7 @@ const Config = require('../../config/config.json');
  * @private
  */
 const _instances: { [key: string]: RedisMgr } = {};
+const _instancesSubscribe: { [key: string]: redis.RedisClient } = {};
 
 export enum RedisDB {
     RoleDB = 0,
@@ -19,6 +18,11 @@ export enum RedisDB {
 
 export enum RedisType {
     GAME = 'gameRedis'
+}
+
+export enum RedisClientType {
+    NORMAL = 0,
+    SUBSCRIBE = 1
 }
 
 export abstract class RedisData<T> {
@@ -147,6 +151,8 @@ export class RedisMgr {
     private readonly _config: any;
     //_pool模拟数据库连接池，redis的每个db在_pool中对应一个client,结构：{'db1':client1,'db2',client2}
     private readonly _pool: { [db: number]: redis.RedisClient };
+    private _sub: redis.RedisClient;
+    private _pub: redis.RedisClient;
     //redis服务是否可用标识,比如在redis服务断开或连不上redis的时候，connected为false
     private _connected: boolean;
     private readonly _aliveTimer: { [db: number]: any };
@@ -157,6 +163,8 @@ export class RedisMgr {
         this._name = name;
         this._connected = false;
         this._aliveTimer = {};
+        this._pub = redis.createClient(this._config.port, this._config.host, this._config.options);
+        this._sub = redis.createClient(this._config.port, this._config.host, this._config.options);
     }
 
     get connected(): boolean {
@@ -616,4 +624,29 @@ export class RedisMgr {
         }));
     }
 
+    public async subscribe(channel: string | string[]): Promise<boolean> {
+        return new Promise<boolean>(((resolve, reject) => {
+            this._sub.subscribe(channel, (error, reply) => {
+                if (error) {
+                    Log.sError('name=%s, redis subscribe error ' + error, this._name + channel);
+                    reject(false);
+                } else {
+                    resolve(reply === 'OK');
+                }
+            });
+        }));
+    }
+
+    public async publish(channel: string, message: string | any): Promise<boolean> {
+        return new Promise<boolean>(((resolve, reject) => {
+            this._pub.publish(channel, message, (error, reply) => {
+                if (error) {
+                    Log.sError('name=%s, redis subscribe error ' + error, this._name + channel);
+                    reject(false);
+                } else {
+                    resolve(reply === 1);
+                }
+            });
+        }));
+    }
 }
