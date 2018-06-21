@@ -1,3 +1,4 @@
+import * as events from 'events';
 import * as redis from 'redis';
 import {Log} from "../util/log";
 import {ErrorCode} from "../util/error_code";
@@ -20,9 +21,8 @@ export enum RedisType {
     GAME = 'gameRedis'
 }
 
-export enum RedisClientType {
-    NORMAL = 0,
-    SUBSCRIBE = 1
+export enum RedisChanel {
+    BROADCAST = 'broadcast',
 }
 
 export abstract class RedisData<T> {
@@ -163,8 +163,8 @@ export class RedisMgr {
         this._name = name;
         this._connected = false;
         this._aliveTimer = {};
-        this._pub = redis.createClient(this._config.port, this._config.host, this._config.options);
-        this._sub = redis.createClient(this._config.port, this._config.host, this._config.options);
+        this._sub = null;
+        this._pub = null;
     }
 
     get connected(): boolean {
@@ -186,18 +186,26 @@ export class RedisMgr {
     public async stop() {
         async function quit(client: redis.RedisClient) {
             return new Promise<void>(((resolve, reject) => {
-                client.quit(() => {
+                if (!client) {
                     resolve();
-                });
+                }
+                else {
+                    client.quit(() => {
+                        resolve();
+                    });
+                }
             }));
         }
 
         for (let idx in this._pool) {
             clearInterval(this._aliveTimer[idx]);
             await quit(this._pool[idx]);
-            // quit(this._pool[idx];
             Log.sInfo('redis close successfully, name=' + this._name + ', db=' + idx);
         }
+
+        await this.unsubscribe();
+        await quit(this._sub);
+        await quit(this._pub);
     }
 
     //根据db从实例的连接池中获取对应的client
@@ -624,27 +632,72 @@ export class RedisMgr {
         }));
     }
 
-    public async subscribe(channel: string | string[]): Promise<boolean> {
-        return new Promise<boolean>(((resolve, reject) => {
-            this._sub.subscribe(channel, (error, reply) => {
+    public async subscribe(channel: string | string[], eventSource:events.EventEmitter): Promise<void> {
+        return new Promise<void>(((resolve, reject) => {
+            if (!this._sub) {
+                this._sub = redis.createClient(this._config.port, this._config.host, this._config.options);
+                this._sub.on("subscribe", (channel, count) => {
+                    Log.sInfo('channel = ' + channel + ' count = ' + count);
+                });
+
+                this._sub.on("message", (channel, message) => {
+                    eventSource.emit("message", channel, message);
+                });
+            }
+            this._sub.subscribe(channel, (error) => {
                 if (error) {
                     Log.sError('name=%s, redis subscribe error ' + error, this._name + channel);
                     reject(false);
                 } else {
-                    resolve(reply === 'OK');
+                    resolve();
                 }
             });
         }));
     }
 
+    public async unsubscribe(channel?: string | string[] ): Promise<void> {
+        return new Promise<void>(((resolve, reject) => {
+            if (!this._sub) {
+                resolve();
+            }
+            else {
+                this._sub.unsubscribe(channel, (error) => {
+                    if (error) {
+                        Log.sError('name=%s, redis subscribe error ' + error, this._name);
+                        reject(false);
+                    } else {
+                        resolve();
+                    }
+                });
+            }
+        }));
+    }
+
     public async publish(channel: string, message: string | any): Promise<boolean> {
         return new Promise<boolean>(((resolve, reject) => {
+            if (!this._pub) {
+                this._pub = redis.createClient(this._config.port, this._config.host, this._config.options);
+            }
             this._pub.publish(channel, message, (error, reply) => {
                 if (error) {
                     Log.sError('name=%s, redis subscribe error ' + error, this._name + channel);
                     reject(false);
                 } else {
                     resolve(reply === 1);
+                }
+            });
+        }));
+    }
+
+    public async pubsub(command: string, params:string, db:number = 0): Promise<number> {
+        let client = await this.getClient(db);
+        return new Promise<number>(((resolve, reject) => {
+            client.pubsub(command, params, (error, reply) => {
+                if (error) {
+                    Log.sError('name=%s, redis pubsub error ' + error, this._name);
+                    reject(ErrorCode.REDIS.ERROR);
+                } else {
+                    resolve(reply[1]);
                 }
             });
         }));

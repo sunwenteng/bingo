@@ -1,9 +1,9 @@
 import {UserSession} from '../lib/net/user_session'
 import {Log} from "../lib/util/log";
-import {World, WorldDataRedisKey} from "./world";
+import {World} from "./world";
 import {execTime} from "../lib/util/descriptor";
 import {RedisMgr, RedisType} from "../lib/redis/redis_mgr";
-import {Role} from "./role";
+import {RoleRedisPrefix} from "./role";
 
 const MAX_PACKET_COUNT = 10000;
 
@@ -64,21 +64,16 @@ export class PlayerSession extends UserSession {
     public async online() {
         if (this._roleId) {
             World.getInstance().addAuthedSession(this._roleId, this);
-            await roleRedis.sadd('online_roles', this._roleId);
+            await roleRedis.subscribe(RoleRedisPrefix + '_' + this._roleId, World.getInstance());
             Log.sInfo('roleId=%d online', this._roleId);
         }
     }
 
     public async offline() {
-        return new Promise<void>((resolve, reject) => {
-            if (this._roleId) {
-                World.getInstance().delAuthedSession(this._roleId);
-                roleRedis.srem('online_roles', this._roleId).then(resolve);
-                Log.sInfo('roleId=%d offline', this._roleId);
-            }
-            else {
-                resolve();
-            }
-        });
+        if (this._roleId) {
+            World.getInstance().delAuthedSession(this._roleId);
+            await roleRedis.unsubscribe(RoleRedisPrefix + '_' + this._roleId);
+            Log.sInfo('roleId=%d offline', this._roleId);
+        }
     }
 }

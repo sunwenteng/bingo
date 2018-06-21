@@ -1,6 +1,6 @@
 import {Log} from '../lib/util/log';
 import Time = require('../lib/util/time');
-import {RedisMgr, RedisType, RedisData} from '../lib/redis/redis_mgr';
+import {RedisMgr, RedisType, RedisData, RedisChanel} from '../lib/redis/redis_mgr';
 import * as WorldDB from '../lib/mysql/world_db';
 import {RoleData} from "./defines";
 import {WorldDataRedisKey} from "./world";
@@ -102,5 +102,13 @@ export class Role extends RedisData<RoleData> {
 
     public getTableNum(): number {
         return this.data.uid % WorldDB.conn.config.tableSplitCount;
+    }
+
+    public async sendMsgToRole(roleId: number, msg: any) {
+        await RedisMgr.getInstance(RedisType.GAME).publish(RoleRedisPrefix + '_' + roleId, JSON.stringify(msg));
+    }
+
+    public async sendMsgToAll(msg: any) {
+        await RedisMgr.getInstance(RedisType.GAME).publish(RedisChanel.BROADCAST, JSON.stringify(msg));
     }
 }

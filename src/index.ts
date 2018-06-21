@@ -1,28 +1,29 @@
-import * as redis from 'redis';
+import {RedisMgr, RedisType} from "./lib/redis/redis_mgr";
+import {Log} from "./lib/util/log";
+import * as events from "events";
 
-let sub = redis.createClient(6379, '127.0.0.1', {
-    connect_timeout: 36000000,
-    password: "redis@ime"
-}), pub = redis.createClient(6379, '127.0.0.1', {
-    connect_timeout: 36000000,
-    password: "redis@ime"
-});
-let msg_count = 0;
-
-sub.on("subscribe", function (channel, count) {
-    pub.publish("a nice channel", "I am sending a message.");
-    pub.publish("a nice channel", "I am sending a second message.");
-    pub.publish("a nice channel", "I am sending my last message.");
-});
-
-sub.on("message", function (channel, message) {
-    console.log("sub channel " + channel + ": " + message);
-    msg_count += 1;
-    if (msg_count === 3) {
-        sub.unsubscribe();
-        sub.quit();
-        pub.quit();
+class Test extends events.EventEmitter{
+    constructor() {
+        super();
+        this.on('message', (channel ,message)=>{
+            Log.sInfo("sub channel " + channel + ": " + message);
+        });
     }
-});
+}
 
-sub.subscribe("a nice channel");
+async function main() {
+    let t = new Test();
+    const Config = require('./config/config.json');
+    Log.init(__dirname + '/' + Config.log.dir, Config.log.level);
+    // await RedisMgr.getInstance(RedisType.GAME).subscribe(['test', 'fuck']);
+    await RedisMgr.getInstance(RedisType.GAME).subscribe(['test'], t);
+    await RedisMgr.getInstance(RedisType.GAME).pubsub('numsub', 'test');
+    await RedisMgr.getInstance(RedisType.GAME).subscribe(['fuck'], t);
+    await RedisMgr.getInstance(RedisType.GAME).pubsub('numsub', 'fuck');
+    await RedisMgr.getInstance(RedisType.GAME).unsubscribe(['fuck']);
+    await RedisMgr.getInstance(RedisType.GAME).pubsub('numsub', 'fuck');
+    await RedisMgr.getInstance(RedisType.GAME).publish('test', 'test');
+    await RedisMgr.getInstance(RedisType.GAME).publish('fuck', 'fuck');
+}
+
+main().then(() => console.log('done'));

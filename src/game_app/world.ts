@@ -3,9 +3,11 @@ import {LinkedList, ListNode} from '../lib/util/linked_list'
 import * as GameUtil from '../lib/util/game_util'
 import * as fs from 'fs'
 import {Log} from "../lib/util/log"
-import {C2S} from "./proto/cmd"
-import {RedisMgr, RedisType} from "../lib/redis/redis_mgr";
+import {C2S, S2C} from "./proto/cmd"
+import {RedisChanel, RedisMgr, RedisType} from "../lib/redis/redis_mgr";
 import {execTime} from "../lib/util/descriptor";
+import {RoleRedisPrefix} from "./role";
+import * as events from "events";
 
 const Config = require('../config/config.json');
 type AuthedSessionMap = { [index: number]: UserSession };
@@ -28,7 +30,7 @@ interface ServerInfo {
 }
 
 
-export class World {
+export class World extends events.EventEmitter {
     public _isUpdating: boolean;
     private static _instance: World;
     private _info: ServerInfo;
@@ -37,9 +39,28 @@ export class World {
     private readonly _allControllers: ControllerMap;
 
     constructor() {
+        super();
         this._sessionList = new LinkedList<UserSession>();
         this._authedSessionMap = {};
         this._allControllers = {};
+
+        this.on('message', (channel: string, message: any) => {
+            Log.sInfo("sub channel " + channel + ": " + message);
+            if (channel === RedisChanel.BROADCAST) {
+                for (let roleId in this._authedSessionMap) {
+                    this._authedSessionMap[roleId].sendProtocol(S2C.Message.create(JSON.parse(message)));
+                }
+            }
+            else if (channel.indexOf(RoleRedisPrefix) !== -1) {
+                let roleId = parseInt(channel.substr(RoleRedisPrefix.length + 1));
+                let session = this._authedSessionMap[roleId];
+                if (!session) {
+                    Log.sError('role %d not online, data failed', roleId);
+                }
+
+                session.sendProtocol(S2C.Message.create(JSON.parse(message)));
+            }
+        });
     }
 
     public static getInstance(): World {
@@ -112,7 +133,7 @@ export class World {
         this.registerController();
         await this.registerServer();
         await this.initControllers();
-
+        await RedisMgr.getInstance(RedisType.GAME).subscribe(RedisChanel.BROADCAST, this);
     }
 
     private async registerServer() {
@@ -198,12 +219,23 @@ export class World {
         this._sessionList.deleteNode(node);
     }
 
-    public addAuthedSession(accountId: number, session: UserSession): void {
-        this._authedSessionMap[accountId] = session;
+    public addAuthedSession(roleId: number, session: UserSession): void {
+        this._authedSessionMap[roleId] = session;
     }
 
-    public delAuthedSession(accountId: number): void {
-        delete this._authedSessionMap[accountId];
+    public delAuthedSession(roleId: number): void {
+        delete this._authedSessionMap[roleId];
     }
 
+    public async isRoleOnline(roleId: number): Promise<boolean> {
+        return new Promise<boolean>((async (resolve) => {
+            if (this._authedSessionMap[roleId]) {
+                resolve(true);
+            }
+            else {
+                let number = await RedisMgr.getInstance(RedisType.GAME).pubsub('numsub', RoleRedisPrefix + '_' + roleId);
+                resolve(number === 1);
+            }
+        }))
+    }
 }
