@@ -12,6 +12,10 @@ let roleRedis = RedisMgr.getInstance(RedisType.GAME);
 export class PlayerSession extends UserSession {
     private _roleId: number;
 
+    get roleId(): number {
+        return this._roleId;
+    }
+
     set roleId(value: number) {
         this._roleId = value;
     }

@@ -3,10 +3,15 @@ import {PlayerSession} from "../player_session";
 import {Role} from "../role";
 import {RedisMgr, RedisType} from "../../lib/redis/redis_mgr";
 import {World} from "../world";
+import {Log} from "../../lib/util/log";
 
 let gameRedis = RedisMgr.getInstance(RedisType.GAME);
 
 export async function online(session: PlayerSession, msg: C2S.CS_ROLE_ONLINE) {
+    if (session.roleId !== 0) {
+        Log.sError('already send online packet');
+        return;
+    }
     let roleId = parseInt(msg.passport);
     let role = new Role(roleId);
     await gameRedis.lock(role.getRedisKey(), async () => {
