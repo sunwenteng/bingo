@@ -18,10 +18,14 @@ async function main() {
     let server = new Server(Config['app']['game']['host'], parseInt(Config['app']['game']['port']));
     await server.start(PlayerSession);
 
+    process.on('uncaughtException', (error => {
+        Log.sError(error);
+    }));
+
     process.on("SIGINT", async () => {
         await server.stop();
         await World.getInstance().stop();
-        process.nextTick(async ()=> {
+        process.nextTick(async () => {
             await RedisMgr.getInstance(RedisType.GAME).stop();
             await WorldDB.stop();
             process.exit(0);
@@ -33,12 +37,14 @@ async function main() {
             return;
         }
 
-        let start =  Date.now();
+        let start = Date.now();
         setTimeout(() => {
             World.getInstance().update().then(() => {
                 let cost = Date.now() - start;
                 update(cost > 100 ? 10 : 100);
-            });
+            }).catch((reason => {
+                Log.sError(reason);
+            }));
         }, time)
     }
 

@@ -185,7 +185,7 @@ export class RedisMgr {
 
     public async stop() {
         async function quit(client: redis.RedisClient) {
-            return new Promise<void>(((resolve, reject) => {
+            return new Promise<void>(((resolve) => {
                 if (!client) {
                     resolve();
                 }
@@ -203,7 +203,6 @@ export class RedisMgr {
             Log.sInfo('redis close successfully, name=' + this._name + ', db=' + idx);
         }
 
-        await this.unsubscribe();
         await quit(this._sub);
         await quit(this._pub);
     }
@@ -632,7 +631,7 @@ export class RedisMgr {
         }));
     }
 
-    public async subscribe(channel: string | string[], eventSource:events.EventEmitter): Promise<void> {
+    public async subscribe(channel: string | string[], eventSource: events.EventEmitter): Promise<void> {
         return new Promise<void>(((resolve, reject) => {
             if (!this._sub) {
                 this._sub = redis.createClient(this._config.port, this._config.host, this._config.options);
@@ -655,13 +654,13 @@ export class RedisMgr {
         }));
     }
 
-    public async unsubscribe(channel?: string | string[] ): Promise<void> {
+    public async unsubscribe(channel?: string | string[]): Promise<void> {
         return new Promise<void>(((resolve, reject) => {
             if (!this._sub) {
                 resolve();
             }
             else {
-                this._sub.unsubscribe(channel, (error) => {
+                this._sub.unsubscribe(channel ? channel : '', (error) => {
                     if (error) {
                         Log.sError('name=%s, redis subscribe error ' + error, this._name);
                         reject(false);
@@ -689,7 +688,7 @@ export class RedisMgr {
         }));
     }
 
-    public async pubsub(command: string, params:string, db:number = 0): Promise<number> {
+    public async pubsub(command: string, params: string, db: number = 0): Promise<number> {
         let client = await this.getClient(db);
         return new Promise<number>(((resolve, reject) => {
             client.pubsub(command, params, (error, reply) => {

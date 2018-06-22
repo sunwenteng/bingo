@@ -13,6 +13,10 @@ async function main() {
 
     await WorldDB.start(Config['mysql']['game_db']);
 
+    process.on('uncaughtException', (error => {
+        Log.sError(error);
+    }));
+
     process.on("SIGINT", async () => {
         isAppValid = false;
         await stop();
@@ -64,7 +68,9 @@ async function main() {
             return;
         }
         timer = setTimeout(async () => {
-            save().then(update);
+            save().then(update).catch((reason => {
+                Log.sError(reason);
+            }));
         }, Config['app']['cache']['saveInterval']);
     }
 

@@ -4,6 +4,7 @@ import {RedisMgr, RedisType, RedisData, RedisChanel} from '../lib/redis/redis_mg
 import * as WorldDB from '../lib/mysql/world_db';
 import {RoleData} from "./defines";
 import {WorldDataRedisKey} from "./world";
+import {S2C} from "./proto/cmd";
 
 let gameRedis = RedisMgr.getInstance(RedisType.GAME);
 export const RoleRedisPrefix: string = 'role';
@@ -104,11 +105,13 @@ export class Role extends RedisData<RoleData> {
         return this.data.uid % WorldDB.conn.config.tableSplitCount;
     }
 
-    public async sendMsgToRole(roleId: number, msg: any) {
-        await RedisMgr.getInstance(RedisType.GAME).publish(RoleRedisPrefix + '_' + roleId, JSON.stringify(msg));
+    public async sendMsgToRole(roleId: number, msg: S2C.IMessage) {
+        let buffer = S2C.Message.encode(msg).finish();
+        await RedisMgr.getInstance(RedisType.GAME).publish(RoleRedisPrefix + '_' + roleId, buffer.toString());
     }
 
-    public async sendMsgToAll(msg: any) {
-        await RedisMgr.getInstance(RedisType.GAME).publish(RedisChanel.BROADCAST, JSON.stringify(msg));
+    public async sendMsgToAll(msg: S2C.IMessage) {
+        let buffer = S2C.Message.encode(msg).finish();
+        await RedisMgr.getInstance(RedisType.GAME).publish(RedisChanel.BROADCAST, buffer.toString());
     }
 }

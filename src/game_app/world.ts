@@ -16,9 +16,6 @@ let gameRedis = RedisMgr.getInstance(RedisType.GAME);
 
 export enum WorldDataRedisKey {
     DIRTY_ROLES = 'dirty_roles',
-    SERVER_ROLES = 'server_roles',
-    BROAD_MSGS = 'broad_msgs',
-    ROLE_MSGS = 'role_msgs',
 }
 
 interface ServerInfo {
@@ -44,11 +41,12 @@ export class World extends events.EventEmitter {
         this._authedSessionMap = {};
         this._allControllers = {};
 
-        this.on('message', (channel: string, message: any) => {
+        this.on('message', (channel: string, message: string) => {
             Log.sInfo("sub channel " + channel + ": " + message);
+            let buffer = new Buffer(message);
             if (channel === RedisChanel.BROADCAST) {
                 for (let roleId in this._authedSessionMap) {
-                    this._authedSessionMap[roleId].sendProtocol(S2C.Message.create(JSON.parse(message)));
+                    this._authedSessionMap[roleId].m_socket.send(buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.length));
                 }
             }
             else if (channel.indexOf(RoleRedisPrefix) !== -1) {
@@ -57,8 +55,7 @@ export class World extends events.EventEmitter {
                 if (!session) {
                     Log.sError('role %d not online, data failed', roleId);
                 }
-
-                session.sendProtocol(S2C.Message.create(JSON.parse(message)));
+                this._authedSessionMap[roleId].m_socket.send(buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.length));
             }
         });
     }
@@ -171,7 +168,7 @@ export class World extends events.EventEmitter {
     }
 
     public async stop() {
-        return new Promise<void>((async (resolve, reject) => {
+        return new Promise<void>((async (resolve) => {
             let self = this;
 
             async function doStop() {
