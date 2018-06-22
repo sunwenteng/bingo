@@ -135,6 +135,7 @@ export class Server {
 
             this._server.on('error', (error: Error) => {
                 Log.sError(error);
+                throw error;
             });
 
             this._server.on('connection', ((s: ws, req: http.IncomingMessage) => {
