@@ -46,7 +46,14 @@ export class PlayerSession extends UserSession {
             t = cur;
             this.m_packets.deleteNode(t);
             cur = cur.next;
+
             Log.sInfo('socketUid=%d, roleId=%d, name=%s, data=%j', this.m_socket.uid, this._roleId ? this._roleId : 0, packet.kind, packet[packet.kind]);
+
+            if (packet.kind !== 'CS_ROLE_ONLINE' && this._roleId === 0) {
+                Log.sError('not receive online packet yet, uid=' + this.m_socket.uid);
+                continue;
+            }
+            
             controller = World.getInstance().getController(packet.kind);
             if (controller) {
                 await this.doController(controller, this, packet[packet.kind]);

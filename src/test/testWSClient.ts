@@ -50,7 +50,7 @@ class Client {
 }
 
 for (let i = 0; i < 100; i++) {
-    new Client(i + 1);
+    new Client(1);
 }
 
 // setInterval(()=>{
