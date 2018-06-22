@@ -27,12 +27,12 @@ export enum RedisChanel {
 
 export abstract class RedisData<T> {
     data: T;
-    private readonly _dirtyFields: Set<string>;
+    private readonly _dirtyFields: {[idx:string]:string};
     private readonly _redisPrefix: string;
     private readonly _redisKeyExpire: number;
     private _isDirty: boolean;
 
-    get dirtyFields(): Set<string> {
+    get dirtyFields(): {[idx:string]:string} {
         return this._dirtyFields;
     }
 
@@ -45,7 +45,7 @@ export abstract class RedisData<T> {
     }
 
     protected constructor(redisPrefix: string, expireTime: number = 3600) {
-        this._dirtyFields = new Set<string>();
+        this._dirtyFields = {};
         this._isDirty = false;
         this._redisPrefix = redisPrefix;
         this._redisKeyExpire = expireTime;
@@ -58,7 +58,7 @@ export abstract class RedisData<T> {
     public set(obj: T) {
         for (let i in obj) {
             this.data[i] = obj[i];
-            this._dirtyFields.add(i);
+            this._dirtyFields[i] = '';
             this._isDirty = true;
         }
     }
@@ -422,18 +422,23 @@ export class RedisMgr {
         // Log.sInfo('name=%s, redis hmset %s, data=%j', this._name, hkey, obj);
         let client = await this.getClient(db);
         return new Promise<void>(((resolve, reject) => {
-            client.hmset(hkey, obj, (error) => {
-                if (error) {
-                    Log.sError('name=%s, redis hmset error ' + error, this._name);
-                    reject(ErrorCode.REDIS.HMSET_ERROR);
-                } else {
-                    if (expire > 0) {
-                        client.expire(hkey, expire, () => {
-                        });
+            if (Object.keys(obj).length === 0) {
+                reject('hmset ' + hkey + ' no param');
+            }
+            else {
+                client.hmset(hkey, obj, (error) => {
+                    if (error) {
+                        Log.sError('name=%s, redis hmset error ' + error, this._name);
+                        reject(ErrorCode.REDIS.HMSET_ERROR);
+                    } else {
+                        if (expire > 0) {
+                            client.expire(hkey, expire, () => {
+                            });
+                        }
+                        resolve();
                     }
-                    resolve();
-                }
-            });
+                });
+            }
         }));
     }
 

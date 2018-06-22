@@ -70,6 +70,7 @@ async function main() {
         timer = setTimeout(async () => {
             save().then(update).catch((reason => {
                 Log.sError(reason);
+                update();
             }));
         }, Config['app']['cache']['saveInterval']);
     }

@@ -33,23 +33,15 @@ export class Role extends RedisData<RoleData> {
         //TODO 所有新属性必须初始化下
     }
 
-    public async save(bSaveAll: boolean = false, async: boolean = false): Promise<void> {
-        return new Promise<void>(async (resolve) => {
-            await gameRedis.lock(this.getRedisKey(), async () => {
-                if (this.isDirty) {
-                    let saveData = this.getSaveData(bSaveAll);
-                    // 同步存储到redis
-                    await gameRedis.hmset(this.getRedisKey(), saveData, this.redisKeyExpire);
-                    // 往脏数据集合添加
-                    await gameRedis.sadd(WorldDataRedisKey.DIRTY_ROLES, this.data.uid);
-                    // 这种做法保证缓存数据最新，数据库会有部分脏数据
-                    resolve();
-                }
-                else {
-                    resolve();
-                }
-            });
-        });
+    public async save(bSaveAll: boolean = false): Promise<void> {
+        if (this.isDirty) {
+            let saveData = this.getSaveData(bSaveAll);
+            // 同步存储到redis
+            await gameRedis.hmset(this.getRedisKey(), saveData, this.redisKeyExpire);
+            // 往脏数据集合添加
+            await gameRedis.sadd(WorldDataRedisKey.DIRTY_ROLES, this.data.uid);
+            // 这种做法保证缓存数据最新，数据库会有部分脏数据
+        }
     }
 
     public async load(): Promise<boolean> {
@@ -58,28 +50,26 @@ export class Role extends RedisData<RoleData> {
                 resolve(false);
             }
             else {
-                await gameRedis.lock(this.getRedisKey(), async () => {
-                    let reply = await gameRedis.hmget(this.getRedisKey(), this.getDataFields());
-                    // 缓存不存在，从db查询然后放到缓存
-                    if (Object.keys(reply).length === 0) {
-                        let result = await WorldDB.conn.execute('select * from player_info_' + this.getTableNum() + ' where ?', {uid: this.data.uid});
+                let reply = await gameRedis.hmget(this.getRedisKey(), this.getDataFields());
+                // 缓存不存在，从db查询然后放到缓存
+                if (Object.keys(reply).length === 0) {
+                    let result = await WorldDB.conn.execute('select * from player_info_' + this.getTableNum() + ' where ?', {uid: this.data.uid});
 
-                        if (!result || result.length === 0) {
-                            resolve(false);
-                        }
-                        else {
-                            await gameRedis.hmset(this.getRedisKey(), result[0], this.redisKeyExpire);
-                            this.deserialize(result[0]);
-                            resolve(true);
-                        }
+                    if (!result || result.length === 0) {
+                        resolve(false);
                     }
-                    // 缓存命中
                     else {
-                        // TODO 命中后可以考虑延长role存续时间
-                        this.deserialize(reply);
+                        await gameRedis.hmset(this.getRedisKey(), result[0], this.redisKeyExpire);
+                        this.deserialize(result[0]);
                         resolve(true);
                     }
-                });
+                }
+                // 缓存命中
+                else {
+                    // TODO 命中后可以考虑延长role存续时间
+                    this.deserialize(reply);
+                    resolve(true);
+                }
             }
         });
     }
@@ -89,8 +79,7 @@ export class Role extends RedisData<RoleData> {
         let checkFields = bSaveAll ? this.data : this.dirtyFields;
         let saveData: { [key: string]: any } = {};
         for (let obj in checkFields) {
-            if (checkFields.hasOwnProperty(obj))
-                saveData[obj] = pckData[obj];
+            saveData[obj] = pckData[obj];
         }
         return saveData;
     }

@@ -3,6 +3,7 @@ import {C2S, S2C} from "../game_app/proto/cmd";
 
 let count = 1;
 let time = {};
+let set = new Set();
 
 class Client {
     roleId: number;
@@ -12,13 +13,14 @@ class Client {
         let ws = new WebSocket('ws://127.0.0.1:5555/abc/efg');
 
         ws.on('open', () => {
+            set.add(this.roleId);
             // setInterval(() => {
             for (let i = 0; i < 1; i++) {
                 let id = Math.floor(Math.random() * 100);
                 id = id === 0 ? 1 : id;
                 let msg = C2S.Message.create({
                     CS_ROLE_ONLINE: {
-                        passport: roleId + ''
+                        passport: this.roleId + ''
                     }
                 });
 
@@ -28,6 +30,11 @@ class Client {
                 time[count++] = Date.now();
             }
             // }, 1000);
+        });
+
+        ws.on('close', (code, reason) => {
+            console.log('close roleId %d code %d reason %s', this.roleId, code, reason);
+            set.delete(this.roleId);
         });
 
         ws.on('message', (data: Buffer) => {
@@ -42,6 +49,13 @@ class Client {
     }
 }
 
-for (let i = 0; i < 10; i++) {
+for (let i = 0; i < 100; i++) {
     new Client(i + 1);
 }
+
+// setInterval(()=>{
+//     if(!set.size)
+//         process.exit(0);
+//     if(set.size < 100)
+//         console.log(set.values());
+// }, 1000);

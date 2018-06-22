@@ -18,6 +18,7 @@ export class PlayerSession extends UserSession {
 
     constructor() {
         super();
+        this._roleId = 0;
     }
 
     // @execTime(false)
@@ -74,6 +75,7 @@ export class PlayerSession extends UserSession {
             World.getInstance().delAuthedSession(this._roleId);
             await roleRedis.unsubscribe(RoleRedisPrefix + '_' + this._roleId);
             Log.sInfo('roleId=%d offline', this._roleId);
+            this._roleId = 0;
         }
     }
 }

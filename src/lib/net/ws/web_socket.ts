@@ -71,7 +71,6 @@ export class WebSocket {
     }
 
     public close() {
-        this._state = SocketStatus.INVALID;
         this._webSocket.close();
     }
 

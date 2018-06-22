@@ -48,7 +48,7 @@ class Test {
                     gold: Math.floor(Math.random() * 10000),
                     level: Math.floor(Math.random() * 10000),
                 });
-                await role.save(true, false);
+                await role.save(true);
             }
         }
     }

@@ -1,51 +1,60 @@
 import {C2S, S2C} from "../proto/cmd";
 import {PlayerSession} from "../player_session";
 import {Role} from "../role";
+import {RedisMgr, RedisType} from "../../lib/redis/redis_mgr";
+import {World} from "../world";
+
+let gameRedis = RedisMgr.getInstance(RedisType.GAME);
 
 export async function online(session: PlayerSession, msg: C2S.CS_ROLE_ONLINE) {
     let roleId = parseInt(msg.passport);
     let role = new Role(roleId);
-    let exist = await role.load();
-    if (!exist) {
-        await role.create();
-    }
-    role.set({
-        nickname: 'mod_robot' + roleId,
-        headimgurl: 'mod_headimgurl ' + roleId,
-        diamond: Math.floor(Math.random() * 10000),
-        exp: Math.floor(Math.random() * 10000),
-        gold: Math.floor(Math.random() * 10000),
-        level: Math.floor(Math.random() * 10000),
-    });
-    session.roleId = roleId;
-    await session.online();
-    await role.save(true, false);
-    session.sendProtocol(
-        S2C.Message.create({
-            SC_ROLE_ONLINE: {
-                roleId: roleId
-            }
-        })
-    );
+    await gameRedis.lock(role.getRedisKey(), async () => {
+        let isOnline = await World.getInstance().isRoleOnline(roleId);
+        if (isOnline) {
+            await World.getInstance().kickRole(roleId);
+        }
+        let exist = await role.load();
+        if (!exist) {
+            await role.create();
+            await role.save(true);
+        }
+        session.roleId = roleId;
+        await session.online();
 
-    if (roleId % 10 === 0) {
-        setTimeout(()=>{
-            role.sendMsgToAll(S2C.Message.create({
-                SC_TEST_ECHO: {
-                    msg: '10 say broadcast'
+        // TODO
+        role.set({
+            diamond: role.data.diamond + 1,
+        });
+
+        await role.save();
+        session.sendProtocol(
+            S2C.Message.create({
+                SC_ROLE_ONLINE: {
+                    roleId: roleId
                 }
-            }));
-        }, 10000);
-    }
-    else if (roleId % 9 === 1) {
-        setTimeout(()=>{
-            role.sendMsgToRole(1, S2C.Message.create({
-                SC_TEST_ECHO: {
-                    msg: '9to1 say fuck'
-                }
-            }));
-        }, 5000);
-    }
+            })
+        );
+
+        // if (roleId % 10 === 0) {
+        //     setTimeout(()=>{
+        //         role.sendMsgToAll(S2C.Message.create({
+        //             SC_TEST_ECHO: {
+        //                 msg: '10 say broadcast'
+        //             }
+        //         }));
+        //     }, 10000);
+        // }
+        // else if (roleId % 9 === 1) {
+        //     setTimeout(()=>{
+        //         role.sendMsgToRole(1, S2C.Message.create({
+        //             SC_TEST_ECHO: {
+        //                 msg: '9to1 say fuck'
+        //             }
+        //         }));
+        //     }, 5000);
+        // }
+    });
 }
 
 export async function heartBeat(sesson: PlayerSession, msg: C2S.CS_ROLE_HEART_BEAT) {

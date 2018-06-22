@@ -44,6 +44,7 @@ async function main() {
                 update(cost > 100 ? 10 : 100);
             }).catch((reason => {
                 Log.sError(reason);
+                update(100);
             }));
         }, time)
     }

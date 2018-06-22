@@ -26,6 +26,9 @@ interface ServerInfo {
     resVersion: string;
 }
 
+enum WorldMsg {
+    KICK = 'kick'
+}
 
 export class World extends events.EventEmitter {
     public _isUpdating: boolean;
@@ -53,9 +56,19 @@ export class World extends events.EventEmitter {
                 let roleId = parseInt(channel.substr(RoleRedisPrefix.length + 1));
                 let session = this._authedSessionMap[roleId];
                 if (!session) {
-                    Log.sError('role %d not online, data failed', roleId);
+                    Log.sError('role %d not online, message %s', roleId, message);
+                    return;
                 }
-                this._authedSessionMap[roleId].m_socket.send(buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.length));
+                switch (message) {
+                    case WorldMsg.KICK:
+                        Log.sInfo('role %d online, then kick', roleId);
+                        session.m_socket.close();
+                        session.offline();
+                        break;
+                    default:
+                        session.m_socket.send(buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.length));
+                        break;
+                }
             }
         });
     }
@@ -226,13 +239,31 @@ export class World extends events.EventEmitter {
 
     public async isRoleOnline(roleId: number): Promise<boolean> {
         return new Promise<boolean>((async (resolve) => {
-            if (this._authedSessionMap[roleId]) {
-                resolve(true);
-            }
-            else {
-                let number = await RedisMgr.getInstance(RedisType.GAME).pubsub('numsub', RoleRedisPrefix + '_' + roleId);
-                resolve(number === 1);
+            let number = await RedisMgr.getInstance(RedisType.GAME).pubsub('numsub', RoleRedisPrefix + '_' + roleId);
+            resolve(number > 0);
+            if (number > 1) {
+                Log.sError(RoleRedisPrefix + '_' + roleId + ' fatal error multi channel');
             }
         }))
+    }
+
+    public async kickRole(roleId: number) {
+        return new Promise<void>((async (resolve) => {
+            await RedisMgr.getInstance(RedisType.GAME).publish(RoleRedisPrefix + '_' + roleId, WorldMsg.KICK);
+            check();
+            let self = this;
+
+            function check() {
+                setTimeout(async () => {
+                    let online = await self.isRoleOnline(roleId);
+                    if (online) {
+                        check();
+                    }
+                    else {
+                        resolve();
+                    }
+                }, 10)
+            }
+        }));
     }
 }
