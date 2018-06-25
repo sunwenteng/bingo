@@ -10,7 +10,6 @@ const Config = require('../../config/config.json');
  * @private
  */
 const _instances: { [key: string]: RedisMgr } = {};
-const _instancesSubscribe: { [key: string]: redis.RedisClient } = {};
 
 export enum RedisDB {
     RoleDB = 0,
