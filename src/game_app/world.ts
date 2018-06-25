@@ -8,7 +8,6 @@ import {RedisChanel, RedisMgr, RedisType} from "../lib/redis/redis_mgr";
 import {RoleRedisPrefix} from "./role";
 import * as events from "events";
 import * as time from '../lib/util/time';
-import {sleep} from "../lib/util/time";
 
 const Config = require('../config/config.json');
 type AuthedSessionMap = { [index: number]: UserSession };
@@ -190,7 +189,7 @@ export class World extends events.EventEmitter {
         await RedisMgr.getInstance(RedisType.GAME).subscribe(RedisChanel.BROADCAST, this);
 
         await this.addTimer('update1s', time.SECOND, async () => {
-            await sleep(2 * time.SECOND);
+            await time.sleep(2 * time.SECOND);
         });
         // await this.addTimer('update1m', time.MINUTE, async () => {
         // });
