@@ -1,7 +1,7 @@
 import {LinkedList} from "../lib/util/linked_list";
 
 // async function start(server: Server) {
-//     await server.start(PlayerSession);
+//     await server.start(GameSession);
 //     setInterval(async () => {
 //         await World.getInstance().update();
 //     }, 100)

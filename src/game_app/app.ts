@@ -2,7 +2,7 @@ import {Log} from "../lib/util/log";
 import * as WorldDB from "../lib/mysql/world_db";
 import {World} from "./world";
 import {isServerValid, Server} from "../lib/net/ws/web_socket";
-import {PlayerSession} from "./player_session";
+import {GameSession} from "./game_session";
 import {RedisMgr, RedisType} from "../lib/redis/redis_mgr";
 import {ConfigMgr} from "../config/data/config_struct";
 
@@ -16,7 +16,7 @@ async function main() {
     await World.getInstance().start();
 
     let server = new Server(Config['app']['game']['host'], parseInt(Config['app']['game']['port']));
-    await server.start(PlayerSession);
+    await server.start(GameSession);
 
     process.on('uncaughtException', (error => {
         Log.sError(error);

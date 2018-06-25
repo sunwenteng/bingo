@@ -5,15 +5,15 @@ import * as WorldDB from '../lib/mysql/world_db';
 import {RoleData} from "./defines";
 import {WorldDataRedisKey} from "./world";
 import {S2C} from "./proto/cmd";
-import {PlayerSession} from "./player_session";
+import {GameSession} from "./game_session";
 
 let gameRedis = RedisMgr.getInstance(RedisType.GAME);
 export const RoleRedisPrefix: string = 'role';
 
 export class Role extends RedisData<RoleData> {
-    _session: PlayerSession;
+    _session: GameSession;
 
-    constructor(uid: number, session?: PlayerSession) {
+    constructor(uid: number, session?: GameSession) {
         super(RoleRedisPrefix);
         this._session = session;
 

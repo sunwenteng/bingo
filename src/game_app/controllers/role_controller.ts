@@ -1,5 +1,5 @@
 import {C2S, S2C} from "../proto/cmd";
-import {PlayerSession} from "../player_session";
+import {GameSession} from "../game_session";
 import {Role} from "../role";
 import {RedisMgr, RedisType} from "../../lib/redis/redis_mgr";
 import {World} from "../world";
@@ -7,7 +7,7 @@ import {Log} from "../../lib/util/log";
 
 let gameRedis = RedisMgr.getInstance(RedisType.GAME);
 
-export async function online(session: PlayerSession, msg: C2S.CS_ROLE_ONLINE) {
+export async function online(session: GameSession, msg: C2S.CS_ROLE_ONLINE) {
     if (session.roleId !== 0) {
         Log.sError('already send online packet');
         return;
@@ -40,7 +40,7 @@ export async function online(session: PlayerSession, msg: C2S.CS_ROLE_ONLINE) {
     });
 }
 
-export async function heartBeat(session: PlayerSession, msg: C2S.CS_ROLE_HEART_BEAT) {
+export async function heartBeat(session: GameSession, msg: C2S.CS_ROLE_HEART_BEAT) {
     let role = new Role(session.roleId);
     await gameRedis.lock(role.getRedisKey(), async () => {
         role.set({

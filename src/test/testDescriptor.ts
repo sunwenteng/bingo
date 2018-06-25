@@ -1,4 +1,4 @@
-import {PlayerSession} from "../game_app/player_session";
+import {GameSession} from "../game_app/game_session";
 import {World} from "../game_app/world";
 import {Server} from '../lib/net/ws/web_socket'
 import {Log} from '../lib/util/log'
@@ -18,7 +18,7 @@ class test {
 
     @execTime(true)
     async start(server: Server) {
-        await server.start(PlayerSession);
+        await server.start(GameSession);
         return new Promise<void>((resolve => {
             setTimeout(async () => {
                 resolve();

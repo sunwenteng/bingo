@@ -9,7 +9,7 @@ const MAX_PACKET_COUNT = 10000;
 
 let roleRedis = RedisMgr.getInstance(RedisType.GAME);
 
-export class PlayerSession extends UserSession {
+export class GameSession extends UserSession {
     private _roleId: number;
 
     get roleId(): number {
@@ -26,7 +26,7 @@ export class PlayerSession extends UserSession {
     }
 
     // @execTime(false)
-    private async doController(controller: Function, session: PlayerSession, packet: any) {
+    private async doController(controller: Function, session: GameSession, packet: any) {
         await controller(session, packet);
     }
 
