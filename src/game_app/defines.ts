@@ -43,6 +43,8 @@ export class RoleData {
     exp?: number;
     gold?: number;
     level?: number;
+    vipLevel?:number;
+    vipExp?:number;
     lastLoginTime?: number;
     lastAliveTime?: number;
     createTime?: number;

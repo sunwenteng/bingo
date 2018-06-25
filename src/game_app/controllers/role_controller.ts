@@ -27,17 +27,31 @@ export async function online(session: PlayerSession, msg: C2S.CS_ROLE_ONLINE) {
         session.roleId = roleId;
         await session.online();
 
-        // TODO
-        role.set({
-            diamond: role.data.diamond + 1,
-        });
+        // start TODO
+        // end TODO
 
-        await role.save();
         session.sendProtocol(
             S2C.Message.create({
                 SC_ROLE_ONLINE: {
                     roleId: roleId
                 }
+            })
+        );
+    });
+}
+
+export async function heartBeat(session: PlayerSession, msg: C2S.CS_ROLE_HEART_BEAT) {
+    let role = new Role(session.roleId);
+    await gameRedis.lock(role.getRedisKey(), async () => {
+        role.set({
+            diamond: role.data.diamond + 1,
+        });
+
+        await role.save();
+
+        session.sendProtocol(
+            S2C.Message.create({
+                SC_ROLE_HEART_BEAT: {}
             })
         );
 
@@ -60,8 +74,4 @@ export async function online(session: PlayerSession, msg: C2S.CS_ROLE_ONLINE) {
         //     }, 5000);
         // }
     });
-}
-
-export async function heartBeat(sesson: PlayerSession, msg: C2S.CS_ROLE_HEART_BEAT) {
-
 }

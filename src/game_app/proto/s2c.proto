@@ -8,10 +8,10 @@ message Message {
         SC_TEST_ECHO SC_TEST_ECHO = 2;
         SC_ROLE_ONLINE SC_ROLE_ONLINE = 3;
         SC_ROLE_HEART_BEAT SC_ROLE_HEART_BEAT = 4;
+        SC_ROLE_UPDATE SC_ROLE_UPDATE = 5;
     }
 }
 
-/** you must name the message in the following format: [PACKAGE_NAME]_[CONTROLLER_NAME]_[METHOD_NAME]**/
 message SC_TEST_ECHO {
     int32 cmd_id = 1;
     string msg = 2;
@@ -29,4 +29,14 @@ message SC_ROLE_ONLINE {
 
 message SC_ROLE_HEART_BEAT {
 
+}
+
+message SC_ROLE_UPDATE {
+    string nickname = 1;
+    uint32 level = 2;
+    uint64 exp = 3;
+    uint32 vip_level = 4;
+    uint32 vip_exp = 5;
+    uint32 diamond = 6;
+    uint64 gold = 7;
 }

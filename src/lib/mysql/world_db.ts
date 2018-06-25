@@ -38,6 +38,8 @@ export async function start(config: MysqlConfig): Promise<void> {
 
         columns = columns.concat([
             [tableName, 'exp', "INT UNSIGNED NOT NULL DEFAULT 0"],
+            [tableName, 'vipExp', "INT UNSIGNED NOT NULL DEFAULT 0"],
+            [tableName, 'vipLevel', "INT UNSIGNED NOT NULL DEFAULT 0"],
             [tableName, 'valid', "INT UNSIGNED NOT NULL DEFAULT 1"]
             // add new update column down here
         ]);

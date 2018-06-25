@@ -27,12 +27,12 @@ export enum RedisChanel {
 
 export abstract class RedisData<T> {
     data: T;
-    private readonly _dirtyFields: {[idx:string]:string};
+    private readonly _dirtyFields: { [idx: string]: string };
     private readonly _redisPrefix: string;
     private readonly _redisKeyExpire: number;
     private _isDirty: boolean;
 
-    get dirtyFields(): {[idx:string]:string} {
+    get dirtyFields(): { [idx: string]: string } {
         return this._dirtyFields;
     }
 
@@ -299,16 +299,21 @@ export class RedisMgr {
         }));
     }
 
-    public async lock<T>(key: string, callback: () => Promise<T>, lockTime: number = 5000) {
+    public async lock<T>(key: string, callback: (hasLock:boolean) => Promise<T>, bWaitForLock: boolean = true, lockTime: number = 5000) {
         let mutexKey = key + '_mutex';
         let success = await this.setWithParams(mutexKey, 1, 'PX', lockTime, 'NX');
         if (!success) {
-            setTimeout(async () => {
-                await this.lock(key, callback);
-            }, 10);
+            if (bWaitForLock) {
+                setTimeout(async () => {
+                    await this.lock(key, callback, bWaitForLock, lockTime);
+                }, 10);
+            }
+            else {
+                await callback(success);
+            }
         }
         else {
-            await callback();
+            await callback(success);
             await this.del(mutexKey);
         }
     }

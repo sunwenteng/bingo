@@ -2,7 +2,21 @@
  * 游戏可用的一些时间判断函数
  */
 
+export const SECOND = 1000;
+export const MINUTE = 60 * SECOND;
+export const HOUR = 60 * MINUTE;
+export const DAY = 24 * HOUR;
+export const WEEK = 7 * DAY;
+
 let offset = 0;
+
+export async function sleep(time) {
+    return new Promise<void>((resolve => {
+        setTimeout(() => {
+            resolve();
+        }, time)
+    }))
+}
 
 export function realNow(): number {
     return Math.floor(Date.now() / 1000);

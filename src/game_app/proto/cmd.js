@@ -108,7 +108,8 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
               "Error",
               "SC_TEST_ECHO",
               "SC_ROLE_ONLINE",
-              "SC_ROLE_HEART_BEAT"
+              "SC_ROLE_HEART_BEAT",
+              "SC_ROLE_UPDATE"
             ]
           }
         },
@@ -128,6 +129,10 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
           SC_ROLE_HEART_BEAT: {
             type: "SC_ROLE_HEART_BEAT",
             id: 4
+          },
+          SC_ROLE_UPDATE: {
+            type: "SC_ROLE_UPDATE",
+            id: 5
           }
         }
       },
@@ -165,6 +170,38 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
       },
       SC_ROLE_HEART_BEAT: {
         fields: {}
+      },
+      SC_ROLE_UPDATE: {
+        fields: {
+          nickname: {
+            type: "string",
+            id: 1
+          },
+          level: {
+            type: "uint32",
+            id: 2
+          },
+          exp: {
+            type: "uint64",
+            id: 3
+          },
+          vipLevel: {
+            type: "uint32",
+            id: 4
+          },
+          vipExp: {
+            type: "uint32",
+            id: 5
+          },
+          diamond: {
+            type: "uint32",
+            id: 6
+          },
+          gold: {
+            type: "uint64",
+            id: 7
+          }
+        }
       }
     }
   }

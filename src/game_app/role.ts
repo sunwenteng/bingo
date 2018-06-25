@@ -5,13 +5,18 @@ import * as WorldDB from '../lib/mysql/world_db';
 import {RoleData} from "./defines";
 import {WorldDataRedisKey} from "./world";
 import {S2C} from "./proto/cmd";
+import {PlayerSession} from "./player_session";
 
 let gameRedis = RedisMgr.getInstance(RedisType.GAME);
 export const RoleRedisPrefix: string = 'role';
 
 export class Role extends RedisData<RoleData> {
-    constructor(uid: number) {
+    _session: PlayerSession;
+
+    constructor(uid: number, session?: PlayerSession) {
         super(RoleRedisPrefix);
+        this._session = session;
+
         this.data = new RoleData();
         this.data.uid = uid;
         this.data.nickname = '';
@@ -94,13 +99,19 @@ export class Role extends RedisData<RoleData> {
         return this.data.uid % WorldDB.conn.config.tableSplitCount;
     }
 
-    public async sendMsgToRole(roleId: number, msg: S2C.IMessage) {
+    public async sendMsgToRole(roleId: number, msg: S2C.Message) {
         let buffer = S2C.Message.encode(msg).finish();
         await RedisMgr.getInstance(RedisType.GAME).publish(RoleRedisPrefix + '_' + roleId, buffer.toString());
     }
 
-    public async sendMsgToAll(msg: S2C.IMessage) {
+    public async sendMsgToAll(msg: S2C.Message) {
         let buffer = S2C.Message.encode(msg).finish();
         await RedisMgr.getInstance(RedisType.GAME).publish(RedisChanel.BROADCAST, buffer.toString());
+    }
+
+    public sendProtocol(msg: S2C.Message) {
+        if (this._session) {
+            this._session.sendProtocol(msg);
+        }
     }
 }

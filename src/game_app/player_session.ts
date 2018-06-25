@@ -53,7 +53,7 @@ export class PlayerSession extends UserSession {
                 Log.sError('not receive online packet yet, uid=' + this.m_socket.uid);
                 continue;
             }
-            
+
             controller = World.getInstance().getController(packet.kind);
             if (controller) {
                 await this.doController(controller, this, packet[packet.kind]);
