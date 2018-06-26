@@ -3,7 +3,7 @@ import {LinkedList, ListNode} from '../../lib/util/linked_list'
 import * as GameUtil from '../../lib/util/game_util'
 import * as fs from 'fs'
 import {Log} from "../../lib/util/log"
-import {C2S} from "./proto/cmd"
+import {C2S} from "../proto/cmd"
 import {RedisChanel, RedisMgr, RedisType} from "../../lib/redis/redis_mgr";
 import {RoleRedisPrefix} from "./role";
 import * as events from "events";
@@ -30,55 +30,14 @@ enum WorldMsg {
     KICK = 'kick'
 }
 
-class RaceTimer {
-    private readonly _mutex: string;
-    private _interval: number;
-    private readonly _callback: Function;
-    private _bFirstUpdate: boolean;
-
-    constructor(mutex: string, interval: number, callback: Function) {
-        this._bFirstUpdate = true;
-        this._mutex = mutex;
-        this._interval = interval;
-        if (!callback) {
-            throw new Error('race timer callback should be valid');
-        }
-        this._callback = callback;
-    }
-
-    public async run() {
-        if (this._bFirstUpdate) {
-            this._bFirstUpdate = false;
-            // Log.sInfo('start run raceTimer mutex=' + this._mutex);
-            await this._callback();
-            // Log.sInfo('end run raceTimer mutex=' + this._mutex);
-        }
-
-        let self = this;
-        doUpdate();
-
-        function doUpdate() {
-            setTimeout(() => {
-                gameRedis.lock(self._mutex, async (hasLock: boolean) => {
-                    if (hasLock) {
-                        // Log.sInfo('start run raceTimer mutex=' + self._mutex);
-                        await self._callback();
-                        // Log.sInfo('end run raceTimer mutex=' + self._mutex);
-                    }
-                }, false).then(doUpdate);
-            }, self._interval);
-        }
-    }
-}
-
-export class World extends events.EventEmitter {
+export class GameWorld extends events.EventEmitter {
     public _isUpdating: boolean;
-    private static _instance: World;
+    private static _instance: GameWorld;
     private _info: ServerInfo;
     private readonly _sessionList: LinkedList<UserSession>;
     private readonly _authedSessionMap: AuthedSessionMap; // 玩家上线通过后加入进来
     private readonly _allControllers: ControllerMap;
-    private readonly _timer: { [mutex: string]: RaceTimer };
+    private readonly _timer: { [mutex: string]: time.RaceTimer };
 
     constructor() {
         super();
@@ -116,9 +75,9 @@ export class World extends events.EventEmitter {
         });
     }
 
-    public static getInstance(): World {
+    public static getInstance(): GameWorld {
         if (!this._instance) {
-            this._instance = new World();
+            this._instance = new GameWorld();
         }
         return this._instance;
     }
@@ -153,7 +112,7 @@ export class World extends events.EventEmitter {
         for (let cmd in C2S.Message['fields']) {
             if (!C2S.Message['fields'].hasOwnProperty(cmd))
                 continue;
-            if (cmd.indexOf('CS') !== -1) {
+            if (cmd.indexOf('CS') !== -1 && cmd.indexOf('LOGIN_') === -1) {
                 let arr = cmd.split('_');
                 if (arr.length > 2) {
                     let controllerPath = __dirname + '/controllers/' + arr[1].toLowerCase() + '_controller.js';
@@ -188,14 +147,14 @@ export class World extends events.EventEmitter {
         await this.initControllers();
         await RedisMgr.getInstance(RedisType.GAME).subscribe(RedisChanel.BROADCAST, this);
 
-        await this.addTimer('update1s', time.SECOND, async () => {
-            await time.sleep(2 * time.SECOND);
+        await this.addTimer('game_world_update1s', time.SECOND, async () => {
+            // await time.sleep(2 * time.SECOND);
         });
-        // await this.addTimer('update1m', time.MINUTE, async () => {
+        // await this.addTimer('game_world_update1m', time.MINUTE, async () => {
         // });
-        // await this.addTimer('update1h', time.HOUR, async () => {
+        // await this.addTimer('game_world_update1h', time.HOUR, async () => {
         // });
-        // await this.addTimer('update1d', time.DAY, async () => {
+        // await this.addTimer('game_world_update1d', time.DAY, async () => {
         // });
     }
 
@@ -204,7 +163,7 @@ export class World extends events.EventEmitter {
             Log.sError('duplicate timer register in world, mutex=' + mutex);
             throw new Error('duplicate timer register in world, mutex=' + mutex);
         }
-        this._timer[mutex] = new RaceTimer(mutex, interval, callback);
+        this._timer[mutex] = new time.RaceTimer(mutex, interval, callback);
         await this._timer[mutex].run();
     }
 
@@ -253,7 +212,7 @@ export class World extends events.EventEmitter {
 
             if (this._isUpdating) {
                 setTimeout(async () => {
-                    World.getInstance().stop().then(resolve);
+                    GameWorld.getInstance().stop().then(resolve);
                 }, 100)
             }
             else {

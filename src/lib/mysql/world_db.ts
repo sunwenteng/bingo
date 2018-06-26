@@ -35,7 +35,6 @@ export async function start(config: MysqlConfig): Promise<void> {
             "techs     		longblob    NULL," +
             "PRIMARY KEY (uid)" +
             ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
-
         columns = columns.concat([
             [tableName, 'exp', "INT UNSIGNED NOT NULL DEFAULT 0"],
             [tableName, 'vipExp', "INT UNSIGNED NOT NULL DEFAULT 0"],
@@ -48,6 +47,16 @@ export async function start(config: MysqlConfig): Promise<void> {
             [tableName, 'idx_nickname', ['nickname']],
         ]);
     }
+
+    // 全局（分服）数据
+    tableName = 'global';
+    tables[tableName] =
+        "CREATE TABLE IF NOT EXISTS " + tableName + " (" +
+        "server_id      INT 	    UNSIGNED 	NOT NULL," +
+        "key_id   		VARCHAR(64) CHARACTER SET utf8 NOT NULL DEFAULT ''," +
+        "data 		    longblob    NULL," +
+        "PRIMARY KEY (server_id, key_id)" +
+        ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 
     await conn.createTables(tables);
     await conn.addColumns(columns);

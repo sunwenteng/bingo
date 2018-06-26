@@ -23,7 +23,7 @@
       "port": 3306,
       "user": "root",
       "password": "root",
-      "database": "test",
+      "database": "bingo_login",
       "connectionLimit": 1,
       "charset": "UTF8",
       "supportBigNumbers": true,
@@ -49,6 +49,12 @@
       "host": "0.0.0.0",
       "port": 5555,
       "config": "../../config/data/",
+      "version": "1.0.0",
+      "sessionPacketMaxLength": 10000
+    },
+    "login": {
+      "host": "0.0.0.0",
+      "port": 7777,
       "version": "1.0.0",
       "sessionPacketMaxLength": 10000
     }

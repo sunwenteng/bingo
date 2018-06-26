@@ -1,9 +1,9 @@
 import {UserSession} from '../../lib/net/user_session'
 import {Log} from "../../lib/util/log";
-import {World} from "./world";
-import {execTime} from "../../lib/util/descriptor";
+import {GameWorld} from "./game_world";
 import {RedisMgr, RedisType} from "../../lib/redis/redis_mgr";
 import {RoleRedisPrefix} from "./role";
+import {C2S, S2C} from "../proto/cmd";
 
 const MAX_PACKET_COUNT = 10000;
 
@@ -23,6 +23,14 @@ export class GameSession extends UserSession {
     constructor() {
         super();
         this._roleId = 0;
+        this.on('message', (data) => {
+            try {
+                let msg = C2S.Message.decode(new Uint8Array(data));
+                this.pushPacket(msg);
+            } catch (e) {
+                Log.sError(e);
+            }
+        });
     }
 
     // @execTime(false)
@@ -54,7 +62,7 @@ export class GameSession extends UserSession {
                 continue;
             }
 
-            controller = World.getInstance().getController(packet.kind);
+            controller = GameWorld.getInstance().getController(packet.kind);
             if (controller) {
                 await this.doController(controller, this, packet[packet.kind]);
             }
@@ -70,23 +78,30 @@ export class GameSession extends UserSession {
     }
 
     public addSessionToWorker(): void {
-        World.getInstance().addSession(this);
+        GameWorld.getInstance().addSession(this);
     }
 
     public async online() {
         if (this._roleId) {
-            World.getInstance().addAuthedSession(this._roleId, this);
-            await roleRedis.subscribe(RoleRedisPrefix + '_' + this._roleId, World.getInstance());
+            GameWorld.getInstance().addAuthedSession(this._roleId, this);
+            await roleRedis.subscribe(RoleRedisPrefix + '_' + this._roleId, GameWorld.getInstance());
             Log.sInfo('roleId=%d online', this._roleId);
         }
     }
 
     public async offline() {
         if (this._roleId) {
-            World.getInstance().delAuthedSession(this._roleId);
+            GameWorld.getInstance().delAuthedSession(this._roleId);
             await roleRedis.unsubscribe(RoleRedisPrefix + '_' + this._roleId);
             Log.sInfo('roleId=%d offline', this._roleId);
             this._roleId = 0;
         }
+    }
+
+    public sendProtocol(data: any) {
+        let msg = S2C.Message.create();
+        msg[data.$type.name] = data;
+        let buffer = S2C.Message.encode(msg).finish();
+        this.send(buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.length))
     }
 }

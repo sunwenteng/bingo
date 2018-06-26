@@ -1,0 +1,75 @@
+syntax = "proto3";
+package S2C;
+
+/** remember to put your message here as a kind support**/
+message Message {
+    oneof kind {
+        Error Error = 1;
+        SC_TEST_ECHO SC_TEST_ECHO = 2;
+        SC_ROLE_ONLINE SC_ROLE_ONLINE = 3;
+        SC_ROLE_HEART_BEAT SC_ROLE_HEART_BEAT = 4;
+        SC_ROLE_UPDATE SC_ROLE_UPDATE = 5;
+        LOGIN_SC_LOGIN LOGIN_SC_LOGIN = 6;
+        LOGIN_SC_CHOOSE_SERVER LOGIN_SC_CHOOSE_SERVER = 7;
+        LOGIN_SC_GET_SERVER_LIST LOGIN_SC_GET_SERVER_LIST = 8;
+        LOGIN_SC_GET_INFO LOGIN_SC_GET_INFO = 9;
+    }
+}
+
+message SC_TEST_ECHO {
+    int32 cmd_id = 1;
+    string msg = 2;
+}
+
+message Error {
+    int32 code = 1;
+    string msg = 2;
+}
+
+
+message SC_ROLE_ONLINE {
+    int32 role_id = 1;
+}
+
+message SC_ROLE_HEART_BEAT {
+
+}
+
+message SC_ROLE_UPDATE {
+    string nickname = 1;
+    uint32 level = 2;
+    uint64 exp = 3;
+    uint32 vip_level = 4;
+    uint32 vip_exp = 5;
+    uint32 diamond = 6;
+    uint64 gold = 7;
+}
+
+message LOGIN_SC_LOGIN {
+    uint32 server_id = 1;
+    uint32 gm_auth = 2;
+}
+
+message LOGIN_SC_CHOOSE_SERVER {
+    string ip = 1;
+    uint32 port = 2;
+    string version = 3;
+    string res_version = 4;
+    string res_server_address = 5;
+}
+
+message LOGIN_SC_GET_SERVER_LIST {
+    message Server {
+        uint32 server_id = 1;
+        string name = 2;
+        uint32 status = 3;
+    }
+
+    repeated Server servers = 1;
+}
+
+message LOGIN_SC_GET_INFO {
+    string notice = 1;
+    string version = 2;
+    string update_address = 3;
+}

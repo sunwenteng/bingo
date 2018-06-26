@@ -3,8 +3,8 @@ import Time = require('../../lib/util/time');
 import {RedisMgr, RedisType, RedisData, RedisChanel} from '../../lib/redis/redis_mgr';
 import * as WorldDB from '../../lib/mysql/world_db';
 import {RoleData} from "./defines";
-import {WorldDataRedisKey} from "./world";
-import {S2C} from "./proto/cmd";
+import {WorldDataRedisKey} from "./game_world";
+import {S2C} from "../proto/cmd";
 import {GameSession} from "./game_session";
 
 let gameRedis = RedisMgr.getInstance(RedisType.GAME);
@@ -108,7 +108,7 @@ export class Role extends RedisData<RoleData> {
         await RedisMgr.getInstance(RedisType.GAME).publish(RedisChanel.BROADCAST, buffer.toString());
     }
 
-    public sendProtocol(msg: S2C.Message) {
+    public sendProtocol(msg: any) {
         if (this._session) {
             this._session.sendProtocol(msg);
         }

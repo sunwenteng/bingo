@@ -2,7 +2,6 @@ import * as ws from 'ws';
 import * as http from "http";
 import {Log} from '../../util/log'
 import {UserSession} from "../user_session"
-import {C2S, S2C} from "../../../app/game/proto/cmd";
 
 let uid: number = 0;
 export var isServerValid: boolean = false;
@@ -32,12 +31,7 @@ export class WebSocket {
         this._state = SocketStatus.VALID;
         this._webSocket.on('message', (data: ArrayBuffer) => {
             if (this.isSocketValid()) {
-                try {
-                    let msg = C2S.Message.decode(new Uint8Array(data));
-                    this._session.pushPacket(msg);
-                } catch (e) {
-                    Log.sError(e);
-                }
+                this._session.emit('message', data);
             }
         });
 
@@ -63,11 +57,6 @@ export class WebSocket {
         if (this.isSocketValid()) {
             this._webSocket.send(data);
         }
-    }
-
-    public sendProtocol(data: S2C.Message): void {
-        let buffer = S2C.Message.encode(data).finish();
-        this.send(buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.length))
     }
 
     public close() {

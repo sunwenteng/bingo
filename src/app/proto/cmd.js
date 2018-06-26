@@ -14,7 +14,11 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
               "CS_TEST_ECHO",
               "CS_ROLE_ONLINE",
               "CS_ROLE_HEART_BEAT",
-              "CS_ABC_DEF"
+              "CS_ABC_DEF",
+              "LOGIN_CS_LOGIN",
+              "LOGIN_CS_CHOOSE_SERVER",
+              "LOGIN_CS_GET_SERVER_LIST",
+              "LOGIN_CS_GET_INFO"
             ]
           }
         },
@@ -34,6 +38,22 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
           CS_ABC_DEF: {
             type: "CS_ABC_DEF",
             id: 4
+          },
+          LOGIN_CS_LOGIN: {
+            type: "LOGIN_CS_LOGIN",
+            id: 5
+          },
+          LOGIN_CS_CHOOSE_SERVER: {
+            type: "LOGIN_CS_CHOOSE_SERVER",
+            id: 6
+          },
+          LOGIN_CS_GET_SERVER_LIST: {
+            type: "LOGIN_CS_GET_SERVER_LIST",
+            id: 7
+          },
+          LOGIN_CS_GET_INFO: {
+            type: "LOGIN_CS_GET_INFO",
+            id: 8
           }
         }
       },
@@ -96,6 +116,61 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
             id: 2
           }
         }
+      },
+      LOGIN_CS_LOGIN: {
+        fields: {
+          passport: {
+            type: "string",
+            id: 1
+          },
+          pwd: {
+            type: "string",
+            id: 2
+          },
+          device: {
+            type: "string",
+            id: 3
+          },
+          deviceUid: {
+            type: "string",
+            id: 4
+          },
+          deviceType: {
+            type: "string",
+            id: 5
+          },
+          deviceToken: {
+            type: "string",
+            id: 6
+          },
+          platform: {
+            type: "uint32",
+            id: 7
+          }
+        }
+      },
+      LOGIN_CS_CHOOSE_SERVER: {
+        fields: {
+          serverId: {
+            type: "uint32",
+            id: 1
+          }
+        }
+      },
+      LOGIN_CS_GET_SERVER_LIST: {
+        fields: {}
+      },
+      LOGIN_CS_GET_INFO: {
+        fields: {
+          platformId: {
+            type: "uint32",
+            id: 1
+          },
+          clientVersion: {
+            type: "string",
+            id: 2
+          }
+        }
       }
     }
   },
@@ -109,7 +184,11 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
               "SC_TEST_ECHO",
               "SC_ROLE_ONLINE",
               "SC_ROLE_HEART_BEAT",
-              "SC_ROLE_UPDATE"
+              "SC_ROLE_UPDATE",
+              "LOGIN_SC_LOGIN",
+              "LOGIN_SC_CHOOSE_SERVER",
+              "LOGIN_SC_GET_SERVER_LIST",
+              "LOGIN_SC_GET_INFO"
             ]
           }
         },
@@ -133,6 +212,22 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
           SC_ROLE_UPDATE: {
             type: "SC_ROLE_UPDATE",
             id: 5
+          },
+          LOGIN_SC_LOGIN: {
+            type: "LOGIN_SC_LOGIN",
+            id: 6
+          },
+          LOGIN_SC_CHOOSE_SERVER: {
+            type: "LOGIN_SC_CHOOSE_SERVER",
+            id: 7
+          },
+          LOGIN_SC_GET_SERVER_LIST: {
+            type: "LOGIN_SC_GET_SERVER_LIST",
+            id: 8
+          },
+          LOGIN_SC_GET_INFO: {
+            type: "LOGIN_SC_GET_INFO",
+            id: 9
           }
         }
       },
@@ -200,6 +295,85 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
           gold: {
             type: "uint64",
             id: 7
+          }
+        }
+      },
+      LOGIN_SC_LOGIN: {
+        fields: {
+          serverId: {
+            type: "uint32",
+            id: 1
+          },
+          gmAuth: {
+            type: "uint32",
+            id: 2
+          }
+        }
+      },
+      LOGIN_SC_CHOOSE_SERVER: {
+        fields: {
+          ip: {
+            type: "string",
+            id: 1
+          },
+          port: {
+            type: "uint32",
+            id: 2
+          },
+          version: {
+            type: "string",
+            id: 3
+          },
+          resVersion: {
+            type: "string",
+            id: 4
+          },
+          resServerAddress: {
+            type: "string",
+            id: 5
+          }
+        }
+      },
+      LOGIN_SC_GET_SERVER_LIST: {
+        fields: {
+          servers: {
+            rule: "repeated",
+            type: "Server",
+            id: 1
+          }
+        },
+        nested: {
+          Server: {
+            fields: {
+              serverId: {
+                type: "uint32",
+                id: 1
+              },
+              name: {
+                type: "string",
+                id: 2
+              },
+              status: {
+                type: "uint32",
+                id: 3
+              }
+            }
+          }
+        }
+      },
+      LOGIN_SC_GET_INFO: {
+        fields: {
+          notice: {
+            type: "string",
+            id: 1
+          },
+          version: {
+            type: "string",
+            id: 2
+          },
+          updateAddress: {
+            type: "string",
+            id: 3
           }
         }
       }

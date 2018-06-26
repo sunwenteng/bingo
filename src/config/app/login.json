@@ -1,0 +1,24 @@
+{
+  "apps": [
+    {
+      "name": "login",
+      "script": "app.js",
+      "instances": 1,
+      "instance_var": "INSTANCE_ID",
+      "exec_mode": "cluster",
+      "cwd": "../../app/login",
+      "args": [],
+      "node_args": "--harmony",
+      "merge_logs": false,
+      "autorestart": false,
+      "wait-ready": true,
+      "listen-timeout": 60000,
+      "max_memory_restart": "2048M",
+      "env": {
+        "NODE_ENV": "production"
+      },
+      "error_file": "/dev/null",
+      "out_file": "/dev/null"
+    }
+  ]
+}

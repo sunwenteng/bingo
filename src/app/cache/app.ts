@@ -2,7 +2,7 @@ import {Log} from "../../lib/util/log";
 import {RedisMgr, RedisType} from "../../lib/redis/redis_mgr";
 import {Role} from "../game/role";
 import * as WorldDB from '../../lib/mysql/world_db';
-import {WorldDataRedisKey} from "../game/world";
+import {WorldDataRedisKey} from "../game/game_world";
 
 let isAppValid = true;
 
@@ -53,7 +53,7 @@ async function main() {
     }
 
     function stop() {
-        return new Promise<void>(((resolve, reject) => {
+        return new Promise<void>(((resolve) => {
             if (isSaving) {
                 setTimeout(() => {
                     stop().then(resolve);
@@ -65,13 +65,11 @@ async function main() {
         }));
     }
 
-    let timer;
-
     function update() {
         if (!isAppValid) {
             return;
         }
-        timer = setTimeout(async () => {
+        setTimeout(async () => {
             save().then(update).catch((reason => {
                 Log.sError(reason);
                 update();

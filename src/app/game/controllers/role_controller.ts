@@ -1,8 +1,8 @@
-import {C2S, S2C} from "../proto/cmd";
+import {C2S, S2C} from "../../proto/cmd";
 import {GameSession} from "../game_session";
 import {Role} from "../role";
 import {RedisMgr, RedisType} from "../../../lib/redis/redis_mgr";
-import {World} from "../world";
+import {GameWorld} from "../game_world";
 import {Log} from "../../../lib/util/log";
 
 let gameRedis = RedisMgr.getInstance(RedisType.GAME);
@@ -15,9 +15,9 @@ export async function online(session: GameSession, msg: C2S.CS_ROLE_ONLINE) {
     let roleId = parseInt(msg.passport);
     let role = new Role(roleId);
     await gameRedis.lock(role.getRedisKey(), async () => {
-        let isOnline = await World.getInstance().isRoleOnline(roleId);
+        let isOnline = await GameWorld.getInstance().isRoleOnline(roleId);
         if (isOnline) {
-            await World.getInstance().kickRole(roleId);
+            await GameWorld.getInstance().kickRole(roleId);
         }
         let exist = await role.load();
         if (!exist) {
@@ -29,19 +29,14 @@ export async function online(session: GameSession, msg: C2S.CS_ROLE_ONLINE) {
 
         // start TODO
         // end TODO
-
-        session.sendProtocol(
-            S2C.Message.create({
-                SC_ROLE_ONLINE: {
-                    roleId: roleId
-                }
-            })
-        );
+        let pck = S2C.SC_ROLE_ONLINE.create();
+        pck.roleId = roleId;
+        session.sendProtocol(pck);
     });
 }
 
 export async function heartBeat(session: GameSession, msg: C2S.CS_ROLE_HEART_BEAT) {
-    let role = new Role(session.roleId);
+    let role = new Role(session.roleId, session);
     await gameRedis.lock(role.getRedisKey(), async () => {
         role.set({
             diamond: role.data.diamond + 1,
@@ -49,11 +44,8 @@ export async function heartBeat(session: GameSession, msg: C2S.CS_ROLE_HEART_BEA
 
         await role.save();
 
-        session.sendProtocol(
-            S2C.Message.create({
-                SC_ROLE_HEART_BEAT: {}
-            })
-        );
+        let pck = S2C.SC_ROLE_HEART_BEAT.create();
+        role.sendProtocol(pck);
 
         // if (roleId % 10 === 0) {
         //     setTimeout(()=>{

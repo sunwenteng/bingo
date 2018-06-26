@@ -1,12 +1,13 @@
 import {WebSocket} from "./ws/web_socket";
-import {C2S, S2C} from "../../app/game/proto/cmd";
 import {LinkedList} from "../util/linked_list";
+import * as events from "events";
 
-export abstract class UserSession {
+export abstract class UserSession extends events.EventEmitter {
     public m_packets: LinkedList<any>;
     public m_socket: WebSocket | any;
 
     protected constructor() {
+        super();
         this.m_packets = new LinkedList<any>();
     }
 
@@ -14,12 +15,12 @@ export abstract class UserSession {
 
     public abstract addSessionToWorker(): void;
 
-    public pushPacket(packet: C2S.Message) {
+    public pushPacket(packet) {
         this.m_packets.append(packet);
     }
 
     public send(data: any): void {
-        this.m_socket.sendProtocol(data);
+        this.m_socket.send(data);
     }
 
     public online() {
@@ -30,9 +31,7 @@ export abstract class UserSession {
 
     }
 
-    public sendProtocol(data: S2C.Message): void {
-        this.m_socket.sendProtocol(data);
-    }
+    public abstract sendProtocol(data);
 
     public closeSocket() {
         this.m_socket.close();

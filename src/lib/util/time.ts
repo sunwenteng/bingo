@@ -1,3 +1,5 @@
+import {RedisMgr, RedisType} from "../redis/redis_mgr";
+
 /**
  * 游戏可用的一些时间判断函数
  */
@@ -110,5 +112,46 @@ export class IntervalTimer {
 
     public update(now: number): void {
         this._lastUpdate = now;
+    }
+}
+
+export class RaceTimer {
+    private readonly _mutex: string;
+    private _interval: number;
+    private readonly _callback: Function;
+    private _bFirstUpdate: boolean;
+
+    constructor(mutex: string, interval: number, callback: Function) {
+        this._bFirstUpdate = true;
+        this._mutex = mutex;
+        this._interval = interval;
+        if (!callback) {
+            throw new Error('race timer callback should be valid');
+        }
+        this._callback = callback;
+    }
+
+    public async run() {
+        if (this._bFirstUpdate) {
+            this._bFirstUpdate = false;
+            // Log.sInfo('start run raceTimer mutex=' + this._mutex);
+            await this._callback();
+            // Log.sInfo('end run raceTimer mutex=' + this._mutex);
+        }
+
+        let self = this;
+        doUpdate();
+
+        function doUpdate() {
+            setTimeout(() => {
+                RedisMgr.getInstance(RedisType.GAME).lock(self._mutex, async (hasLock: boolean) => {
+                    if (hasLock) {
+                        // Log.sInfo('start run raceTimer mutex=' + self._mutex);
+                        await self._callback();
+                        // Log.sInfo('end run raceTimer mutex=' + self._mutex);
+                    }
+                }, false).then(doUpdate);
+            }, self._interval);
+        }
     }
 }

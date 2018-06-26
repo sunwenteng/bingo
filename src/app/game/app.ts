@@ -1,6 +1,6 @@
 import {Log} from "../../lib/util/log";
 import * as WorldDB from "../../lib/mysql/world_db";
-import {World} from "./world";
+import {GameWorld} from "./game_world";
 import {isServerValid, Server} from "../../lib/net/ws/web_socket";
 import {GameSession} from "./game_session";
 import {RedisMgr, RedisType} from "../../lib/redis/redis_mgr";
@@ -13,7 +13,7 @@ async function main() {
     ConfigMgr.getInstance().loadAllConfig(__dirname + '/' + Config['app']['game']['config']);
 
     await WorldDB.start(Config['mysql']['game_db']);
-    await World.getInstance().start();
+    await GameWorld.getInstance().start();
 
     let server = new Server(Config['app']['game']['host'], parseInt(Config['app']['game']['port']));
     await server.start(GameSession);
@@ -24,7 +24,7 @@ async function main() {
 
     process.on("SIGINT", async () => {
         await server.stop();
-        await World.getInstance().stop();
+        await GameWorld.getInstance().stop();
         process.nextTick(async () => {
             await RedisMgr.getInstance(RedisType.GAME).stop();
             await WorldDB.stop();
@@ -39,7 +39,7 @@ async function main() {
 
         let start = Date.now();
         setTimeout(() => {
-            World.getInstance().update().then(() => {
+            GameWorld.getInstance().update().then(() => {
                 let cost = Date.now() - start;
                 update(cost > 100 ? 10 : 100);
             }).catch((reason => {
