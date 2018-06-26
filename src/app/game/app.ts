@@ -1,13 +1,13 @@
-import {Log} from "../lib/util/log";
-import * as WorldDB from "../lib/mysql/world_db";
+import {Log} from "../../lib/util/log";
+import * as WorldDB from "../../lib/mysql/world_db";
 import {World} from "./world";
-import {isServerValid, Server} from "../lib/net/ws/web_socket";
+import {isServerValid, Server} from "../../lib/net/ws/web_socket";
 import {GameSession} from "./game_session";
-import {RedisMgr, RedisType} from "../lib/redis/redis_mgr";
-import {ConfigMgr} from "../config/data/config_struct";
+import {RedisMgr, RedisType} from "../../lib/redis/redis_mgr";
+import {ConfigMgr} from "../../config/data/config_struct";
 
 async function main() {
-    const Config = require('../config/config.json');
+    const Config = require('../../config/config.json');
     Log.init(__dirname + '/' + Config.log.dir, Config.log.level);
 
     ConfigMgr.getInstance().loadAllConfig(__dirname + '/' + Config['app']['game']['config']);

@@ -4,7 +4,7 @@ const sourceMaps = require('gulp-sourcemaps');
 const rm = require('gulp-rm');
 const shell = require('gulp-shell');
 const fs = require('fs');
-const {S2C} = require("./src/game_app/proto/cmd");
+const {S2C} = require("./src/app/game/proto/cmd");
 
 gulp.task('scripts_src'/*, ['clear']*/, () => {
     return gulp.src('src/**/*.ts')

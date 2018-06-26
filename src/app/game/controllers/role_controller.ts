@@ -1,9 +1,9 @@
 import {C2S, S2C} from "../proto/cmd";
 import {GameSession} from "../game_session";
 import {Role} from "../role";
-import {RedisMgr, RedisType} from "../../lib/redis/redis_mgr";
+import {RedisMgr, RedisType} from "../../../lib/redis/redis_mgr";
 import {World} from "../world";
-import {Log} from "../../lib/util/log";
+import {Log} from "../../../lib/util/log";
 
 let gameRedis = RedisMgr.getInstance(RedisType.GAME);
 

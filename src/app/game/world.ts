@@ -1,15 +1,15 @@
-import {UserSession} from '../lib/net/user_session'
-import {LinkedList, ListNode} from '../lib/util/linked_list'
-import * as GameUtil from '../lib/util/game_util'
+import {UserSession} from '../../lib/net/user_session'
+import {LinkedList, ListNode} from '../../lib/util/linked_list'
+import * as GameUtil from '../../lib/util/game_util'
 import * as fs from 'fs'
-import {Log} from "../lib/util/log"
+import {Log} from "../../lib/util/log"
 import {C2S} from "./proto/cmd"
-import {RedisChanel, RedisMgr, RedisType} from "../lib/redis/redis_mgr";
+import {RedisChanel, RedisMgr, RedisType} from "../../lib/redis/redis_mgr";
 import {RoleRedisPrefix} from "./role";
 import * as events from "events";
-import * as time from '../lib/util/time';
+import * as time from '../../lib/util/time';
 
-const Config = require('../config/config.json');
+const Config = require('../../config/config.json');
 type AuthedSessionMap = { [index: number]: UserSession };
 type ControllerMap = { [index: string]: Function };
 let gameRedis = RedisMgr.getInstance(RedisType.GAME);

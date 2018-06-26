@@ -1,12 +1,12 @@
 {
   "apps": [
     {
-      "name": "game",
+      "name": "cache",
       "script": "app.js",
-      "instances": 4,
+      "instances": 1,
       "instance_var": "INSTANCE_ID",
       "exec_mode": "cluster",
-      "cwd": "../../game_app",
+      "cwd": "../../app/cache",
       "args": [],
       "node_args": "--harmony",
       "merge_logs": false,

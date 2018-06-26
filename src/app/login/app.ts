@@ -1,13 +1,13 @@
-import {Log} from "../lib/util/log";
-import {RedisMgr, RedisType} from "../lib/redis/redis_mgr";
-import {Role, RoleRedisPrefix} from "../game_app/role";
-import * as WorldDB from '../lib/mysql/world_db';
-import {WorldDataRedisKey} from "../game_app/world";
+import {Log} from "../../lib/util/log";
+import {RedisMgr, RedisType} from "../../lib/redis/redis_mgr";
+import {Role, RoleRedisPrefix} from "../game/role";
+import * as WorldDB from '../../lib/mysql/world_db';
+import {WorldDataRedisKey} from "../game/world";
 
 let isAppValid = true;
 
 async function main() {
-    const Config = require('../config/config.json');
+    const Config = require('../../config/config.json');
     Log.init(__dirname + '/' + Config.log.dir, Config.log.level);
     let roleRedis = RedisMgr.getInstance(RedisType.GAME);
 

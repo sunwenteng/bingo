@@ -1,7 +1,7 @@
-import {Log} from '../lib/util/log';
-import Time = require('../lib/util/time');
-import {RedisMgr, RedisType, RedisData, RedisChanel} from '../lib/redis/redis_mgr';
-import * as WorldDB from '../lib/mysql/world_db';
+import {Log} from '../../lib/util/log';
+import Time = require('../../lib/util/time');
+import {RedisMgr, RedisType, RedisData, RedisChanel} from '../../lib/redis/redis_mgr';
+import * as WorldDB from '../../lib/mysql/world_db';
 import {RoleData} from "./defines";
 import {WorldDataRedisKey} from "./world";
 import {S2C} from "./proto/cmd";
@@ -45,7 +45,6 @@ export class Role extends RedisData<RoleData> {
             await gameRedis.hmset(this.getRedisKey(), saveData, this.redisKeyExpire);
             // 往脏数据集合添加
             await gameRedis.sadd(WorldDataRedisKey.DIRTY_ROLES, this.data.uid);
-            // 这种做法保证缓存数据最新，数据库会有部分脏数据
         }
     }
 

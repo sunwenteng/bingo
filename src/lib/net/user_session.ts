@@ -1,5 +1,5 @@
 import {WebSocket} from "./ws/web_socket";
-import {C2S, S2C} from "../../game_app/proto/cmd";
+import {C2S, S2C} from "../../app/game/proto/cmd";
 import {LinkedList} from "../util/linked_list";
 
 export abstract class UserSession {
