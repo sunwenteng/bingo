@@ -1,5 +1,5 @@
 import {Log} from "./log";
-import {Role} from "../../app/game/role";
+import {Role} from "../../app/game/modles/role";
 import {RedisMgr, RedisType} from "../redis/redis_mgr";
 import {UserSession} from "../net/user_session";
 
@@ -34,7 +34,7 @@ export function execTime(bToLog: boolean = true) {
 
 let gameRedis = RedisMgr.getInstance(RedisType.GAME);
 
-export function controller(readonly: boolean = false) {
+export function controller(readonly: boolean = false, mask?: number) {
     return (target: Object, methodName: string, descriptor: TypedPropertyDescriptor<Function>) => {
         let originalMethod = descriptor.value;
         descriptor.value = async function (...args) {
@@ -43,7 +43,7 @@ export function controller(readonly: boolean = false) {
             let returnValue = null;
             if (!readonly) {
                 await gameRedis.lock(role.getRedisKey(), async () => {
-                    await role.load();
+                    await role.load(mask);
                     returnValue = await originalMethod.apply(this, args);
                     await role.save();
                 });
@@ -53,6 +53,30 @@ export function controller(readonly: boolean = false) {
                 returnValue = await originalMethod.apply(this, args);
             }
             return returnValue;
+        }
+    }
+}
+
+export function singleton(target: Function) {
+}
+
+export function props(recordDirty2Client:boolean = true) {
+    return function (target: Object, key: string): void {
+        let propertyValue: string = this[key];
+        if (delete this[key]) {
+            Object.defineProperty(target, key, {
+                get: function () {
+                    return propertyValue;
+                },
+                set: function (newValue) {
+                    if (newValue !== propertyValue) {
+                        this['isDirty'] = true;
+                        this['dirtyFields'][key] = '';
+                        propertyValue = newValue;
+                    }
+                    this['allFields'][key] = '';
+                }
+            });
         }
     }
 }
