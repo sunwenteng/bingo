@@ -5,7 +5,7 @@ import * as fs from 'fs'
 import {Log} from "../../lib/util/log"
 import {C2S} from "../proto/cmd"
 import {RedisChanel, RedisMgr, RedisType} from "../../lib/redis/redis_mgr";
-import {RoleRedisPrefix} from "./role";
+import {RoleRedisPrefix} from "./modles/role";
 import * as events from "events";
 import * as time from '../../lib/util/time';
 

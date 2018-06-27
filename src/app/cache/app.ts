@@ -1,6 +1,6 @@
 import {Log} from "../../lib/util/log";
 import {RedisMgr, RedisType} from "../../lib/redis/redis_mgr";
-import {Role} from "../game/role";
+import {Role} from "../game/modles/role";
 import * as WorldDB from '../../lib/mysql/world_db';
 import {WorldDataRedisKey} from "../game/game_world";
 

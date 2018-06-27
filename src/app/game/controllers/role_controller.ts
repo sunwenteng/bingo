@@ -1,6 +1,6 @@
 import {C2S, S2C} from "../../proto/cmd";
 import {GameSession} from "../game_session";
-import {Role} from "../role";
+import {Role} from "../modles/role";
 import {RedisMgr, RedisType} from "../../../lib/redis/redis_mgr";
 import {GameWorld} from "../game_world";
 import {Log} from "../../../lib/util/log";

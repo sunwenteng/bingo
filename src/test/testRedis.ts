@@ -1,7 +1,7 @@
 import {Log} from "../lib/util/log";
 import {RedisDB, RedisMgr, RedisType} from "../lib/redis/redis_mgr";
 import {execTime} from "../lib/util/descriptor";
-import {Role} from "../app/game/role";
+import {Role} from "../app/game/modles/role";
 import * as WorldDB from '../lib/mysql/world_db';
 
 const Config = require('../config/config.json');

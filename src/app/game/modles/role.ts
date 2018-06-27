@@ -1,11 +1,11 @@
-import {Log} from '../../lib/util/log';
-import Time = require('../../lib/util/time');
-import {RedisMgr, RedisType, RedisData, RedisChanel} from '../../lib/redis/redis_mgr';
-import * as WorldDB from '../../lib/mysql/world_db';
+import {Log} from '../../../lib/util/log';
+import Time = require('../../../lib/util/time');
+import {RedisMgr, RedisType, RedisData, RedisChanel} from '../../../lib/redis/redis_mgr';
+import * as WorldDB from '../../../lib/mysql/world_db';
 import {RoleData} from "./defines";
-import {WorldDataRedisKey} from "./game_world";
-import {S2C} from "../proto/cmd";
-import {GameSession} from "./game_session";
+import {WorldDataRedisKey} from "../game_world";
+import {S2C} from "../../proto/cmd";
+import {GameSession} from "../game_session";
 
 let gameRedis = RedisMgr.getInstance(RedisType.GAME);
 export const RoleRedisPrefix: string = 'role';

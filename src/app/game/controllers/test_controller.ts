@@ -1,5 +1,5 @@
 import {C2S, S2C} from "../../proto/cmd";
-import {Role} from "../role";
+import {Role} from "../modles/role";
 import {controller} from "../../../lib/util/descriptor";
 
 export class TestController {
