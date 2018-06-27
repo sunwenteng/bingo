@@ -10,6 +10,15 @@ import {GameSession} from "./game_session";
 let gameRedis = RedisMgr.getInstance(RedisType.GAME);
 export const RoleRedisPrefix: string = 'role';
 
+export enum ERoleMask {
+    BASE = 1,
+    EQUIP = 2,
+    ITEM = 4,
+    HERO = 8,
+    TASK = 16,
+    ACTIVITY = 32
+}
+
 export class Role extends RedisData<RoleData> {
     _session: GameSession;
 
@@ -31,7 +40,7 @@ export class Role extends RedisData<RoleData> {
 
         this.data.heroes = {};
         this.data.equips = {};
-        this.data.res = {};
+        this.data.items = {};
         this.data.techs = {};
         this.data.pve = {};
         this.data.pvp = {};
@@ -48,7 +57,7 @@ export class Role extends RedisData<RoleData> {
         }
     }
 
-    public async load(): Promise<boolean> {
+    public async load(mask?:ERoleMask): Promise<boolean> {
         return new Promise<boolean>(async (resolve) => {
             if (!this.data.uid || this.data.uid === 0) {
                 resolve(false);

@@ -139,12 +139,6 @@ export abstract class RedisData<T> {
 
 }
 
-// export function closeAll() {
-//     for (let idx in _instances) {
-//         _instances[idx].close();
-//     }
-// }
-
 export class RedisMgr {
     private readonly _name: string;
     private readonly _config: any;

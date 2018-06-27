@@ -4,6 +4,7 @@ import {GameWorld} from "./game_world";
 import {RedisMgr, RedisType} from "../../lib/redis/redis_mgr";
 import {RoleRedisPrefix} from "./role";
 import {C2S, S2C} from "../proto/cmd";
+import {execTime} from "../../lib/util/descriptor";
 
 const MAX_PACKET_COUNT = 10000;
 
@@ -59,6 +60,10 @@ export class GameSession extends UserSession {
 
             if (packet.kind !== 'CS_ROLE_ONLINE' && this._roleId === 0) {
                 Log.sError('not receive online packet yet, uid=' + this.m_socket.uid);
+                continue;
+            }
+            else if(packet.kind === 'CS_ROLE_ONLINE' && this._roleId !== 0) {
+                Log.sError('already online, duplicate online packet, roleId=%d, socketUid=%d', this._roleId, this.m_socket.uid);
                 continue;
             }
 

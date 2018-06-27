@@ -231,6 +231,83 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
           }
         }
       },
+      Role: {
+        fields: {
+          uid: {
+            type: "uint32",
+            id: 1
+          },
+          nickname: {
+            type: "string",
+            id: 2
+          },
+          headimgurl: {
+            type: "string",
+            id: 3
+          },
+          diamond: {
+            type: "uint32",
+            id: 4
+          },
+          gold: {
+            type: "uint64",
+            id: 5
+          },
+          level: {
+            type: "uint32",
+            id: 6
+          },
+          equipModel: {
+            type: "EquipModel",
+            id: 7
+          }
+        },
+        nested: {
+          EquipModel: {
+            fields: {
+              equips: {
+                keyType: "int32",
+                type: "Equip",
+                id: 1
+              }
+            },
+            nested: {
+              Equip: {
+                fields: {
+                  uid: {
+                    type: "uint32",
+                    id: 1
+                  },
+                  id: {
+                    type: "uint32",
+                    id: 2
+                  },
+                  level: {
+                    type: "uint32",
+                    id: 3
+                  }
+                }
+              }
+            }
+          },
+          HeroModel: {
+            fields: {
+              uid: {
+                type: "uint32",
+                id: 1
+              },
+              id: {
+                type: "uint32",
+                id: 2
+              },
+              level: {
+                type: "uint32",
+                id: 3
+              }
+            }
+          }
+        }
+      },
       SC_TEST_ECHO: {
         fields: {
           cmdId: {

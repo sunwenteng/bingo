@@ -16,6 +16,31 @@ message Message {
     }
 }
 
+message Role {
+    message EquipModel {
+        message Equip {
+            uint32 uid = 1;
+            uint32 id = 2;
+            uint32 level = 3;
+        }
+        map<int32, Equip> equips = 1;
+    }
+
+    message HeroModel {
+        uint32 uid = 1;
+        uint32 id = 2;
+        uint32 level = 3;
+    }
+
+    uint32 uid = 1;
+    string nickname = 2;
+    string headimgurl = 3;
+    uint32 diamond = 4;
+    uint64 gold = 5;
+    uint32 level = 6;
+    EquipModel equip_model = 7;
+}
+
 message SC_TEST_ECHO {
     int32 cmd_id = 1;
     string msg = 2;

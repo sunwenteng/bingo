@@ -51,7 +51,7 @@ export class RoleData {
 
     heroes?: { [id: number]: Hero };
     equips?: { [id: number]: Equip };
-    res?: { [id: number]: Res };
+    items?: { [id: number]: Res };
     techs?: { [id: number]: Tech };
     pve?: {
         monsterId?: number;

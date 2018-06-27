@@ -129,11 +129,14 @@ export class GameWorld extends events.EventEmitter {
                             }
                         }
                         let methodName = arr.slice(2, arr.length).join('');
-                        if (require('./controllers/' + arr[1].toLowerCase() + '_controller')[methodName]) {
-                            this._allControllers[cmd] = require('./controllers/' + arr[1].toLowerCase() + '_controller')[methodName];
+                        let module = require('./controllers/' + arr[1].toLowerCase() + '_controller');
+                        if (!module[GameUtil.capitalize(arr[1]) + 'Controller']
+                            || !module[GameUtil.capitalize(arr[1]) + 'Controller']['getInstance']
+                            || !module[GameUtil.capitalize(arr[1]) + 'Controller'].getInstance()[methodName]) {
+                            Log.sWarn('cmd=' + cmd + ', controller=' + arr[1].toLowerCase() + '_controller, method=' + methodName + ' not exists');
                         }
                         else {
-                            Log.sWarn('cmd=' + cmd + ', controller=' + arr[1].toLowerCase() + '_controller, method=' + methodName + ' not exists');
+                            this._allControllers[cmd] = module[GameUtil.capitalize(arr[1]) + 'Controller'].getInstance()[methodName];
                         }
                     }
                 }
