@@ -90,7 +90,7 @@ export class GameSession extends UserSession {
         if (this._roleId) {
             GameWorld.getInstance().addAuthedSession(this._roleId, this);
             await roleRedis.subscribe(RoleRedisPrefix + '_' + this._roleId, GameWorld.getInstance());
-            Log.sInfo('roleId=%d online', this._roleId);
+            Log.sInfo('roleId=%d, socketUid=%d, online', this._roleId, this.m_socket.uid);
         }
     }
 
@@ -98,7 +98,7 @@ export class GameSession extends UserSession {
         if (this._roleId) {
             GameWorld.getInstance().delAuthedSession(this._roleId);
             await roleRedis.unsubscribe(RoleRedisPrefix + '_' + this._roleId);
-            Log.sInfo('roleId=%d offline', this._roleId);
+            Log.sInfo('roleId=%d, socketUid=%d, offline', this._roleId, this.m_socket.uid);
             this._roleId = 0;
         }
     }

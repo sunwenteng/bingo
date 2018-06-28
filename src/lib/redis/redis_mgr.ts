@@ -24,111 +24,85 @@ export enum RedisChanel {
     BROADCAST = 'broadcast',
 }
 
-export abstract class RedisData<T> {
-    data: T;
-    private readonly _dirtyFields: { [idx: string]: string };
-    private readonly _redisPrefix: string;
-    private readonly _redisKeyExpire: number;
-    private _isDirty: boolean;
-
-    get dirtyFields(): { [idx: string]: string } {
-        return this._dirtyFields;
-    }
-
-    get isDirty(): boolean {
-        return this._isDirty;
-    }
-
-    get redisKeyExpire(): number {
-        return this._redisKeyExpire;
-    }
+export abstract class RedisData {
+    fields:any = {};
+    dirtyFields: { [idx: string]: string } = {};
+    redisPrefix: string;
+    redisKeyExpire: number;
+    isDirty: boolean = false;
 
     protected constructor(redisPrefix: string, expireTime: number = 3600) {
-        this._dirtyFields = {};
-        this._isDirty = false;
-        this._redisPrefix = redisPrefix;
-        this._redisKeyExpire = expireTime;
-    }
-
-    /**
-     * 会保存脏数据到redis或者同步给前端
-     * @param {T} obj
-     */
-    public set(obj: T) {
-        for (let i in obj) {
-            this.data[i] = obj[i];
-            this._dirtyFields[i] = '';
-            this._isDirty = true;
-        }
+        this.redisPrefix = redisPrefix;
+        this.redisKeyExpire = expireTime;
     }
 
     public getRedisKey() {
-        if (this.data['uid']) {
-            return this._redisPrefix + '_' + this.data['uid'];
+        if (this.fields['uid']) {
+            return this.redisPrefix + '_' + this.fields['uid'];
         }
         else {
-            return this._redisPrefix;
+            return this.redisPrefix;
         }
     }
 
     protected getDataFields(): string[] {
-        let ret = [];
-        for (let obj in this.data) {
-            if (this.data.hasOwnProperty(obj)) {
-                ret.push(obj.toString());
-            }
-        }
-        return ret;
+        return Object.keys(this.fields);
+    }
+
+    public clean() {
+        this.dirtyFields = {};
+        this.isDirty = false;
     }
 
     protected deserialize(reply: { [key: string]: any }): void {
         for (let obj in reply) {
-            if (this.data.hasOwnProperty(obj)) {
-                switch (typeof this.data[obj]) {
+            if (this.fields.hasOwnProperty(obj)) {
+                switch (typeof this.fields[obj]) {
                     case 'number' :
                     case 'boolean' :
-                        this.data[obj] = parseInt(reply[obj]);
+                        this[obj] = parseInt(reply[obj]);
                         break;
                     case 'object' :
                         try {
                             if (reply[obj] === "") {
-                                this.data[obj] = {};
+                                this[obj] = {};
                             }
                             else {
-                                this.data[obj] = JSON.parse(reply[obj]);
+                                this[obj] = JSON.parse(reply[obj]);
                             }
                         } catch (err) {
                             Log.sError('redis data parse failed, key=%s, val=%s', obj, reply[obj]);
-                            this.data[obj] = {};
+                            this[obj] = {};
                         }
 
                         break;
                     case 'string' :
-                        this.data[obj] = reply[obj];
+                        this[obj] = reply[obj];
                         break;
                     default:
-                        Log.sError('wrong type, key=%s, type=%s', obj, typeof this.data[obj]);
+                        Log.sError('wrong type, key=%s, type=%s', obj, typeof this.fields[obj]);
                         break;
                 }
             }
         }
+        this.clean();
     }
 
     protected serialize(): { [key: string]: any } {
         let reply: { [key: string]: any } = {};
-        for (let obj in this.data) {
-            if (this.data.hasOwnProperty(obj)) {
-                switch (typeof this.data[obj]) {
+        for (let obj in this.fields) {
+            if (this.fields.hasOwnProperty(obj)) {
+                switch (typeof this.fields[obj]) {
                     case 'number' :
                     case 'string' :
                     case 'boolean':
-                        reply[obj] = this.data[obj];
+                        reply[obj] = this.fields[obj];
                         break;
                     case 'object' :
-                        reply[obj] = JSON.stringify(this.data[obj]);
+                        reply[obj] = JSON.stringify(this.fields[obj]);
                         break;
                     default:
-                        Log.sError('wrong type, key=%s, type=%s', obj, typeof this.data[obj]);
+                        Log.sError('wrong type, key=%s, type=%s', obj, typeof this.fields[obj]);
                         break;
                 }
             }

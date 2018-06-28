@@ -40,14 +40,14 @@ class Test {
             let exist = await role.load();
             if (!exist) {
                 await role.create();
-                role.set({
-                    nickname: 'robot' + i,
-                    headimgurl: 'headimgurl ' + i,
-                    diamond: Math.floor(Math.random() * 10000),
-                    exp: Math.floor(Math.random() * 10000),
-                    gold: Math.floor(Math.random() * 10000),
-                    level: Math.floor(Math.random() * 10000),
-                });
+                // role.set({
+                //     nickname: 'robot' + i,
+                //     headimgurl: 'headimgurl ' + i,
+                //     diamond: Math.floor(Math.random() * 10000),
+                //     exp: Math.floor(Math.random() * 10000),
+                //     gold: Math.floor(Math.random() * 10000),
+                //     level: Math.floor(Math.random() * 10000),
+                // });
                 await role.save(true);
             }
         }

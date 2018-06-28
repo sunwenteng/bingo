@@ -42,9 +42,9 @@ export function controller(readonly: boolean = false, mask?: number) {
             args[0] = role;
             let returnValue = null;
             if (!readonly) {
-                await gameRedis.lock(role.getRedisKey(), async () => {
+                returnValue = await gameRedis.lock(role.getRedisKey(), async () => {
                     await role.load(mask);
-                    returnValue = await originalMethod.apply(this, args);
+                    await originalMethod.apply(this, args);
                     await role.save();
                 });
             }
@@ -62,21 +62,17 @@ export function singleton(target: Function) {
 
 export function props(recordDirty2Client:boolean = true) {
     return function (target: Object, key: string): void {
-        let propertyValue: string = this[key];
-        if (delete this[key]) {
-            Object.defineProperty(target, key, {
-                get: function () {
-                    return propertyValue;
-                },
-                set: function (newValue) {
-                    if (newValue !== propertyValue) {
-                        this['isDirty'] = true;
-                        this['dirtyFields'][key] = '';
-                        propertyValue = newValue;
-                    }
-                    this['allFields'][key] = '';
+        Object.defineProperty(target, key, {
+            get: function () {
+                return this['fields'][key];
+            },
+            set: function (newValue) {
+                if (newValue !== this['fields'][key]) {
+                    this['isDirty'] = true;
+                    this['dirtyFields'][key] = '';
                 }
-            });
-        }
+                this['fields'][key] = newValue;
+            }
+        });
     }
 }

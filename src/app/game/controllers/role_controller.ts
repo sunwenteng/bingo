@@ -5,6 +5,7 @@ import {RedisMgr, RedisType} from "../../../lib/redis/redis_mgr";
 import {GameWorld} from "../game_world";
 import {Log} from "../../../lib/util/log";
 import {controller} from "../../../lib/util/descriptor";
+import Time = require('../../../lib/util/time');
 
 let gameRedis = RedisMgr.getInstance(RedisType.GAME);
 
@@ -40,15 +41,17 @@ export class RoleController {
             let pck = S2C.SC_ROLE_ONLINE.create();
             pck.roleId = roleId;
             session.sendProtocol(pck);
+
+            role.lastAliveTime = Time.realNow();
+            role.lastLoginTime = Time.realNow();
+            await role.save();
         });
     }
 
-    @controller(false)
-    heartBeat(role: Role, msg: C2S.CS_ROLE_HEART_BEAT) {
-        role.set({
-            diamond: role.data.diamond + 1,
-        });
-
+    @controller()
+    async heartBeat(role: Role, msg: C2S.CS_ROLE_HEART_BEAT) {
+        role.diamond = role.diamond + 1;
+        role.lastAliveTime = Time.realNow();
         let pck = S2C.SC_ROLE_HEART_BEAT.create();
         role.sendProtocol(pck);
     }

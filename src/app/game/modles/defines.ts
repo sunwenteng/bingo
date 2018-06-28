@@ -35,40 +35,6 @@ export class Hero {
     skills: HeroSkill[] = [];
 }
 
-export class RoleData {
-    uid?: number;
-    nickname?: string;
-    headimgurl?: string;
-    diamond?: number;
-    exp?: number;
-    gold?: number;
-    level?: number;
-    vipLevel?:number;
-    vipExp?:number;
-    lastLoginTime?: number;
-    lastAliveTime?: number;
-    createTime?: number;
-
-    heroes?: { [id: number]: Hero };
-    equips?: { [id: number]: Equip };
-    items?: { [id: number]: Res };
-    techs?: { [id: number]: Tech };
-    pve?: {
-        monsterId?: number;
-    };
-    pvp?: {
-        time?: number;
-        progress?: number;
-        list?: [{
-            uid: number;
-            name: string;
-            combat: number;
-            lvl: number;
-            valid: boolean;
-        }];
-    };
-}
-
 export interface BattleRound {
     id: number // from 0 回合数
     heroUid: number;

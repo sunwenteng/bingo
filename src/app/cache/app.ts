@@ -42,7 +42,7 @@ async function main() {
                     Log.sWarn('role not found in cache, roleKey=%s', roleId);
                 }
                 else {
-                    await WorldDB.conn.execute('update player_info_' + role.getTableNum() + ' set ? where ?', [role.getSaveData(true), {uid: role.data.uid}]);
+                    await WorldDB.conn.execute('update player_info_' + role.getTableNum() + ' set ? where ?', [role.getSaveData(true), {uid: role.uid}]);
                     Log.sInfo('save role successfully, roleKey=%s', roleId);
                 }
                 await gameRedis.srem(WorldDataRedisKey.DIRTY_ROLES, roleId);

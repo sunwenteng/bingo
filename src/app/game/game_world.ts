@@ -3,7 +3,7 @@ import {LinkedList, ListNode} from '../../lib/util/linked_list'
 import * as GameUtil from '../../lib/util/game_util'
 import * as fs from 'fs'
 import {Log} from "../../lib/util/log"
-import {C2S} from "../proto/cmd"
+import {C2S, S2C} from "../proto/cmd"
 import {RedisChanel, RedisMgr, RedisType} from "../../lib/redis/redis_mgr";
 import {RoleRedisPrefix} from "./modles/role";
 import * as events from "events";
@@ -259,6 +259,16 @@ export class GameWorld extends events.EventEmitter {
 
     public delAuthedSession(roleId: number): void {
         delete this._authedSessionMap[roleId];
+    }
+
+    public async sendMsgToRole(roleId: number, msg: S2C.Message) {
+        let buffer = S2C.Message.encode(msg).finish();
+        await RedisMgr.getInstance(RedisType.GAME).publish(RoleRedisPrefix + '_' + roleId, buffer.toString());
+    }
+
+    public async sendMsgToAll(msg: S2C.Message) {
+        let buffer = S2C.Message.encode(msg).finish();
+        await RedisMgr.getInstance(RedisType.GAME).publish(RedisChanel.BROADCAST, buffer.toString());
     }
 
     public async isRoleOnline(roleId: number): Promise<boolean> {
