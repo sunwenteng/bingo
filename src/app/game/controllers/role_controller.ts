@@ -27,7 +27,7 @@ export class RoleController {
             if (isOnline) {
                 await GameWorld.getInstance().kickRole(roleId);
             }
-            let exist = await role.load();
+            let exist = await role.load(false);
             if (!exist) {
                 await role.create();
                 await role.save(true);

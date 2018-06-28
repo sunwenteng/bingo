@@ -188,3 +188,7 @@ node-gyp build
 
 * No need for pm2 log: `"error_file": "/dev/null","out_file": "/dev/null",`
 * pm2进程出问题的话直接kill -9即可
+
+### redis
+
+* 批量删除`redis-cli -a redis@ime keys "*" | xargs redis-cli -a redis@ime del`

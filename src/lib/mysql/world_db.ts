@@ -27,12 +27,9 @@ export async function start(config: MysqlConfig): Promise<void> {
             "createTime	    INT 		UNSIGNED 	NOT NULL 	DEFAULT '0'," +
             "gold 			INT 		UNSIGNED	NOT NULL	DEFAULT '0'," +
             "level 			INT		 	UNSIGNED	NOT NULL	DEFAULT '0'," +
-            "equips 		longblob    NULL," +
-            "heroes 		longblob    NULL," +
-            "items 		    longblob    NULL," +
-            "pve 	    	longblob    NULL," +
-            "pvp     		longblob    NULL," +
-            "techs     		longblob    NULL," +
+            "equipModel	    longblob    NULL," +
+            "heroModel	    longblob    NULL," +
+            "itemModel 	    longblob    NULL," +
             "PRIMARY KEY (uid)" +
             ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
         columns = columns.concat([

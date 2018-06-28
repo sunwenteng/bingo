@@ -10,7 +10,7 @@
       "port": 3306,
       "user": "root",
       "password": "root",
-      "database": "test",
+      "database": "bingo_world",
       "connectionLimit": 1,
       "charset": "UTF8",
       "supportBigNumbers": true,

@@ -2,6 +2,7 @@ import * as events from 'events';
 import * as redis from 'redis';
 import {Log} from "../util/log";
 import {ErrorCode} from "../util/error_code";
+import * as deepDiff from "deep-diff";
 
 const Config = require('../../config/config.json');
 /**
@@ -25,11 +26,11 @@ export enum RedisChanel {
 }
 
 export abstract class RedisData {
-    fields:any = {};
-    dirtyFields: { [idx: string]: string } = {};
+    diffs: any[] = null;
+    oldFields: any = {};
+    fields: any = {};
     redisPrefix: string;
     redisKeyExpire: number;
-    isDirty: boolean = false;
 
     protected constructor(redisPrefix: string, expireTime: number = 3600) {
         this.redisPrefix = redisPrefix;
@@ -45,39 +46,62 @@ export abstract class RedisData {
         }
     }
 
+    protected copyFields() {
+        Object.assign(this.oldFields, this.fields);
+    }
+
     protected getDataFields(): string[] {
         return Object.keys(this.fields);
     }
 
-    public clean() {
-        this.dirtyFields = {};
-        this.isDirty = false;
+    public getSaveData(bAll: boolean) {
+        let reply = this.serialize();
+        if (bAll) {
+            return reply;
+        }
+
+        let ret = {};
+        for (let diff of this.diffs) {
+            let key = diff.path[0];
+            if (!reply[key]) {
+                throw new Error('key ' + key + ' not found');
+            }
+            if (!ret[key]) {
+                ret[key] = reply[key];
+            }
+        }
+
+        return ret;
     }
 
-    protected deserialize(reply: { [key: string]: any }): void {
+    public diff() {
+        this.diffs = deepDiff.diff(this.oldFields, this.fields);
+    }
+
+    protected deserialize(reply: { [key: string]: any }, readonly: boolean): void {
         for (let obj in reply) {
             if (this.fields.hasOwnProperty(obj)) {
                 switch (typeof this.fields[obj]) {
                     case 'number' :
                     case 'boolean' :
-                        this[obj] = parseInt(reply[obj]);
+                        this.fields[obj] = parseInt(reply[obj]);
                         break;
                     case 'object' :
                         try {
                             if (reply[obj] === "") {
-                                this[obj] = {};
+                                this.fields[obj] = {};
                             }
                             else {
-                                this[obj] = JSON.parse(reply[obj]);
+                                this.fields[obj] = JSON.parse(reply[obj]);
                             }
                         } catch (err) {
                             Log.sError('redis data parse failed, key=%s, val=%s', obj, reply[obj]);
-                            this[obj] = {};
+                            this.fields[obj] = {};
                         }
 
                         break;
                     case 'string' :
-                        this[obj] = reply[obj];
+                        this.fields[obj] = reply[obj];
                         break;
                     default:
                         Log.sError('wrong type, key=%s, type=%s', obj, typeof this.fields[obj]);
@@ -85,7 +109,10 @@ export abstract class RedisData {
                 }
             }
         }
-        this.clean();
+
+        if (!readonly) {
+            this.copyFields();
+        }
     }
 
     protected serialize(): { [key: string]: any } {
@@ -266,7 +293,7 @@ export class RedisMgr {
         }));
     }
 
-    public async lock<T>(key: string, callback: (hasLock:boolean) => Promise<T>, bWaitForLock: boolean = true, lockTime: number = 5000) {
+    public async lock<T>(key: string, callback: (hasLock: boolean) => Promise<T>, bWaitForLock: boolean = true, lockTime: number = 5000) {
         let mutexKey = key + '_mutex';
         let success = await this.setWithParams(mutexKey, 1, 'PX', lockTime, 'NX');
         if (!success) {

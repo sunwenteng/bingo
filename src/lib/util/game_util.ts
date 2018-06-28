@@ -4,6 +4,7 @@ import * as http from 'http';
 import {ErrorCode} from './error_code';
 import * as crypto from 'crypto';
 import * as request from 'request'
+import {type} from "os";
 
 export function md5(param: string): string {
     let md5sum = crypto.createHash('md5');
@@ -453,4 +454,14 @@ function parseHttpResBody(error: any, response: any, body: string, dataType: HTT
 
 export function capitalize(str: string): string {
     return str.toLowerCase().replace(/( |^)[a-z]/g, (L) => L.toUpperCase());
+}
+
+export function diff(o1: any, o2: any) {
+    if (typeof o1 !== typeof o2) {
+        throw new Error('req o1 the same type of o2');
+    }
+
+    for (let key in o1) {
+
+    }
 }

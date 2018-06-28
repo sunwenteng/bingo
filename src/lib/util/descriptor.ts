@@ -1,7 +1,6 @@
 import {Log} from "./log";
 import {Role} from "../../app/game/modles/role";
 import {RedisMgr, RedisType} from "../redis/redis_mgr";
-import {UserSession} from "../net/user_session";
 
 /**
  * 类函数装饰器，计算函数执行是
@@ -43,8 +42,29 @@ export function controller(readonly: boolean = false, mask?: number) {
             let returnValue = null;
             if (!readonly) {
                 returnValue = await gameRedis.lock(role.getRedisKey(), async () => {
-                    await role.load(mask);
+                    await role.load(false, mask);
                     await originalMethod.apply(this, args);
+                    role.diff();
+                    for (let diff of role.diffs) {
+                        switch (diff.path[0]) {
+                            case 'equips':
+                                let uid = diff.path[1];
+                                switch (diff.kind) {
+                                    case 'E':
+                                        // update packet
+                                        break;
+                                    case 'D':
+                                        // delete packet
+                                        break;
+                                    case 'N' :
+                                        // new packet
+                                        break;
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                    }
                     await role.save();
                 });
             }
@@ -60,17 +80,14 @@ export function controller(readonly: boolean = false, mask?: number) {
 export function singleton(target: Function) {
 }
 
-export function props(recordDirty2Client:boolean = true) {
+// 生命的对象需要与redis和mysql中一致
+export function props() {
     return function (target: Object, key: string): void {
         Object.defineProperty(target, key, {
             get: function () {
                 return this['fields'][key];
             },
             set: function (newValue) {
-                if (newValue !== this['fields'][key]) {
-                    this['isDirty'] = true;
-                    this['dirtyFields'][key] = '';
-                }
                 this['fields'][key] = newValue;
             }
         });

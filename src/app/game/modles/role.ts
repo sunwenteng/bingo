@@ -6,6 +6,9 @@ import {WorldDataRedisKey} from "../game_world";
 import {S2C} from "../../proto/cmd";
 import {GameSession} from "../game_session";
 import {props} from "../../../lib/util/descriptor";
+import {HeroModel} from "./hero_model";
+import {EquipModel} from "./equip_model";
+import {ItemModel} from "./item_model";
 
 let gameRedis = RedisMgr.getInstance(RedisType.GAME);
 export const RoleRedisPrefix: string = 'role';
@@ -36,12 +39,9 @@ export class Role extends RedisData {
     @props() lastAliveTime: number = 0;
     @props() createTime: number = 0;
 
-    @props() heroes = {};
-    @props() equips = {};
-    @props() items = {};
-    @props() techs = {};
-    @props() pve = {};
-    @props() pvp = {};
+    @props() heroModel = new HeroModel();
+    @props() equipModel = new EquipModel();
+    @props() itemModel = new ItemModel();
 
     constructor(uid: number, session?: GameSession) {
         super(RoleRedisPrefix);
@@ -50,16 +50,17 @@ export class Role extends RedisData {
     }
 
     public async save(bSaveAll: boolean = false): Promise<void> {
-        if (this.isDirty) {
-            let saveData = this.getSaveData(bSaveAll);
-            // 同步存储到redis
-            await gameRedis.hmset(this.getRedisKey(), saveData, this.redisKeyExpire);
-            // 往脏数据集合添加
-            await gameRedis.sadd(WorldDataRedisKey.DIRTY_ROLES, this.uid);
+        if (!this.diffs) {
+            this.diff();
         }
+        let saveData = this.getSaveData(bSaveAll);
+        // 同步存储到redis
+        await gameRedis.hmset(this.getRedisKey(), saveData, this.redisKeyExpire);
+        // 往脏数据集合添加
+        await gameRedis.sadd(WorldDataRedisKey.DIRTY_ROLES, this.uid);
     }
 
-    public async load(mask?: ERoleMask): Promise<boolean> {
+    public async load(readonly: boolean = true, mask?: ERoleMask): Promise<boolean> {
         return new Promise<boolean>(async (resolve) => {
             if (!this.uid || this.uid === 0) {
                 resolve(false);
@@ -75,34 +76,37 @@ export class Role extends RedisData {
                     }
                     else {
                         await gameRedis.hmset(this.getRedisKey(), result[0], this.redisKeyExpire);
-                        this.deserialize(result[0]);
+                        this.deserialize(result[0], readonly);
                         resolve(true);
                     }
                 }
                 // 缓存命中
                 else {
-                    this.deserialize(reply);
+                    this.deserialize(reply, readonly);
                     resolve(true);
                 }
             }
         });
     }
 
-    public getSaveData(bSaveAll): { [key: string]: any } {
-        let pckData = this.serialize();
-        let checkFields = bSaveAll ? this.fields : this.dirtyFields;
-        let saveData: { [key: string]: any } = {};
-        for (let obj in checkFields) {
-            saveData[obj] = pckData[obj];
-        }
-        return saveData;
-    }
-
     public async create() {
         this.createTime = Time.realNow();
         this.lastAliveTime = Time.realNow();
+        this.lastLoginTime = Time.realNow();
+        // TODO
+        this.diamond = Math.floor(Math.random() * 10000);
+        this.gold = Math.floor(Math.random() * 10000);
+        this.level = Math.floor(Math.random() * 10000);
+        this.exp = Math.floor(Math.random() * 10000);
+        this.vipExp = Math.floor(Math.random() * 10000);
+        this.vipLevel = Math.floor(Math.random() * 10000);
+        this.nickname = 'robot' + this.uid;
+        this.headimgurl = 'img' + this.uid;
+
         let pckData = this.serialize();
         await WorldDB.conn.execute('insert into player_info_' + this.getTableNum() + ' set ?', pckData);
+        this.diffs = null;
+        this.copyFields();
     }
 
     public getTableNum(): number {
