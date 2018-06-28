@@ -66,6 +66,7 @@ export class Role extends RedisData {
                 resolve(false);
             }
             else {
+                // TODO 后续需要根据mask来读取需要的数据，不然每次load数据太大，对每次回写差异比较有负担
                 let reply = await gameRedis.hmget(this.getRedisKey(), this.getDataFields());
                 // 缓存不存在，从db查询然后放到缓存
                 if (Object.keys(reply).length === 0) {

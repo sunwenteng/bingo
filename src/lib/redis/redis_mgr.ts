@@ -81,6 +81,7 @@ export abstract class RedisData {
         this.diffs = deepDiff.diff(this.oldFields, this.fields);
     }
 
+    // TODO fields 如果按照json来存储可能数据较大，可以后续优化成proto存储
     protected deserialize(reply: { [key: string]: any }, readonly: boolean): void {
         for (let obj in reply) {
             if (this.fields.hasOwnProperty(obj)) {
@@ -118,6 +119,7 @@ export abstract class RedisData {
         }
     }
 
+    // TODO fields 如果按照json来存储可能数据较大，可以后续优化成proto存储
     protected serialize(): { [key: string]: any } {
         let reply: { [key: string]: any } = {};
         for (let obj in this.fields) {
