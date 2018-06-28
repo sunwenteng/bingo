@@ -26,6 +26,7 @@ export enum RedisChanel {
 }
 
 export abstract class RedisData {
+    dynamicFields: any = {};
     diffs: any[] = null;
     oldFields: any = {};
     fields: any = {};
@@ -46,7 +47,9 @@ export abstract class RedisData {
         }
     }
 
-    protected copyFields() {
+    protected reset() {
+        this.dynamicFields = {};
+        this.diffs = null;
         Object.assign(this.oldFields, this.fields);
     }
 
@@ -111,7 +114,7 @@ export abstract class RedisData {
         }
 
         if (!readonly) {
-            this.copyFields();
+            this.reset();
         }
     }
 

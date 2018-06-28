@@ -216,7 +216,7 @@ export namespace S2C {
         SC_TEST_ECHO?: (S2C.ISC_TEST_ECHO|null);
         SC_ROLE_ONLINE?: (S2C.ISC_ROLE_ONLINE|null);
         SC_ROLE_HEART_BEAT?: (S2C.ISC_ROLE_HEART_BEAT|null);
-        SC_ROLE_UPDATE?: (S2C.ISC_ROLE_UPDATE|null);
+        SC_ROLE_PRO_UPDATE?: (S2C.ISC_ROLE_PRO_UPDATE|null);
         LOGIN_SC_LOGIN?: (S2C.ILOGIN_SC_LOGIN|null);
         LOGIN_SC_CHOOSE_SERVER?: (S2C.ILOGIN_SC_CHOOSE_SERVER|null);
         LOGIN_SC_GET_SERVER_LIST?: (S2C.ILOGIN_SC_GET_SERVER_LIST|null);
@@ -229,12 +229,12 @@ export namespace S2C {
         public SC_TEST_ECHO?: (S2C.ISC_TEST_ECHO|null);
         public SC_ROLE_ONLINE?: (S2C.ISC_ROLE_ONLINE|null);
         public SC_ROLE_HEART_BEAT?: (S2C.ISC_ROLE_HEART_BEAT|null);
-        public SC_ROLE_UPDATE?: (S2C.ISC_ROLE_UPDATE|null);
+        public SC_ROLE_PRO_UPDATE?: (S2C.ISC_ROLE_PRO_UPDATE|null);
         public LOGIN_SC_LOGIN?: (S2C.ILOGIN_SC_LOGIN|null);
         public LOGIN_SC_CHOOSE_SERVER?: (S2C.ILOGIN_SC_CHOOSE_SERVER|null);
         public LOGIN_SC_GET_SERVER_LIST?: (S2C.ILOGIN_SC_GET_SERVER_LIST|null);
         public LOGIN_SC_GET_INFO?: (S2C.ILOGIN_SC_GET_INFO|null);
-        public kind?: ("Error"|"SC_TEST_ECHO"|"SC_ROLE_ONLINE"|"SC_ROLE_HEART_BEAT"|"SC_ROLE_UPDATE"|"LOGIN_SC_LOGIN"|"LOGIN_SC_CHOOSE_SERVER"|"LOGIN_SC_GET_SERVER_LIST"|"LOGIN_SC_GET_INFO");
+        public kind?: ("Error"|"SC_TEST_ECHO"|"SC_ROLE_ONLINE"|"SC_ROLE_HEART_BEAT"|"SC_ROLE_PRO_UPDATE"|"LOGIN_SC_LOGIN"|"LOGIN_SC_CHOOSE_SERVER"|"LOGIN_SC_GET_SERVER_LIST"|"LOGIN_SC_GET_INFO");
         public static create(properties?: S2C.IMessage): S2C.Message;
         public static encode(message: S2C.IMessage, writer?: $protobuf.Writer): $protobuf.Writer;
         public static encodeDelimited(message: S2C.IMessage, writer?: $protobuf.Writer): $protobuf.Writer;
@@ -246,102 +246,38 @@ export namespace S2C {
         public toJSON(): { [k: string]: any };
     }
 
-    interface IRole {
+    interface ISC_ROLE_PRO_UPDATE {
         uid?: (number|null);
         nickname?: (string|null);
         headimgurl?: (string|null);
         diamond?: (number|null);
         gold?: (number|Long|null);
         level?: (number|null);
-        equipModel?: (S2C.Role.IEquipModel|null);
+        vipLevel?: (number|null);
+        exp?: (number|Long|null);
+        vipExp?: (number|null);
     }
 
-    class Role implements IRole {
-        constructor(properties?: S2C.IRole);
+    class SC_ROLE_PRO_UPDATE implements ISC_ROLE_PRO_UPDATE {
+        constructor(properties?: S2C.ISC_ROLE_PRO_UPDATE);
         public uid: number;
         public nickname: string;
         public headimgurl: string;
         public diamond: number;
         public gold: (number|Long);
         public level: number;
-        public equipModel?: (S2C.Role.IEquipModel|null);
-        public static create(properties?: S2C.IRole): S2C.Role;
-        public static encode(message: S2C.IRole, writer?: $protobuf.Writer): $protobuf.Writer;
-        public static encodeDelimited(message: S2C.IRole, writer?: $protobuf.Writer): $protobuf.Writer;
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): S2C.Role;
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): S2C.Role;
+        public vipLevel: number;
+        public exp: (number|Long);
+        public vipExp: number;
+        public static create(properties?: S2C.ISC_ROLE_PRO_UPDATE): S2C.SC_ROLE_PRO_UPDATE;
+        public static encode(message: S2C.ISC_ROLE_PRO_UPDATE, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: S2C.ISC_ROLE_PRO_UPDATE, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): S2C.SC_ROLE_PRO_UPDATE;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): S2C.SC_ROLE_PRO_UPDATE;
         public static verify(message: { [k: string]: any }): (string|null);
-        public static fromObject(object: { [k: string]: any }): S2C.Role;
-        public static toObject(message: S2C.Role, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public static fromObject(object: { [k: string]: any }): S2C.SC_ROLE_PRO_UPDATE;
+        public static toObject(message: S2C.SC_ROLE_PRO_UPDATE, options?: $protobuf.IConversionOptions): { [k: string]: any };
         public toJSON(): { [k: string]: any };
-    }
-
-    namespace Role {
-
-        interface IEquipModel {
-            equips?: ({ [k: string]: S2C.Role.EquipModel.IEquip }|null);
-        }
-
-        class EquipModel implements IEquipModel {
-            constructor(properties?: S2C.Role.IEquipModel);
-            public equips: { [k: string]: S2C.Role.EquipModel.IEquip };
-            public static create(properties?: S2C.Role.IEquipModel): S2C.Role.EquipModel;
-            public static encode(message: S2C.Role.IEquipModel, writer?: $protobuf.Writer): $protobuf.Writer;
-            public static encodeDelimited(message: S2C.Role.IEquipModel, writer?: $protobuf.Writer): $protobuf.Writer;
-            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): S2C.Role.EquipModel;
-            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): S2C.Role.EquipModel;
-            public static verify(message: { [k: string]: any }): (string|null);
-            public static fromObject(object: { [k: string]: any }): S2C.Role.EquipModel;
-            public static toObject(message: S2C.Role.EquipModel, options?: $protobuf.IConversionOptions): { [k: string]: any };
-            public toJSON(): { [k: string]: any };
-        }
-
-        namespace EquipModel {
-
-            interface IEquip {
-                uid?: (number|null);
-                id?: (number|null);
-                level?: (number|null);
-            }
-
-            class Equip implements IEquip {
-                constructor(properties?: S2C.Role.EquipModel.IEquip);
-                public uid: number;
-                public id: number;
-                public level: number;
-                public static create(properties?: S2C.Role.EquipModel.IEquip): S2C.Role.EquipModel.Equip;
-                public static encode(message: S2C.Role.EquipModel.IEquip, writer?: $protobuf.Writer): $protobuf.Writer;
-                public static encodeDelimited(message: S2C.Role.EquipModel.IEquip, writer?: $protobuf.Writer): $protobuf.Writer;
-                public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): S2C.Role.EquipModel.Equip;
-                public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): S2C.Role.EquipModel.Equip;
-                public static verify(message: { [k: string]: any }): (string|null);
-                public static fromObject(object: { [k: string]: any }): S2C.Role.EquipModel.Equip;
-                public static toObject(message: S2C.Role.EquipModel.Equip, options?: $protobuf.IConversionOptions): { [k: string]: any };
-                public toJSON(): { [k: string]: any };
-            }
-        }
-
-        interface IHeroModel {
-            uid?: (number|null);
-            id?: (number|null);
-            level?: (number|null);
-        }
-
-        class HeroModel implements IHeroModel {
-            constructor(properties?: S2C.Role.IHeroModel);
-            public uid: number;
-            public id: number;
-            public level: number;
-            public static create(properties?: S2C.Role.IHeroModel): S2C.Role.HeroModel;
-            public static encode(message: S2C.Role.IHeroModel, writer?: $protobuf.Writer): $protobuf.Writer;
-            public static encodeDelimited(message: S2C.Role.IHeroModel, writer?: $protobuf.Writer): $protobuf.Writer;
-            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): S2C.Role.HeroModel;
-            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): S2C.Role.HeroModel;
-            public static verify(message: { [k: string]: any }): (string|null);
-            public static fromObject(object: { [k: string]: any }): S2C.Role.HeroModel;
-            public static toObject(message: S2C.Role.HeroModel, options?: $protobuf.IConversionOptions): { [k: string]: any };
-            public toJSON(): { [k: string]: any };
-        }
     }
 
     interface ISC_TEST_ECHO {
@@ -415,36 +351,6 @@ export namespace S2C {
         public static verify(message: { [k: string]: any }): (string|null);
         public static fromObject(object: { [k: string]: any }): S2C.SC_ROLE_HEART_BEAT;
         public static toObject(message: S2C.SC_ROLE_HEART_BEAT, options?: $protobuf.IConversionOptions): { [k: string]: any };
-        public toJSON(): { [k: string]: any };
-    }
-
-    interface ISC_ROLE_UPDATE {
-        nickname?: (string|null);
-        level?: (number|null);
-        exp?: (number|Long|null);
-        vipLevel?: (number|null);
-        vipExp?: (number|null);
-        diamond?: (number|null);
-        gold?: (number|Long|null);
-    }
-
-    class SC_ROLE_UPDATE implements ISC_ROLE_UPDATE {
-        constructor(properties?: S2C.ISC_ROLE_UPDATE);
-        public nickname: string;
-        public level: number;
-        public exp: (number|Long);
-        public vipLevel: number;
-        public vipExp: number;
-        public diamond: number;
-        public gold: (number|Long);
-        public static create(properties?: S2C.ISC_ROLE_UPDATE): S2C.SC_ROLE_UPDATE;
-        public static encode(message: S2C.ISC_ROLE_UPDATE, writer?: $protobuf.Writer): $protobuf.Writer;
-        public static encodeDelimited(message: S2C.ISC_ROLE_UPDATE, writer?: $protobuf.Writer): $protobuf.Writer;
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): S2C.SC_ROLE_UPDATE;
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): S2C.SC_ROLE_UPDATE;
-        public static verify(message: { [k: string]: any }): (string|null);
-        public static fromObject(object: { [k: string]: any }): S2C.SC_ROLE_UPDATE;
-        public static toObject(message: S2C.SC_ROLE_UPDATE, options?: $protobuf.IConversionOptions): { [k: string]: any };
         public toJSON(): { [k: string]: any };
     }
 

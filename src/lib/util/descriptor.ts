@@ -44,6 +44,9 @@ export function controller(readonly: boolean = false, mask?: number) {
                 returnValue = await gameRedis.lock(role.getRedisKey(), async () => {
                     await role.load(false, mask);
                     await originalMethod.apply(this, args);
+                    // dynamic fields
+                    role.sendProUpdate();
+                    // other fields
                     role.diff();
                     for (let diff of role.diffs) {
                         switch (diff.path[0]) {
@@ -81,13 +84,16 @@ export function singleton(target: Function) {
 }
 
 // 生命的对象需要与redis和mysql中一致
-export function props() {
+export function props(dynamic: boolean = false) {
     return function (target: Object, key: string): void {
         Object.defineProperty(target, key, {
             get: function () {
                 return this['fields'][key];
             },
             set: function (newValue) {
+                if (dynamic && this['fields'][key] !== newValue) {
+                    this['dynamicFields'][key] = newValue;
+                }
                 this['fields'][key] = newValue;
             }
         });

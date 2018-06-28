@@ -8,7 +8,7 @@ message Message {
         SC_TEST_ECHO SC_TEST_ECHO = 2;
         SC_ROLE_ONLINE SC_ROLE_ONLINE = 3;
         SC_ROLE_HEART_BEAT SC_ROLE_HEART_BEAT = 4;
-        SC_ROLE_UPDATE SC_ROLE_UPDATE = 5;
+        SC_ROLE_PRO_UPDATE SC_ROLE_PRO_UPDATE = 5;
         LOGIN_SC_LOGIN LOGIN_SC_LOGIN = 6;
         LOGIN_SC_CHOOSE_SERVER LOGIN_SC_CHOOSE_SERVER = 7;
         LOGIN_SC_GET_SERVER_LIST LOGIN_SC_GET_SERVER_LIST = 8;
@@ -16,29 +16,16 @@ message Message {
     }
 }
 
-message Role {
-    message EquipModel {
-        message Equip {
-            uint32 uid = 1;
-            uint32 id = 2;
-            uint32 level = 3;
-        }
-        map<int32, Equip> equips = 1;
-    }
-
-    message HeroModel {
-        uint32 uid = 1;
-        uint32 id = 2;
-        uint32 level = 3;
-    }
-
+message SC_ROLE_PRO_UPDATE {
     uint32 uid = 1;
     string nickname = 2;
     string headimgurl = 3;
     uint32 diamond = 4;
     uint64 gold = 5;
     uint32 level = 6;
-    EquipModel equip_model = 7;
+    uint32 vip_level = 7;
+    uint64 exp = 8;
+    uint32 vipExp = 9;
 }
 
 message SC_TEST_ECHO {
@@ -58,16 +45,6 @@ message SC_ROLE_ONLINE {
 
 message SC_ROLE_HEART_BEAT {
 
-}
-
-message SC_ROLE_UPDATE {
-    string nickname = 1;
-    uint32 level = 2;
-    uint64 exp = 3;
-    uint32 vip_level = 4;
-    uint32 vip_exp = 5;
-    uint32 diamond = 6;
-    uint64 gold = 7;
 }
 
 message LOGIN_SC_LOGIN {

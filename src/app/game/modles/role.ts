@@ -25,15 +25,15 @@ export enum ERoleMask {
 export class Role extends RedisData {
     _session: GameSession;
 
-    @props() uid: number = 0;
-    @props() nickname: string = '';
-    @props() headimgurl: string = '';
-    @props() diamond: number = 0;
-    @props() exp: number = 0;
-    @props() gold: number = 0;
-    @props() level: number = 0;
-    @props() vipLevel: number = 0;
-    @props() vipExp: number = 0;
+    @props(true) uid: number = 0;
+    @props(true) nickname: string = '';
+    @props(true) headimgurl: string = '';
+    @props(true) diamond: number = 0;
+    @props(true) exp: number = 0;
+    @props(true) gold: number = 0;
+    @props(true) level: number = 0;
+    @props(true) vipLevel: number = 0;
+    @props(true) vipExp: number = 0;
 
     @props() lastLoginTime: number = 0;
     @props() lastAliveTime: number = 0;
@@ -105,8 +105,8 @@ export class Role extends RedisData {
 
         let pckData = this.serialize();
         await WorldDB.conn.execute('insert into player_info_' + this.getTableNum() + ' set ?', pckData);
-        this.diffs = null;
-        this.copyFields();
+
+        this.reset();
     }
 
     public getTableNum(): number {
@@ -117,5 +117,15 @@ export class Role extends RedisData {
         if (this._session) {
             this._session.sendProtocol(msg);
         }
+    }
+
+    public sendProUpdate() {
+        let pck = S2C.SC_ROLE_PRO_UPDATE.create();
+        for (let key in this.dynamicFields) {
+            pck[key] = this.dynamicFields[key];
+        }
+        this.sendProtocol(pck);
+
+        this.dynamicFields = {};
     }
 }

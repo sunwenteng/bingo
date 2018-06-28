@@ -2291,7 +2291,7 @@
              * @property {S2C.ISC_TEST_ECHO|null} [SC_TEST_ECHO] Message SC_TEST_ECHO
              * @property {S2C.ISC_ROLE_ONLINE|null} [SC_ROLE_ONLINE] Message SC_ROLE_ONLINE
              * @property {S2C.ISC_ROLE_HEART_BEAT|null} [SC_ROLE_HEART_BEAT] Message SC_ROLE_HEART_BEAT
-             * @property {S2C.ISC_ROLE_UPDATE|null} [SC_ROLE_UPDATE] Message SC_ROLE_UPDATE
+             * @property {S2C.ISC_ROLE_PRO_UPDATE|null} [SC_ROLE_PRO_UPDATE] Message SC_ROLE_PRO_UPDATE
              * @property {S2C.ILOGIN_SC_LOGIN|null} [LOGIN_SC_LOGIN] Message LOGIN_SC_LOGIN
              * @property {S2C.ILOGIN_SC_CHOOSE_SERVER|null} [LOGIN_SC_CHOOSE_SERVER] Message LOGIN_SC_CHOOSE_SERVER
              * @property {S2C.ILOGIN_SC_GET_SERVER_LIST|null} [LOGIN_SC_GET_SERVER_LIST] Message LOGIN_SC_GET_SERVER_LIST
@@ -2346,12 +2346,12 @@
             Message.prototype.SC_ROLE_HEART_BEAT = null;
     
             /**
-             * Message SC_ROLE_UPDATE.
-             * @member {S2C.ISC_ROLE_UPDATE|null|undefined} SC_ROLE_UPDATE
+             * Message SC_ROLE_PRO_UPDATE.
+             * @member {S2C.ISC_ROLE_PRO_UPDATE|null|undefined} SC_ROLE_PRO_UPDATE
              * @memberof S2C.Message
              * @instance
              */
-            Message.prototype.SC_ROLE_UPDATE = null;
+            Message.prototype.SC_ROLE_PRO_UPDATE = null;
     
             /**
              * Message LOGIN_SC_LOGIN.
@@ -2390,12 +2390,12 @@
     
             /**
              * Message kind.
-             * @member {"Error"|"SC_TEST_ECHO"|"SC_ROLE_ONLINE"|"SC_ROLE_HEART_BEAT"|"SC_ROLE_UPDATE"|"LOGIN_SC_LOGIN"|"LOGIN_SC_CHOOSE_SERVER"|"LOGIN_SC_GET_SERVER_LIST"|"LOGIN_SC_GET_INFO"|undefined} kind
+             * @member {"Error"|"SC_TEST_ECHO"|"SC_ROLE_ONLINE"|"SC_ROLE_HEART_BEAT"|"SC_ROLE_PRO_UPDATE"|"LOGIN_SC_LOGIN"|"LOGIN_SC_CHOOSE_SERVER"|"LOGIN_SC_GET_SERVER_LIST"|"LOGIN_SC_GET_INFO"|undefined} kind
              * @memberof S2C.Message
              * @instance
              */
             Object.defineProperty(Message.prototype, "kind", {
-                get: $util.oneOfGetter($oneOfFields = ["Error", "SC_TEST_ECHO", "SC_ROLE_ONLINE", "SC_ROLE_HEART_BEAT", "SC_ROLE_UPDATE", "LOGIN_SC_LOGIN", "LOGIN_SC_CHOOSE_SERVER", "LOGIN_SC_GET_SERVER_LIST", "LOGIN_SC_GET_INFO"]),
+                get: $util.oneOfGetter($oneOfFields = ["Error", "SC_TEST_ECHO", "SC_ROLE_ONLINE", "SC_ROLE_HEART_BEAT", "SC_ROLE_PRO_UPDATE", "LOGIN_SC_LOGIN", "LOGIN_SC_CHOOSE_SERVER", "LOGIN_SC_GET_SERVER_LIST", "LOGIN_SC_GET_INFO"]),
                 set: $util.oneOfSetter($oneOfFields)
             });
     
@@ -2431,8 +2431,8 @@
                     $root.S2C.SC_ROLE_ONLINE.encode(message.SC_ROLE_ONLINE, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
                 if (message.SC_ROLE_HEART_BEAT != null && message.hasOwnProperty("SC_ROLE_HEART_BEAT"))
                     $root.S2C.SC_ROLE_HEART_BEAT.encode(message.SC_ROLE_HEART_BEAT, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
-                if (message.SC_ROLE_UPDATE != null && message.hasOwnProperty("SC_ROLE_UPDATE"))
-                    $root.S2C.SC_ROLE_UPDATE.encode(message.SC_ROLE_UPDATE, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
+                if (message.SC_ROLE_PRO_UPDATE != null && message.hasOwnProperty("SC_ROLE_PRO_UPDATE"))
+                    $root.S2C.SC_ROLE_PRO_UPDATE.encode(message.SC_ROLE_PRO_UPDATE, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
                 if (message.LOGIN_SC_LOGIN != null && message.hasOwnProperty("LOGIN_SC_LOGIN"))
                     $root.S2C.LOGIN_SC_LOGIN.encode(message.LOGIN_SC_LOGIN, writer.uint32(/* id 6, wireType 2 =*/50).fork()).ldelim();
                 if (message.LOGIN_SC_CHOOSE_SERVER != null && message.hasOwnProperty("LOGIN_SC_CHOOSE_SERVER"))
@@ -2488,7 +2488,7 @@
                         message.SC_ROLE_HEART_BEAT = $root.S2C.SC_ROLE_HEART_BEAT.decode(reader, reader.uint32());
                         break;
                     case 5:
-                        message.SC_ROLE_UPDATE = $root.S2C.SC_ROLE_UPDATE.decode(reader, reader.uint32());
+                        message.SC_ROLE_PRO_UPDATE = $root.S2C.SC_ROLE_PRO_UPDATE.decode(reader, reader.uint32());
                         break;
                     case 6:
                         message.LOGIN_SC_LOGIN = $root.S2C.LOGIN_SC_LOGIN.decode(reader, reader.uint32());
@@ -2576,14 +2576,14 @@
                             return "SC_ROLE_HEART_BEAT." + error;
                     }
                 }
-                if (message.SC_ROLE_UPDATE != null && message.hasOwnProperty("SC_ROLE_UPDATE")) {
+                if (message.SC_ROLE_PRO_UPDATE != null && message.hasOwnProperty("SC_ROLE_PRO_UPDATE")) {
                     if (properties.kind === 1)
                         return "kind: multiple values";
                     properties.kind = 1;
                     {
-                        var error = $root.S2C.SC_ROLE_UPDATE.verify(message.SC_ROLE_UPDATE);
+                        var error = $root.S2C.SC_ROLE_PRO_UPDATE.verify(message.SC_ROLE_PRO_UPDATE);
                         if (error)
-                            return "SC_ROLE_UPDATE." + error;
+                            return "SC_ROLE_PRO_UPDATE." + error;
                     }
                 }
                 if (message.LOGIN_SC_LOGIN != null && message.hasOwnProperty("LOGIN_SC_LOGIN")) {
@@ -2661,10 +2661,10 @@
                         throw TypeError(".S2C.Message.SC_ROLE_HEART_BEAT: object expected");
                     message.SC_ROLE_HEART_BEAT = $root.S2C.SC_ROLE_HEART_BEAT.fromObject(object.SC_ROLE_HEART_BEAT);
                 }
-                if (object.SC_ROLE_UPDATE != null) {
-                    if (typeof object.SC_ROLE_UPDATE !== "object")
-                        throw TypeError(".S2C.Message.SC_ROLE_UPDATE: object expected");
-                    message.SC_ROLE_UPDATE = $root.S2C.SC_ROLE_UPDATE.fromObject(object.SC_ROLE_UPDATE);
+                if (object.SC_ROLE_PRO_UPDATE != null) {
+                    if (typeof object.SC_ROLE_PRO_UPDATE !== "object")
+                        throw TypeError(".S2C.Message.SC_ROLE_PRO_UPDATE: object expected");
+                    message.SC_ROLE_PRO_UPDATE = $root.S2C.SC_ROLE_PRO_UPDATE.fromObject(object.SC_ROLE_PRO_UPDATE);
                 }
                 if (object.LOGIN_SC_LOGIN != null) {
                     if (typeof object.LOGIN_SC_LOGIN !== "object")
@@ -2722,10 +2722,10 @@
                     if (options.oneofs)
                         object.kind = "SC_ROLE_HEART_BEAT";
                 }
-                if (message.SC_ROLE_UPDATE != null && message.hasOwnProperty("SC_ROLE_UPDATE")) {
-                    object.SC_ROLE_UPDATE = $root.S2C.SC_ROLE_UPDATE.toObject(message.SC_ROLE_UPDATE, options);
+                if (message.SC_ROLE_PRO_UPDATE != null && message.hasOwnProperty("SC_ROLE_PRO_UPDATE")) {
+                    object.SC_ROLE_PRO_UPDATE = $root.S2C.SC_ROLE_PRO_UPDATE.toObject(message.SC_ROLE_PRO_UPDATE, options);
                     if (options.oneofs)
-                        object.kind = "SC_ROLE_UPDATE";
+                        object.kind = "SC_ROLE_PRO_UPDATE";
                 }
                 if (message.LOGIN_SC_LOGIN != null && message.hasOwnProperty("LOGIN_SC_LOGIN")) {
                     object.LOGIN_SC_LOGIN = $root.S2C.LOGIN_SC_LOGIN.toObject(message.LOGIN_SC_LOGIN, options);
@@ -2764,30 +2764,32 @@
             return Message;
         })();
     
-        S2C.Role = (function() {
+        S2C.SC_ROLE_PRO_UPDATE = (function() {
     
             /**
-             * Properties of a Role.
+             * Properties of a SC_ROLE_PRO_UPDATE.
              * @memberof S2C
-             * @interface IRole
-             * @property {number|null} [uid] Role uid
-             * @property {string|null} [nickname] Role nickname
-             * @property {string|null} [headimgurl] Role headimgurl
-             * @property {number|null} [diamond] Role diamond
-             * @property {number|Long|null} [gold] Role gold
-             * @property {number|null} [level] Role level
-             * @property {S2C.Role.IEquipModel|null} [equipModel] Role equipModel
+             * @interface ISC_ROLE_PRO_UPDATE
+             * @property {number|null} [uid] SC_ROLE_PRO_UPDATE uid
+             * @property {string|null} [nickname] SC_ROLE_PRO_UPDATE nickname
+             * @property {string|null} [headimgurl] SC_ROLE_PRO_UPDATE headimgurl
+             * @property {number|null} [diamond] SC_ROLE_PRO_UPDATE diamond
+             * @property {number|Long|null} [gold] SC_ROLE_PRO_UPDATE gold
+             * @property {number|null} [level] SC_ROLE_PRO_UPDATE level
+             * @property {number|null} [vipLevel] SC_ROLE_PRO_UPDATE vipLevel
+             * @property {number|Long|null} [exp] SC_ROLE_PRO_UPDATE exp
+             * @property {number|null} [vipExp] SC_ROLE_PRO_UPDATE vipExp
              */
     
             /**
-             * Constructs a new Role.
+             * Constructs a new SC_ROLE_PRO_UPDATE.
              * @memberof S2C
-             * @classdesc Represents a Role.
-             * @implements IRole
+             * @classdesc Represents a SC_ROLE_PRO_UPDATE.
+             * @implements ISC_ROLE_PRO_UPDATE
              * @constructor
-             * @param {S2C.IRole=} [properties] Properties to set
+             * @param {S2C.ISC_ROLE_PRO_UPDATE=} [properties] Properties to set
              */
-            function Role(properties) {
+            function SC_ROLE_PRO_UPDATE(properties) {
                 if (properties)
                     for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                         if (properties[keys[i]] != null)
@@ -2795,83 +2797,99 @@
             }
     
             /**
-             * Role uid.
+             * SC_ROLE_PRO_UPDATE uid.
              * @member {number} uid
-             * @memberof S2C.Role
+             * @memberof S2C.SC_ROLE_PRO_UPDATE
              * @instance
              */
-            Role.prototype.uid = 0;
+            SC_ROLE_PRO_UPDATE.prototype.uid = 0;
     
             /**
-             * Role nickname.
+             * SC_ROLE_PRO_UPDATE nickname.
              * @member {string} nickname
-             * @memberof S2C.Role
+             * @memberof S2C.SC_ROLE_PRO_UPDATE
              * @instance
              */
-            Role.prototype.nickname = "";
+            SC_ROLE_PRO_UPDATE.prototype.nickname = "";
     
             /**
-             * Role headimgurl.
+             * SC_ROLE_PRO_UPDATE headimgurl.
              * @member {string} headimgurl
-             * @memberof S2C.Role
+             * @memberof S2C.SC_ROLE_PRO_UPDATE
              * @instance
              */
-            Role.prototype.headimgurl = "";
+            SC_ROLE_PRO_UPDATE.prototype.headimgurl = "";
     
             /**
-             * Role diamond.
+             * SC_ROLE_PRO_UPDATE diamond.
              * @member {number} diamond
-             * @memberof S2C.Role
+             * @memberof S2C.SC_ROLE_PRO_UPDATE
              * @instance
              */
-            Role.prototype.diamond = 0;
+            SC_ROLE_PRO_UPDATE.prototype.diamond = 0;
     
             /**
-             * Role gold.
+             * SC_ROLE_PRO_UPDATE gold.
              * @member {number|Long} gold
-             * @memberof S2C.Role
+             * @memberof S2C.SC_ROLE_PRO_UPDATE
              * @instance
              */
-            Role.prototype.gold = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+            SC_ROLE_PRO_UPDATE.prototype.gold = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
     
             /**
-             * Role level.
+             * SC_ROLE_PRO_UPDATE level.
              * @member {number} level
-             * @memberof S2C.Role
+             * @memberof S2C.SC_ROLE_PRO_UPDATE
              * @instance
              */
-            Role.prototype.level = 0;
+            SC_ROLE_PRO_UPDATE.prototype.level = 0;
     
             /**
-             * Role equipModel.
-             * @member {S2C.Role.IEquipModel|null|undefined} equipModel
-             * @memberof S2C.Role
+             * SC_ROLE_PRO_UPDATE vipLevel.
+             * @member {number} vipLevel
+             * @memberof S2C.SC_ROLE_PRO_UPDATE
              * @instance
              */
-            Role.prototype.equipModel = null;
+            SC_ROLE_PRO_UPDATE.prototype.vipLevel = 0;
     
             /**
-             * Creates a new Role instance using the specified properties.
+             * SC_ROLE_PRO_UPDATE exp.
+             * @member {number|Long} exp
+             * @memberof S2C.SC_ROLE_PRO_UPDATE
+             * @instance
+             */
+            SC_ROLE_PRO_UPDATE.prototype.exp = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+    
+            /**
+             * SC_ROLE_PRO_UPDATE vipExp.
+             * @member {number} vipExp
+             * @memberof S2C.SC_ROLE_PRO_UPDATE
+             * @instance
+             */
+            SC_ROLE_PRO_UPDATE.prototype.vipExp = 0;
+    
+            /**
+             * Creates a new SC_ROLE_PRO_UPDATE instance using the specified properties.
              * @function create
-             * @memberof S2C.Role
+             * @memberof S2C.SC_ROLE_PRO_UPDATE
              * @static
-             * @param {S2C.IRole=} [properties] Properties to set
-             * @returns {S2C.Role} Role instance
+             * @param {S2C.ISC_ROLE_PRO_UPDATE=} [properties] Properties to set
+             * @returns {S2C.SC_ROLE_PRO_UPDATE} SC_ROLE_PRO_UPDATE instance
              */
-            Role.create = function create(properties) {
-                return new Role(properties);
+            SC_ROLE_PRO_UPDATE.create = function create(properties) {
+                return new SC_ROLE_PRO_UPDATE(properties);
             };
     
             /**
-             * Encodes the specified Role message. Does not implicitly {@link S2C.Role.verify|verify} messages.
+             * Encodes the specified SC_ROLE_PRO_UPDATE message. Does not implicitly {@link S2C.SC_ROLE_PRO_UPDATE.verify|verify} messages.
              * @function encode
-             * @memberof S2C.Role
+             * @memberof S2C.SC_ROLE_PRO_UPDATE
              * @static
-             * @param {S2C.IRole} message Role message or plain object to encode
+             * @param {S2C.ISC_ROLE_PRO_UPDATE} message SC_ROLE_PRO_UPDATE message or plain object to encode
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            Role.encode = function encode(message, writer) {
+            SC_ROLE_PRO_UPDATE.encode = function encode(message, writer) {
                 if (!writer)
                     writer = $Writer.create();
                 if (message.uid != null && message.hasOwnProperty("uid"))
@@ -2886,39 +2904,43 @@
                     writer.uint32(/* id 5, wireType 0 =*/40).uint64(message.gold);
                 if (message.level != null && message.hasOwnProperty("level"))
                     writer.uint32(/* id 6, wireType 0 =*/48).uint32(message.level);
-                if (message.equipModel != null && message.hasOwnProperty("equipModel"))
-                    $root.S2C.Role.EquipModel.encode(message.equipModel, writer.uint32(/* id 7, wireType 2 =*/58).fork()).ldelim();
+                if (message.vipLevel != null && message.hasOwnProperty("vipLevel"))
+                    writer.uint32(/* id 7, wireType 0 =*/56).uint32(message.vipLevel);
+                if (message.exp != null && message.hasOwnProperty("exp"))
+                    writer.uint32(/* id 8, wireType 0 =*/64).uint64(message.exp);
+                if (message.vipExp != null && message.hasOwnProperty("vipExp"))
+                    writer.uint32(/* id 9, wireType 0 =*/72).uint32(message.vipExp);
                 return writer;
             };
     
             /**
-             * Encodes the specified Role message, length delimited. Does not implicitly {@link S2C.Role.verify|verify} messages.
+             * Encodes the specified SC_ROLE_PRO_UPDATE message, length delimited. Does not implicitly {@link S2C.SC_ROLE_PRO_UPDATE.verify|verify} messages.
              * @function encodeDelimited
-             * @memberof S2C.Role
+             * @memberof S2C.SC_ROLE_PRO_UPDATE
              * @static
-             * @param {S2C.IRole} message Role message or plain object to encode
+             * @param {S2C.ISC_ROLE_PRO_UPDATE} message SC_ROLE_PRO_UPDATE message or plain object to encode
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            Role.encodeDelimited = function encodeDelimited(message, writer) {
+            SC_ROLE_PRO_UPDATE.encodeDelimited = function encodeDelimited(message, writer) {
                 return this.encode(message, writer).ldelim();
             };
     
             /**
-             * Decodes a Role message from the specified reader or buffer.
+             * Decodes a SC_ROLE_PRO_UPDATE message from the specified reader or buffer.
              * @function decode
-             * @memberof S2C.Role
+             * @memberof S2C.SC_ROLE_PRO_UPDATE
              * @static
              * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
              * @param {number} [length] Message length if known beforehand
-             * @returns {S2C.Role} Role
+             * @returns {S2C.SC_ROLE_PRO_UPDATE} SC_ROLE_PRO_UPDATE
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            Role.decode = function decode(reader, length) {
+            SC_ROLE_PRO_UPDATE.decode = function decode(reader, length) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.S2C.Role();
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.S2C.SC_ROLE_PRO_UPDATE();
                 while (reader.pos < end) {
                     var tag = reader.uint32();
                     switch (tag >>> 3) {
@@ -2941,7 +2963,13 @@
                         message.level = reader.uint32();
                         break;
                     case 7:
-                        message.equipModel = $root.S2C.Role.EquipModel.decode(reader, reader.uint32());
+                        message.vipLevel = reader.uint32();
+                        break;
+                    case 8:
+                        message.exp = reader.uint64();
+                        break;
+                    case 9:
+                        message.vipExp = reader.uint32();
                         break;
                     default:
                         reader.skipType(tag & 7);
@@ -2952,30 +2980,30 @@
             };
     
             /**
-             * Decodes a Role message from the specified reader or buffer, length delimited.
+             * Decodes a SC_ROLE_PRO_UPDATE message from the specified reader or buffer, length delimited.
              * @function decodeDelimited
-             * @memberof S2C.Role
+             * @memberof S2C.SC_ROLE_PRO_UPDATE
              * @static
              * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {S2C.Role} Role
+             * @returns {S2C.SC_ROLE_PRO_UPDATE} SC_ROLE_PRO_UPDATE
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            Role.decodeDelimited = function decodeDelimited(reader) {
+            SC_ROLE_PRO_UPDATE.decodeDelimited = function decodeDelimited(reader) {
                 if (!(reader instanceof $Reader))
                     reader = new $Reader(reader);
                 return this.decode(reader, reader.uint32());
             };
     
             /**
-             * Verifies a Role message.
+             * Verifies a SC_ROLE_PRO_UPDATE message.
              * @function verify
-             * @memberof S2C.Role
+             * @memberof S2C.SC_ROLE_PRO_UPDATE
              * @static
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            Role.verify = function verify(message) {
+            SC_ROLE_PRO_UPDATE.verify = function verify(message) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
                 if (message.uid != null && message.hasOwnProperty("uid"))
@@ -2996,26 +3024,30 @@
                 if (message.level != null && message.hasOwnProperty("level"))
                     if (!$util.isInteger(message.level))
                         return "level: integer expected";
-                if (message.equipModel != null && message.hasOwnProperty("equipModel")) {
-                    var error = $root.S2C.Role.EquipModel.verify(message.equipModel);
-                    if (error)
-                        return "equipModel." + error;
-                }
+                if (message.vipLevel != null && message.hasOwnProperty("vipLevel"))
+                    if (!$util.isInteger(message.vipLevel))
+                        return "vipLevel: integer expected";
+                if (message.exp != null && message.hasOwnProperty("exp"))
+                    if (!$util.isInteger(message.exp) && !(message.exp && $util.isInteger(message.exp.low) && $util.isInteger(message.exp.high)))
+                        return "exp: integer|Long expected";
+                if (message.vipExp != null && message.hasOwnProperty("vipExp"))
+                    if (!$util.isInteger(message.vipExp))
+                        return "vipExp: integer expected";
                 return null;
             };
     
             /**
-             * Creates a Role message from a plain object. Also converts values to their respective internal types.
+             * Creates a SC_ROLE_PRO_UPDATE message from a plain object. Also converts values to their respective internal types.
              * @function fromObject
-             * @memberof S2C.Role
+             * @memberof S2C.SC_ROLE_PRO_UPDATE
              * @static
              * @param {Object.<string,*>} object Plain object
-             * @returns {S2C.Role} Role
+             * @returns {S2C.SC_ROLE_PRO_UPDATE} SC_ROLE_PRO_UPDATE
              */
-            Role.fromObject = function fromObject(object) {
-                if (object instanceof $root.S2C.Role)
+            SC_ROLE_PRO_UPDATE.fromObject = function fromObject(object) {
+                if (object instanceof $root.S2C.SC_ROLE_PRO_UPDATE)
                     return object;
-                var message = new $root.S2C.Role();
+                var message = new $root.S2C.SC_ROLE_PRO_UPDATE();
                 if (object.uid != null)
                     message.uid = object.uid >>> 0;
                 if (object.nickname != null)
@@ -3035,24 +3067,32 @@
                         message.gold = new $util.LongBits(object.gold.low >>> 0, object.gold.high >>> 0).toNumber(true);
                 if (object.level != null)
                     message.level = object.level >>> 0;
-                if (object.equipModel != null) {
-                    if (typeof object.equipModel !== "object")
-                        throw TypeError(".S2C.Role.equipModel: object expected");
-                    message.equipModel = $root.S2C.Role.EquipModel.fromObject(object.equipModel);
-                }
+                if (object.vipLevel != null)
+                    message.vipLevel = object.vipLevel >>> 0;
+                if (object.exp != null)
+                    if ($util.Long)
+                        (message.exp = $util.Long.fromValue(object.exp)).unsigned = true;
+                    else if (typeof object.exp === "string")
+                        message.exp = parseInt(object.exp, 10);
+                    else if (typeof object.exp === "number")
+                        message.exp = object.exp;
+                    else if (typeof object.exp === "object")
+                        message.exp = new $util.LongBits(object.exp.low >>> 0, object.exp.high >>> 0).toNumber(true);
+                if (object.vipExp != null)
+                    message.vipExp = object.vipExp >>> 0;
                 return message;
             };
     
             /**
-             * Creates a plain object from a Role message. Also converts values to other types if specified.
+             * Creates a plain object from a SC_ROLE_PRO_UPDATE message. Also converts values to other types if specified.
              * @function toObject
-             * @memberof S2C.Role
+             * @memberof S2C.SC_ROLE_PRO_UPDATE
              * @static
-             * @param {S2C.Role} message Role
+             * @param {S2C.SC_ROLE_PRO_UPDATE} message SC_ROLE_PRO_UPDATE
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            Role.toObject = function toObject(message, options) {
+            SC_ROLE_PRO_UPDATE.toObject = function toObject(message, options) {
                 if (!options)
                     options = {};
                 var object = {};
@@ -3067,7 +3107,13 @@
                     } else
                         object.gold = options.longs === String ? "0" : 0;
                     object.level = 0;
-                    object.equipModel = null;
+                    object.vipLevel = 0;
+                    if ($util.Long) {
+                        var long = new $util.Long(0, 0, true);
+                        object.exp = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    } else
+                        object.exp = options.longs === String ? "0" : 0;
+                    object.vipExp = 0;
                 }
                 if (message.uid != null && message.hasOwnProperty("uid"))
                     object.uid = message.uid;
@@ -3084,706 +3130,30 @@
                         object.gold = options.longs === String ? $util.Long.prototype.toString.call(message.gold) : options.longs === Number ? new $util.LongBits(message.gold.low >>> 0, message.gold.high >>> 0).toNumber(true) : message.gold;
                 if (message.level != null && message.hasOwnProperty("level"))
                     object.level = message.level;
-                if (message.equipModel != null && message.hasOwnProperty("equipModel"))
-                    object.equipModel = $root.S2C.Role.EquipModel.toObject(message.equipModel, options);
+                if (message.vipLevel != null && message.hasOwnProperty("vipLevel"))
+                    object.vipLevel = message.vipLevel;
+                if (message.exp != null && message.hasOwnProperty("exp"))
+                    if (typeof message.exp === "number")
+                        object.exp = options.longs === String ? String(message.exp) : message.exp;
+                    else
+                        object.exp = options.longs === String ? $util.Long.prototype.toString.call(message.exp) : options.longs === Number ? new $util.LongBits(message.exp.low >>> 0, message.exp.high >>> 0).toNumber(true) : message.exp;
+                if (message.vipExp != null && message.hasOwnProperty("vipExp"))
+                    object.vipExp = message.vipExp;
                 return object;
             };
     
             /**
-             * Converts this Role to JSON.
+             * Converts this SC_ROLE_PRO_UPDATE to JSON.
              * @function toJSON
-             * @memberof S2C.Role
+             * @memberof S2C.SC_ROLE_PRO_UPDATE
              * @instance
              * @returns {Object.<string,*>} JSON object
              */
-            Role.prototype.toJSON = function toJSON() {
+            SC_ROLE_PRO_UPDATE.prototype.toJSON = function toJSON() {
                 return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
             };
     
-            Role.EquipModel = (function() {
-    
-                /**
-                 * Properties of an EquipModel.
-                 * @memberof S2C.Role
-                 * @interface IEquipModel
-                 * @property {Object.<string,S2C.Role.EquipModel.IEquip>|null} [equips] EquipModel equips
-                 */
-    
-                /**
-                 * Constructs a new EquipModel.
-                 * @memberof S2C.Role
-                 * @classdesc Represents an EquipModel.
-                 * @implements IEquipModel
-                 * @constructor
-                 * @param {S2C.Role.IEquipModel=} [properties] Properties to set
-                 */
-                function EquipModel(properties) {
-                    this.equips = {};
-                    if (properties)
-                        for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
-                                this[keys[i]] = properties[keys[i]];
-                }
-    
-                /**
-                 * EquipModel equips.
-                 * @member {Object.<string,S2C.Role.EquipModel.IEquip>} equips
-                 * @memberof S2C.Role.EquipModel
-                 * @instance
-                 */
-                EquipModel.prototype.equips = $util.emptyObject;
-    
-                /**
-                 * Creates a new EquipModel instance using the specified properties.
-                 * @function create
-                 * @memberof S2C.Role.EquipModel
-                 * @static
-                 * @param {S2C.Role.IEquipModel=} [properties] Properties to set
-                 * @returns {S2C.Role.EquipModel} EquipModel instance
-                 */
-                EquipModel.create = function create(properties) {
-                    return new EquipModel(properties);
-                };
-    
-                /**
-                 * Encodes the specified EquipModel message. Does not implicitly {@link S2C.Role.EquipModel.verify|verify} messages.
-                 * @function encode
-                 * @memberof S2C.Role.EquipModel
-                 * @static
-                 * @param {S2C.Role.IEquipModel} message EquipModel message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                EquipModel.encode = function encode(message, writer) {
-                    if (!writer)
-                        writer = $Writer.create();
-                    if (message.equips != null && message.hasOwnProperty("equips"))
-                        for (var keys = Object.keys(message.equips), i = 0; i < keys.length; ++i) {
-                            writer.uint32(/* id 1, wireType 2 =*/10).fork().uint32(/* id 1, wireType 0 =*/8).int32(keys[i]);
-                            $root.S2C.Role.EquipModel.Equip.encode(message.equips[keys[i]], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim().ldelim();
-                        }
-                    return writer;
-                };
-    
-                /**
-                 * Encodes the specified EquipModel message, length delimited. Does not implicitly {@link S2C.Role.EquipModel.verify|verify} messages.
-                 * @function encodeDelimited
-                 * @memberof S2C.Role.EquipModel
-                 * @static
-                 * @param {S2C.Role.IEquipModel} message EquipModel message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                EquipModel.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
-                };
-    
-                /**
-                 * Decodes an EquipModel message from the specified reader or buffer.
-                 * @function decode
-                 * @memberof S2C.Role.EquipModel
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @param {number} [length] Message length if known beforehand
-                 * @returns {S2C.Role.EquipModel} EquipModel
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                EquipModel.decode = function decode(reader, length) {
-                    if (!(reader instanceof $Reader))
-                        reader = $Reader.create(reader);
-                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.S2C.Role.EquipModel(), key;
-                    while (reader.pos < end) {
-                        var tag = reader.uint32();
-                        switch (tag >>> 3) {
-                        case 1:
-                            reader.skip().pos++;
-                            if (message.equips === $util.emptyObject)
-                                message.equips = {};
-                            key = reader.int32();
-                            reader.pos++;
-                            message.equips[key] = $root.S2C.Role.EquipModel.Equip.decode(reader, reader.uint32());
-                            break;
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
-                        }
-                    }
-                    return message;
-                };
-    
-                /**
-                 * Decodes an EquipModel message from the specified reader or buffer, length delimited.
-                 * @function decodeDelimited
-                 * @memberof S2C.Role.EquipModel
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @returns {S2C.Role.EquipModel} EquipModel
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                EquipModel.decodeDelimited = function decodeDelimited(reader) {
-                    if (!(reader instanceof $Reader))
-                        reader = new $Reader(reader);
-                    return this.decode(reader, reader.uint32());
-                };
-    
-                /**
-                 * Verifies an EquipModel message.
-                 * @function verify
-                 * @memberof S2C.Role.EquipModel
-                 * @static
-                 * @param {Object.<string,*>} message Plain object to verify
-                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
-                 */
-                EquipModel.verify = function verify(message) {
-                    if (typeof message !== "object" || message === null)
-                        return "object expected";
-                    if (message.equips != null && message.hasOwnProperty("equips")) {
-                        if (!$util.isObject(message.equips))
-                            return "equips: object expected";
-                        var key = Object.keys(message.equips);
-                        for (var i = 0; i < key.length; ++i) {
-                            if (!$util.key32Re.test(key[i]))
-                                return "equips: integer key{k:int32} expected";
-                            {
-                                var error = $root.S2C.Role.EquipModel.Equip.verify(message.equips[key[i]]);
-                                if (error)
-                                    return "equips." + error;
-                            }
-                        }
-                    }
-                    return null;
-                };
-    
-                /**
-                 * Creates an EquipModel message from a plain object. Also converts values to their respective internal types.
-                 * @function fromObject
-                 * @memberof S2C.Role.EquipModel
-                 * @static
-                 * @param {Object.<string,*>} object Plain object
-                 * @returns {S2C.Role.EquipModel} EquipModel
-                 */
-                EquipModel.fromObject = function fromObject(object) {
-                    if (object instanceof $root.S2C.Role.EquipModel)
-                        return object;
-                    var message = new $root.S2C.Role.EquipModel();
-                    if (object.equips) {
-                        if (typeof object.equips !== "object")
-                            throw TypeError(".S2C.Role.EquipModel.equips: object expected");
-                        message.equips = {};
-                        for (var keys = Object.keys(object.equips), i = 0; i < keys.length; ++i) {
-                            if (typeof object.equips[keys[i]] !== "object")
-                                throw TypeError(".S2C.Role.EquipModel.equips: object expected");
-                            message.equips[keys[i]] = $root.S2C.Role.EquipModel.Equip.fromObject(object.equips[keys[i]]);
-                        }
-                    }
-                    return message;
-                };
-    
-                /**
-                 * Creates a plain object from an EquipModel message. Also converts values to other types if specified.
-                 * @function toObject
-                 * @memberof S2C.Role.EquipModel
-                 * @static
-                 * @param {S2C.Role.EquipModel} message EquipModel
-                 * @param {$protobuf.IConversionOptions} [options] Conversion options
-                 * @returns {Object.<string,*>} Plain object
-                 */
-                EquipModel.toObject = function toObject(message, options) {
-                    if (!options)
-                        options = {};
-                    var object = {};
-                    if (options.objects || options.defaults)
-                        object.equips = {};
-                    var keys2;
-                    if (message.equips && (keys2 = Object.keys(message.equips)).length) {
-                        object.equips = {};
-                        for (var j = 0; j < keys2.length; ++j)
-                            object.equips[keys2[j]] = $root.S2C.Role.EquipModel.Equip.toObject(message.equips[keys2[j]], options);
-                    }
-                    return object;
-                };
-    
-                /**
-                 * Converts this EquipModel to JSON.
-                 * @function toJSON
-                 * @memberof S2C.Role.EquipModel
-                 * @instance
-                 * @returns {Object.<string,*>} JSON object
-                 */
-                EquipModel.prototype.toJSON = function toJSON() {
-                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-                };
-    
-                EquipModel.Equip = (function() {
-    
-                    /**
-                     * Properties of an Equip.
-                     * @memberof S2C.Role.EquipModel
-                     * @interface IEquip
-                     * @property {number|null} [uid] Equip uid
-                     * @property {number|null} [id] Equip id
-                     * @property {number|null} [level] Equip level
-                     */
-    
-                    /**
-                     * Constructs a new Equip.
-                     * @memberof S2C.Role.EquipModel
-                     * @classdesc Represents an Equip.
-                     * @implements IEquip
-                     * @constructor
-                     * @param {S2C.Role.EquipModel.IEquip=} [properties] Properties to set
-                     */
-                    function Equip(properties) {
-                        if (properties)
-                            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                                if (properties[keys[i]] != null)
-                                    this[keys[i]] = properties[keys[i]];
-                    }
-    
-                    /**
-                     * Equip uid.
-                     * @member {number} uid
-                     * @memberof S2C.Role.EquipModel.Equip
-                     * @instance
-                     */
-                    Equip.prototype.uid = 0;
-    
-                    /**
-                     * Equip id.
-                     * @member {number} id
-                     * @memberof S2C.Role.EquipModel.Equip
-                     * @instance
-                     */
-                    Equip.prototype.id = 0;
-    
-                    /**
-                     * Equip level.
-                     * @member {number} level
-                     * @memberof S2C.Role.EquipModel.Equip
-                     * @instance
-                     */
-                    Equip.prototype.level = 0;
-    
-                    /**
-                     * Creates a new Equip instance using the specified properties.
-                     * @function create
-                     * @memberof S2C.Role.EquipModel.Equip
-                     * @static
-                     * @param {S2C.Role.EquipModel.IEquip=} [properties] Properties to set
-                     * @returns {S2C.Role.EquipModel.Equip} Equip instance
-                     */
-                    Equip.create = function create(properties) {
-                        return new Equip(properties);
-                    };
-    
-                    /**
-                     * Encodes the specified Equip message. Does not implicitly {@link S2C.Role.EquipModel.Equip.verify|verify} messages.
-                     * @function encode
-                     * @memberof S2C.Role.EquipModel.Equip
-                     * @static
-                     * @param {S2C.Role.EquipModel.IEquip} message Equip message or plain object to encode
-                     * @param {$protobuf.Writer} [writer] Writer to encode to
-                     * @returns {$protobuf.Writer} Writer
-                     */
-                    Equip.encode = function encode(message, writer) {
-                        if (!writer)
-                            writer = $Writer.create();
-                        if (message.uid != null && message.hasOwnProperty("uid"))
-                            writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.uid);
-                        if (message.id != null && message.hasOwnProperty("id"))
-                            writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.id);
-                        if (message.level != null && message.hasOwnProperty("level"))
-                            writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.level);
-                        return writer;
-                    };
-    
-                    /**
-                     * Encodes the specified Equip message, length delimited. Does not implicitly {@link S2C.Role.EquipModel.Equip.verify|verify} messages.
-                     * @function encodeDelimited
-                     * @memberof S2C.Role.EquipModel.Equip
-                     * @static
-                     * @param {S2C.Role.EquipModel.IEquip} message Equip message or plain object to encode
-                     * @param {$protobuf.Writer} [writer] Writer to encode to
-                     * @returns {$protobuf.Writer} Writer
-                     */
-                    Equip.encodeDelimited = function encodeDelimited(message, writer) {
-                        return this.encode(message, writer).ldelim();
-                    };
-    
-                    /**
-                     * Decodes an Equip message from the specified reader or buffer.
-                     * @function decode
-                     * @memberof S2C.Role.EquipModel.Equip
-                     * @static
-                     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                     * @param {number} [length] Message length if known beforehand
-                     * @returns {S2C.Role.EquipModel.Equip} Equip
-                     * @throws {Error} If the payload is not a reader or valid buffer
-                     * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                     */
-                    Equip.decode = function decode(reader, length) {
-                        if (!(reader instanceof $Reader))
-                            reader = $Reader.create(reader);
-                        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.S2C.Role.EquipModel.Equip();
-                        while (reader.pos < end) {
-                            var tag = reader.uint32();
-                            switch (tag >>> 3) {
-                            case 1:
-                                message.uid = reader.uint32();
-                                break;
-                            case 2:
-                                message.id = reader.uint32();
-                                break;
-                            case 3:
-                                message.level = reader.uint32();
-                                break;
-                            default:
-                                reader.skipType(tag & 7);
-                                break;
-                            }
-                        }
-                        return message;
-                    };
-    
-                    /**
-                     * Decodes an Equip message from the specified reader or buffer, length delimited.
-                     * @function decodeDelimited
-                     * @memberof S2C.Role.EquipModel.Equip
-                     * @static
-                     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                     * @returns {S2C.Role.EquipModel.Equip} Equip
-                     * @throws {Error} If the payload is not a reader or valid buffer
-                     * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                     */
-                    Equip.decodeDelimited = function decodeDelimited(reader) {
-                        if (!(reader instanceof $Reader))
-                            reader = new $Reader(reader);
-                        return this.decode(reader, reader.uint32());
-                    };
-    
-                    /**
-                     * Verifies an Equip message.
-                     * @function verify
-                     * @memberof S2C.Role.EquipModel.Equip
-                     * @static
-                     * @param {Object.<string,*>} message Plain object to verify
-                     * @returns {string|null} `null` if valid, otherwise the reason why it is not
-                     */
-                    Equip.verify = function verify(message) {
-                        if (typeof message !== "object" || message === null)
-                            return "object expected";
-                        if (message.uid != null && message.hasOwnProperty("uid"))
-                            if (!$util.isInteger(message.uid))
-                                return "uid: integer expected";
-                        if (message.id != null && message.hasOwnProperty("id"))
-                            if (!$util.isInteger(message.id))
-                                return "id: integer expected";
-                        if (message.level != null && message.hasOwnProperty("level"))
-                            if (!$util.isInteger(message.level))
-                                return "level: integer expected";
-                        return null;
-                    };
-    
-                    /**
-                     * Creates an Equip message from a plain object. Also converts values to their respective internal types.
-                     * @function fromObject
-                     * @memberof S2C.Role.EquipModel.Equip
-                     * @static
-                     * @param {Object.<string,*>} object Plain object
-                     * @returns {S2C.Role.EquipModel.Equip} Equip
-                     */
-                    Equip.fromObject = function fromObject(object) {
-                        if (object instanceof $root.S2C.Role.EquipModel.Equip)
-                            return object;
-                        var message = new $root.S2C.Role.EquipModel.Equip();
-                        if (object.uid != null)
-                            message.uid = object.uid >>> 0;
-                        if (object.id != null)
-                            message.id = object.id >>> 0;
-                        if (object.level != null)
-                            message.level = object.level >>> 0;
-                        return message;
-                    };
-    
-                    /**
-                     * Creates a plain object from an Equip message. Also converts values to other types if specified.
-                     * @function toObject
-                     * @memberof S2C.Role.EquipModel.Equip
-                     * @static
-                     * @param {S2C.Role.EquipModel.Equip} message Equip
-                     * @param {$protobuf.IConversionOptions} [options] Conversion options
-                     * @returns {Object.<string,*>} Plain object
-                     */
-                    Equip.toObject = function toObject(message, options) {
-                        if (!options)
-                            options = {};
-                        var object = {};
-                        if (options.defaults) {
-                            object.uid = 0;
-                            object.id = 0;
-                            object.level = 0;
-                        }
-                        if (message.uid != null && message.hasOwnProperty("uid"))
-                            object.uid = message.uid;
-                        if (message.id != null && message.hasOwnProperty("id"))
-                            object.id = message.id;
-                        if (message.level != null && message.hasOwnProperty("level"))
-                            object.level = message.level;
-                        return object;
-                    };
-    
-                    /**
-                     * Converts this Equip to JSON.
-                     * @function toJSON
-                     * @memberof S2C.Role.EquipModel.Equip
-                     * @instance
-                     * @returns {Object.<string,*>} JSON object
-                     */
-                    Equip.prototype.toJSON = function toJSON() {
-                        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-                    };
-    
-                    return Equip;
-                })();
-    
-                return EquipModel;
-            })();
-    
-            Role.HeroModel = (function() {
-    
-                /**
-                 * Properties of a HeroModel.
-                 * @memberof S2C.Role
-                 * @interface IHeroModel
-                 * @property {number|null} [uid] HeroModel uid
-                 * @property {number|null} [id] HeroModel id
-                 * @property {number|null} [level] HeroModel level
-                 */
-    
-                /**
-                 * Constructs a new HeroModel.
-                 * @memberof S2C.Role
-                 * @classdesc Represents a HeroModel.
-                 * @implements IHeroModel
-                 * @constructor
-                 * @param {S2C.Role.IHeroModel=} [properties] Properties to set
-                 */
-                function HeroModel(properties) {
-                    if (properties)
-                        for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                            if (properties[keys[i]] != null)
-                                this[keys[i]] = properties[keys[i]];
-                }
-    
-                /**
-                 * HeroModel uid.
-                 * @member {number} uid
-                 * @memberof S2C.Role.HeroModel
-                 * @instance
-                 */
-                HeroModel.prototype.uid = 0;
-    
-                /**
-                 * HeroModel id.
-                 * @member {number} id
-                 * @memberof S2C.Role.HeroModel
-                 * @instance
-                 */
-                HeroModel.prototype.id = 0;
-    
-                /**
-                 * HeroModel level.
-                 * @member {number} level
-                 * @memberof S2C.Role.HeroModel
-                 * @instance
-                 */
-                HeroModel.prototype.level = 0;
-    
-                /**
-                 * Creates a new HeroModel instance using the specified properties.
-                 * @function create
-                 * @memberof S2C.Role.HeroModel
-                 * @static
-                 * @param {S2C.Role.IHeroModel=} [properties] Properties to set
-                 * @returns {S2C.Role.HeroModel} HeroModel instance
-                 */
-                HeroModel.create = function create(properties) {
-                    return new HeroModel(properties);
-                };
-    
-                /**
-                 * Encodes the specified HeroModel message. Does not implicitly {@link S2C.Role.HeroModel.verify|verify} messages.
-                 * @function encode
-                 * @memberof S2C.Role.HeroModel
-                 * @static
-                 * @param {S2C.Role.IHeroModel} message HeroModel message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                HeroModel.encode = function encode(message, writer) {
-                    if (!writer)
-                        writer = $Writer.create();
-                    if (message.uid != null && message.hasOwnProperty("uid"))
-                        writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.uid);
-                    if (message.id != null && message.hasOwnProperty("id"))
-                        writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.id);
-                    if (message.level != null && message.hasOwnProperty("level"))
-                        writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.level);
-                    return writer;
-                };
-    
-                /**
-                 * Encodes the specified HeroModel message, length delimited. Does not implicitly {@link S2C.Role.HeroModel.verify|verify} messages.
-                 * @function encodeDelimited
-                 * @memberof S2C.Role.HeroModel
-                 * @static
-                 * @param {S2C.Role.IHeroModel} message HeroModel message or plain object to encode
-                 * @param {$protobuf.Writer} [writer] Writer to encode to
-                 * @returns {$protobuf.Writer} Writer
-                 */
-                HeroModel.encodeDelimited = function encodeDelimited(message, writer) {
-                    return this.encode(message, writer).ldelim();
-                };
-    
-                /**
-                 * Decodes a HeroModel message from the specified reader or buffer.
-                 * @function decode
-                 * @memberof S2C.Role.HeroModel
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @param {number} [length] Message length if known beforehand
-                 * @returns {S2C.Role.HeroModel} HeroModel
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                HeroModel.decode = function decode(reader, length) {
-                    if (!(reader instanceof $Reader))
-                        reader = $Reader.create(reader);
-                    var end = length === undefined ? reader.len : reader.pos + length, message = new $root.S2C.Role.HeroModel();
-                    while (reader.pos < end) {
-                        var tag = reader.uint32();
-                        switch (tag >>> 3) {
-                        case 1:
-                            message.uid = reader.uint32();
-                            break;
-                        case 2:
-                            message.id = reader.uint32();
-                            break;
-                        case 3:
-                            message.level = reader.uint32();
-                            break;
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
-                        }
-                    }
-                    return message;
-                };
-    
-                /**
-                 * Decodes a HeroModel message from the specified reader or buffer, length delimited.
-                 * @function decodeDelimited
-                 * @memberof S2C.Role.HeroModel
-                 * @static
-                 * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-                 * @returns {S2C.Role.HeroModel} HeroModel
-                 * @throws {Error} If the payload is not a reader or valid buffer
-                 * @throws {$protobuf.util.ProtocolError} If required fields are missing
-                 */
-                HeroModel.decodeDelimited = function decodeDelimited(reader) {
-                    if (!(reader instanceof $Reader))
-                        reader = new $Reader(reader);
-                    return this.decode(reader, reader.uint32());
-                };
-    
-                /**
-                 * Verifies a HeroModel message.
-                 * @function verify
-                 * @memberof S2C.Role.HeroModel
-                 * @static
-                 * @param {Object.<string,*>} message Plain object to verify
-                 * @returns {string|null} `null` if valid, otherwise the reason why it is not
-                 */
-                HeroModel.verify = function verify(message) {
-                    if (typeof message !== "object" || message === null)
-                        return "object expected";
-                    if (message.uid != null && message.hasOwnProperty("uid"))
-                        if (!$util.isInteger(message.uid))
-                            return "uid: integer expected";
-                    if (message.id != null && message.hasOwnProperty("id"))
-                        if (!$util.isInteger(message.id))
-                            return "id: integer expected";
-                    if (message.level != null && message.hasOwnProperty("level"))
-                        if (!$util.isInteger(message.level))
-                            return "level: integer expected";
-                    return null;
-                };
-    
-                /**
-                 * Creates a HeroModel message from a plain object. Also converts values to their respective internal types.
-                 * @function fromObject
-                 * @memberof S2C.Role.HeroModel
-                 * @static
-                 * @param {Object.<string,*>} object Plain object
-                 * @returns {S2C.Role.HeroModel} HeroModel
-                 */
-                HeroModel.fromObject = function fromObject(object) {
-                    if (object instanceof $root.S2C.Role.HeroModel)
-                        return object;
-                    var message = new $root.S2C.Role.HeroModel();
-                    if (object.uid != null)
-                        message.uid = object.uid >>> 0;
-                    if (object.id != null)
-                        message.id = object.id >>> 0;
-                    if (object.level != null)
-                        message.level = object.level >>> 0;
-                    return message;
-                };
-    
-                /**
-                 * Creates a plain object from a HeroModel message. Also converts values to other types if specified.
-                 * @function toObject
-                 * @memberof S2C.Role.HeroModel
-                 * @static
-                 * @param {S2C.Role.HeroModel} message HeroModel
-                 * @param {$protobuf.IConversionOptions} [options] Conversion options
-                 * @returns {Object.<string,*>} Plain object
-                 */
-                HeroModel.toObject = function toObject(message, options) {
-                    if (!options)
-                        options = {};
-                    var object = {};
-                    if (options.defaults) {
-                        object.uid = 0;
-                        object.id = 0;
-                        object.level = 0;
-                    }
-                    if (message.uid != null && message.hasOwnProperty("uid"))
-                        object.uid = message.uid;
-                    if (message.id != null && message.hasOwnProperty("id"))
-                        object.id = message.id;
-                    if (message.level != null && message.hasOwnProperty("level"))
-                        object.level = message.level;
-                    return object;
-                };
-    
-                /**
-                 * Converts this HeroModel to JSON.
-                 * @function toJSON
-                 * @memberof S2C.Role.HeroModel
-                 * @instance
-                 * @returns {Object.<string,*>} JSON object
-                 */
-                HeroModel.prototype.toJSON = function toJSON() {
-                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-                };
-    
-                return HeroModel;
-            })();
-    
-            return Role;
+            return SC_ROLE_PRO_UPDATE;
         })();
     
         S2C.SC_TEST_ECHO = (function() {
@@ -4551,354 +3921,6 @@
             };
     
             return SC_ROLE_HEART_BEAT;
-        })();
-    
-        S2C.SC_ROLE_UPDATE = (function() {
-    
-            /**
-             * Properties of a SC_ROLE_UPDATE.
-             * @memberof S2C
-             * @interface ISC_ROLE_UPDATE
-             * @property {string|null} [nickname] SC_ROLE_UPDATE nickname
-             * @property {number|null} [level] SC_ROLE_UPDATE level
-             * @property {number|Long|null} [exp] SC_ROLE_UPDATE exp
-             * @property {number|null} [vipLevel] SC_ROLE_UPDATE vipLevel
-             * @property {number|null} [vipExp] SC_ROLE_UPDATE vipExp
-             * @property {number|null} [diamond] SC_ROLE_UPDATE diamond
-             * @property {number|Long|null} [gold] SC_ROLE_UPDATE gold
-             */
-    
-            /**
-             * Constructs a new SC_ROLE_UPDATE.
-             * @memberof S2C
-             * @classdesc Represents a SC_ROLE_UPDATE.
-             * @implements ISC_ROLE_UPDATE
-             * @constructor
-             * @param {S2C.ISC_ROLE_UPDATE=} [properties] Properties to set
-             */
-            function SC_ROLE_UPDATE(properties) {
-                if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null)
-                            this[keys[i]] = properties[keys[i]];
-            }
-    
-            /**
-             * SC_ROLE_UPDATE nickname.
-             * @member {string} nickname
-             * @memberof S2C.SC_ROLE_UPDATE
-             * @instance
-             */
-            SC_ROLE_UPDATE.prototype.nickname = "";
-    
-            /**
-             * SC_ROLE_UPDATE level.
-             * @member {number} level
-             * @memberof S2C.SC_ROLE_UPDATE
-             * @instance
-             */
-            SC_ROLE_UPDATE.prototype.level = 0;
-    
-            /**
-             * SC_ROLE_UPDATE exp.
-             * @member {number|Long} exp
-             * @memberof S2C.SC_ROLE_UPDATE
-             * @instance
-             */
-            SC_ROLE_UPDATE.prototype.exp = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
-    
-            /**
-             * SC_ROLE_UPDATE vipLevel.
-             * @member {number} vipLevel
-             * @memberof S2C.SC_ROLE_UPDATE
-             * @instance
-             */
-            SC_ROLE_UPDATE.prototype.vipLevel = 0;
-    
-            /**
-             * SC_ROLE_UPDATE vipExp.
-             * @member {number} vipExp
-             * @memberof S2C.SC_ROLE_UPDATE
-             * @instance
-             */
-            SC_ROLE_UPDATE.prototype.vipExp = 0;
-    
-            /**
-             * SC_ROLE_UPDATE diamond.
-             * @member {number} diamond
-             * @memberof S2C.SC_ROLE_UPDATE
-             * @instance
-             */
-            SC_ROLE_UPDATE.prototype.diamond = 0;
-    
-            /**
-             * SC_ROLE_UPDATE gold.
-             * @member {number|Long} gold
-             * @memberof S2C.SC_ROLE_UPDATE
-             * @instance
-             */
-            SC_ROLE_UPDATE.prototype.gold = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
-    
-            /**
-             * Creates a new SC_ROLE_UPDATE instance using the specified properties.
-             * @function create
-             * @memberof S2C.SC_ROLE_UPDATE
-             * @static
-             * @param {S2C.ISC_ROLE_UPDATE=} [properties] Properties to set
-             * @returns {S2C.SC_ROLE_UPDATE} SC_ROLE_UPDATE instance
-             */
-            SC_ROLE_UPDATE.create = function create(properties) {
-                return new SC_ROLE_UPDATE(properties);
-            };
-    
-            /**
-             * Encodes the specified SC_ROLE_UPDATE message. Does not implicitly {@link S2C.SC_ROLE_UPDATE.verify|verify} messages.
-             * @function encode
-             * @memberof S2C.SC_ROLE_UPDATE
-             * @static
-             * @param {S2C.ISC_ROLE_UPDATE} message SC_ROLE_UPDATE message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            SC_ROLE_UPDATE.encode = function encode(message, writer) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (message.nickname != null && message.hasOwnProperty("nickname"))
-                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.nickname);
-                if (message.level != null && message.hasOwnProperty("level"))
-                    writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.level);
-                if (message.exp != null && message.hasOwnProperty("exp"))
-                    writer.uint32(/* id 3, wireType 0 =*/24).uint64(message.exp);
-                if (message.vipLevel != null && message.hasOwnProperty("vipLevel"))
-                    writer.uint32(/* id 4, wireType 0 =*/32).uint32(message.vipLevel);
-                if (message.vipExp != null && message.hasOwnProperty("vipExp"))
-                    writer.uint32(/* id 5, wireType 0 =*/40).uint32(message.vipExp);
-                if (message.diamond != null && message.hasOwnProperty("diamond"))
-                    writer.uint32(/* id 6, wireType 0 =*/48).uint32(message.diamond);
-                if (message.gold != null && message.hasOwnProperty("gold"))
-                    writer.uint32(/* id 7, wireType 0 =*/56).uint64(message.gold);
-                return writer;
-            };
-    
-            /**
-             * Encodes the specified SC_ROLE_UPDATE message, length delimited. Does not implicitly {@link S2C.SC_ROLE_UPDATE.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof S2C.SC_ROLE_UPDATE
-             * @static
-             * @param {S2C.ISC_ROLE_UPDATE} message SC_ROLE_UPDATE message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            SC_ROLE_UPDATE.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer).ldelim();
-            };
-    
-            /**
-             * Decodes a SC_ROLE_UPDATE message from the specified reader or buffer.
-             * @function decode
-             * @memberof S2C.SC_ROLE_UPDATE
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {S2C.SC_ROLE_UPDATE} SC_ROLE_UPDATE
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            SC_ROLE_UPDATE.decode = function decode(reader, length) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.S2C.SC_ROLE_UPDATE();
-                while (reader.pos < end) {
-                    var tag = reader.uint32();
-                    switch (tag >>> 3) {
-                    case 1:
-                        message.nickname = reader.string();
-                        break;
-                    case 2:
-                        message.level = reader.uint32();
-                        break;
-                    case 3:
-                        message.exp = reader.uint64();
-                        break;
-                    case 4:
-                        message.vipLevel = reader.uint32();
-                        break;
-                    case 5:
-                        message.vipExp = reader.uint32();
-                        break;
-                    case 6:
-                        message.diamond = reader.uint32();
-                        break;
-                    case 7:
-                        message.gold = reader.uint64();
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
-                    }
-                }
-                return message;
-            };
-    
-            /**
-             * Decodes a SC_ROLE_UPDATE message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof S2C.SC_ROLE_UPDATE
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {S2C.SC_ROLE_UPDATE} SC_ROLE_UPDATE
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            SC_ROLE_UPDATE.decodeDelimited = function decodeDelimited(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-    
-            /**
-             * Verifies a SC_ROLE_UPDATE message.
-             * @function verify
-             * @memberof S2C.SC_ROLE_UPDATE
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            SC_ROLE_UPDATE.verify = function verify(message) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (message.nickname != null && message.hasOwnProperty("nickname"))
-                    if (!$util.isString(message.nickname))
-                        return "nickname: string expected";
-                if (message.level != null && message.hasOwnProperty("level"))
-                    if (!$util.isInteger(message.level))
-                        return "level: integer expected";
-                if (message.exp != null && message.hasOwnProperty("exp"))
-                    if (!$util.isInteger(message.exp) && !(message.exp && $util.isInteger(message.exp.low) && $util.isInteger(message.exp.high)))
-                        return "exp: integer|Long expected";
-                if (message.vipLevel != null && message.hasOwnProperty("vipLevel"))
-                    if (!$util.isInteger(message.vipLevel))
-                        return "vipLevel: integer expected";
-                if (message.vipExp != null && message.hasOwnProperty("vipExp"))
-                    if (!$util.isInteger(message.vipExp))
-                        return "vipExp: integer expected";
-                if (message.diamond != null && message.hasOwnProperty("diamond"))
-                    if (!$util.isInteger(message.diamond))
-                        return "diamond: integer expected";
-                if (message.gold != null && message.hasOwnProperty("gold"))
-                    if (!$util.isInteger(message.gold) && !(message.gold && $util.isInteger(message.gold.low) && $util.isInteger(message.gold.high)))
-                        return "gold: integer|Long expected";
-                return null;
-            };
-    
-            /**
-             * Creates a SC_ROLE_UPDATE message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof S2C.SC_ROLE_UPDATE
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {S2C.SC_ROLE_UPDATE} SC_ROLE_UPDATE
-             */
-            SC_ROLE_UPDATE.fromObject = function fromObject(object) {
-                if (object instanceof $root.S2C.SC_ROLE_UPDATE)
-                    return object;
-                var message = new $root.S2C.SC_ROLE_UPDATE();
-                if (object.nickname != null)
-                    message.nickname = String(object.nickname);
-                if (object.level != null)
-                    message.level = object.level >>> 0;
-                if (object.exp != null)
-                    if ($util.Long)
-                        (message.exp = $util.Long.fromValue(object.exp)).unsigned = true;
-                    else if (typeof object.exp === "string")
-                        message.exp = parseInt(object.exp, 10);
-                    else if (typeof object.exp === "number")
-                        message.exp = object.exp;
-                    else if (typeof object.exp === "object")
-                        message.exp = new $util.LongBits(object.exp.low >>> 0, object.exp.high >>> 0).toNumber(true);
-                if (object.vipLevel != null)
-                    message.vipLevel = object.vipLevel >>> 0;
-                if (object.vipExp != null)
-                    message.vipExp = object.vipExp >>> 0;
-                if (object.diamond != null)
-                    message.diamond = object.diamond >>> 0;
-                if (object.gold != null)
-                    if ($util.Long)
-                        (message.gold = $util.Long.fromValue(object.gold)).unsigned = true;
-                    else if (typeof object.gold === "string")
-                        message.gold = parseInt(object.gold, 10);
-                    else if (typeof object.gold === "number")
-                        message.gold = object.gold;
-                    else if (typeof object.gold === "object")
-                        message.gold = new $util.LongBits(object.gold.low >>> 0, object.gold.high >>> 0).toNumber(true);
-                return message;
-            };
-    
-            /**
-             * Creates a plain object from a SC_ROLE_UPDATE message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof S2C.SC_ROLE_UPDATE
-             * @static
-             * @param {S2C.SC_ROLE_UPDATE} message SC_ROLE_UPDATE
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            SC_ROLE_UPDATE.toObject = function toObject(message, options) {
-                if (!options)
-                    options = {};
-                var object = {};
-                if (options.defaults) {
-                    object.nickname = "";
-                    object.level = 0;
-                    if ($util.Long) {
-                        var long = new $util.Long(0, 0, true);
-                        object.exp = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
-                    } else
-                        object.exp = options.longs === String ? "0" : 0;
-                    object.vipLevel = 0;
-                    object.vipExp = 0;
-                    object.diamond = 0;
-                    if ($util.Long) {
-                        var long = new $util.Long(0, 0, true);
-                        object.gold = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
-                    } else
-                        object.gold = options.longs === String ? "0" : 0;
-                }
-                if (message.nickname != null && message.hasOwnProperty("nickname"))
-                    object.nickname = message.nickname;
-                if (message.level != null && message.hasOwnProperty("level"))
-                    object.level = message.level;
-                if (message.exp != null && message.hasOwnProperty("exp"))
-                    if (typeof message.exp === "number")
-                        object.exp = options.longs === String ? String(message.exp) : message.exp;
-                    else
-                        object.exp = options.longs === String ? $util.Long.prototype.toString.call(message.exp) : options.longs === Number ? new $util.LongBits(message.exp.low >>> 0, message.exp.high >>> 0).toNumber(true) : message.exp;
-                if (message.vipLevel != null && message.hasOwnProperty("vipLevel"))
-                    object.vipLevel = message.vipLevel;
-                if (message.vipExp != null && message.hasOwnProperty("vipExp"))
-                    object.vipExp = message.vipExp;
-                if (message.diamond != null && message.hasOwnProperty("diamond"))
-                    object.diamond = message.diamond;
-                if (message.gold != null && message.hasOwnProperty("gold"))
-                    if (typeof message.gold === "number")
-                        object.gold = options.longs === String ? String(message.gold) : message.gold;
-                    else
-                        object.gold = options.longs === String ? $util.Long.prototype.toString.call(message.gold) : options.longs === Number ? new $util.LongBits(message.gold.low >>> 0, message.gold.high >>> 0).toNumber(true) : message.gold;
-                return object;
-            };
-    
-            /**
-             * Converts this SC_ROLE_UPDATE to JSON.
-             * @function toJSON
-             * @memberof S2C.SC_ROLE_UPDATE
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            SC_ROLE_UPDATE.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-            };
-    
-            return SC_ROLE_UPDATE;
         })();
     
         S2C.LOGIN_SC_LOGIN = (function() {

@@ -184,7 +184,7 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
               "SC_TEST_ECHO",
               "SC_ROLE_ONLINE",
               "SC_ROLE_HEART_BEAT",
-              "SC_ROLE_UPDATE",
+              "SC_ROLE_PRO_UPDATE",
               "LOGIN_SC_LOGIN",
               "LOGIN_SC_CHOOSE_SERVER",
               "LOGIN_SC_GET_SERVER_LIST",
@@ -209,8 +209,8 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
             type: "SC_ROLE_HEART_BEAT",
             id: 4
           },
-          SC_ROLE_UPDATE: {
-            type: "SC_ROLE_UPDATE",
+          SC_ROLE_PRO_UPDATE: {
+            type: "SC_ROLE_PRO_UPDATE",
             id: 5
           },
           LOGIN_SC_LOGIN: {
@@ -231,7 +231,7 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
           }
         }
       },
-      Role: {
+      SC_ROLE_PRO_UPDATE: {
         fields: {
           uid: {
             type: "uint32",
@@ -257,54 +257,17 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
             type: "uint32",
             id: 6
           },
-          equipModel: {
-            type: "EquipModel",
+          vipLevel: {
+            type: "uint32",
             id: 7
-          }
-        },
-        nested: {
-          EquipModel: {
-            fields: {
-              equips: {
-                keyType: "int32",
-                type: "Equip",
-                id: 1
-              }
-            },
-            nested: {
-              Equip: {
-                fields: {
-                  uid: {
-                    type: "uint32",
-                    id: 1
-                  },
-                  id: {
-                    type: "uint32",
-                    id: 2
-                  },
-                  level: {
-                    type: "uint32",
-                    id: 3
-                  }
-                }
-              }
-            }
           },
-          HeroModel: {
-            fields: {
-              uid: {
-                type: "uint32",
-                id: 1
-              },
-              id: {
-                type: "uint32",
-                id: 2
-              },
-              level: {
-                type: "uint32",
-                id: 3
-              }
-            }
+          exp: {
+            type: "uint64",
+            id: 8
+          },
+          vipExp: {
+            type: "uint32",
+            id: 9
           }
         }
       },
@@ -342,38 +305,6 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
       },
       SC_ROLE_HEART_BEAT: {
         fields: {}
-      },
-      SC_ROLE_UPDATE: {
-        fields: {
-          nickname: {
-            type: "string",
-            id: 1
-          },
-          level: {
-            type: "uint32",
-            id: 2
-          },
-          exp: {
-            type: "uint64",
-            id: 3
-          },
-          vipLevel: {
-            type: "uint32",
-            id: 4
-          },
-          vipExp: {
-            type: "uint32",
-            id: 5
-          },
-          diamond: {
-            type: "uint32",
-            id: 6
-          },
-          gold: {
-            type: "uint64",
-            id: 7
-          }
-        }
       },
       LOGIN_SC_LOGIN: {
         fields: {
