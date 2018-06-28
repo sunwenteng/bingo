@@ -44,30 +44,8 @@ export function controller(readonly: boolean = false, mask?: number) {
                 returnValue = await gameRedis.lock(role.getRedisKey(), async () => {
                     await role.load(false, mask);
                     await originalMethod.apply(this, args);
-                    // dynamic fields
-                    role.sendProUpdate();
-                    // other fields
                     role.diff();
-                    for (let diff of role.diffs) {
-                        switch (diff.path[0]) {
-                            case 'equips':
-                                let uid = diff.path[1];
-                                switch (diff.kind) {
-                                    case 'E':
-                                        // update packet
-                                        break;
-                                    case 'D':
-                                        // delete packet
-                                        break;
-                                    case 'N' :
-                                        // new packet
-                                        break;
-                                }
-                                break;
-                            default:
-                                break;
-                        }
-                    }
+                    role.sendProUpdate();
                     await role.save();
                 });
             }

@@ -120,12 +120,35 @@ export class Role extends RedisData {
     }
 
     public sendProUpdate() {
+        // dynamic field1
         let pck = S2C.SC_ROLE_PRO_UPDATE.create();
         for (let key in this.dynamicFields) {
             pck[key] = this.dynamicFields[key];
         }
         this.sendProtocol(pck);
-
         this.dynamicFields = {};
+
+        // TODO 根据role中不同的属性写自己的客户端更新包，上层只用赋值即可，下层根据差异来发包
+        // other diff model field
+        for (let diff of this.diffs) {
+            switch (diff.path[0]) {
+                case 'equipMgr':
+                    let uid = diff.path[1];
+                    switch (diff.kind) {
+                        case 'E':
+                            // update packet
+                            break;
+                        case 'D':
+                            // delete packet
+                            break;
+                        case 'N' :
+                            // new packet
+                            break;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }
