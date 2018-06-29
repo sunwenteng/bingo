@@ -107,6 +107,7 @@ export class GameSession extends UserSession {
         let msg = S2C.Message.create();
         msg[data.$type.name] = data;
         let buffer = S2C.Message.encode(msg).finish();
-        this.send(buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.length))
+        // this.send(buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.length))
+        this.send(buffer);
     }
 }

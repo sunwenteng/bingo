@@ -6,6 +6,7 @@ import {GameWorld} from "../game_world";
 import {Log} from "../../../lib/util/log";
 import {controller} from "../../../lib/util/descriptor";
 import Time = require('../../../lib/util/time');
+import * as GameUtil from '../../../lib/util/game_util';
 
 let gameRedis = RedisMgr.getInstance(RedisType.GAME);
 
@@ -33,14 +34,17 @@ export class RoleController {
                 await role.save(true);
             }
             session.roleId = roleId;
+            role._session = session;
             await session.online();
 
             // start TODO
+            role.sendProtocol(role.heroModel.serializeInitPacket());
             // end TODO
 
+            // put it to the end
             let pck = S2C.SC_ROLE_ONLINE.create();
             pck.roleId = roleId;
-            session.sendProtocol(pck);
+            role.sendProtocol(pck);
 
             role.lastAliveTime = Time.realNow();
             role.lastLoginTime = Time.realNow();
@@ -51,6 +55,21 @@ export class RoleController {
     @controller()
     async heartBeat(role: Role, msg: C2S.CS_ROLE_HEART_BEAT) {
         role.diamond = role.diamond + 1;
+        let size = role.heroModel.getHeroBagSize();
+        if (size < 400) {
+            for (let i = 0; i < (400 - size); i++) {
+                role.heroModel.createAndAddHero(101);
+            }
+        }
+        else {
+            role.heroModel.maxUid = 398;
+            role.heroModel.deleteHero(3);
+            role.heroModel.deleteHero(4);
+        }
+        for (let i = 0; i < 2; i++) {
+            role.heroModel.getHero(i + 1).lvl = Math.floor(Math.random() * 100);
+            role.heroModel.getHero(i + 1).combat = Math.floor(Math.random() * 1000);
+        }
         role.lastAliveTime = Time.realNow();
         let pck = S2C.SC_ROLE_HEART_BEAT.create();
         role.sendProtocol(pck);

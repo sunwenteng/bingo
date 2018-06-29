@@ -4,16 +4,35 @@ package S2C;
 /** remember to put your message here as a kind support**/
 message Message {
     oneof kind {
-        Error Error = 1;
-        SC_TEST_ECHO SC_TEST_ECHO = 2;
-        SC_ROLE_ONLINE SC_ROLE_ONLINE = 3;
-        SC_ROLE_HEART_BEAT SC_ROLE_HEART_BEAT = 4;
-        SC_ROLE_PRO_UPDATE SC_ROLE_PRO_UPDATE = 5;
-        LOGIN_SC_LOGIN LOGIN_SC_LOGIN = 6;
-        LOGIN_SC_CHOOSE_SERVER LOGIN_SC_CHOOSE_SERVER = 7;
-        LOGIN_SC_GET_SERVER_LIST LOGIN_SC_GET_SERVER_LIST = 8;
-        LOGIN_SC_GET_INFO LOGIN_SC_GET_INFO = 9;
+        SC_TEST_ECHO SC_TEST_ECHO = 1;
+
+        LOGIN_SC_LOGIN LOGIN_SC_LOGIN = 9001;
+        LOGIN_SC_CHOOSE_SERVER LOGIN_SC_CHOOSE_SERVER = 9002;
+        LOGIN_SC_GET_SERVER_LIST LOGIN_SC_GET_SERVER_LIST = 9003;
+        LOGIN_SC_GET_INFO LOGIN_SC_GET_INFO = 9004;
+
+        SC_ROLE_ONLINE SC_ROLE_ONLINE = 1001;
+        SC_ROLE_HEART_BEAT SC_ROLE_HEART_BEAT = 1002;
+        SC_ROLE_PRO_UPDATE SC_ROLE_PRO_UPDATE = 1003;
+
+        SC_INIT_HERO SC_INIT_HERO = 1101;
+        SC_UPDATE_HERO SC_UPDATE_HERO = 1102;
     }
+}
+
+message Hero {
+    uint32 uid = 1;
+    uint32 id = 2;
+    uint32 combat = 3;
+    uint32 lvl = 4;
+}
+
+message SC_INIT_HERO {
+    map<uint32, Hero> heroes = 1;
+}
+
+message SC_UPDATE_HERO {
+    map<int32, Hero> heroes = 1;
 }
 
 message SC_ROLE_PRO_UPDATE {

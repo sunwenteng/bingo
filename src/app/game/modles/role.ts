@@ -9,6 +9,7 @@ import {props} from "../../../lib/util/descriptor";
 import {HeroModel} from "./hero_model";
 import {EquipModel} from "./equip_model";
 import {ItemModel} from "./item_model";
+import {EDiffOpt} from "./defines";
 
 let gameRedis = RedisMgr.getInstance(RedisType.GAME);
 export const RoleRedisPrefix: string = 'role';
@@ -121,35 +122,60 @@ export class Role extends RedisData {
     }
 
     public sendProUpdate() {
-        // dynamic field1
-        let pck = S2C.SC_ROLE_PRO_UPDATE.create();
-        for (let key in this.dynamicFields) {
-            pck[key] = this.dynamicFields[key];
+        // dynamic field
+        if (Object.keys(this.dynamicFields).length > 0) {
+            let pck = S2C.SC_ROLE_PRO_UPDATE.create();
+            for (let key in this.dynamicFields) {
+                pck[key] = this.dynamicFields[key];
+            }
+            this.sendProtocol(pck);
+            this.dynamicFields = {};
         }
-        this.sendProtocol(pck);
-        this.dynamicFields = {};
 
         // TODO 根据role中不同的属性写自己的客户端更新包，上层只用赋值即可，下层根据差异来发包
         // other diff model field
+        let uid, key, data, pros, pcks = {}, pck, pckInner;
         for (let diff of this.diffs) {
             switch (diff.path[0]) {
-                case 'equipMgr':
-                    let uid = diff.path[1];
-                    switch (diff.kind) {
-                        case 'E':
-                            // update packet
-                            break;
-                        case 'D':
-                            // delete packet
-                            break;
-                        case 'N' :
-                            // new packet
-                            break;
+                case 'heroModel': {
+                    key = diff.path[1];
+                    if (key === 'heroes') {
+                        uid = diff.kind === EDiffOpt.DELETE ? -parseInt(diff.path[2]) : parseInt(diff.path[2]);
+                        data = diff.rhs;
+                        pros = diff.path.length > 2 ? diff.path[3] : null;
+                        pck = pcks['SC_UPDATE_HERO'];
+                        if (!pck) {
+                            pck = S2C.SC_UPDATE_HERO.create();
+                            pcks['SC_UPDATE_HERO'] = pck;
+                        }
+
+                        pckInner = pck.heroes[uid];
+                        if (!pckInner) {
+                            pckInner = S2C.Hero.create();
+                            pck.heroes[uid] = pckInner;
+                        }
+
+                        if (diff.kind === EDiffOpt.ADD) {
+                            HeroModel.serializeHeroNetMsg(pckInner, data);
+                        }
+                        else if (diff.kind === EDiffOpt.UPDATE) {
+                            pckInner[pros] = data;
+                        }
                     }
                     break;
+                }
+                case 'equipModel': {
+                    let uid = diff.path[1];
+                    // TODO
+                    break;
+                }
                 default:
                     break;
             }
+        }
+
+        for (let key in pcks) {
+            this.sendProtocol(pcks[key]);
         }
     }
 }

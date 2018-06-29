@@ -26,7 +26,8 @@ class Client {
 
                 let buffer = C2S.Message.encode(msg).finish();
 
-                ws.send(buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.length));
+                // ws.send(buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.length));
+                ws.send(buffer);
                 time[count++] = Date.now();
             }
             // }, 1000);
@@ -64,7 +65,7 @@ class Client {
     }
 }
 
-for (let i = 0; i < 100; i++) {
+for (let i = 0; i < 2000; i++) {
     new Client(i + 1);
 }
 

@@ -180,54 +180,97 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
         oneofs: {
           kind: {
             oneof: [
-              "Error",
               "SC_TEST_ECHO",
-              "SC_ROLE_ONLINE",
-              "SC_ROLE_HEART_BEAT",
-              "SC_ROLE_PRO_UPDATE",
               "LOGIN_SC_LOGIN",
               "LOGIN_SC_CHOOSE_SERVER",
               "LOGIN_SC_GET_SERVER_LIST",
-              "LOGIN_SC_GET_INFO"
+              "LOGIN_SC_GET_INFO",
+              "SC_ROLE_ONLINE",
+              "SC_ROLE_HEART_BEAT",
+              "SC_ROLE_PRO_UPDATE",
+              "SC_INIT_HERO",
+              "SC_UPDATE_HERO"
             ]
           }
         },
         fields: {
-          Error: {
-            type: "Error",
-            id: 1
-          },
           SC_TEST_ECHO: {
             type: "SC_TEST_ECHO",
-            id: 2
-          },
-          SC_ROLE_ONLINE: {
-            type: "SC_ROLE_ONLINE",
-            id: 3
-          },
-          SC_ROLE_HEART_BEAT: {
-            type: "SC_ROLE_HEART_BEAT",
-            id: 4
-          },
-          SC_ROLE_PRO_UPDATE: {
-            type: "SC_ROLE_PRO_UPDATE",
-            id: 5
+            id: 1
           },
           LOGIN_SC_LOGIN: {
             type: "LOGIN_SC_LOGIN",
-            id: 6
+            id: 9001
           },
           LOGIN_SC_CHOOSE_SERVER: {
             type: "LOGIN_SC_CHOOSE_SERVER",
-            id: 7
+            id: 9002
           },
           LOGIN_SC_GET_SERVER_LIST: {
             type: "LOGIN_SC_GET_SERVER_LIST",
-            id: 8
+            id: 9003
           },
           LOGIN_SC_GET_INFO: {
             type: "LOGIN_SC_GET_INFO",
-            id: 9
+            id: 9004
+          },
+          SC_ROLE_ONLINE: {
+            type: "SC_ROLE_ONLINE",
+            id: 1001
+          },
+          SC_ROLE_HEART_BEAT: {
+            type: "SC_ROLE_HEART_BEAT",
+            id: 1002
+          },
+          SC_ROLE_PRO_UPDATE: {
+            type: "SC_ROLE_PRO_UPDATE",
+            id: 1003
+          },
+          SC_INIT_HERO: {
+            type: "SC_INIT_HERO",
+            id: 1101
+          },
+          SC_UPDATE_HERO: {
+            type: "SC_UPDATE_HERO",
+            id: 1102
+          }
+        }
+      },
+      Hero: {
+        fields: {
+          uid: {
+            type: "uint32",
+            id: 1
+          },
+          id: {
+            type: "uint32",
+            id: 2
+          },
+          combat: {
+            type: "uint32",
+            id: 3
+          },
+          lvl: {
+            type: "uint32",
+            id: 4
+          }
+        }
+      },
+      SC_INIT_HERO: {
+        fields: {
+          heroes: {
+            keyType: "uint32",
+            type: "Hero",
+            id: 1
+          }
+        }
+      },
+      SC_UPDATE_HERO: {
+        fields: {
+          heroes: {
+            keyType: "int32",
+            type: "Hero",
+            id: 1
           }
         }
       },

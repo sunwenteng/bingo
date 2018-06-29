@@ -2287,15 +2287,16 @@
              * Properties of a Message.
              * @memberof S2C
              * @interface IMessage
-             * @property {S2C.IError|null} [Error] Message Error
              * @property {S2C.ISC_TEST_ECHO|null} [SC_TEST_ECHO] Message SC_TEST_ECHO
-             * @property {S2C.ISC_ROLE_ONLINE|null} [SC_ROLE_ONLINE] Message SC_ROLE_ONLINE
-             * @property {S2C.ISC_ROLE_HEART_BEAT|null} [SC_ROLE_HEART_BEAT] Message SC_ROLE_HEART_BEAT
-             * @property {S2C.ISC_ROLE_PRO_UPDATE|null} [SC_ROLE_PRO_UPDATE] Message SC_ROLE_PRO_UPDATE
              * @property {S2C.ILOGIN_SC_LOGIN|null} [LOGIN_SC_LOGIN] Message LOGIN_SC_LOGIN
              * @property {S2C.ILOGIN_SC_CHOOSE_SERVER|null} [LOGIN_SC_CHOOSE_SERVER] Message LOGIN_SC_CHOOSE_SERVER
              * @property {S2C.ILOGIN_SC_GET_SERVER_LIST|null} [LOGIN_SC_GET_SERVER_LIST] Message LOGIN_SC_GET_SERVER_LIST
              * @property {S2C.ILOGIN_SC_GET_INFO|null} [LOGIN_SC_GET_INFO] Message LOGIN_SC_GET_INFO
+             * @property {S2C.ISC_ROLE_ONLINE|null} [SC_ROLE_ONLINE] Message SC_ROLE_ONLINE
+             * @property {S2C.ISC_ROLE_HEART_BEAT|null} [SC_ROLE_HEART_BEAT] Message SC_ROLE_HEART_BEAT
+             * @property {S2C.ISC_ROLE_PRO_UPDATE|null} [SC_ROLE_PRO_UPDATE] Message SC_ROLE_PRO_UPDATE
+             * @property {S2C.ISC_INIT_HERO|null} [SC_INIT_HERO] Message SC_INIT_HERO
+             * @property {S2C.ISC_UPDATE_HERO|null} [SC_UPDATE_HERO] Message SC_UPDATE_HERO
              */
     
             /**
@@ -2314,44 +2315,12 @@
             }
     
             /**
-             * Message Error.
-             * @member {S2C.IError|null|undefined} Error
-             * @memberof S2C.Message
-             * @instance
-             */
-            Message.prototype.Error = null;
-    
-            /**
              * Message SC_TEST_ECHO.
              * @member {S2C.ISC_TEST_ECHO|null|undefined} SC_TEST_ECHO
              * @memberof S2C.Message
              * @instance
              */
             Message.prototype.SC_TEST_ECHO = null;
-    
-            /**
-             * Message SC_ROLE_ONLINE.
-             * @member {S2C.ISC_ROLE_ONLINE|null|undefined} SC_ROLE_ONLINE
-             * @memberof S2C.Message
-             * @instance
-             */
-            Message.prototype.SC_ROLE_ONLINE = null;
-    
-            /**
-             * Message SC_ROLE_HEART_BEAT.
-             * @member {S2C.ISC_ROLE_HEART_BEAT|null|undefined} SC_ROLE_HEART_BEAT
-             * @memberof S2C.Message
-             * @instance
-             */
-            Message.prototype.SC_ROLE_HEART_BEAT = null;
-    
-            /**
-             * Message SC_ROLE_PRO_UPDATE.
-             * @member {S2C.ISC_ROLE_PRO_UPDATE|null|undefined} SC_ROLE_PRO_UPDATE
-             * @memberof S2C.Message
-             * @instance
-             */
-            Message.prototype.SC_ROLE_PRO_UPDATE = null;
     
             /**
              * Message LOGIN_SC_LOGIN.
@@ -2385,17 +2354,57 @@
              */
             Message.prototype.LOGIN_SC_GET_INFO = null;
     
+            /**
+             * Message SC_ROLE_ONLINE.
+             * @member {S2C.ISC_ROLE_ONLINE|null|undefined} SC_ROLE_ONLINE
+             * @memberof S2C.Message
+             * @instance
+             */
+            Message.prototype.SC_ROLE_ONLINE = null;
+    
+            /**
+             * Message SC_ROLE_HEART_BEAT.
+             * @member {S2C.ISC_ROLE_HEART_BEAT|null|undefined} SC_ROLE_HEART_BEAT
+             * @memberof S2C.Message
+             * @instance
+             */
+            Message.prototype.SC_ROLE_HEART_BEAT = null;
+    
+            /**
+             * Message SC_ROLE_PRO_UPDATE.
+             * @member {S2C.ISC_ROLE_PRO_UPDATE|null|undefined} SC_ROLE_PRO_UPDATE
+             * @memberof S2C.Message
+             * @instance
+             */
+            Message.prototype.SC_ROLE_PRO_UPDATE = null;
+    
+            /**
+             * Message SC_INIT_HERO.
+             * @member {S2C.ISC_INIT_HERO|null|undefined} SC_INIT_HERO
+             * @memberof S2C.Message
+             * @instance
+             */
+            Message.prototype.SC_INIT_HERO = null;
+    
+            /**
+             * Message SC_UPDATE_HERO.
+             * @member {S2C.ISC_UPDATE_HERO|null|undefined} SC_UPDATE_HERO
+             * @memberof S2C.Message
+             * @instance
+             */
+            Message.prototype.SC_UPDATE_HERO = null;
+    
             // OneOf field names bound to virtual getters and setters
             var $oneOfFields;
     
             /**
              * Message kind.
-             * @member {"Error"|"SC_TEST_ECHO"|"SC_ROLE_ONLINE"|"SC_ROLE_HEART_BEAT"|"SC_ROLE_PRO_UPDATE"|"LOGIN_SC_LOGIN"|"LOGIN_SC_CHOOSE_SERVER"|"LOGIN_SC_GET_SERVER_LIST"|"LOGIN_SC_GET_INFO"|undefined} kind
+             * @member {"SC_TEST_ECHO"|"LOGIN_SC_LOGIN"|"LOGIN_SC_CHOOSE_SERVER"|"LOGIN_SC_GET_SERVER_LIST"|"LOGIN_SC_GET_INFO"|"SC_ROLE_ONLINE"|"SC_ROLE_HEART_BEAT"|"SC_ROLE_PRO_UPDATE"|"SC_INIT_HERO"|"SC_UPDATE_HERO"|undefined} kind
              * @memberof S2C.Message
              * @instance
              */
             Object.defineProperty(Message.prototype, "kind", {
-                get: $util.oneOfGetter($oneOfFields = ["Error", "SC_TEST_ECHO", "SC_ROLE_ONLINE", "SC_ROLE_HEART_BEAT", "SC_ROLE_PRO_UPDATE", "LOGIN_SC_LOGIN", "LOGIN_SC_CHOOSE_SERVER", "LOGIN_SC_GET_SERVER_LIST", "LOGIN_SC_GET_INFO"]),
+                get: $util.oneOfGetter($oneOfFields = ["SC_TEST_ECHO", "LOGIN_SC_LOGIN", "LOGIN_SC_CHOOSE_SERVER", "LOGIN_SC_GET_SERVER_LIST", "LOGIN_SC_GET_INFO", "SC_ROLE_ONLINE", "SC_ROLE_HEART_BEAT", "SC_ROLE_PRO_UPDATE", "SC_INIT_HERO", "SC_UPDATE_HERO"]),
                 set: $util.oneOfSetter($oneOfFields)
             });
     
@@ -2423,24 +2432,26 @@
             Message.encode = function encode(message, writer) {
                 if (!writer)
                     writer = $Writer.create();
-                if (message.Error != null && message.hasOwnProperty("Error"))
-                    $root.S2C.Error.encode(message.Error, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
                 if (message.SC_TEST_ECHO != null && message.hasOwnProperty("SC_TEST_ECHO"))
-                    $root.S2C.SC_TEST_ECHO.encode(message.SC_TEST_ECHO, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+                    $root.S2C.SC_TEST_ECHO.encode(message.SC_TEST_ECHO, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
                 if (message.SC_ROLE_ONLINE != null && message.hasOwnProperty("SC_ROLE_ONLINE"))
-                    $root.S2C.SC_ROLE_ONLINE.encode(message.SC_ROLE_ONLINE, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+                    $root.S2C.SC_ROLE_ONLINE.encode(message.SC_ROLE_ONLINE, writer.uint32(/* id 1001, wireType 2 =*/8010).fork()).ldelim();
                 if (message.SC_ROLE_HEART_BEAT != null && message.hasOwnProperty("SC_ROLE_HEART_BEAT"))
-                    $root.S2C.SC_ROLE_HEART_BEAT.encode(message.SC_ROLE_HEART_BEAT, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+                    $root.S2C.SC_ROLE_HEART_BEAT.encode(message.SC_ROLE_HEART_BEAT, writer.uint32(/* id 1002, wireType 2 =*/8018).fork()).ldelim();
                 if (message.SC_ROLE_PRO_UPDATE != null && message.hasOwnProperty("SC_ROLE_PRO_UPDATE"))
-                    $root.S2C.SC_ROLE_PRO_UPDATE.encode(message.SC_ROLE_PRO_UPDATE, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
+                    $root.S2C.SC_ROLE_PRO_UPDATE.encode(message.SC_ROLE_PRO_UPDATE, writer.uint32(/* id 1003, wireType 2 =*/8026).fork()).ldelim();
+                if (message.SC_INIT_HERO != null && message.hasOwnProperty("SC_INIT_HERO"))
+                    $root.S2C.SC_INIT_HERO.encode(message.SC_INIT_HERO, writer.uint32(/* id 1101, wireType 2 =*/8810).fork()).ldelim();
+                if (message.SC_UPDATE_HERO != null && message.hasOwnProperty("SC_UPDATE_HERO"))
+                    $root.S2C.SC_UPDATE_HERO.encode(message.SC_UPDATE_HERO, writer.uint32(/* id 1102, wireType 2 =*/8818).fork()).ldelim();
                 if (message.LOGIN_SC_LOGIN != null && message.hasOwnProperty("LOGIN_SC_LOGIN"))
-                    $root.S2C.LOGIN_SC_LOGIN.encode(message.LOGIN_SC_LOGIN, writer.uint32(/* id 6, wireType 2 =*/50).fork()).ldelim();
+                    $root.S2C.LOGIN_SC_LOGIN.encode(message.LOGIN_SC_LOGIN, writer.uint32(/* id 9001, wireType 2 =*/72010).fork()).ldelim();
                 if (message.LOGIN_SC_CHOOSE_SERVER != null && message.hasOwnProperty("LOGIN_SC_CHOOSE_SERVER"))
-                    $root.S2C.LOGIN_SC_CHOOSE_SERVER.encode(message.LOGIN_SC_CHOOSE_SERVER, writer.uint32(/* id 7, wireType 2 =*/58).fork()).ldelim();
+                    $root.S2C.LOGIN_SC_CHOOSE_SERVER.encode(message.LOGIN_SC_CHOOSE_SERVER, writer.uint32(/* id 9002, wireType 2 =*/72018).fork()).ldelim();
                 if (message.LOGIN_SC_GET_SERVER_LIST != null && message.hasOwnProperty("LOGIN_SC_GET_SERVER_LIST"))
-                    $root.S2C.LOGIN_SC_GET_SERVER_LIST.encode(message.LOGIN_SC_GET_SERVER_LIST, writer.uint32(/* id 8, wireType 2 =*/66).fork()).ldelim();
+                    $root.S2C.LOGIN_SC_GET_SERVER_LIST.encode(message.LOGIN_SC_GET_SERVER_LIST, writer.uint32(/* id 9003, wireType 2 =*/72026).fork()).ldelim();
                 if (message.LOGIN_SC_GET_INFO != null && message.hasOwnProperty("LOGIN_SC_GET_INFO"))
-                    $root.S2C.LOGIN_SC_GET_INFO.encode(message.LOGIN_SC_GET_INFO, writer.uint32(/* id 9, wireType 2 =*/74).fork()).ldelim();
+                    $root.S2C.LOGIN_SC_GET_INFO.encode(message.LOGIN_SC_GET_INFO, writer.uint32(/* id 9004, wireType 2 =*/72034).fork()).ldelim();
                 return writer;
             };
     
@@ -2476,31 +2487,34 @@
                     var tag = reader.uint32();
                     switch (tag >>> 3) {
                     case 1:
-                        message.Error = $root.S2C.Error.decode(reader, reader.uint32());
-                        break;
-                    case 2:
                         message.SC_TEST_ECHO = $root.S2C.SC_TEST_ECHO.decode(reader, reader.uint32());
                         break;
-                    case 3:
-                        message.SC_ROLE_ONLINE = $root.S2C.SC_ROLE_ONLINE.decode(reader, reader.uint32());
-                        break;
-                    case 4:
-                        message.SC_ROLE_HEART_BEAT = $root.S2C.SC_ROLE_HEART_BEAT.decode(reader, reader.uint32());
-                        break;
-                    case 5:
-                        message.SC_ROLE_PRO_UPDATE = $root.S2C.SC_ROLE_PRO_UPDATE.decode(reader, reader.uint32());
-                        break;
-                    case 6:
+                    case 9001:
                         message.LOGIN_SC_LOGIN = $root.S2C.LOGIN_SC_LOGIN.decode(reader, reader.uint32());
                         break;
-                    case 7:
+                    case 9002:
                         message.LOGIN_SC_CHOOSE_SERVER = $root.S2C.LOGIN_SC_CHOOSE_SERVER.decode(reader, reader.uint32());
                         break;
-                    case 8:
+                    case 9003:
                         message.LOGIN_SC_GET_SERVER_LIST = $root.S2C.LOGIN_SC_GET_SERVER_LIST.decode(reader, reader.uint32());
                         break;
-                    case 9:
+                    case 9004:
                         message.LOGIN_SC_GET_INFO = $root.S2C.LOGIN_SC_GET_INFO.decode(reader, reader.uint32());
+                        break;
+                    case 1001:
+                        message.SC_ROLE_ONLINE = $root.S2C.SC_ROLE_ONLINE.decode(reader, reader.uint32());
+                        break;
+                    case 1002:
+                        message.SC_ROLE_HEART_BEAT = $root.S2C.SC_ROLE_HEART_BEAT.decode(reader, reader.uint32());
+                        break;
+                    case 1003:
+                        message.SC_ROLE_PRO_UPDATE = $root.S2C.SC_ROLE_PRO_UPDATE.decode(reader, reader.uint32());
+                        break;
+                    case 1101:
+                        message.SC_INIT_HERO = $root.S2C.SC_INIT_HERO.decode(reader, reader.uint32());
+                        break;
+                    case 1102:
+                        message.SC_UPDATE_HERO = $root.S2C.SC_UPDATE_HERO.decode(reader, reader.uint32());
                         break;
                     default:
                         reader.skipType(tag & 7);
@@ -2538,52 +2552,12 @@
                 if (typeof message !== "object" || message === null)
                     return "object expected";
                 var properties = {};
-                if (message.Error != null && message.hasOwnProperty("Error")) {
-                    properties.kind = 1;
-                    {
-                        var error = $root.S2C.Error.verify(message.Error);
-                        if (error)
-                            return "Error." + error;
-                    }
-                }
                 if (message.SC_TEST_ECHO != null && message.hasOwnProperty("SC_TEST_ECHO")) {
-                    if (properties.kind === 1)
-                        return "kind: multiple values";
                     properties.kind = 1;
                     {
                         var error = $root.S2C.SC_TEST_ECHO.verify(message.SC_TEST_ECHO);
                         if (error)
                             return "SC_TEST_ECHO." + error;
-                    }
-                }
-                if (message.SC_ROLE_ONLINE != null && message.hasOwnProperty("SC_ROLE_ONLINE")) {
-                    if (properties.kind === 1)
-                        return "kind: multiple values";
-                    properties.kind = 1;
-                    {
-                        var error = $root.S2C.SC_ROLE_ONLINE.verify(message.SC_ROLE_ONLINE);
-                        if (error)
-                            return "SC_ROLE_ONLINE." + error;
-                    }
-                }
-                if (message.SC_ROLE_HEART_BEAT != null && message.hasOwnProperty("SC_ROLE_HEART_BEAT")) {
-                    if (properties.kind === 1)
-                        return "kind: multiple values";
-                    properties.kind = 1;
-                    {
-                        var error = $root.S2C.SC_ROLE_HEART_BEAT.verify(message.SC_ROLE_HEART_BEAT);
-                        if (error)
-                            return "SC_ROLE_HEART_BEAT." + error;
-                    }
-                }
-                if (message.SC_ROLE_PRO_UPDATE != null && message.hasOwnProperty("SC_ROLE_PRO_UPDATE")) {
-                    if (properties.kind === 1)
-                        return "kind: multiple values";
-                    properties.kind = 1;
-                    {
-                        var error = $root.S2C.SC_ROLE_PRO_UPDATE.verify(message.SC_ROLE_PRO_UPDATE);
-                        if (error)
-                            return "SC_ROLE_PRO_UPDATE." + error;
                     }
                 }
                 if (message.LOGIN_SC_LOGIN != null && message.hasOwnProperty("LOGIN_SC_LOGIN")) {
@@ -2626,6 +2600,56 @@
                             return "LOGIN_SC_GET_INFO." + error;
                     }
                 }
+                if (message.SC_ROLE_ONLINE != null && message.hasOwnProperty("SC_ROLE_ONLINE")) {
+                    if (properties.kind === 1)
+                        return "kind: multiple values";
+                    properties.kind = 1;
+                    {
+                        var error = $root.S2C.SC_ROLE_ONLINE.verify(message.SC_ROLE_ONLINE);
+                        if (error)
+                            return "SC_ROLE_ONLINE." + error;
+                    }
+                }
+                if (message.SC_ROLE_HEART_BEAT != null && message.hasOwnProperty("SC_ROLE_HEART_BEAT")) {
+                    if (properties.kind === 1)
+                        return "kind: multiple values";
+                    properties.kind = 1;
+                    {
+                        var error = $root.S2C.SC_ROLE_HEART_BEAT.verify(message.SC_ROLE_HEART_BEAT);
+                        if (error)
+                            return "SC_ROLE_HEART_BEAT." + error;
+                    }
+                }
+                if (message.SC_ROLE_PRO_UPDATE != null && message.hasOwnProperty("SC_ROLE_PRO_UPDATE")) {
+                    if (properties.kind === 1)
+                        return "kind: multiple values";
+                    properties.kind = 1;
+                    {
+                        var error = $root.S2C.SC_ROLE_PRO_UPDATE.verify(message.SC_ROLE_PRO_UPDATE);
+                        if (error)
+                            return "SC_ROLE_PRO_UPDATE." + error;
+                    }
+                }
+                if (message.SC_INIT_HERO != null && message.hasOwnProperty("SC_INIT_HERO")) {
+                    if (properties.kind === 1)
+                        return "kind: multiple values";
+                    properties.kind = 1;
+                    {
+                        var error = $root.S2C.SC_INIT_HERO.verify(message.SC_INIT_HERO);
+                        if (error)
+                            return "SC_INIT_HERO." + error;
+                    }
+                }
+                if (message.SC_UPDATE_HERO != null && message.hasOwnProperty("SC_UPDATE_HERO")) {
+                    if (properties.kind === 1)
+                        return "kind: multiple values";
+                    properties.kind = 1;
+                    {
+                        var error = $root.S2C.SC_UPDATE_HERO.verify(message.SC_UPDATE_HERO);
+                        if (error)
+                            return "SC_UPDATE_HERO." + error;
+                    }
+                }
                 return null;
             };
     
@@ -2641,30 +2665,10 @@
                 if (object instanceof $root.S2C.Message)
                     return object;
                 var message = new $root.S2C.Message();
-                if (object.Error != null) {
-                    if (typeof object.Error !== "object")
-                        throw TypeError(".S2C.Message.Error: object expected");
-                    message.Error = $root.S2C.Error.fromObject(object.Error);
-                }
                 if (object.SC_TEST_ECHO != null) {
                     if (typeof object.SC_TEST_ECHO !== "object")
                         throw TypeError(".S2C.Message.SC_TEST_ECHO: object expected");
                     message.SC_TEST_ECHO = $root.S2C.SC_TEST_ECHO.fromObject(object.SC_TEST_ECHO);
-                }
-                if (object.SC_ROLE_ONLINE != null) {
-                    if (typeof object.SC_ROLE_ONLINE !== "object")
-                        throw TypeError(".S2C.Message.SC_ROLE_ONLINE: object expected");
-                    message.SC_ROLE_ONLINE = $root.S2C.SC_ROLE_ONLINE.fromObject(object.SC_ROLE_ONLINE);
-                }
-                if (object.SC_ROLE_HEART_BEAT != null) {
-                    if (typeof object.SC_ROLE_HEART_BEAT !== "object")
-                        throw TypeError(".S2C.Message.SC_ROLE_HEART_BEAT: object expected");
-                    message.SC_ROLE_HEART_BEAT = $root.S2C.SC_ROLE_HEART_BEAT.fromObject(object.SC_ROLE_HEART_BEAT);
-                }
-                if (object.SC_ROLE_PRO_UPDATE != null) {
-                    if (typeof object.SC_ROLE_PRO_UPDATE !== "object")
-                        throw TypeError(".S2C.Message.SC_ROLE_PRO_UPDATE: object expected");
-                    message.SC_ROLE_PRO_UPDATE = $root.S2C.SC_ROLE_PRO_UPDATE.fromObject(object.SC_ROLE_PRO_UPDATE);
                 }
                 if (object.LOGIN_SC_LOGIN != null) {
                     if (typeof object.LOGIN_SC_LOGIN !== "object")
@@ -2686,6 +2690,31 @@
                         throw TypeError(".S2C.Message.LOGIN_SC_GET_INFO: object expected");
                     message.LOGIN_SC_GET_INFO = $root.S2C.LOGIN_SC_GET_INFO.fromObject(object.LOGIN_SC_GET_INFO);
                 }
+                if (object.SC_ROLE_ONLINE != null) {
+                    if (typeof object.SC_ROLE_ONLINE !== "object")
+                        throw TypeError(".S2C.Message.SC_ROLE_ONLINE: object expected");
+                    message.SC_ROLE_ONLINE = $root.S2C.SC_ROLE_ONLINE.fromObject(object.SC_ROLE_ONLINE);
+                }
+                if (object.SC_ROLE_HEART_BEAT != null) {
+                    if (typeof object.SC_ROLE_HEART_BEAT !== "object")
+                        throw TypeError(".S2C.Message.SC_ROLE_HEART_BEAT: object expected");
+                    message.SC_ROLE_HEART_BEAT = $root.S2C.SC_ROLE_HEART_BEAT.fromObject(object.SC_ROLE_HEART_BEAT);
+                }
+                if (object.SC_ROLE_PRO_UPDATE != null) {
+                    if (typeof object.SC_ROLE_PRO_UPDATE !== "object")
+                        throw TypeError(".S2C.Message.SC_ROLE_PRO_UPDATE: object expected");
+                    message.SC_ROLE_PRO_UPDATE = $root.S2C.SC_ROLE_PRO_UPDATE.fromObject(object.SC_ROLE_PRO_UPDATE);
+                }
+                if (object.SC_INIT_HERO != null) {
+                    if (typeof object.SC_INIT_HERO !== "object")
+                        throw TypeError(".S2C.Message.SC_INIT_HERO: object expected");
+                    message.SC_INIT_HERO = $root.S2C.SC_INIT_HERO.fromObject(object.SC_INIT_HERO);
+                }
+                if (object.SC_UPDATE_HERO != null) {
+                    if (typeof object.SC_UPDATE_HERO !== "object")
+                        throw TypeError(".S2C.Message.SC_UPDATE_HERO: object expected");
+                    message.SC_UPDATE_HERO = $root.S2C.SC_UPDATE_HERO.fromObject(object.SC_UPDATE_HERO);
+                }
                 return message;
             };
     
@@ -2702,11 +2731,6 @@
                 if (!options)
                     options = {};
                 var object = {};
-                if (message.Error != null && message.hasOwnProperty("Error")) {
-                    object.Error = $root.S2C.Error.toObject(message.Error, options);
-                    if (options.oneofs)
-                        object.kind = "Error";
-                }
                 if (message.SC_TEST_ECHO != null && message.hasOwnProperty("SC_TEST_ECHO")) {
                     object.SC_TEST_ECHO = $root.S2C.SC_TEST_ECHO.toObject(message.SC_TEST_ECHO, options);
                     if (options.oneofs)
@@ -2726,6 +2750,16 @@
                     object.SC_ROLE_PRO_UPDATE = $root.S2C.SC_ROLE_PRO_UPDATE.toObject(message.SC_ROLE_PRO_UPDATE, options);
                     if (options.oneofs)
                         object.kind = "SC_ROLE_PRO_UPDATE";
+                }
+                if (message.SC_INIT_HERO != null && message.hasOwnProperty("SC_INIT_HERO")) {
+                    object.SC_INIT_HERO = $root.S2C.SC_INIT_HERO.toObject(message.SC_INIT_HERO, options);
+                    if (options.oneofs)
+                        object.kind = "SC_INIT_HERO";
+                }
+                if (message.SC_UPDATE_HERO != null && message.hasOwnProperty("SC_UPDATE_HERO")) {
+                    object.SC_UPDATE_HERO = $root.S2C.SC_UPDATE_HERO.toObject(message.SC_UPDATE_HERO, options);
+                    if (options.oneofs)
+                        object.kind = "SC_UPDATE_HERO";
                 }
                 if (message.LOGIN_SC_LOGIN != null && message.hasOwnProperty("LOGIN_SC_LOGIN")) {
                     object.LOGIN_SC_LOGIN = $root.S2C.LOGIN_SC_LOGIN.toObject(message.LOGIN_SC_LOGIN, options);
@@ -2762,6 +2796,698 @@
             };
     
             return Message;
+        })();
+    
+        S2C.Hero = (function() {
+    
+            /**
+             * Properties of a Hero.
+             * @memberof S2C
+             * @interface IHero
+             * @property {number|null} [uid] Hero uid
+             * @property {number|null} [id] Hero id
+             * @property {number|null} [combat] Hero combat
+             * @property {number|null} [lvl] Hero lvl
+             */
+    
+            /**
+             * Constructs a new Hero.
+             * @memberof S2C
+             * @classdesc Represents a Hero.
+             * @implements IHero
+             * @constructor
+             * @param {S2C.IHero=} [properties] Properties to set
+             */
+            function Hero(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+    
+            /**
+             * Hero uid.
+             * @member {number} uid
+             * @memberof S2C.Hero
+             * @instance
+             */
+            Hero.prototype.uid = 0;
+    
+            /**
+             * Hero id.
+             * @member {number} id
+             * @memberof S2C.Hero
+             * @instance
+             */
+            Hero.prototype.id = 0;
+    
+            /**
+             * Hero combat.
+             * @member {number} combat
+             * @memberof S2C.Hero
+             * @instance
+             */
+            Hero.prototype.combat = 0;
+    
+            /**
+             * Hero lvl.
+             * @member {number} lvl
+             * @memberof S2C.Hero
+             * @instance
+             */
+            Hero.prototype.lvl = 0;
+    
+            /**
+             * Creates a new Hero instance using the specified properties.
+             * @function create
+             * @memberof S2C.Hero
+             * @static
+             * @param {S2C.IHero=} [properties] Properties to set
+             * @returns {S2C.Hero} Hero instance
+             */
+            Hero.create = function create(properties) {
+                return new Hero(properties);
+            };
+    
+            /**
+             * Encodes the specified Hero message. Does not implicitly {@link S2C.Hero.verify|verify} messages.
+             * @function encode
+             * @memberof S2C.Hero
+             * @static
+             * @param {S2C.IHero} message Hero message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            Hero.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.uid != null && message.hasOwnProperty("uid"))
+                    writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.uid);
+                if (message.id != null && message.hasOwnProperty("id"))
+                    writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.id);
+                if (message.combat != null && message.hasOwnProperty("combat"))
+                    writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.combat);
+                if (message.lvl != null && message.hasOwnProperty("lvl"))
+                    writer.uint32(/* id 4, wireType 0 =*/32).uint32(message.lvl);
+                return writer;
+            };
+    
+            /**
+             * Encodes the specified Hero message, length delimited. Does not implicitly {@link S2C.Hero.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof S2C.Hero
+             * @static
+             * @param {S2C.IHero} message Hero message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            Hero.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+    
+            /**
+             * Decodes a Hero message from the specified reader or buffer.
+             * @function decode
+             * @memberof S2C.Hero
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {S2C.Hero} Hero
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            Hero.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.S2C.Hero();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        message.uid = reader.uint32();
+                        break;
+                    case 2:
+                        message.id = reader.uint32();
+                        break;
+                    case 3:
+                        message.combat = reader.uint32();
+                        break;
+                    case 4:
+                        message.lvl = reader.uint32();
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Decodes a Hero message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof S2C.Hero
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {S2C.Hero} Hero
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            Hero.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+    
+            /**
+             * Verifies a Hero message.
+             * @function verify
+             * @memberof S2C.Hero
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            Hero.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.uid != null && message.hasOwnProperty("uid"))
+                    if (!$util.isInteger(message.uid))
+                        return "uid: integer expected";
+                if (message.id != null && message.hasOwnProperty("id"))
+                    if (!$util.isInteger(message.id))
+                        return "id: integer expected";
+                if (message.combat != null && message.hasOwnProperty("combat"))
+                    if (!$util.isInteger(message.combat))
+                        return "combat: integer expected";
+                if (message.lvl != null && message.hasOwnProperty("lvl"))
+                    if (!$util.isInteger(message.lvl))
+                        return "lvl: integer expected";
+                return null;
+            };
+    
+            /**
+             * Creates a Hero message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof S2C.Hero
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {S2C.Hero} Hero
+             */
+            Hero.fromObject = function fromObject(object) {
+                if (object instanceof $root.S2C.Hero)
+                    return object;
+                var message = new $root.S2C.Hero();
+                if (object.uid != null)
+                    message.uid = object.uid >>> 0;
+                if (object.id != null)
+                    message.id = object.id >>> 0;
+                if (object.combat != null)
+                    message.combat = object.combat >>> 0;
+                if (object.lvl != null)
+                    message.lvl = object.lvl >>> 0;
+                return message;
+            };
+    
+            /**
+             * Creates a plain object from a Hero message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof S2C.Hero
+             * @static
+             * @param {S2C.Hero} message Hero
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            Hero.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.defaults) {
+                    object.uid = 0;
+                    object.id = 0;
+                    object.combat = 0;
+                    object.lvl = 0;
+                }
+                if (message.uid != null && message.hasOwnProperty("uid"))
+                    object.uid = message.uid;
+                if (message.id != null && message.hasOwnProperty("id"))
+                    object.id = message.id;
+                if (message.combat != null && message.hasOwnProperty("combat"))
+                    object.combat = message.combat;
+                if (message.lvl != null && message.hasOwnProperty("lvl"))
+                    object.lvl = message.lvl;
+                return object;
+            };
+    
+            /**
+             * Converts this Hero to JSON.
+             * @function toJSON
+             * @memberof S2C.Hero
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            Hero.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+    
+            return Hero;
+        })();
+    
+        S2C.SC_INIT_HERO = (function() {
+    
+            /**
+             * Properties of a SC_INIT_HERO.
+             * @memberof S2C
+             * @interface ISC_INIT_HERO
+             * @property {Object.<string,S2C.IHero>|null} [heroes] SC_INIT_HERO heroes
+             */
+    
+            /**
+             * Constructs a new SC_INIT_HERO.
+             * @memberof S2C
+             * @classdesc Represents a SC_INIT_HERO.
+             * @implements ISC_INIT_HERO
+             * @constructor
+             * @param {S2C.ISC_INIT_HERO=} [properties] Properties to set
+             */
+            function SC_INIT_HERO(properties) {
+                this.heroes = {};
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+    
+            /**
+             * SC_INIT_HERO heroes.
+             * @member {Object.<string,S2C.IHero>} heroes
+             * @memberof S2C.SC_INIT_HERO
+             * @instance
+             */
+            SC_INIT_HERO.prototype.heroes = $util.emptyObject;
+    
+            /**
+             * Creates a new SC_INIT_HERO instance using the specified properties.
+             * @function create
+             * @memberof S2C.SC_INIT_HERO
+             * @static
+             * @param {S2C.ISC_INIT_HERO=} [properties] Properties to set
+             * @returns {S2C.SC_INIT_HERO} SC_INIT_HERO instance
+             */
+            SC_INIT_HERO.create = function create(properties) {
+                return new SC_INIT_HERO(properties);
+            };
+    
+            /**
+             * Encodes the specified SC_INIT_HERO message. Does not implicitly {@link S2C.SC_INIT_HERO.verify|verify} messages.
+             * @function encode
+             * @memberof S2C.SC_INIT_HERO
+             * @static
+             * @param {S2C.ISC_INIT_HERO} message SC_INIT_HERO message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            SC_INIT_HERO.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.heroes != null && message.hasOwnProperty("heroes"))
+                    for (var keys = Object.keys(message.heroes), i = 0; i < keys.length; ++i) {
+                        writer.uint32(/* id 1, wireType 2 =*/10).fork().uint32(/* id 1, wireType 0 =*/8).uint32(keys[i]);
+                        $root.S2C.Hero.encode(message.heroes[keys[i]], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim().ldelim();
+                    }
+                return writer;
+            };
+    
+            /**
+             * Encodes the specified SC_INIT_HERO message, length delimited. Does not implicitly {@link S2C.SC_INIT_HERO.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof S2C.SC_INIT_HERO
+             * @static
+             * @param {S2C.ISC_INIT_HERO} message SC_INIT_HERO message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            SC_INIT_HERO.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+    
+            /**
+             * Decodes a SC_INIT_HERO message from the specified reader or buffer.
+             * @function decode
+             * @memberof S2C.SC_INIT_HERO
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {S2C.SC_INIT_HERO} SC_INIT_HERO
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            SC_INIT_HERO.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.S2C.SC_INIT_HERO(), key;
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        reader.skip().pos++;
+                        if (message.heroes === $util.emptyObject)
+                            message.heroes = {};
+                        key = reader.uint32();
+                        reader.pos++;
+                        message.heroes[key] = $root.S2C.Hero.decode(reader, reader.uint32());
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Decodes a SC_INIT_HERO message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof S2C.SC_INIT_HERO
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {S2C.SC_INIT_HERO} SC_INIT_HERO
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            SC_INIT_HERO.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+    
+            /**
+             * Verifies a SC_INIT_HERO message.
+             * @function verify
+             * @memberof S2C.SC_INIT_HERO
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            SC_INIT_HERO.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.heroes != null && message.hasOwnProperty("heroes")) {
+                    if (!$util.isObject(message.heroes))
+                        return "heroes: object expected";
+                    var key = Object.keys(message.heroes);
+                    for (var i = 0; i < key.length; ++i) {
+                        if (!$util.key32Re.test(key[i]))
+                            return "heroes: integer key{k:uint32} expected";
+                        {
+                            var error = $root.S2C.Hero.verify(message.heroes[key[i]]);
+                            if (error)
+                                return "heroes." + error;
+                        }
+                    }
+                }
+                return null;
+            };
+    
+            /**
+             * Creates a SC_INIT_HERO message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof S2C.SC_INIT_HERO
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {S2C.SC_INIT_HERO} SC_INIT_HERO
+             */
+            SC_INIT_HERO.fromObject = function fromObject(object) {
+                if (object instanceof $root.S2C.SC_INIT_HERO)
+                    return object;
+                var message = new $root.S2C.SC_INIT_HERO();
+                if (object.heroes) {
+                    if (typeof object.heroes !== "object")
+                        throw TypeError(".S2C.SC_INIT_HERO.heroes: object expected");
+                    message.heroes = {};
+                    for (var keys = Object.keys(object.heroes), i = 0; i < keys.length; ++i) {
+                        if (typeof object.heroes[keys[i]] !== "object")
+                            throw TypeError(".S2C.SC_INIT_HERO.heroes: object expected");
+                        message.heroes[keys[i]] = $root.S2C.Hero.fromObject(object.heroes[keys[i]]);
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Creates a plain object from a SC_INIT_HERO message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof S2C.SC_INIT_HERO
+             * @static
+             * @param {S2C.SC_INIT_HERO} message SC_INIT_HERO
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            SC_INIT_HERO.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.objects || options.defaults)
+                    object.heroes = {};
+                var keys2;
+                if (message.heroes && (keys2 = Object.keys(message.heroes)).length) {
+                    object.heroes = {};
+                    for (var j = 0; j < keys2.length; ++j)
+                        object.heroes[keys2[j]] = $root.S2C.Hero.toObject(message.heroes[keys2[j]], options);
+                }
+                return object;
+            };
+    
+            /**
+             * Converts this SC_INIT_HERO to JSON.
+             * @function toJSON
+             * @memberof S2C.SC_INIT_HERO
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            SC_INIT_HERO.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+    
+            return SC_INIT_HERO;
+        })();
+    
+        S2C.SC_UPDATE_HERO = (function() {
+    
+            /**
+             * Properties of a SC_UPDATE_HERO.
+             * @memberof S2C
+             * @interface ISC_UPDATE_HERO
+             * @property {Object.<string,S2C.IHero>|null} [heroes] SC_UPDATE_HERO heroes
+             */
+    
+            /**
+             * Constructs a new SC_UPDATE_HERO.
+             * @memberof S2C
+             * @classdesc Represents a SC_UPDATE_HERO.
+             * @implements ISC_UPDATE_HERO
+             * @constructor
+             * @param {S2C.ISC_UPDATE_HERO=} [properties] Properties to set
+             */
+            function SC_UPDATE_HERO(properties) {
+                this.heroes = {};
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+    
+            /**
+             * SC_UPDATE_HERO heroes.
+             * @member {Object.<string,S2C.IHero>} heroes
+             * @memberof S2C.SC_UPDATE_HERO
+             * @instance
+             */
+            SC_UPDATE_HERO.prototype.heroes = $util.emptyObject;
+    
+            /**
+             * Creates a new SC_UPDATE_HERO instance using the specified properties.
+             * @function create
+             * @memberof S2C.SC_UPDATE_HERO
+             * @static
+             * @param {S2C.ISC_UPDATE_HERO=} [properties] Properties to set
+             * @returns {S2C.SC_UPDATE_HERO} SC_UPDATE_HERO instance
+             */
+            SC_UPDATE_HERO.create = function create(properties) {
+                return new SC_UPDATE_HERO(properties);
+            };
+    
+            /**
+             * Encodes the specified SC_UPDATE_HERO message. Does not implicitly {@link S2C.SC_UPDATE_HERO.verify|verify} messages.
+             * @function encode
+             * @memberof S2C.SC_UPDATE_HERO
+             * @static
+             * @param {S2C.ISC_UPDATE_HERO} message SC_UPDATE_HERO message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            SC_UPDATE_HERO.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.heroes != null && message.hasOwnProperty("heroes"))
+                    for (var keys = Object.keys(message.heroes), i = 0; i < keys.length; ++i) {
+                        writer.uint32(/* id 1, wireType 2 =*/10).fork().uint32(/* id 1, wireType 0 =*/8).int32(keys[i]);
+                        $root.S2C.Hero.encode(message.heroes[keys[i]], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim().ldelim();
+                    }
+                return writer;
+            };
+    
+            /**
+             * Encodes the specified SC_UPDATE_HERO message, length delimited. Does not implicitly {@link S2C.SC_UPDATE_HERO.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof S2C.SC_UPDATE_HERO
+             * @static
+             * @param {S2C.ISC_UPDATE_HERO} message SC_UPDATE_HERO message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            SC_UPDATE_HERO.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+    
+            /**
+             * Decodes a SC_UPDATE_HERO message from the specified reader or buffer.
+             * @function decode
+             * @memberof S2C.SC_UPDATE_HERO
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {S2C.SC_UPDATE_HERO} SC_UPDATE_HERO
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            SC_UPDATE_HERO.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.S2C.SC_UPDATE_HERO(), key;
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        reader.skip().pos++;
+                        if (message.heroes === $util.emptyObject)
+                            message.heroes = {};
+                        key = reader.int32();
+                        reader.pos++;
+                        message.heroes[key] = $root.S2C.Hero.decode(reader, reader.uint32());
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Decodes a SC_UPDATE_HERO message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof S2C.SC_UPDATE_HERO
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {S2C.SC_UPDATE_HERO} SC_UPDATE_HERO
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            SC_UPDATE_HERO.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+    
+            /**
+             * Verifies a SC_UPDATE_HERO message.
+             * @function verify
+             * @memberof S2C.SC_UPDATE_HERO
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            SC_UPDATE_HERO.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.heroes != null && message.hasOwnProperty("heroes")) {
+                    if (!$util.isObject(message.heroes))
+                        return "heroes: object expected";
+                    var key = Object.keys(message.heroes);
+                    for (var i = 0; i < key.length; ++i) {
+                        if (!$util.key32Re.test(key[i]))
+                            return "heroes: integer key{k:int32} expected";
+                        {
+                            var error = $root.S2C.Hero.verify(message.heroes[key[i]]);
+                            if (error)
+                                return "heroes." + error;
+                        }
+                    }
+                }
+                return null;
+            };
+    
+            /**
+             * Creates a SC_UPDATE_HERO message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof S2C.SC_UPDATE_HERO
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {S2C.SC_UPDATE_HERO} SC_UPDATE_HERO
+             */
+            SC_UPDATE_HERO.fromObject = function fromObject(object) {
+                if (object instanceof $root.S2C.SC_UPDATE_HERO)
+                    return object;
+                var message = new $root.S2C.SC_UPDATE_HERO();
+                if (object.heroes) {
+                    if (typeof object.heroes !== "object")
+                        throw TypeError(".S2C.SC_UPDATE_HERO.heroes: object expected");
+                    message.heroes = {};
+                    for (var keys = Object.keys(object.heroes), i = 0; i < keys.length; ++i) {
+                        if (typeof object.heroes[keys[i]] !== "object")
+                            throw TypeError(".S2C.SC_UPDATE_HERO.heroes: object expected");
+                        message.heroes[keys[i]] = $root.S2C.Hero.fromObject(object.heroes[keys[i]]);
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Creates a plain object from a SC_UPDATE_HERO message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof S2C.SC_UPDATE_HERO
+             * @static
+             * @param {S2C.SC_UPDATE_HERO} message SC_UPDATE_HERO
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            SC_UPDATE_HERO.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.objects || options.defaults)
+                    object.heroes = {};
+                var keys2;
+                if (message.heroes && (keys2 = Object.keys(message.heroes)).length) {
+                    object.heroes = {};
+                    for (var j = 0; j < keys2.length; ++j)
+                        object.heroes[keys2[j]] = $root.S2C.Hero.toObject(message.heroes[keys2[j]], options);
+                }
+                return object;
+            };
+    
+            /**
+             * Converts this SC_UPDATE_HERO to JSON.
+             * @function toJSON
+             * @memberof S2C.SC_UPDATE_HERO
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            SC_UPDATE_HERO.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+    
+            return SC_UPDATE_HERO;
         })();
     
         S2C.SC_ROLE_PRO_UPDATE = (function() {

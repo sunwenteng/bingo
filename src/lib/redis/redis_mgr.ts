@@ -3,6 +3,7 @@ import * as redis from 'redis';
 import {Log} from "../util/log";
 import {ErrorCode} from "../util/error_code";
 import * as deepDiff from "deep-diff";
+import clone = require('clone');
 
 const Config = require('../../config/config.json');
 /**
@@ -50,7 +51,7 @@ export abstract class RedisData {
     protected reset() {
         this.dynamicFields = {};
         this.diffs = null;
-        Object.assign(this.oldFields, this.fields);
+        this.oldFields = clone(this.fields);
     }
 
     protected getDataFields(): string[] {
@@ -90,22 +91,22 @@ export abstract class RedisData {
                     case 'boolean' :
                         this.fields[obj] = parseInt(reply[obj]);
                         break;
+                    case 'string' :
+                        this.fields[obj] = reply[obj];
+                        break;
                     case 'object' :
                         try {
-                            if (reply[obj] === "") {
-                                this.fields[obj] = {};
-                            }
-                            else {
-                                this.fields[obj] = JSON.parse(reply[obj]);
+                            if (reply[obj] !== "") {
+                                let ret = JSON.parse(reply[obj]);
+                                for(let key in ret) {
+                                    this.fields[obj][key] = ret[key];
+                                }
                             }
                         } catch (err) {
                             Log.sError('redis data parse failed, key=%s, val=%s', obj, reply[obj]);
                             this.fields[obj] = {};
                         }
 
-                        break;
-                    case 'string' :
-                        this.fields[obj] = reply[obj];
                         break;
                     default:
                         Log.sError('wrong type, key=%s, type=%s', obj, typeof this.fields[obj]);

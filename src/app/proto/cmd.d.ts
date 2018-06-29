@@ -212,29 +212,31 @@ export namespace C2S {
 export namespace S2C {
 
     interface IMessage {
-        Error?: (S2C.IError|null);
         SC_TEST_ECHO?: (S2C.ISC_TEST_ECHO|null);
-        SC_ROLE_ONLINE?: (S2C.ISC_ROLE_ONLINE|null);
-        SC_ROLE_HEART_BEAT?: (S2C.ISC_ROLE_HEART_BEAT|null);
-        SC_ROLE_PRO_UPDATE?: (S2C.ISC_ROLE_PRO_UPDATE|null);
         LOGIN_SC_LOGIN?: (S2C.ILOGIN_SC_LOGIN|null);
         LOGIN_SC_CHOOSE_SERVER?: (S2C.ILOGIN_SC_CHOOSE_SERVER|null);
         LOGIN_SC_GET_SERVER_LIST?: (S2C.ILOGIN_SC_GET_SERVER_LIST|null);
         LOGIN_SC_GET_INFO?: (S2C.ILOGIN_SC_GET_INFO|null);
+        SC_ROLE_ONLINE?: (S2C.ISC_ROLE_ONLINE|null);
+        SC_ROLE_HEART_BEAT?: (S2C.ISC_ROLE_HEART_BEAT|null);
+        SC_ROLE_PRO_UPDATE?: (S2C.ISC_ROLE_PRO_UPDATE|null);
+        SC_INIT_HERO?: (S2C.ISC_INIT_HERO|null);
+        SC_UPDATE_HERO?: (S2C.ISC_UPDATE_HERO|null);
     }
 
     class Message implements IMessage {
         constructor(properties?: S2C.IMessage);
-        public Error?: (S2C.IError|null);
         public SC_TEST_ECHO?: (S2C.ISC_TEST_ECHO|null);
-        public SC_ROLE_ONLINE?: (S2C.ISC_ROLE_ONLINE|null);
-        public SC_ROLE_HEART_BEAT?: (S2C.ISC_ROLE_HEART_BEAT|null);
-        public SC_ROLE_PRO_UPDATE?: (S2C.ISC_ROLE_PRO_UPDATE|null);
         public LOGIN_SC_LOGIN?: (S2C.ILOGIN_SC_LOGIN|null);
         public LOGIN_SC_CHOOSE_SERVER?: (S2C.ILOGIN_SC_CHOOSE_SERVER|null);
         public LOGIN_SC_GET_SERVER_LIST?: (S2C.ILOGIN_SC_GET_SERVER_LIST|null);
         public LOGIN_SC_GET_INFO?: (S2C.ILOGIN_SC_GET_INFO|null);
-        public kind?: ("Error"|"SC_TEST_ECHO"|"SC_ROLE_ONLINE"|"SC_ROLE_HEART_BEAT"|"SC_ROLE_PRO_UPDATE"|"LOGIN_SC_LOGIN"|"LOGIN_SC_CHOOSE_SERVER"|"LOGIN_SC_GET_SERVER_LIST"|"LOGIN_SC_GET_INFO");
+        public SC_ROLE_ONLINE?: (S2C.ISC_ROLE_ONLINE|null);
+        public SC_ROLE_HEART_BEAT?: (S2C.ISC_ROLE_HEART_BEAT|null);
+        public SC_ROLE_PRO_UPDATE?: (S2C.ISC_ROLE_PRO_UPDATE|null);
+        public SC_INIT_HERO?: (S2C.ISC_INIT_HERO|null);
+        public SC_UPDATE_HERO?: (S2C.ISC_UPDATE_HERO|null);
+        public kind?: ("SC_TEST_ECHO"|"LOGIN_SC_LOGIN"|"LOGIN_SC_CHOOSE_SERVER"|"LOGIN_SC_GET_SERVER_LIST"|"LOGIN_SC_GET_INFO"|"SC_ROLE_ONLINE"|"SC_ROLE_HEART_BEAT"|"SC_ROLE_PRO_UPDATE"|"SC_INIT_HERO"|"SC_UPDATE_HERO");
         public static create(properties?: S2C.IMessage): S2C.Message;
         public static encode(message: S2C.IMessage, writer?: $protobuf.Writer): $protobuf.Writer;
         public static encodeDelimited(message: S2C.IMessage, writer?: $protobuf.Writer): $protobuf.Writer;
@@ -243,6 +245,66 @@ export namespace S2C {
         public static verify(message: { [k: string]: any }): (string|null);
         public static fromObject(object: { [k: string]: any }): S2C.Message;
         public static toObject(message: S2C.Message, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public toJSON(): { [k: string]: any };
+    }
+
+    interface IHero {
+        uid?: (number|null);
+        id?: (number|null);
+        combat?: (number|null);
+        lvl?: (number|null);
+    }
+
+    class Hero implements IHero {
+        constructor(properties?: S2C.IHero);
+        public uid: number;
+        public id: number;
+        public combat: number;
+        public lvl: number;
+        public static create(properties?: S2C.IHero): S2C.Hero;
+        public static encode(message: S2C.IHero, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: S2C.IHero, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): S2C.Hero;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): S2C.Hero;
+        public static verify(message: { [k: string]: any }): (string|null);
+        public static fromObject(object: { [k: string]: any }): S2C.Hero;
+        public static toObject(message: S2C.Hero, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public toJSON(): { [k: string]: any };
+    }
+
+    interface ISC_INIT_HERO {
+        heroes?: ({ [k: string]: S2C.IHero }|null);
+    }
+
+    class SC_INIT_HERO implements ISC_INIT_HERO {
+        constructor(properties?: S2C.ISC_INIT_HERO);
+        public heroes: { [k: string]: S2C.IHero };
+        public static create(properties?: S2C.ISC_INIT_HERO): S2C.SC_INIT_HERO;
+        public static encode(message: S2C.ISC_INIT_HERO, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: S2C.ISC_INIT_HERO, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): S2C.SC_INIT_HERO;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): S2C.SC_INIT_HERO;
+        public static verify(message: { [k: string]: any }): (string|null);
+        public static fromObject(object: { [k: string]: any }): S2C.SC_INIT_HERO;
+        public static toObject(message: S2C.SC_INIT_HERO, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public toJSON(): { [k: string]: any };
+    }
+
+    interface ISC_UPDATE_HERO {
+        heroes?: ({ [k: string]: S2C.IHero }|null);
+    }
+
+    class SC_UPDATE_HERO implements ISC_UPDATE_HERO {
+        constructor(properties?: S2C.ISC_UPDATE_HERO);
+        public heroes: { [k: string]: S2C.IHero };
+        public static create(properties?: S2C.ISC_UPDATE_HERO): S2C.SC_UPDATE_HERO;
+        public static encode(message: S2C.ISC_UPDATE_HERO, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: S2C.ISC_UPDATE_HERO, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): S2C.SC_UPDATE_HERO;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): S2C.SC_UPDATE_HERO;
+        public static verify(message: { [k: string]: any }): (string|null);
+        public static fromObject(object: { [k: string]: any }): S2C.SC_UPDATE_HERO;
+        public static toObject(message: S2C.SC_UPDATE_HERO, options?: $protobuf.IConversionOptions): { [k: string]: any };
         public toJSON(): { [k: string]: any };
     }
 
