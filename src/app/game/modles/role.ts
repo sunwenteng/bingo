@@ -45,8 +45,6 @@ export class Role extends RedisData {
     @props() equipModel = new EquipModel();
     @props() itemModel = new ItemModel();
 
-    @props() test: number = 0;
-
     constructor(uid: number, session?: GameSession) {
         super(RoleRedisPrefix);
         this._session = session;
