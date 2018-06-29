@@ -38,7 +38,7 @@ export class RoleController {
             await session.online();
 
             // start TODO
-            role.sendProtocol(role.heroModel.serializeInitPacket());
+            role.sendProtocol(role.heroModel.serializeInitNetMsg());
             // end TODO
 
             // put it to the end
@@ -56,13 +56,13 @@ export class RoleController {
     async heartBeat(role: Role, msg: C2S.CS_ROLE_HEART_BEAT) {
         role.diamond = role.diamond + 1;
         let size = role.heroModel.getHeroBagSize();
-        if (size < 400) {
-            for (let i = 0; i < (400 - size); i++) {
+        if (size < 100) {
+            for (let i = 0; i < (100 - size); i++) {
                 role.heroModel.createAndAddHero(101);
             }
         }
         else {
-            role.heroModel.maxUid = 398;
+            role.heroModel.maxUid = 98;
             role.heroModel.deleteHero(3);
             role.heroModel.deleteHero(4);
         }

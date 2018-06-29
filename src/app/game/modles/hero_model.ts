@@ -51,7 +51,7 @@ export class HeroModel extends BaseModel {
         super();
     }
 
-    serializeInitPacket() {
+    serializeInitNetMsg() {
         let pck = S2C.SC_INIT_HERO.create(), msg;
         for (let uid in this.heroes) {
             msg = S2C.Hero.create();
