@@ -26,6 +26,7 @@ export enum ERoleMask {
 export class Role extends RedisData {
     _session: GameSession;
 
+    // NOTE: 声明的属性必须都在mysql有相应列做存储
     @props(true) uid: number = 0;
     @props(true) nickname: string = '';
     @props(true) headimgurl: string = '';
@@ -43,6 +44,8 @@ export class Role extends RedisData {
     @props() heroModel = new HeroModel();
     @props() equipModel = new EquipModel();
     @props() itemModel = new ItemModel();
+
+    @props() test: number = 0;
 
     constructor(uid: number, session?: GameSession) {
         super(RoleRedisPrefix);

@@ -1,6 +1,7 @@
 import {Log} from "./log";
 import {Role} from "../../app/game/modles/role";
 import {RedisMgr, RedisType} from "../redis/redis_mgr";
+import * as WorldDB from '../mysql/world_db';
 
 /**
  * 类函数装饰器，计算函数执行是
@@ -58,10 +59,6 @@ export function controller(readonly: boolean = false, mask?: number) {
     }
 }
 
-export function singleton(target: Function) {
-}
-
-// 生命的对象需要与redis和mysql中一致
 export function props(dynamic: boolean = false) {
     return function (target: Object, key: string): void {
         Object.defineProperty(target, key, {
