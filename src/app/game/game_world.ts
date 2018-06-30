@@ -125,7 +125,7 @@ export class GameWorld extends events.EventEmitter {
                             Log.sWarn('cmd=' + cmd + ', controller=' + arr[1].toLowerCase() + '_controller, method=' + methodName + ' not exists');
                         }
                         else {
-                            this._allControllers[cmd] = module[GameUtil.capitalize(arr[1]) + 'Controller'].getInstance()[methodName];
+                            this._allControllers[cmd] = module[GameUtil.capitalize(arr[1]) + 'Controller']['instance'][methodName];
                         }
                     }
                 }

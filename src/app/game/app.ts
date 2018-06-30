@@ -10,7 +10,7 @@ async function main() {
     const Config = require('../../config/config.json');
     Log.init(__dirname + '/' + Config.log.dir, Config.log.level);
 
-    ConfigMgr.instance.loadAllConfig(__dirname + '/' + Config['app']['game']['config']);
+    ConfigMgr.getInstance().loadAllConfig(__dirname + '/' + Config['app']['game']['config']);
 
     await WorldDB.start(Config['mysql']['game_db']);
     await GameWorld.instance.start();
