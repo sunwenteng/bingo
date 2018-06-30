@@ -20,6 +20,7 @@ async function main() {
 
     process.on('uncaughtException', (error => {
         Log.sError(error);
+        process.exit(1);
     }));
 
     process.on("SIGINT", async () => {
