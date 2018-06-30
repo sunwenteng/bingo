@@ -38,7 +38,7 @@ export function controller(readonly: boolean = false, mask?: number) {
     return (target: Object, methodName: string, descriptor: TypedPropertyDescriptor<Function>) => {
         let originalMethod = descriptor.value;
         descriptor.value = async function (...args) {
-            let role = new Role(args[0].roleId, args[0]);
+            let role = new Role(args[0].m_roleId, args[0]);
             args[0] = role;
             let returnValue = null;
             if (!readonly) {

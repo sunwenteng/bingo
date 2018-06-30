@@ -10,10 +10,10 @@ async function main() {
     const Config = require('../../config/config.json');
     Log.init(__dirname + '/' + Config.log.dir, Config.log.level);
 
-    ConfigMgr.getInstance().loadAllConfig(__dirname + '/' + Config['app']['game']['config']);
+    ConfigMgr.instance.loadAllConfig(__dirname + '/' + Config['app']['game']['config']);
 
     await WorldDB.start(Config['mysql']['game_db']);
-    await GameWorld.getInstance().start();
+    await GameWorld.instance.start();
 
     let server = new Server(Config['app']['game']['host'], parseInt(Config['app']['game']['port']));
     await server.start(GameSession);
@@ -24,7 +24,7 @@ async function main() {
 
     process.on("SIGINT", async () => {
         await server.stop();
-        await GameWorld.getInstance().stop();
+        await GameWorld.instance.stop();
         process.nextTick(async () => {
             await RedisMgr.getInstance(RedisType.GAME).stop();
             await WorldDB.stop();
@@ -39,7 +39,7 @@ async function main() {
 
         let start = Date.now();
         setTimeout(() => {
-            GameWorld.getInstance().update().then(() => {
+            GameWorld.instance.update().then(() => {
                 let cost = Date.now() - start;
                 update(cost > 100 ? 10 : 100);
             }).catch((reason => {

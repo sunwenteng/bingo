@@ -79,12 +79,11 @@ export class WebSocket {
 export class Server {
     private readonly _port: number;
     private readonly _host: string;
-    private _server: ws.Server;
+    private _server: ws.Server = null;
 
     constructor(host: string, port: number) {
         this._port = port;
         this._host = host;
-        this._server = null;
     }
 
     public async stop(): Promise<void> {

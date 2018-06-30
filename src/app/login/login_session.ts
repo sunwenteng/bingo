@@ -7,10 +7,10 @@ import {C2S, S2C} from "../proto/cmd";
 const MAX_PACKET_COUNT = 10000;
 
 export class LoginSession extends UserSession {
-    passportId: number = 0;
-    platformId: number = 0;
-    gmAuth: number = 0;
-    clientVersion: string = '';
+    m_passportId: number = 0;
+    m_platformId: number = 0;
+    m_gmAuth: number = 0;
+    m_clientVersion: string = '';
 
     constructor() {
         super();
@@ -74,7 +74,7 @@ export class LoginSession extends UserSession {
     }
 
     public addSessionToWorker(): void {
-        LoginWorld.getInstance().addSession(this);
+        LoginWorld.instance.addSession(this);
     }
 
     private checkIp(ip: string, pattern: string): boolean {
@@ -108,7 +108,7 @@ export class LoginSession extends UserSession {
             return true;
         }
 
-        let condArr = LoginWorld.getInstance().m_loginStrategyMap[strategyId];
+        let condArr = LoginWorld.instance.m_loginStrategyMap[strategyId];
         if (!condArr) {
             return false;
         }
@@ -119,7 +119,7 @@ export class LoginSession extends UserSession {
             switch (condition.type) {
                 case LoginDB.LoginStrategyType.PLATFORM:
                     tmp = condition.value.split(',');
-                    if (tmp.indexOf(this.platformId) !== -1) {
+                    if (tmp.indexOf(this.m_platformId) !== -1) {
                         return true;
                     }
                     break;
@@ -133,9 +133,9 @@ export class LoginSession extends UserSession {
                     }
                     break;
                 case LoginDB.LoginStrategyType.AUTH:
-                    return this.gmAuth >= parseInt(condition.value);
+                    return this.m_gmAuth >= parseInt(condition.value);
                 case LoginDB.LoginStrategyType.VERSION:
-                    return this.clientVersion === condition.value;
+                    return this.m_clientVersion === condition.value;
                 case LoginDB.LoginStrategyType.DEVICE:
                     return false;
             }
@@ -159,18 +159,18 @@ export class LoginSession extends UserSession {
                 reg_device_type: packet.deviceType, last_login_time: dbTime,
                 status: 0, last_login_server: 0
             });
-            this.passportId = result['insertId'];
+            this.m_passportId = result['insertId'];
         }
         else {
-            this.passportId = result[0]['passport_id'];
-            this.gmAuth = result[0]['gm_auth'];
+            this.m_passportId = result[0]['passport_id'];
+            this.m_gmAuth = result[0]['gm_auth'];
             lastLoginServer = result[0]['last_login_server'];
         }
 
         if (!lastLoginServer) {
             let maxServerId = 0;
-            for (let key in LoginWorld.getInstance().m_serverMap) {
-                let server = LoginWorld.getInstance().m_serverMap[key];
+            for (let key in LoginWorld.instance.m_serverMap) {
+                let server = LoginWorld.instance.m_serverMap[key];
                 if (!server.can_login || !server.alive) {
                     continue;
                 }
@@ -187,21 +187,21 @@ export class LoginSession extends UserSession {
                 lastLoginServer = maxServerId;
                 Log.sInfo('new passport, allocate server[' + lastLoginServer + ']');
                 let sql = 'update passport_info set ? where ?';
-                await LoginDB.conn.execute(sql, [{last_login_server: lastLoginServer}, {passport_id: this.passportId}]);
+                await LoginDB.conn.execute(sql, [{last_login_server: lastLoginServer}, {passport_id: this.m_passportId}]);
             }
         } else {
             Log.sInfo('old passport, allocate server[' + lastLoginServer + ']');
         }
 
         pck.serverId = lastLoginServer;
-        pck.gmAuth = this.gmAuth;
+        pck.gmAuth = this.m_gmAuth;
         this.sendProtocol(pck);
     }
 
     public handleGetServerList() {
         let pck = S2C.LOGIN_SC_GET_SERVER_LIST.create();
-        for (let obj in LoginWorld.getInstance().m_serverMap) {
-            let server = LoginWorld.getInstance().m_serverMap[obj];
+        for (let obj in LoginWorld.instance.m_serverMap) {
+            let server = LoginWorld.instance.m_serverMap[obj];
             if (this.isServerAccess(server.login_strategy_id)) {
                 pck.servers.push({
                     serverId: server.server_id,
@@ -217,20 +217,20 @@ export class LoginSession extends UserSession {
         let platformId = packet.platformId,
             clientVersion = packet.clientVersion,
             notice = '',
-            reqVersion = LoginWorld.getInstance().getNoticeStr(LoginDB.NoticeUseType.PLATFORM_CLIENT_VERSION, LoginDB.NoticeConditionType.PLATFORM, platformId),
+            reqVersion = LoginWorld.instance.getNoticeStr(LoginDB.NoticeUseType.PLATFORM_CLIENT_VERSION, LoginDB.NoticeConditionType.PLATFORM, platformId),
             updateAddress = '';
 
-        this.platformId = platformId;
-        this.clientVersion = clientVersion;
+        this.m_platformId = platformId;
+        this.m_clientVersion = clientVersion;
 
         let pck = S2C.LOGIN_SC_GET_INFO.create();
         if (reqVersion !== '' && reqVersion !== clientVersion) {
-            updateAddress = LoginWorld.getInstance().getNoticeStr(LoginDB.NoticeUseType.UPDATE_ADDR, LoginDB.NoticeConditionType.PLATFORM, platformId);
+            updateAddress = LoginWorld.instance.getNoticeStr(LoginDB.NoticeUseType.UPDATE_ADDR, LoginDB.NoticeConditionType.PLATFORM, platformId);
             pck.notice = '';
             pck.version = reqVersion;
             pck.updateAddress = updateAddress;
         } else {
-            notice = LoginWorld.getInstance().getNoticeStr(LoginDB.NoticeUseType.LOGIN, LoginDB.NoticeConditionType.PLATFORM, platformId);
+            notice = LoginWorld.instance.getNoticeStr(LoginDB.NoticeUseType.LOGIN, LoginDB.NoticeConditionType.PLATFORM, platformId);
             pck.notice = notice;
             pck.version = reqVersion;
             pck.updateAddress = '';
@@ -240,10 +240,10 @@ export class LoginSession extends UserSession {
     }
 
     public async handleChooseServer(packet: C2S.LOGIN_CS_CHOOSE_SERVER) {
-        let server = LoginWorld.getInstance().m_serverMap[packet.serverId];
+        let server = LoginWorld.instance.m_serverMap[packet.serverId];
         if (server) {
             let sql = 'update passport_info set ? where ?';
-            await LoginDB.conn.execute(sql, [{last_login_server: packet.serverId}, {passport_id: this.passportId}]);
+            await LoginDB.conn.execute(sql, [{last_login_server: packet.serverId}, {passport_id: this.m_passportId}]);
             let pck = S2C.LOGIN_SC_CHOOSE_SERVER.create();
             pck.ip = server.ip;
             pck.port = server.port;

@@ -6,14 +6,7 @@ import {GameWorld} from "../game_world";
 import {Log} from "../../../lib/util/log";
 
 export class ItemController {
-    private static _instance: ItemController;
-
-    public static getInstance(): ItemController {
-        if (!this._instance) {
-            this._instance = new ItemController();
-        }
-        return this._instance;
-    }
+    public static instance = new ItemController();
 
     @controller()
     echo(role: Role, msg: C2S.CS_TEST_ECHO) {

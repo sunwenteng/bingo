@@ -10,7 +10,7 @@ async function main() {
     Log.init(__dirname + '/' + Config.log.dir, Config.log.level);
 
     await LoginDB.start(Config['mysql']['login_db']);
-    await LoginWorld.getInstance().start();
+    await LoginWorld.instance.start();
 
     let server = new Server(Config['app']['login']['host'], parseInt(Config['app']['login']['port']));
     await server.start(LoginSession);
@@ -21,7 +21,7 @@ async function main() {
 
     process.on("SIGINT", async () => {
         await server.stop();
-        await LoginWorld.getInstance().stop();
+        await LoginWorld.instance.stop();
         process.nextTick(async () => {
             await RedisMgr.getInstance(RedisType.GAME).stop();
             await LoginDB.stop();
@@ -36,7 +36,7 @@ async function main() {
 
         let start = Date.now();
         setTimeout(() => {
-            LoginWorld.getInstance().update().then(() => {
+            LoginWorld.instance.update().then(() => {
                 let cost = Date.now() - start;
                 update(cost > 100 ? 10 : 100);
             }).catch((reason => {

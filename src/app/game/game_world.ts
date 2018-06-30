@@ -32,19 +32,15 @@ enum WorldMsg {
 
 export class GameWorld extends events.EventEmitter {
     public _isUpdating: boolean;
-    private static _instance: GameWorld;
+    public static instance = new GameWorld();
     private _info: ServerInfo;
-    private readonly _sessionList: LinkedList<UserSession>;
-    private readonly _authedSessionMap: AuthedSessionMap; // 玩家上线通过后加入进来
-    private readonly _allControllers: ControllerMap;
-    private readonly _timer: { [mutex: string]: time.RaceTimer };
+    private readonly _sessionList: LinkedList<UserSession> = new LinkedList<UserSession>();
+    private readonly _authedSessionMap: AuthedSessionMap = {}; // 玩家上线通过后加入进来
+    private readonly _allControllers: ControllerMap = {};
+    private readonly _timer: { [mutex: string]: time.RaceTimer } = {};
 
     constructor() {
         super();
-        this._sessionList = new LinkedList<UserSession>();
-        this._authedSessionMap = {};
-        this._allControllers = {};
-        this._timer = {};
 
         this.on('message', (channel: string, message: string) => {
             Log.sInfo("sub channel " + channel + ": " + message);
@@ -73,13 +69,6 @@ export class GameWorld extends events.EventEmitter {
                 }
             }
         });
-    }
-
-    public static getInstance(): GameWorld {
-        if (!this._instance) {
-            this._instance = new GameWorld();
-        }
-        return this._instance;
     }
 
     public async update() {
@@ -131,8 +120,8 @@ export class GameWorld extends events.EventEmitter {
                         let methodName = arr.slice(2, arr.length).join('');
                         let module = require('./controllers/' + arr[1].toLowerCase() + '_controller');
                         if (!module[GameUtil.capitalize(arr[1]) + 'Controller']
-                            || !module[GameUtil.capitalize(arr[1]) + 'Controller']['getInstance']
-                            || !module[GameUtil.capitalize(arr[1]) + 'Controller'].getInstance()[methodName]) {
+                            || !module[GameUtil.capitalize(arr[1]) + 'Controller']['instance']
+                            || !module[GameUtil.capitalize(arr[1]) + 'Controller']['instance'][methodName]) {
                             Log.sWarn('cmd=' + cmd + ', controller=' + arr[1].toLowerCase() + '_controller, method=' + methodName + ' not exists');
                         }
                         else {
@@ -215,7 +204,7 @@ export class GameWorld extends events.EventEmitter {
 
             if (this._isUpdating) {
                 setTimeout(async () => {
-                    GameWorld.getInstance().stop().then(resolve);
+                    GameWorld.instance.stop().then(resolve);
                 }, 100)
             }
             else {

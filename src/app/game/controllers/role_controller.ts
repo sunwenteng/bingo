@@ -11,29 +11,22 @@ import * as GameUtil from '../../../lib/util/game_util';
 let gameRedis = RedisMgr.getInstance(RedisType.GAME);
 
 export class RoleController {
-    private static _instance: RoleController;
-
-    public static getInstance(): RoleController {
-        if (!this._instance) {
-            this._instance = new RoleController();
-        }
-        return this._instance;
-    }
+    public static instance = new RoleController();
 
     async online(session: GameSession, msg: C2S.CS_ROLE_ONLINE) {
         let roleId = parseInt(msg.passport);
         let role = new Role(roleId);
         await gameRedis.lock(role.getRedisKey(), async () => {
-            let isOnline = await GameWorld.getInstance().isRoleOnline(roleId);
+            let isOnline = await GameWorld.instance.isRoleOnline(roleId);
             if (isOnline) {
-                await GameWorld.getInstance().kickRole(roleId);
+                await GameWorld.instance.kickRole(roleId);
             }
             let exist = await role.load(false);
             if (!exist) {
                 await role.create();
                 await role.save(true);
             }
-            session.roleId = roleId;
+            session.m_roleId = roleId;
             role._session = session;
             await session.online();
 

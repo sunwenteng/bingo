@@ -6,14 +6,7 @@ import {GameWorld} from "../game_world";
 import {Log} from "../../../lib/util/log";
 
 export class ResourceController {
-    private static _instance: ResourceController;
-
-    public static getInstance(): ResourceController {
-        if (!this._instance) {
-            this._instance = new ResourceController();
-        }
-        return this._instance;
-    }
+    public static instance = new ResourceController();
 
     @controller()
     echo(role: Role, msg: C2S.CS_TEST_ECHO) {

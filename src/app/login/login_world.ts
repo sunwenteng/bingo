@@ -6,27 +6,15 @@ import * as LoginDB from "../../lib/mysql/login_db";
 
 export class LoginWorld {
     public _isUpdating: boolean;
-    private static _instance: LoginWorld;
-    private readonly _sessionList: LinkedList<UserSession>;
-    private readonly _timer: { [mutex: string]: time.RaceTimer };
+    public static instance: LoginWorld = new LoginWorld();
+    private readonly _sessionList: LinkedList<UserSession> = new LinkedList<UserSession>();
+    private readonly _timer: { [mutex: string]: time.RaceTimer } = {};
 
-    m_serverMap: { [server_id: number]: LoginDB.Server };
-    m_loginStrategyMap: { [loginStrategyId: number]: LoginDB.LoginStrategyCondition[] };
-    m_noticeInfoArr: LoginDB.LoginNoticeInfo[];
+    m_serverMap: { [server_id: number]: LoginDB.Server } = {};
+    m_loginStrategyMap: { [loginStrategyId: number]: LoginDB.LoginStrategyCondition[] } = {};
+    m_noticeInfoArr: LoginDB.LoginNoticeInfo[] = [];
 
     constructor() {
-        this._sessionList = new LinkedList<UserSession>();
-        this._timer = {};
-        this.m_serverMap = {};
-        this.m_loginStrategyMap = {};
-        this.m_noticeInfoArr = [];
-    }
-
-    public static getInstance(): LoginWorld {
-        if (!this._instance) {
-            this._instance = new LoginWorld();
-        }
-        return this._instance;
     }
 
     public async update() {
@@ -102,7 +90,7 @@ export class LoginWorld {
         return new Promise<void>((async (resolve) => {
             if (this._isUpdating) {
                 setTimeout(async () => {
-                    LoginWorld.getInstance().stop().then(resolve);
+                    LoginWorld.instance.stop().then(resolve);
                 }, 100)
             }
             else {

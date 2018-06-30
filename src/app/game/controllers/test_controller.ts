@@ -3,14 +3,7 @@ import {Role} from "../modles/role";
 import {controller} from "../../../lib/util/descriptor";
 
 export class TestController {
-    private static _instance: TestController;
-
-    public static getInstance(): TestController {
-        if (!this._instance) {
-            this._instance = new TestController();
-        }
-        return this._instance;
-    }
+    public static instance = new TestController();
 
     @controller()
     echo(role: Role, msg: C2S.CS_TEST_ECHO) {
