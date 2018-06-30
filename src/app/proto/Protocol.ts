@@ -10,5 +10,9 @@ module Game{
 		 public static SC_ROLE_PRO_UPDATE_ID = "SC_ROLE_PRO_UPDATE";
 		 public static SC_INIT_HERO_ID = "SC_INIT_HERO";
 		 public static SC_UPDATE_HERO_ID = "SC_UPDATE_HERO";
+		 public static SC_INIT_EQUIP_ID = "SC_INIT_EQUIP";
+		 public static SC_UPDATE_EQUIP_ID = "SC_UPDATE_EQUIP";
+		 public static SC_INIT_ITEM_ID = "SC_INIT_ITEM";
+		 public static SC_UPDATE_ITEM_ID = "SC_UPDATE_ITEM";
 	}
 }

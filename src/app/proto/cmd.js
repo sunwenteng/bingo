@@ -189,7 +189,11 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
               "SC_ROLE_HEART_BEAT",
               "SC_ROLE_PRO_UPDATE",
               "SC_INIT_HERO",
-              "SC_UPDATE_HERO"
+              "SC_UPDATE_HERO",
+              "SC_INIT_EQUIP",
+              "SC_UPDATE_EQUIP",
+              "SC_INIT_ITEM",
+              "SC_UPDATE_ITEM"
             ]
           }
         },
@@ -233,6 +237,22 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
           SC_UPDATE_HERO: {
             type: "SC_UPDATE_HERO",
             id: 1102
+          },
+          SC_INIT_EQUIP: {
+            type: "SC_INIT_EQUIP",
+            id: 1201
+          },
+          SC_UPDATE_EQUIP: {
+            type: "SC_UPDATE_EQUIP",
+            id: 1202
+          },
+          SC_INIT_ITEM: {
+            type: "SC_INIT_ITEM",
+            id: 1301
+          },
+          SC_UPDATE_ITEM: {
+            type: "SC_UPDATE_ITEM",
+            id: 1302
           }
         }
       },
@@ -270,6 +290,78 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
           heroes: {
             keyType: "int32",
             type: "Hero",
+            id: 1
+          }
+        }
+      },
+      Equip: {
+        fields: {
+          uid: {
+            type: "uint32",
+            id: 1
+          },
+          id: {
+            type: "uint32",
+            id: 2
+          },
+          lvl: {
+            type: "uint32",
+            id: 3
+          },
+          rank: {
+            type: "uint32",
+            id: 4
+          },
+          star: {
+            type: "uint32",
+            id: 5
+          }
+        }
+      },
+      SC_INIT_EQUIP: {
+        fields: {
+          equips: {
+            keyType: "uint32",
+            type: "Equip",
+            id: 1
+          }
+        }
+      },
+      SC_UPDATE_EQUIP: {
+        fields: {
+          equips: {
+            keyType: "int32",
+            type: "Equip",
+            id: 1
+          }
+        }
+      },
+      Item: {
+        fields: {
+          id: {
+            type: "uint32",
+            id: 1
+          },
+          cnt: {
+            type: "uint32",
+            id: 2
+          }
+        }
+      },
+      SC_INIT_ITEM: {
+        fields: {
+          items: {
+            keyType: "uint32",
+            type: "Item",
+            id: 1
+          }
+        }
+      },
+      SC_UPDATE_ITEM: {
+        fields: {
+          items: {
+            keyType: "int32",
+            type: "Item",
             id: 1
           }
         }

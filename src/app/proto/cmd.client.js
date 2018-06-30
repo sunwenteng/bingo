@@ -2297,6 +2297,10 @@
              * @property {S2C.ISC_ROLE_PRO_UPDATE|null} [SC_ROLE_PRO_UPDATE] Message SC_ROLE_PRO_UPDATE
              * @property {S2C.ISC_INIT_HERO|null} [SC_INIT_HERO] Message SC_INIT_HERO
              * @property {S2C.ISC_UPDATE_HERO|null} [SC_UPDATE_HERO] Message SC_UPDATE_HERO
+             * @property {S2C.ISC_INIT_EQUIP|null} [SC_INIT_EQUIP] Message SC_INIT_EQUIP
+             * @property {S2C.ISC_UPDATE_EQUIP|null} [SC_UPDATE_EQUIP] Message SC_UPDATE_EQUIP
+             * @property {S2C.ISC_INIT_ITEM|null} [SC_INIT_ITEM] Message SC_INIT_ITEM
+             * @property {S2C.ISC_UPDATE_ITEM|null} [SC_UPDATE_ITEM] Message SC_UPDATE_ITEM
              */
     
             /**
@@ -2394,17 +2398,49 @@
              */
             Message.prototype.SC_UPDATE_HERO = null;
     
+            /**
+             * Message SC_INIT_EQUIP.
+             * @member {S2C.ISC_INIT_EQUIP|null|undefined} SC_INIT_EQUIP
+             * @memberof S2C.Message
+             * @instance
+             */
+            Message.prototype.SC_INIT_EQUIP = null;
+    
+            /**
+             * Message SC_UPDATE_EQUIP.
+             * @member {S2C.ISC_UPDATE_EQUIP|null|undefined} SC_UPDATE_EQUIP
+             * @memberof S2C.Message
+             * @instance
+             */
+            Message.prototype.SC_UPDATE_EQUIP = null;
+    
+            /**
+             * Message SC_INIT_ITEM.
+             * @member {S2C.ISC_INIT_ITEM|null|undefined} SC_INIT_ITEM
+             * @memberof S2C.Message
+             * @instance
+             */
+            Message.prototype.SC_INIT_ITEM = null;
+    
+            /**
+             * Message SC_UPDATE_ITEM.
+             * @member {S2C.ISC_UPDATE_ITEM|null|undefined} SC_UPDATE_ITEM
+             * @memberof S2C.Message
+             * @instance
+             */
+            Message.prototype.SC_UPDATE_ITEM = null;
+    
             // OneOf field names bound to virtual getters and setters
             var $oneOfFields;
     
             /**
              * Message kind.
-             * @member {"SC_TEST_ECHO"|"LOGIN_SC_LOGIN"|"LOGIN_SC_CHOOSE_SERVER"|"LOGIN_SC_GET_SERVER_LIST"|"LOGIN_SC_GET_INFO"|"SC_ROLE_ONLINE"|"SC_ROLE_HEART_BEAT"|"SC_ROLE_PRO_UPDATE"|"SC_INIT_HERO"|"SC_UPDATE_HERO"|undefined} kind
+             * @member {"SC_TEST_ECHO"|"LOGIN_SC_LOGIN"|"LOGIN_SC_CHOOSE_SERVER"|"LOGIN_SC_GET_SERVER_LIST"|"LOGIN_SC_GET_INFO"|"SC_ROLE_ONLINE"|"SC_ROLE_HEART_BEAT"|"SC_ROLE_PRO_UPDATE"|"SC_INIT_HERO"|"SC_UPDATE_HERO"|"SC_INIT_EQUIP"|"SC_UPDATE_EQUIP"|"SC_INIT_ITEM"|"SC_UPDATE_ITEM"|undefined} kind
              * @memberof S2C.Message
              * @instance
              */
             Object.defineProperty(Message.prototype, "kind", {
-                get: $util.oneOfGetter($oneOfFields = ["SC_TEST_ECHO", "LOGIN_SC_LOGIN", "LOGIN_SC_CHOOSE_SERVER", "LOGIN_SC_GET_SERVER_LIST", "LOGIN_SC_GET_INFO", "SC_ROLE_ONLINE", "SC_ROLE_HEART_BEAT", "SC_ROLE_PRO_UPDATE", "SC_INIT_HERO", "SC_UPDATE_HERO"]),
+                get: $util.oneOfGetter($oneOfFields = ["SC_TEST_ECHO", "LOGIN_SC_LOGIN", "LOGIN_SC_CHOOSE_SERVER", "LOGIN_SC_GET_SERVER_LIST", "LOGIN_SC_GET_INFO", "SC_ROLE_ONLINE", "SC_ROLE_HEART_BEAT", "SC_ROLE_PRO_UPDATE", "SC_INIT_HERO", "SC_UPDATE_HERO", "SC_INIT_EQUIP", "SC_UPDATE_EQUIP", "SC_INIT_ITEM", "SC_UPDATE_ITEM"]),
                 set: $util.oneOfSetter($oneOfFields)
             });
     
@@ -2444,6 +2480,14 @@
                     $root.S2C.SC_INIT_HERO.encode(message.SC_INIT_HERO, writer.uint32(/* id 1101, wireType 2 =*/8810).fork()).ldelim();
                 if (message.SC_UPDATE_HERO != null && message.hasOwnProperty("SC_UPDATE_HERO"))
                     $root.S2C.SC_UPDATE_HERO.encode(message.SC_UPDATE_HERO, writer.uint32(/* id 1102, wireType 2 =*/8818).fork()).ldelim();
+                if (message.SC_INIT_EQUIP != null && message.hasOwnProperty("SC_INIT_EQUIP"))
+                    $root.S2C.SC_INIT_EQUIP.encode(message.SC_INIT_EQUIP, writer.uint32(/* id 1201, wireType 2 =*/9610).fork()).ldelim();
+                if (message.SC_UPDATE_EQUIP != null && message.hasOwnProperty("SC_UPDATE_EQUIP"))
+                    $root.S2C.SC_UPDATE_EQUIP.encode(message.SC_UPDATE_EQUIP, writer.uint32(/* id 1202, wireType 2 =*/9618).fork()).ldelim();
+                if (message.SC_INIT_ITEM != null && message.hasOwnProperty("SC_INIT_ITEM"))
+                    $root.S2C.SC_INIT_ITEM.encode(message.SC_INIT_ITEM, writer.uint32(/* id 1301, wireType 2 =*/10410).fork()).ldelim();
+                if (message.SC_UPDATE_ITEM != null && message.hasOwnProperty("SC_UPDATE_ITEM"))
+                    $root.S2C.SC_UPDATE_ITEM.encode(message.SC_UPDATE_ITEM, writer.uint32(/* id 1302, wireType 2 =*/10418).fork()).ldelim();
                 if (message.LOGIN_SC_LOGIN != null && message.hasOwnProperty("LOGIN_SC_LOGIN"))
                     $root.S2C.LOGIN_SC_LOGIN.encode(message.LOGIN_SC_LOGIN, writer.uint32(/* id 9001, wireType 2 =*/72010).fork()).ldelim();
                 if (message.LOGIN_SC_CHOOSE_SERVER != null && message.hasOwnProperty("LOGIN_SC_CHOOSE_SERVER"))
@@ -2515,6 +2559,18 @@
                         break;
                     case 1102:
                         message.SC_UPDATE_HERO = $root.S2C.SC_UPDATE_HERO.decode(reader, reader.uint32());
+                        break;
+                    case 1201:
+                        message.SC_INIT_EQUIP = $root.S2C.SC_INIT_EQUIP.decode(reader, reader.uint32());
+                        break;
+                    case 1202:
+                        message.SC_UPDATE_EQUIP = $root.S2C.SC_UPDATE_EQUIP.decode(reader, reader.uint32());
+                        break;
+                    case 1301:
+                        message.SC_INIT_ITEM = $root.S2C.SC_INIT_ITEM.decode(reader, reader.uint32());
+                        break;
+                    case 1302:
+                        message.SC_UPDATE_ITEM = $root.S2C.SC_UPDATE_ITEM.decode(reader, reader.uint32());
                         break;
                     default:
                         reader.skipType(tag & 7);
@@ -2650,6 +2706,46 @@
                             return "SC_UPDATE_HERO." + error;
                     }
                 }
+                if (message.SC_INIT_EQUIP != null && message.hasOwnProperty("SC_INIT_EQUIP")) {
+                    if (properties.kind === 1)
+                        return "kind: multiple values";
+                    properties.kind = 1;
+                    {
+                        var error = $root.S2C.SC_INIT_EQUIP.verify(message.SC_INIT_EQUIP);
+                        if (error)
+                            return "SC_INIT_EQUIP." + error;
+                    }
+                }
+                if (message.SC_UPDATE_EQUIP != null && message.hasOwnProperty("SC_UPDATE_EQUIP")) {
+                    if (properties.kind === 1)
+                        return "kind: multiple values";
+                    properties.kind = 1;
+                    {
+                        var error = $root.S2C.SC_UPDATE_EQUIP.verify(message.SC_UPDATE_EQUIP);
+                        if (error)
+                            return "SC_UPDATE_EQUIP." + error;
+                    }
+                }
+                if (message.SC_INIT_ITEM != null && message.hasOwnProperty("SC_INIT_ITEM")) {
+                    if (properties.kind === 1)
+                        return "kind: multiple values";
+                    properties.kind = 1;
+                    {
+                        var error = $root.S2C.SC_INIT_ITEM.verify(message.SC_INIT_ITEM);
+                        if (error)
+                            return "SC_INIT_ITEM." + error;
+                    }
+                }
+                if (message.SC_UPDATE_ITEM != null && message.hasOwnProperty("SC_UPDATE_ITEM")) {
+                    if (properties.kind === 1)
+                        return "kind: multiple values";
+                    properties.kind = 1;
+                    {
+                        var error = $root.S2C.SC_UPDATE_ITEM.verify(message.SC_UPDATE_ITEM);
+                        if (error)
+                            return "SC_UPDATE_ITEM." + error;
+                    }
+                }
                 return null;
             };
     
@@ -2715,6 +2811,26 @@
                         throw TypeError(".S2C.Message.SC_UPDATE_HERO: object expected");
                     message.SC_UPDATE_HERO = $root.S2C.SC_UPDATE_HERO.fromObject(object.SC_UPDATE_HERO);
                 }
+                if (object.SC_INIT_EQUIP != null) {
+                    if (typeof object.SC_INIT_EQUIP !== "object")
+                        throw TypeError(".S2C.Message.SC_INIT_EQUIP: object expected");
+                    message.SC_INIT_EQUIP = $root.S2C.SC_INIT_EQUIP.fromObject(object.SC_INIT_EQUIP);
+                }
+                if (object.SC_UPDATE_EQUIP != null) {
+                    if (typeof object.SC_UPDATE_EQUIP !== "object")
+                        throw TypeError(".S2C.Message.SC_UPDATE_EQUIP: object expected");
+                    message.SC_UPDATE_EQUIP = $root.S2C.SC_UPDATE_EQUIP.fromObject(object.SC_UPDATE_EQUIP);
+                }
+                if (object.SC_INIT_ITEM != null) {
+                    if (typeof object.SC_INIT_ITEM !== "object")
+                        throw TypeError(".S2C.Message.SC_INIT_ITEM: object expected");
+                    message.SC_INIT_ITEM = $root.S2C.SC_INIT_ITEM.fromObject(object.SC_INIT_ITEM);
+                }
+                if (object.SC_UPDATE_ITEM != null) {
+                    if (typeof object.SC_UPDATE_ITEM !== "object")
+                        throw TypeError(".S2C.Message.SC_UPDATE_ITEM: object expected");
+                    message.SC_UPDATE_ITEM = $root.S2C.SC_UPDATE_ITEM.fromObject(object.SC_UPDATE_ITEM);
+                }
                 return message;
             };
     
@@ -2760,6 +2876,26 @@
                     object.SC_UPDATE_HERO = $root.S2C.SC_UPDATE_HERO.toObject(message.SC_UPDATE_HERO, options);
                     if (options.oneofs)
                         object.kind = "SC_UPDATE_HERO";
+                }
+                if (message.SC_INIT_EQUIP != null && message.hasOwnProperty("SC_INIT_EQUIP")) {
+                    object.SC_INIT_EQUIP = $root.S2C.SC_INIT_EQUIP.toObject(message.SC_INIT_EQUIP, options);
+                    if (options.oneofs)
+                        object.kind = "SC_INIT_EQUIP";
+                }
+                if (message.SC_UPDATE_EQUIP != null && message.hasOwnProperty("SC_UPDATE_EQUIP")) {
+                    object.SC_UPDATE_EQUIP = $root.S2C.SC_UPDATE_EQUIP.toObject(message.SC_UPDATE_EQUIP, options);
+                    if (options.oneofs)
+                        object.kind = "SC_UPDATE_EQUIP";
+                }
+                if (message.SC_INIT_ITEM != null && message.hasOwnProperty("SC_INIT_ITEM")) {
+                    object.SC_INIT_ITEM = $root.S2C.SC_INIT_ITEM.toObject(message.SC_INIT_ITEM, options);
+                    if (options.oneofs)
+                        object.kind = "SC_INIT_ITEM";
+                }
+                if (message.SC_UPDATE_ITEM != null && message.hasOwnProperty("SC_UPDATE_ITEM")) {
+                    object.SC_UPDATE_ITEM = $root.S2C.SC_UPDATE_ITEM.toObject(message.SC_UPDATE_ITEM, options);
+                    if (options.oneofs)
+                        object.kind = "SC_UPDATE_ITEM";
                 }
                 if (message.LOGIN_SC_LOGIN != null && message.hasOwnProperty("LOGIN_SC_LOGIN")) {
                     object.LOGIN_SC_LOGIN = $root.S2C.LOGIN_SC_LOGIN.toObject(message.LOGIN_SC_LOGIN, options);
@@ -3488,6 +3624,1368 @@
             };
     
             return SC_UPDATE_HERO;
+        })();
+    
+        S2C.Equip = (function() {
+    
+            /**
+             * Properties of an Equip.
+             * @memberof S2C
+             * @interface IEquip
+             * @property {number|null} [uid] Equip uid
+             * @property {number|null} [id] Equip id
+             * @property {number|null} [lvl] Equip lvl
+             * @property {number|null} [rank] Equip rank
+             * @property {number|null} [star] Equip star
+             */
+    
+            /**
+             * Constructs a new Equip.
+             * @memberof S2C
+             * @classdesc Represents an Equip.
+             * @implements IEquip
+             * @constructor
+             * @param {S2C.IEquip=} [properties] Properties to set
+             */
+            function Equip(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+    
+            /**
+             * Equip uid.
+             * @member {number} uid
+             * @memberof S2C.Equip
+             * @instance
+             */
+            Equip.prototype.uid = 0;
+    
+            /**
+             * Equip id.
+             * @member {number} id
+             * @memberof S2C.Equip
+             * @instance
+             */
+            Equip.prototype.id = 0;
+    
+            /**
+             * Equip lvl.
+             * @member {number} lvl
+             * @memberof S2C.Equip
+             * @instance
+             */
+            Equip.prototype.lvl = 0;
+    
+            /**
+             * Equip rank.
+             * @member {number} rank
+             * @memberof S2C.Equip
+             * @instance
+             */
+            Equip.prototype.rank = 0;
+    
+            /**
+             * Equip star.
+             * @member {number} star
+             * @memberof S2C.Equip
+             * @instance
+             */
+            Equip.prototype.star = 0;
+    
+            /**
+             * Creates a new Equip instance using the specified properties.
+             * @function create
+             * @memberof S2C.Equip
+             * @static
+             * @param {S2C.IEquip=} [properties] Properties to set
+             * @returns {S2C.Equip} Equip instance
+             */
+            Equip.create = function create(properties) {
+                return new Equip(properties);
+            };
+    
+            /**
+             * Encodes the specified Equip message. Does not implicitly {@link S2C.Equip.verify|verify} messages.
+             * @function encode
+             * @memberof S2C.Equip
+             * @static
+             * @param {S2C.IEquip} message Equip message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            Equip.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.uid != null && message.hasOwnProperty("uid"))
+                    writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.uid);
+                if (message.id != null && message.hasOwnProperty("id"))
+                    writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.id);
+                if (message.lvl != null && message.hasOwnProperty("lvl"))
+                    writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.lvl);
+                if (message.rank != null && message.hasOwnProperty("rank"))
+                    writer.uint32(/* id 4, wireType 0 =*/32).uint32(message.rank);
+                if (message.star != null && message.hasOwnProperty("star"))
+                    writer.uint32(/* id 5, wireType 0 =*/40).uint32(message.star);
+                return writer;
+            };
+    
+            /**
+             * Encodes the specified Equip message, length delimited. Does not implicitly {@link S2C.Equip.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof S2C.Equip
+             * @static
+             * @param {S2C.IEquip} message Equip message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            Equip.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+    
+            /**
+             * Decodes an Equip message from the specified reader or buffer.
+             * @function decode
+             * @memberof S2C.Equip
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {S2C.Equip} Equip
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            Equip.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.S2C.Equip();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        message.uid = reader.uint32();
+                        break;
+                    case 2:
+                        message.id = reader.uint32();
+                        break;
+                    case 3:
+                        message.lvl = reader.uint32();
+                        break;
+                    case 4:
+                        message.rank = reader.uint32();
+                        break;
+                    case 5:
+                        message.star = reader.uint32();
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Decodes an Equip message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof S2C.Equip
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {S2C.Equip} Equip
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            Equip.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+    
+            /**
+             * Verifies an Equip message.
+             * @function verify
+             * @memberof S2C.Equip
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            Equip.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.uid != null && message.hasOwnProperty("uid"))
+                    if (!$util.isInteger(message.uid))
+                        return "uid: integer expected";
+                if (message.id != null && message.hasOwnProperty("id"))
+                    if (!$util.isInteger(message.id))
+                        return "id: integer expected";
+                if (message.lvl != null && message.hasOwnProperty("lvl"))
+                    if (!$util.isInteger(message.lvl))
+                        return "lvl: integer expected";
+                if (message.rank != null && message.hasOwnProperty("rank"))
+                    if (!$util.isInteger(message.rank))
+                        return "rank: integer expected";
+                if (message.star != null && message.hasOwnProperty("star"))
+                    if (!$util.isInteger(message.star))
+                        return "star: integer expected";
+                return null;
+            };
+    
+            /**
+             * Creates an Equip message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof S2C.Equip
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {S2C.Equip} Equip
+             */
+            Equip.fromObject = function fromObject(object) {
+                if (object instanceof $root.S2C.Equip)
+                    return object;
+                var message = new $root.S2C.Equip();
+                if (object.uid != null)
+                    message.uid = object.uid >>> 0;
+                if (object.id != null)
+                    message.id = object.id >>> 0;
+                if (object.lvl != null)
+                    message.lvl = object.lvl >>> 0;
+                if (object.rank != null)
+                    message.rank = object.rank >>> 0;
+                if (object.star != null)
+                    message.star = object.star >>> 0;
+                return message;
+            };
+    
+            /**
+             * Creates a plain object from an Equip message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof S2C.Equip
+             * @static
+             * @param {S2C.Equip} message Equip
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            Equip.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.defaults) {
+                    object.uid = 0;
+                    object.id = 0;
+                    object.lvl = 0;
+                    object.rank = 0;
+                    object.star = 0;
+                }
+                if (message.uid != null && message.hasOwnProperty("uid"))
+                    object.uid = message.uid;
+                if (message.id != null && message.hasOwnProperty("id"))
+                    object.id = message.id;
+                if (message.lvl != null && message.hasOwnProperty("lvl"))
+                    object.lvl = message.lvl;
+                if (message.rank != null && message.hasOwnProperty("rank"))
+                    object.rank = message.rank;
+                if (message.star != null && message.hasOwnProperty("star"))
+                    object.star = message.star;
+                return object;
+            };
+    
+            /**
+             * Converts this Equip to JSON.
+             * @function toJSON
+             * @memberof S2C.Equip
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            Equip.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+    
+            return Equip;
+        })();
+    
+        S2C.SC_INIT_EQUIP = (function() {
+    
+            /**
+             * Properties of a SC_INIT_EQUIP.
+             * @memberof S2C
+             * @interface ISC_INIT_EQUIP
+             * @property {Object.<string,S2C.IEquip>|null} [equips] SC_INIT_EQUIP equips
+             */
+    
+            /**
+             * Constructs a new SC_INIT_EQUIP.
+             * @memberof S2C
+             * @classdesc Represents a SC_INIT_EQUIP.
+             * @implements ISC_INIT_EQUIP
+             * @constructor
+             * @param {S2C.ISC_INIT_EQUIP=} [properties] Properties to set
+             */
+            function SC_INIT_EQUIP(properties) {
+                this.equips = {};
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+    
+            /**
+             * SC_INIT_EQUIP equips.
+             * @member {Object.<string,S2C.IEquip>} equips
+             * @memberof S2C.SC_INIT_EQUIP
+             * @instance
+             */
+            SC_INIT_EQUIP.prototype.equips = $util.emptyObject;
+    
+            /**
+             * Creates a new SC_INIT_EQUIP instance using the specified properties.
+             * @function create
+             * @memberof S2C.SC_INIT_EQUIP
+             * @static
+             * @param {S2C.ISC_INIT_EQUIP=} [properties] Properties to set
+             * @returns {S2C.SC_INIT_EQUIP} SC_INIT_EQUIP instance
+             */
+            SC_INIT_EQUIP.create = function create(properties) {
+                return new SC_INIT_EQUIP(properties);
+            };
+    
+            /**
+             * Encodes the specified SC_INIT_EQUIP message. Does not implicitly {@link S2C.SC_INIT_EQUIP.verify|verify} messages.
+             * @function encode
+             * @memberof S2C.SC_INIT_EQUIP
+             * @static
+             * @param {S2C.ISC_INIT_EQUIP} message SC_INIT_EQUIP message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            SC_INIT_EQUIP.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.equips != null && message.hasOwnProperty("equips"))
+                    for (var keys = Object.keys(message.equips), i = 0; i < keys.length; ++i) {
+                        writer.uint32(/* id 1, wireType 2 =*/10).fork().uint32(/* id 1, wireType 0 =*/8).uint32(keys[i]);
+                        $root.S2C.Equip.encode(message.equips[keys[i]], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim().ldelim();
+                    }
+                return writer;
+            };
+    
+            /**
+             * Encodes the specified SC_INIT_EQUIP message, length delimited. Does not implicitly {@link S2C.SC_INIT_EQUIP.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof S2C.SC_INIT_EQUIP
+             * @static
+             * @param {S2C.ISC_INIT_EQUIP} message SC_INIT_EQUIP message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            SC_INIT_EQUIP.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+    
+            /**
+             * Decodes a SC_INIT_EQUIP message from the specified reader or buffer.
+             * @function decode
+             * @memberof S2C.SC_INIT_EQUIP
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {S2C.SC_INIT_EQUIP} SC_INIT_EQUIP
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            SC_INIT_EQUIP.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.S2C.SC_INIT_EQUIP(), key;
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        reader.skip().pos++;
+                        if (message.equips === $util.emptyObject)
+                            message.equips = {};
+                        key = reader.uint32();
+                        reader.pos++;
+                        message.equips[key] = $root.S2C.Equip.decode(reader, reader.uint32());
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Decodes a SC_INIT_EQUIP message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof S2C.SC_INIT_EQUIP
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {S2C.SC_INIT_EQUIP} SC_INIT_EQUIP
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            SC_INIT_EQUIP.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+    
+            /**
+             * Verifies a SC_INIT_EQUIP message.
+             * @function verify
+             * @memberof S2C.SC_INIT_EQUIP
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            SC_INIT_EQUIP.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.equips != null && message.hasOwnProperty("equips")) {
+                    if (!$util.isObject(message.equips))
+                        return "equips: object expected";
+                    var key = Object.keys(message.equips);
+                    for (var i = 0; i < key.length; ++i) {
+                        if (!$util.key32Re.test(key[i]))
+                            return "equips: integer key{k:uint32} expected";
+                        {
+                            var error = $root.S2C.Equip.verify(message.equips[key[i]]);
+                            if (error)
+                                return "equips." + error;
+                        }
+                    }
+                }
+                return null;
+            };
+    
+            /**
+             * Creates a SC_INIT_EQUIP message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof S2C.SC_INIT_EQUIP
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {S2C.SC_INIT_EQUIP} SC_INIT_EQUIP
+             */
+            SC_INIT_EQUIP.fromObject = function fromObject(object) {
+                if (object instanceof $root.S2C.SC_INIT_EQUIP)
+                    return object;
+                var message = new $root.S2C.SC_INIT_EQUIP();
+                if (object.equips) {
+                    if (typeof object.equips !== "object")
+                        throw TypeError(".S2C.SC_INIT_EQUIP.equips: object expected");
+                    message.equips = {};
+                    for (var keys = Object.keys(object.equips), i = 0; i < keys.length; ++i) {
+                        if (typeof object.equips[keys[i]] !== "object")
+                            throw TypeError(".S2C.SC_INIT_EQUIP.equips: object expected");
+                        message.equips[keys[i]] = $root.S2C.Equip.fromObject(object.equips[keys[i]]);
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Creates a plain object from a SC_INIT_EQUIP message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof S2C.SC_INIT_EQUIP
+             * @static
+             * @param {S2C.SC_INIT_EQUIP} message SC_INIT_EQUIP
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            SC_INIT_EQUIP.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.objects || options.defaults)
+                    object.equips = {};
+                var keys2;
+                if (message.equips && (keys2 = Object.keys(message.equips)).length) {
+                    object.equips = {};
+                    for (var j = 0; j < keys2.length; ++j)
+                        object.equips[keys2[j]] = $root.S2C.Equip.toObject(message.equips[keys2[j]], options);
+                }
+                return object;
+            };
+    
+            /**
+             * Converts this SC_INIT_EQUIP to JSON.
+             * @function toJSON
+             * @memberof S2C.SC_INIT_EQUIP
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            SC_INIT_EQUIP.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+    
+            return SC_INIT_EQUIP;
+        })();
+    
+        S2C.SC_UPDATE_EQUIP = (function() {
+    
+            /**
+             * Properties of a SC_UPDATE_EQUIP.
+             * @memberof S2C
+             * @interface ISC_UPDATE_EQUIP
+             * @property {Object.<string,S2C.IEquip>|null} [equips] SC_UPDATE_EQUIP equips
+             */
+    
+            /**
+             * Constructs a new SC_UPDATE_EQUIP.
+             * @memberof S2C
+             * @classdesc Represents a SC_UPDATE_EQUIP.
+             * @implements ISC_UPDATE_EQUIP
+             * @constructor
+             * @param {S2C.ISC_UPDATE_EQUIP=} [properties] Properties to set
+             */
+            function SC_UPDATE_EQUIP(properties) {
+                this.equips = {};
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+    
+            /**
+             * SC_UPDATE_EQUIP equips.
+             * @member {Object.<string,S2C.IEquip>} equips
+             * @memberof S2C.SC_UPDATE_EQUIP
+             * @instance
+             */
+            SC_UPDATE_EQUIP.prototype.equips = $util.emptyObject;
+    
+            /**
+             * Creates a new SC_UPDATE_EQUIP instance using the specified properties.
+             * @function create
+             * @memberof S2C.SC_UPDATE_EQUIP
+             * @static
+             * @param {S2C.ISC_UPDATE_EQUIP=} [properties] Properties to set
+             * @returns {S2C.SC_UPDATE_EQUIP} SC_UPDATE_EQUIP instance
+             */
+            SC_UPDATE_EQUIP.create = function create(properties) {
+                return new SC_UPDATE_EQUIP(properties);
+            };
+    
+            /**
+             * Encodes the specified SC_UPDATE_EQUIP message. Does not implicitly {@link S2C.SC_UPDATE_EQUIP.verify|verify} messages.
+             * @function encode
+             * @memberof S2C.SC_UPDATE_EQUIP
+             * @static
+             * @param {S2C.ISC_UPDATE_EQUIP} message SC_UPDATE_EQUIP message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            SC_UPDATE_EQUIP.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.equips != null && message.hasOwnProperty("equips"))
+                    for (var keys = Object.keys(message.equips), i = 0; i < keys.length; ++i) {
+                        writer.uint32(/* id 1, wireType 2 =*/10).fork().uint32(/* id 1, wireType 0 =*/8).int32(keys[i]);
+                        $root.S2C.Equip.encode(message.equips[keys[i]], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim().ldelim();
+                    }
+                return writer;
+            };
+    
+            /**
+             * Encodes the specified SC_UPDATE_EQUIP message, length delimited. Does not implicitly {@link S2C.SC_UPDATE_EQUIP.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof S2C.SC_UPDATE_EQUIP
+             * @static
+             * @param {S2C.ISC_UPDATE_EQUIP} message SC_UPDATE_EQUIP message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            SC_UPDATE_EQUIP.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+    
+            /**
+             * Decodes a SC_UPDATE_EQUIP message from the specified reader or buffer.
+             * @function decode
+             * @memberof S2C.SC_UPDATE_EQUIP
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {S2C.SC_UPDATE_EQUIP} SC_UPDATE_EQUIP
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            SC_UPDATE_EQUIP.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.S2C.SC_UPDATE_EQUIP(), key;
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        reader.skip().pos++;
+                        if (message.equips === $util.emptyObject)
+                            message.equips = {};
+                        key = reader.int32();
+                        reader.pos++;
+                        message.equips[key] = $root.S2C.Equip.decode(reader, reader.uint32());
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Decodes a SC_UPDATE_EQUIP message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof S2C.SC_UPDATE_EQUIP
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {S2C.SC_UPDATE_EQUIP} SC_UPDATE_EQUIP
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            SC_UPDATE_EQUIP.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+    
+            /**
+             * Verifies a SC_UPDATE_EQUIP message.
+             * @function verify
+             * @memberof S2C.SC_UPDATE_EQUIP
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            SC_UPDATE_EQUIP.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.equips != null && message.hasOwnProperty("equips")) {
+                    if (!$util.isObject(message.equips))
+                        return "equips: object expected";
+                    var key = Object.keys(message.equips);
+                    for (var i = 0; i < key.length; ++i) {
+                        if (!$util.key32Re.test(key[i]))
+                            return "equips: integer key{k:int32} expected";
+                        {
+                            var error = $root.S2C.Equip.verify(message.equips[key[i]]);
+                            if (error)
+                                return "equips." + error;
+                        }
+                    }
+                }
+                return null;
+            };
+    
+            /**
+             * Creates a SC_UPDATE_EQUIP message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof S2C.SC_UPDATE_EQUIP
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {S2C.SC_UPDATE_EQUIP} SC_UPDATE_EQUIP
+             */
+            SC_UPDATE_EQUIP.fromObject = function fromObject(object) {
+                if (object instanceof $root.S2C.SC_UPDATE_EQUIP)
+                    return object;
+                var message = new $root.S2C.SC_UPDATE_EQUIP();
+                if (object.equips) {
+                    if (typeof object.equips !== "object")
+                        throw TypeError(".S2C.SC_UPDATE_EQUIP.equips: object expected");
+                    message.equips = {};
+                    for (var keys = Object.keys(object.equips), i = 0; i < keys.length; ++i) {
+                        if (typeof object.equips[keys[i]] !== "object")
+                            throw TypeError(".S2C.SC_UPDATE_EQUIP.equips: object expected");
+                        message.equips[keys[i]] = $root.S2C.Equip.fromObject(object.equips[keys[i]]);
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Creates a plain object from a SC_UPDATE_EQUIP message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof S2C.SC_UPDATE_EQUIP
+             * @static
+             * @param {S2C.SC_UPDATE_EQUIP} message SC_UPDATE_EQUIP
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            SC_UPDATE_EQUIP.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.objects || options.defaults)
+                    object.equips = {};
+                var keys2;
+                if (message.equips && (keys2 = Object.keys(message.equips)).length) {
+                    object.equips = {};
+                    for (var j = 0; j < keys2.length; ++j)
+                        object.equips[keys2[j]] = $root.S2C.Equip.toObject(message.equips[keys2[j]], options);
+                }
+                return object;
+            };
+    
+            /**
+             * Converts this SC_UPDATE_EQUIP to JSON.
+             * @function toJSON
+             * @memberof S2C.SC_UPDATE_EQUIP
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            SC_UPDATE_EQUIP.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+    
+            return SC_UPDATE_EQUIP;
+        })();
+    
+        S2C.Item = (function() {
+    
+            /**
+             * Properties of an Item.
+             * @memberof S2C
+             * @interface IItem
+             * @property {number|null} [id] Item id
+             * @property {number|null} [cnt] Item cnt
+             */
+    
+            /**
+             * Constructs a new Item.
+             * @memberof S2C
+             * @classdesc Represents an Item.
+             * @implements IItem
+             * @constructor
+             * @param {S2C.IItem=} [properties] Properties to set
+             */
+            function Item(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+    
+            /**
+             * Item id.
+             * @member {number} id
+             * @memberof S2C.Item
+             * @instance
+             */
+            Item.prototype.id = 0;
+    
+            /**
+             * Item cnt.
+             * @member {number} cnt
+             * @memberof S2C.Item
+             * @instance
+             */
+            Item.prototype.cnt = 0;
+    
+            /**
+             * Creates a new Item instance using the specified properties.
+             * @function create
+             * @memberof S2C.Item
+             * @static
+             * @param {S2C.IItem=} [properties] Properties to set
+             * @returns {S2C.Item} Item instance
+             */
+            Item.create = function create(properties) {
+                return new Item(properties);
+            };
+    
+            /**
+             * Encodes the specified Item message. Does not implicitly {@link S2C.Item.verify|verify} messages.
+             * @function encode
+             * @memberof S2C.Item
+             * @static
+             * @param {S2C.IItem} message Item message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            Item.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.id != null && message.hasOwnProperty("id"))
+                    writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.id);
+                if (message.cnt != null && message.hasOwnProperty("cnt"))
+                    writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.cnt);
+                return writer;
+            };
+    
+            /**
+             * Encodes the specified Item message, length delimited. Does not implicitly {@link S2C.Item.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof S2C.Item
+             * @static
+             * @param {S2C.IItem} message Item message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            Item.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+    
+            /**
+             * Decodes an Item message from the specified reader or buffer.
+             * @function decode
+             * @memberof S2C.Item
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {S2C.Item} Item
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            Item.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.S2C.Item();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        message.id = reader.uint32();
+                        break;
+                    case 2:
+                        message.cnt = reader.uint32();
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Decodes an Item message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof S2C.Item
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {S2C.Item} Item
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            Item.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+    
+            /**
+             * Verifies an Item message.
+             * @function verify
+             * @memberof S2C.Item
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            Item.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.id != null && message.hasOwnProperty("id"))
+                    if (!$util.isInteger(message.id))
+                        return "id: integer expected";
+                if (message.cnt != null && message.hasOwnProperty("cnt"))
+                    if (!$util.isInteger(message.cnt))
+                        return "cnt: integer expected";
+                return null;
+            };
+    
+            /**
+             * Creates an Item message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof S2C.Item
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {S2C.Item} Item
+             */
+            Item.fromObject = function fromObject(object) {
+                if (object instanceof $root.S2C.Item)
+                    return object;
+                var message = new $root.S2C.Item();
+                if (object.id != null)
+                    message.id = object.id >>> 0;
+                if (object.cnt != null)
+                    message.cnt = object.cnt >>> 0;
+                return message;
+            };
+    
+            /**
+             * Creates a plain object from an Item message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof S2C.Item
+             * @static
+             * @param {S2C.Item} message Item
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            Item.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.defaults) {
+                    object.id = 0;
+                    object.cnt = 0;
+                }
+                if (message.id != null && message.hasOwnProperty("id"))
+                    object.id = message.id;
+                if (message.cnt != null && message.hasOwnProperty("cnt"))
+                    object.cnt = message.cnt;
+                return object;
+            };
+    
+            /**
+             * Converts this Item to JSON.
+             * @function toJSON
+             * @memberof S2C.Item
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            Item.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+    
+            return Item;
+        })();
+    
+        S2C.SC_INIT_ITEM = (function() {
+    
+            /**
+             * Properties of a SC_INIT_ITEM.
+             * @memberof S2C
+             * @interface ISC_INIT_ITEM
+             * @property {Object.<string,S2C.IItem>|null} [items] SC_INIT_ITEM items
+             */
+    
+            /**
+             * Constructs a new SC_INIT_ITEM.
+             * @memberof S2C
+             * @classdesc Represents a SC_INIT_ITEM.
+             * @implements ISC_INIT_ITEM
+             * @constructor
+             * @param {S2C.ISC_INIT_ITEM=} [properties] Properties to set
+             */
+            function SC_INIT_ITEM(properties) {
+                this.items = {};
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+    
+            /**
+             * SC_INIT_ITEM items.
+             * @member {Object.<string,S2C.IItem>} items
+             * @memberof S2C.SC_INIT_ITEM
+             * @instance
+             */
+            SC_INIT_ITEM.prototype.items = $util.emptyObject;
+    
+            /**
+             * Creates a new SC_INIT_ITEM instance using the specified properties.
+             * @function create
+             * @memberof S2C.SC_INIT_ITEM
+             * @static
+             * @param {S2C.ISC_INIT_ITEM=} [properties] Properties to set
+             * @returns {S2C.SC_INIT_ITEM} SC_INIT_ITEM instance
+             */
+            SC_INIT_ITEM.create = function create(properties) {
+                return new SC_INIT_ITEM(properties);
+            };
+    
+            /**
+             * Encodes the specified SC_INIT_ITEM message. Does not implicitly {@link S2C.SC_INIT_ITEM.verify|verify} messages.
+             * @function encode
+             * @memberof S2C.SC_INIT_ITEM
+             * @static
+             * @param {S2C.ISC_INIT_ITEM} message SC_INIT_ITEM message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            SC_INIT_ITEM.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.items != null && message.hasOwnProperty("items"))
+                    for (var keys = Object.keys(message.items), i = 0; i < keys.length; ++i) {
+                        writer.uint32(/* id 1, wireType 2 =*/10).fork().uint32(/* id 1, wireType 0 =*/8).uint32(keys[i]);
+                        $root.S2C.Item.encode(message.items[keys[i]], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim().ldelim();
+                    }
+                return writer;
+            };
+    
+            /**
+             * Encodes the specified SC_INIT_ITEM message, length delimited. Does not implicitly {@link S2C.SC_INIT_ITEM.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof S2C.SC_INIT_ITEM
+             * @static
+             * @param {S2C.ISC_INIT_ITEM} message SC_INIT_ITEM message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            SC_INIT_ITEM.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+    
+            /**
+             * Decodes a SC_INIT_ITEM message from the specified reader or buffer.
+             * @function decode
+             * @memberof S2C.SC_INIT_ITEM
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {S2C.SC_INIT_ITEM} SC_INIT_ITEM
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            SC_INIT_ITEM.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.S2C.SC_INIT_ITEM(), key;
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        reader.skip().pos++;
+                        if (message.items === $util.emptyObject)
+                            message.items = {};
+                        key = reader.uint32();
+                        reader.pos++;
+                        message.items[key] = $root.S2C.Item.decode(reader, reader.uint32());
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Decodes a SC_INIT_ITEM message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof S2C.SC_INIT_ITEM
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {S2C.SC_INIT_ITEM} SC_INIT_ITEM
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            SC_INIT_ITEM.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+    
+            /**
+             * Verifies a SC_INIT_ITEM message.
+             * @function verify
+             * @memberof S2C.SC_INIT_ITEM
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            SC_INIT_ITEM.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.items != null && message.hasOwnProperty("items")) {
+                    if (!$util.isObject(message.items))
+                        return "items: object expected";
+                    var key = Object.keys(message.items);
+                    for (var i = 0; i < key.length; ++i) {
+                        if (!$util.key32Re.test(key[i]))
+                            return "items: integer key{k:uint32} expected";
+                        {
+                            var error = $root.S2C.Item.verify(message.items[key[i]]);
+                            if (error)
+                                return "items." + error;
+                        }
+                    }
+                }
+                return null;
+            };
+    
+            /**
+             * Creates a SC_INIT_ITEM message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof S2C.SC_INIT_ITEM
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {S2C.SC_INIT_ITEM} SC_INIT_ITEM
+             */
+            SC_INIT_ITEM.fromObject = function fromObject(object) {
+                if (object instanceof $root.S2C.SC_INIT_ITEM)
+                    return object;
+                var message = new $root.S2C.SC_INIT_ITEM();
+                if (object.items) {
+                    if (typeof object.items !== "object")
+                        throw TypeError(".S2C.SC_INIT_ITEM.items: object expected");
+                    message.items = {};
+                    for (var keys = Object.keys(object.items), i = 0; i < keys.length; ++i) {
+                        if (typeof object.items[keys[i]] !== "object")
+                            throw TypeError(".S2C.SC_INIT_ITEM.items: object expected");
+                        message.items[keys[i]] = $root.S2C.Item.fromObject(object.items[keys[i]]);
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Creates a plain object from a SC_INIT_ITEM message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof S2C.SC_INIT_ITEM
+             * @static
+             * @param {S2C.SC_INIT_ITEM} message SC_INIT_ITEM
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            SC_INIT_ITEM.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.objects || options.defaults)
+                    object.items = {};
+                var keys2;
+                if (message.items && (keys2 = Object.keys(message.items)).length) {
+                    object.items = {};
+                    for (var j = 0; j < keys2.length; ++j)
+                        object.items[keys2[j]] = $root.S2C.Item.toObject(message.items[keys2[j]], options);
+                }
+                return object;
+            };
+    
+            /**
+             * Converts this SC_INIT_ITEM to JSON.
+             * @function toJSON
+             * @memberof S2C.SC_INIT_ITEM
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            SC_INIT_ITEM.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+    
+            return SC_INIT_ITEM;
+        })();
+    
+        S2C.SC_UPDATE_ITEM = (function() {
+    
+            /**
+             * Properties of a SC_UPDATE_ITEM.
+             * @memberof S2C
+             * @interface ISC_UPDATE_ITEM
+             * @property {Object.<string,S2C.IItem>|null} [items] SC_UPDATE_ITEM items
+             */
+    
+            /**
+             * Constructs a new SC_UPDATE_ITEM.
+             * @memberof S2C
+             * @classdesc Represents a SC_UPDATE_ITEM.
+             * @implements ISC_UPDATE_ITEM
+             * @constructor
+             * @param {S2C.ISC_UPDATE_ITEM=} [properties] Properties to set
+             */
+            function SC_UPDATE_ITEM(properties) {
+                this.items = {};
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+    
+            /**
+             * SC_UPDATE_ITEM items.
+             * @member {Object.<string,S2C.IItem>} items
+             * @memberof S2C.SC_UPDATE_ITEM
+             * @instance
+             */
+            SC_UPDATE_ITEM.prototype.items = $util.emptyObject;
+    
+            /**
+             * Creates a new SC_UPDATE_ITEM instance using the specified properties.
+             * @function create
+             * @memberof S2C.SC_UPDATE_ITEM
+             * @static
+             * @param {S2C.ISC_UPDATE_ITEM=} [properties] Properties to set
+             * @returns {S2C.SC_UPDATE_ITEM} SC_UPDATE_ITEM instance
+             */
+            SC_UPDATE_ITEM.create = function create(properties) {
+                return new SC_UPDATE_ITEM(properties);
+            };
+    
+            /**
+             * Encodes the specified SC_UPDATE_ITEM message. Does not implicitly {@link S2C.SC_UPDATE_ITEM.verify|verify} messages.
+             * @function encode
+             * @memberof S2C.SC_UPDATE_ITEM
+             * @static
+             * @param {S2C.ISC_UPDATE_ITEM} message SC_UPDATE_ITEM message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            SC_UPDATE_ITEM.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.items != null && message.hasOwnProperty("items"))
+                    for (var keys = Object.keys(message.items), i = 0; i < keys.length; ++i) {
+                        writer.uint32(/* id 1, wireType 2 =*/10).fork().uint32(/* id 1, wireType 0 =*/8).int32(keys[i]);
+                        $root.S2C.Item.encode(message.items[keys[i]], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim().ldelim();
+                    }
+                return writer;
+            };
+    
+            /**
+             * Encodes the specified SC_UPDATE_ITEM message, length delimited. Does not implicitly {@link S2C.SC_UPDATE_ITEM.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof S2C.SC_UPDATE_ITEM
+             * @static
+             * @param {S2C.ISC_UPDATE_ITEM} message SC_UPDATE_ITEM message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            SC_UPDATE_ITEM.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+    
+            /**
+             * Decodes a SC_UPDATE_ITEM message from the specified reader or buffer.
+             * @function decode
+             * @memberof S2C.SC_UPDATE_ITEM
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {S2C.SC_UPDATE_ITEM} SC_UPDATE_ITEM
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            SC_UPDATE_ITEM.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.S2C.SC_UPDATE_ITEM(), key;
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        reader.skip().pos++;
+                        if (message.items === $util.emptyObject)
+                            message.items = {};
+                        key = reader.int32();
+                        reader.pos++;
+                        message.items[key] = $root.S2C.Item.decode(reader, reader.uint32());
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Decodes a SC_UPDATE_ITEM message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof S2C.SC_UPDATE_ITEM
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {S2C.SC_UPDATE_ITEM} SC_UPDATE_ITEM
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            SC_UPDATE_ITEM.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+    
+            /**
+             * Verifies a SC_UPDATE_ITEM message.
+             * @function verify
+             * @memberof S2C.SC_UPDATE_ITEM
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            SC_UPDATE_ITEM.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.items != null && message.hasOwnProperty("items")) {
+                    if (!$util.isObject(message.items))
+                        return "items: object expected";
+                    var key = Object.keys(message.items);
+                    for (var i = 0; i < key.length; ++i) {
+                        if (!$util.key32Re.test(key[i]))
+                            return "items: integer key{k:int32} expected";
+                        {
+                            var error = $root.S2C.Item.verify(message.items[key[i]]);
+                            if (error)
+                                return "items." + error;
+                        }
+                    }
+                }
+                return null;
+            };
+    
+            /**
+             * Creates a SC_UPDATE_ITEM message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof S2C.SC_UPDATE_ITEM
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {S2C.SC_UPDATE_ITEM} SC_UPDATE_ITEM
+             */
+            SC_UPDATE_ITEM.fromObject = function fromObject(object) {
+                if (object instanceof $root.S2C.SC_UPDATE_ITEM)
+                    return object;
+                var message = new $root.S2C.SC_UPDATE_ITEM();
+                if (object.items) {
+                    if (typeof object.items !== "object")
+                        throw TypeError(".S2C.SC_UPDATE_ITEM.items: object expected");
+                    message.items = {};
+                    for (var keys = Object.keys(object.items), i = 0; i < keys.length; ++i) {
+                        if (typeof object.items[keys[i]] !== "object")
+                            throw TypeError(".S2C.SC_UPDATE_ITEM.items: object expected");
+                        message.items[keys[i]] = $root.S2C.Item.fromObject(object.items[keys[i]]);
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Creates a plain object from a SC_UPDATE_ITEM message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof S2C.SC_UPDATE_ITEM
+             * @static
+             * @param {S2C.SC_UPDATE_ITEM} message SC_UPDATE_ITEM
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            SC_UPDATE_ITEM.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.objects || options.defaults)
+                    object.items = {};
+                var keys2;
+                if (message.items && (keys2 = Object.keys(message.items)).length) {
+                    object.items = {};
+                    for (var j = 0; j < keys2.length; ++j)
+                        object.items[keys2[j]] = $root.S2C.Item.toObject(message.items[keys2[j]], options);
+                }
+                return object;
+            };
+    
+            /**
+             * Converts this SC_UPDATE_ITEM to JSON.
+             * @function toJSON
+             * @memberof S2C.SC_UPDATE_ITEM
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            SC_UPDATE_ITEM.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+    
+            return SC_UPDATE_ITEM;
         })();
     
         S2C.SC_ROLE_PRO_UPDATE = (function() {

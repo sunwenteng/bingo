@@ -32,6 +32,8 @@ export class RoleController {
 
             // start TODO
             role.sendProtocol(role.heroModel.serializeInitNetMsg());
+            role.sendProtocol(role.equipModel.serializeInitNetMsg());
+            role.sendProtocol(role.itemModel.serializeInitNetMsg());
             // end TODO
 
             // put it to the end
@@ -63,6 +65,42 @@ export class RoleController {
             role.heroModel.getHero(i + 1).lvl = Math.floor(Math.random() * 100);
             role.heroModel.getHero(i + 1).combat = Math.floor(Math.random() * 1000);
         }
+
+        size = role.equipModel.getEquipBagSize();
+        if (size < 100) {
+            for (let i = 0; i < (100 - size); i++) {
+                role.equipModel.createAndAddEquip(201);
+            }
+        }
+        else {
+            role.equipModel.maxUid = 98;
+            role.equipModel.deleteEquip(3);
+            role.equipModel.deleteEquip(4);
+        }
+        for (let i = 0; i < 2; i++) {
+            role.equipModel.getEquip(i + 1).lvl = Math.floor(Math.random() * 100);
+            role.equipModel.getEquip(i + 1).rank = Math.floor(Math.random() * 1000);
+        }
+
+        size = role.itemModel.getItemBagSize();
+        if (size < 100) {
+            for (let i = 0; i < (100 - size); i++) {
+                role.itemModel.createAndAddItem(301 + i);
+            }
+        }
+        else {
+            // let delCnt = 0;
+            // for (let itemId in role.itemModel.items) {
+            //     role.itemModel.deleteItem(itemId);
+            //     if (++delCnt > 2) {
+            //         break;
+            //     }
+            // }
+        }
+        for (let i = 301; i < 303; i++) {
+            role.itemModel.getItem(i + 1).cnt = Math.floor(Math.random() * 100);
+        }
+
         role.lastAliveTime = Time.realNow();
         let pck = S2C.SC_ROLE_HEART_BEAT.create();
         role.sendProtocol(pck);

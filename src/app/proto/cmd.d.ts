@@ -222,6 +222,10 @@ export namespace S2C {
         SC_ROLE_PRO_UPDATE?: (S2C.ISC_ROLE_PRO_UPDATE|null);
         SC_INIT_HERO?: (S2C.ISC_INIT_HERO|null);
         SC_UPDATE_HERO?: (S2C.ISC_UPDATE_HERO|null);
+        SC_INIT_EQUIP?: (S2C.ISC_INIT_EQUIP|null);
+        SC_UPDATE_EQUIP?: (S2C.ISC_UPDATE_EQUIP|null);
+        SC_INIT_ITEM?: (S2C.ISC_INIT_ITEM|null);
+        SC_UPDATE_ITEM?: (S2C.ISC_UPDATE_ITEM|null);
     }
 
     class Message implements IMessage {
@@ -236,7 +240,11 @@ export namespace S2C {
         public SC_ROLE_PRO_UPDATE?: (S2C.ISC_ROLE_PRO_UPDATE|null);
         public SC_INIT_HERO?: (S2C.ISC_INIT_HERO|null);
         public SC_UPDATE_HERO?: (S2C.ISC_UPDATE_HERO|null);
-        public kind?: ("SC_TEST_ECHO"|"LOGIN_SC_LOGIN"|"LOGIN_SC_CHOOSE_SERVER"|"LOGIN_SC_GET_SERVER_LIST"|"LOGIN_SC_GET_INFO"|"SC_ROLE_ONLINE"|"SC_ROLE_HEART_BEAT"|"SC_ROLE_PRO_UPDATE"|"SC_INIT_HERO"|"SC_UPDATE_HERO");
+        public SC_INIT_EQUIP?: (S2C.ISC_INIT_EQUIP|null);
+        public SC_UPDATE_EQUIP?: (S2C.ISC_UPDATE_EQUIP|null);
+        public SC_INIT_ITEM?: (S2C.ISC_INIT_ITEM|null);
+        public SC_UPDATE_ITEM?: (S2C.ISC_UPDATE_ITEM|null);
+        public kind?: ("SC_TEST_ECHO"|"LOGIN_SC_LOGIN"|"LOGIN_SC_CHOOSE_SERVER"|"LOGIN_SC_GET_SERVER_LIST"|"LOGIN_SC_GET_INFO"|"SC_ROLE_ONLINE"|"SC_ROLE_HEART_BEAT"|"SC_ROLE_PRO_UPDATE"|"SC_INIT_HERO"|"SC_UPDATE_HERO"|"SC_INIT_EQUIP"|"SC_UPDATE_EQUIP"|"SC_INIT_ITEM"|"SC_UPDATE_ITEM");
         public static create(properties?: S2C.IMessage): S2C.Message;
         public static encode(message: S2C.IMessage, writer?: $protobuf.Writer): $protobuf.Writer;
         public static encodeDelimited(message: S2C.IMessage, writer?: $protobuf.Writer): $protobuf.Writer;
@@ -305,6 +313,124 @@ export namespace S2C {
         public static verify(message: { [k: string]: any }): (string|null);
         public static fromObject(object: { [k: string]: any }): S2C.SC_UPDATE_HERO;
         public static toObject(message: S2C.SC_UPDATE_HERO, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public toJSON(): { [k: string]: any };
+    }
+
+    interface IEquip {
+        uid?: (number|null);
+        id?: (number|null);
+        lvl?: (number|null);
+        rank?: (number|null);
+        star?: (number|null);
+    }
+
+    class Equip implements IEquip {
+        constructor(properties?: S2C.IEquip);
+        public uid: number;
+        public id: number;
+        public lvl: number;
+        public rank: number;
+        public star: number;
+        public static create(properties?: S2C.IEquip): S2C.Equip;
+        public static encode(message: S2C.IEquip, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: S2C.IEquip, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): S2C.Equip;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): S2C.Equip;
+        public static verify(message: { [k: string]: any }): (string|null);
+        public static fromObject(object: { [k: string]: any }): S2C.Equip;
+        public static toObject(message: S2C.Equip, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public toJSON(): { [k: string]: any };
+    }
+
+    interface ISC_INIT_EQUIP {
+        equips?: ({ [k: string]: S2C.IEquip }|null);
+    }
+
+    class SC_INIT_EQUIP implements ISC_INIT_EQUIP {
+        constructor(properties?: S2C.ISC_INIT_EQUIP);
+        public equips: { [k: string]: S2C.IEquip };
+        public static create(properties?: S2C.ISC_INIT_EQUIP): S2C.SC_INIT_EQUIP;
+        public static encode(message: S2C.ISC_INIT_EQUIP, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: S2C.ISC_INIT_EQUIP, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): S2C.SC_INIT_EQUIP;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): S2C.SC_INIT_EQUIP;
+        public static verify(message: { [k: string]: any }): (string|null);
+        public static fromObject(object: { [k: string]: any }): S2C.SC_INIT_EQUIP;
+        public static toObject(message: S2C.SC_INIT_EQUIP, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public toJSON(): { [k: string]: any };
+    }
+
+    interface ISC_UPDATE_EQUIP {
+        equips?: ({ [k: string]: S2C.IEquip }|null);
+    }
+
+    class SC_UPDATE_EQUIP implements ISC_UPDATE_EQUIP {
+        constructor(properties?: S2C.ISC_UPDATE_EQUIP);
+        public equips: { [k: string]: S2C.IEquip };
+        public static create(properties?: S2C.ISC_UPDATE_EQUIP): S2C.SC_UPDATE_EQUIP;
+        public static encode(message: S2C.ISC_UPDATE_EQUIP, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: S2C.ISC_UPDATE_EQUIP, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): S2C.SC_UPDATE_EQUIP;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): S2C.SC_UPDATE_EQUIP;
+        public static verify(message: { [k: string]: any }): (string|null);
+        public static fromObject(object: { [k: string]: any }): S2C.SC_UPDATE_EQUIP;
+        public static toObject(message: S2C.SC_UPDATE_EQUIP, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public toJSON(): { [k: string]: any };
+    }
+
+    interface IItem {
+        id?: (number|null);
+        cnt?: (number|null);
+    }
+
+    class Item implements IItem {
+        constructor(properties?: S2C.IItem);
+        public id: number;
+        public cnt: number;
+        public static create(properties?: S2C.IItem): S2C.Item;
+        public static encode(message: S2C.IItem, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: S2C.IItem, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): S2C.Item;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): S2C.Item;
+        public static verify(message: { [k: string]: any }): (string|null);
+        public static fromObject(object: { [k: string]: any }): S2C.Item;
+        public static toObject(message: S2C.Item, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public toJSON(): { [k: string]: any };
+    }
+
+    interface ISC_INIT_ITEM {
+        items?: ({ [k: string]: S2C.IItem }|null);
+    }
+
+    class SC_INIT_ITEM implements ISC_INIT_ITEM {
+        constructor(properties?: S2C.ISC_INIT_ITEM);
+        public items: { [k: string]: S2C.IItem };
+        public static create(properties?: S2C.ISC_INIT_ITEM): S2C.SC_INIT_ITEM;
+        public static encode(message: S2C.ISC_INIT_ITEM, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: S2C.ISC_INIT_ITEM, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): S2C.SC_INIT_ITEM;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): S2C.SC_INIT_ITEM;
+        public static verify(message: { [k: string]: any }): (string|null);
+        public static fromObject(object: { [k: string]: any }): S2C.SC_INIT_ITEM;
+        public static toObject(message: S2C.SC_INIT_ITEM, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public toJSON(): { [k: string]: any };
+    }
+
+    interface ISC_UPDATE_ITEM {
+        items?: ({ [k: string]: S2C.IItem }|null);
+    }
+
+    class SC_UPDATE_ITEM implements ISC_UPDATE_ITEM {
+        constructor(properties?: S2C.ISC_UPDATE_ITEM);
+        public items: { [k: string]: S2C.IItem };
+        public static create(properties?: S2C.ISC_UPDATE_ITEM): S2C.SC_UPDATE_ITEM;
+        public static encode(message: S2C.ISC_UPDATE_ITEM, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: S2C.ISC_UPDATE_ITEM, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): S2C.SC_UPDATE_ITEM;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): S2C.SC_UPDATE_ITEM;
+        public static verify(message: { [k: string]: any }): (string|null);
+        public static fromObject(object: { [k: string]: any }): S2C.SC_UPDATE_ITEM;
+        public static toObject(message: S2C.SC_UPDATE_ITEM, options?: $protobuf.IConversionOptions): { [k: string]: any };
         public toJSON(): { [k: string]: any };
     }
 

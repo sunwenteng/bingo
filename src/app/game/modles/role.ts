@@ -137,9 +137,9 @@ export class Role extends RedisData {
         // other diff model field
         let uid, key, data, pros, pcks = {}, pck, pckInner;
         for (let diff of this.diffs) {
+            key = diff.path[1];
             switch (diff.path[0]) {
                 case 'heroModel': {
-                    key = diff.path[1];
                     if (key === 'heroes') {
                         uid = diff.kind === EDiffOpt.DELETE ? -parseInt(diff.path[2]) : parseInt(diff.path[2]);
                         data = diff.rhs;
@@ -166,8 +166,55 @@ export class Role extends RedisData {
                     break;
                 }
                 case 'equipModel': {
-                    let uid = diff.path[1];
-                    // TODO
+                    if (key === 'equips') {
+                        uid = diff.kind === EDiffOpt.DELETE ? -parseInt(diff.path[2]) : parseInt(diff.path[2]);
+                        data = diff.rhs;
+                        pros = diff.path.length > 2 ? diff.path[3] : null;
+                        pck = pcks['SC_UPDATE_EQUIP'];
+                        if (!pck) {
+                            pck = S2C.SC_UPDATE_EQUIP.create();
+                            pcks['SC_UPDATE_EQUIP'] = pck;
+                        }
+
+                        pckInner = pck.equips[uid];
+                        if (!pckInner) {
+                            pckInner = S2C.Equip.create();
+                            pck.equips[uid] = pckInner;
+                        }
+
+                        if (diff.kind === EDiffOpt.ADD) {
+                            EquipModel.serializeEquipNetMsg(pckInner, data);
+                        }
+                        else if (diff.kind === EDiffOpt.UPDATE) {
+                            pckInner[pros] = data;
+                        }
+                    }
+                    break;
+                }
+                case 'itemModel': {
+                    if (key === 'items') {
+                        uid = diff.kind === EDiffOpt.DELETE ? -parseInt(diff.path[2]) : parseInt(diff.path[2]);
+                        data = diff.rhs;
+                        pros = diff.path.length > 2 ? diff.path[3] : null;
+                        pck = pcks['SC_UPDATE_ITEM'];
+                        if (!pck) {
+                            pck = S2C.SC_UPDATE_ITEM.create();
+                            pcks['SC_UPDATE_ITEM'] = pck;
+                        }
+
+                        pckInner = pck.items[uid];
+                        if (!pckInner) {
+                            pckInner = S2C.Item.create();
+                            pck.items[uid] = pckInner;
+                        }
+
+                        if (diff.kind === EDiffOpt.ADD) {
+                            ItemModel.serializeItemNetMsg(pckInner, data);
+                        }
+                        else if (diff.kind === EDiffOpt.UPDATE) {
+                            pckInner[pros] = data;
+                        }
+                    }
                     break;
                 }
                 default:

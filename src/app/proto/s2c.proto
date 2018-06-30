@@ -17,6 +17,12 @@ message Message {
 
         SC_INIT_HERO SC_INIT_HERO = 1101;
         SC_UPDATE_HERO SC_UPDATE_HERO = 1102;
+
+        SC_INIT_EQUIP SC_INIT_EQUIP = 1201;
+        SC_UPDATE_EQUIP SC_UPDATE_EQUIP = 1202;
+
+        SC_INIT_ITEM SC_INIT_ITEM = 1301;
+        SC_UPDATE_ITEM SC_UPDATE_ITEM = 1302;
     }
 }
 
@@ -33,6 +39,35 @@ message SC_INIT_HERO {
 
 message SC_UPDATE_HERO {
     map<int32, Hero> heroes = 1;
+}
+
+message Equip {
+    uint32 uid = 1;
+    uint32 id = 2;
+    uint32 lvl = 3;
+    uint32 rank = 4;
+    uint32 star = 5;
+}
+
+message SC_INIT_EQUIP {
+    map<uint32, Equip> equips = 1;
+}
+
+message SC_UPDATE_EQUIP {
+    map<int32, Equip> equips = 1;
+}
+
+message Item {
+    uint32 id = 1;
+    uint32 cnt = 2;
+}
+
+message SC_INIT_ITEM {
+    map<uint32, Item> items = 1;
+}
+
+message SC_UPDATE_ITEM {
+    map<int32, Item> items = 1;
 }
 
 message SC_ROLE_PRO_UPDATE {
