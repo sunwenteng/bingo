@@ -77,7 +77,7 @@ export class HeroModel extends BaseModel {
             return null;
         }
 
-        let hero: IHero = {
+        return {
             id: heroId,
             uid: 0,
             combat: 0,
@@ -108,7 +108,6 @@ export class HeroModel extends BaseModel {
             test19: 0,
             test20: 0,
         };
-        return hero;
     }
 
     addHero(hero: IHero) {

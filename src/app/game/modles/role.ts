@@ -123,6 +123,7 @@ export class Role extends RedisData {
     }
 
     public sendProUpdate() {
+        this.diff();
         // dynamic field
         if (Object.keys(this.dynamicFields).length > 0) {
             let pck = S2C.SC_ROLE_PRO_UPDATE.create();

@@ -100,7 +100,12 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
         }
       },
       CS_ROLE_HEART_BEAT: {
-        fields: {}
+        fields: {
+          msg: {
+            type: "string",
+            id: 1
+          }
+        }
       },
       CS_ABC_DEF: {
         fields: {}
@@ -439,7 +444,12 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
         }
       },
       SC_ROLE_HEART_BEAT: {
-        fields: {}
+        fields: {
+          msg: {
+            type: "string",
+            id: 1
+          }
+        }
       },
       LOGIN_SC_LOGIN: {
         fields: {

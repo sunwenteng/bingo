@@ -73,10 +73,12 @@ export namespace C2S {
     }
 
     interface ICS_ROLE_HEART_BEAT {
+        msg?: (string|null);
     }
 
     class CS_ROLE_HEART_BEAT implements ICS_ROLE_HEART_BEAT {
         constructor(properties?: C2S.ICS_ROLE_HEART_BEAT);
+        public msg: string;
         public static create(properties?: C2S.ICS_ROLE_HEART_BEAT): C2S.CS_ROLE_HEART_BEAT;
         public static encode(message: C2S.ICS_ROLE_HEART_BEAT, writer?: $protobuf.Writer): $protobuf.Writer;
         public static encodeDelimited(message: C2S.ICS_ROLE_HEART_BEAT, writer?: $protobuf.Writer): $protobuf.Writer;
@@ -527,10 +529,12 @@ export namespace S2C {
     }
 
     interface ISC_ROLE_HEART_BEAT {
+        msg?: (string|null);
     }
 
     class SC_ROLE_HEART_BEAT implements ISC_ROLE_HEART_BEAT {
         constructor(properties?: S2C.ISC_ROLE_HEART_BEAT);
+        public msg: string;
         public static create(properties?: S2C.ISC_ROLE_HEART_BEAT): S2C.SC_ROLE_HEART_BEAT;
         public static encode(message: S2C.ISC_ROLE_HEART_BEAT, writer?: $protobuf.Writer): $protobuf.Writer;
         public static encodeDelimited(message: S2C.ISC_ROLE_HEART_BEAT, writer?: $protobuf.Writer): $protobuf.Writer;

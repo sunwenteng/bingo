@@ -33,6 +33,7 @@ message CS_TEST_ECHO {
 }
 
 message CS_ROLE_HEART_BEAT {
+    string msg = 1;
 }
 
 message CS_ABC_DEF {

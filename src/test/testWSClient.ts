@@ -37,7 +37,7 @@ class Client {
                     let id = Math.floor(Math.random() * 100);
                     id = id === 0 ? 1 : id;
                     let msg = C2S.Message.create({
-                        CS_ROLE_HEART_BEAT: {}
+                        CS_ROLE_HEART_BEAT: {msg: Math.floor(Math.random() * 100) + '' }
                     });
 
                     let buffer = C2S.Message.encode(msg).finish();

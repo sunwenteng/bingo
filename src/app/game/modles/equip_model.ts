@@ -46,14 +46,13 @@ export class EquipModel extends BaseModel {
             return null;
         }
 
-        let equip: IEquip = {
+        return {
             id: equipId,
             uid: 0,
             lvl: 0,
             rank: 0,
             star: 0
         };
-        return equip;
     }
 
     addEquip(equip: IEquip) {

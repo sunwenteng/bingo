@@ -868,6 +868,7 @@
              * Properties of a CS_ROLE_HEART_BEAT.
              * @memberof C2S
              * @interface ICS_ROLE_HEART_BEAT
+             * @property {string|null} [msg] CS_ROLE_HEART_BEAT msg
              */
     
             /**
@@ -884,6 +885,14 @@
                         if (properties[keys[i]] != null)
                             this[keys[i]] = properties[keys[i]];
             }
+    
+            /**
+             * CS_ROLE_HEART_BEAT msg.
+             * @member {string} msg
+             * @memberof C2S.CS_ROLE_HEART_BEAT
+             * @instance
+             */
+            CS_ROLE_HEART_BEAT.prototype.msg = "";
     
             /**
              * Creates a new CS_ROLE_HEART_BEAT instance using the specified properties.
@@ -909,6 +918,8 @@
             CS_ROLE_HEART_BEAT.encode = function encode(message, writer) {
                 if (!writer)
                     writer = $Writer.create();
+                if (message.msg != null && message.hasOwnProperty("msg"))
+                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.msg);
                 return writer;
             };
     
@@ -943,6 +954,9 @@
                 while (reader.pos < end) {
                     var tag = reader.uint32();
                     switch (tag >>> 3) {
+                    case 1:
+                        message.msg = reader.string();
+                        break;
                     default:
                         reader.skipType(tag & 7);
                         break;
@@ -978,6 +992,9 @@
             CS_ROLE_HEART_BEAT.verify = function verify(message) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
+                if (message.msg != null && message.hasOwnProperty("msg"))
+                    if (!$util.isString(message.msg))
+                        return "msg: string expected";
                 return null;
             };
     
@@ -992,7 +1009,10 @@
             CS_ROLE_HEART_BEAT.fromObject = function fromObject(object) {
                 if (object instanceof $root.C2S.CS_ROLE_HEART_BEAT)
                     return object;
-                return new $root.C2S.CS_ROLE_HEART_BEAT();
+                var message = new $root.C2S.CS_ROLE_HEART_BEAT();
+                if (object.msg != null)
+                    message.msg = String(object.msg);
+                return message;
             };
     
             /**
@@ -1004,8 +1024,15 @@
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            CS_ROLE_HEART_BEAT.toObject = function toObject() {
-                return {};
+            CS_ROLE_HEART_BEAT.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.defaults)
+                    object.msg = "";
+                if (message.msg != null && message.hasOwnProperty("msg"))
+                    object.msg = message.msg;
+                return object;
             };
     
             /**
@@ -5993,6 +6020,7 @@
              * Properties of a SC_ROLE_HEART_BEAT.
              * @memberof S2C
              * @interface ISC_ROLE_HEART_BEAT
+             * @property {string|null} [msg] SC_ROLE_HEART_BEAT msg
              */
     
             /**
@@ -6009,6 +6037,14 @@
                         if (properties[keys[i]] != null)
                             this[keys[i]] = properties[keys[i]];
             }
+    
+            /**
+             * SC_ROLE_HEART_BEAT msg.
+             * @member {string} msg
+             * @memberof S2C.SC_ROLE_HEART_BEAT
+             * @instance
+             */
+            SC_ROLE_HEART_BEAT.prototype.msg = "";
     
             /**
              * Creates a new SC_ROLE_HEART_BEAT instance using the specified properties.
@@ -6034,6 +6070,8 @@
             SC_ROLE_HEART_BEAT.encode = function encode(message, writer) {
                 if (!writer)
                     writer = $Writer.create();
+                if (message.msg != null && message.hasOwnProperty("msg"))
+                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.msg);
                 return writer;
             };
     
@@ -6068,6 +6106,9 @@
                 while (reader.pos < end) {
                     var tag = reader.uint32();
                     switch (tag >>> 3) {
+                    case 1:
+                        message.msg = reader.string();
+                        break;
                     default:
                         reader.skipType(tag & 7);
                         break;
@@ -6103,6 +6144,9 @@
             SC_ROLE_HEART_BEAT.verify = function verify(message) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
+                if (message.msg != null && message.hasOwnProperty("msg"))
+                    if (!$util.isString(message.msg))
+                        return "msg: string expected";
                 return null;
             };
     
@@ -6117,7 +6161,10 @@
             SC_ROLE_HEART_BEAT.fromObject = function fromObject(object) {
                 if (object instanceof $root.S2C.SC_ROLE_HEART_BEAT)
                     return object;
-                return new $root.S2C.SC_ROLE_HEART_BEAT();
+                var message = new $root.S2C.SC_ROLE_HEART_BEAT();
+                if (object.msg != null)
+                    message.msg = String(object.msg);
+                return message;
             };
     
             /**
@@ -6129,8 +6176,15 @@
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            SC_ROLE_HEART_BEAT.toObject = function toObject() {
-                return {};
+            SC_ROLE_HEART_BEAT.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.defaults)
+                    object.msg = "";
+                if (message.msg != null && message.hasOwnProperty("msg"))
+                    object.msg = message.msg;
+                return object;
             };
     
             /**

@@ -45,7 +45,6 @@ export function controller(readonly: boolean = false, mask?: number) {
                 returnValue = await gameRedis.lock(role.getRedisKey(), async () => {
                     await role.load(false, mask);
                     await originalMethod.apply(this, args);
-                    role.diff();
                     role.sendProUpdate();
                     await role.save();
                 });

@@ -42,11 +42,10 @@ export class ItemModel extends BaseModel {
             return null;
         }
 
-        let item: IItem = {
+        return {
             id: itemId,
             cnt: cnt
         };
-        return item;
     }
 
     addItem(item: IItem) {
