@@ -2,7 +2,7 @@ import {BaseModel} from "./base_model";
 import {S2C} from "../../proto/cmd";
 import {Log} from "../../../lib/util/log";
 
-export const MAX_HERO_BAG_SIZE = 200;
+export const MAX_HERO_BAG_SIZE = 400;
 
 export interface IHeroSkill {
     id: number;

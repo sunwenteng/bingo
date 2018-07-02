@@ -7,6 +7,9 @@ import {Log} from "../../../lib/util/log";
 import {controller} from "../../../lib/util/descriptor";
 import Time = require('../../../lib/util/time');
 import * as GameUtil from '../../../lib/util/game_util';
+import {MAX_HERO_BAG_SIZE} from "../modles/hero_model";
+import {MAX_EQUIP_BAG_SIZE} from "../modles/equip_model";
+import {MAX_ITEM_BAG_SIZE} from "../modles/item_model";
 
 let gameRedis = RedisMgr.getInstance(RedisType.GAME);
 
@@ -51,24 +54,24 @@ export class RoleController {
     async heartBeat(role: Role, msg: C2S.CS_ROLE_HEART_BEAT) {
         role.diamond = role.diamond + 1;
         let size = role.heroModel.getHeroBagSize();
-        if (size < 100) {
-            for (let i = 0; i < (100 - size); i++) {
+        if (size < MAX_HERO_BAG_SIZE) {
+            for (let i = 0; i < (MAX_HERO_BAG_SIZE - size); i++) {
                 role.heroModel.createAndAddHero(101);
             }
         }
-        else {
-            role.heroModel.maxUid = 98;
-            role.heroModel.deleteHero(3);
-            role.heroModel.deleteHero(4);
-        }
+        // else {
+        //     role.heroModel.maxUid = 98;
+        //     role.heroModel.deleteHero(3);
+        //     role.heroModel.deleteHero(4);
+        // }
         for (let i = 0; i < 2; i++) {
             role.heroModel.getHero(i + 1).lvl = Math.floor(Math.random() * 100);
             role.heroModel.getHero(i + 1).combat = Math.floor(Math.random() * 1000);
         }
 
         size = role.equipModel.getEquipBagSize();
-        if (size < 100) {
-            for (let i = 0; i < (100 - size); i++) {
+        if (size < MAX_EQUIP_BAG_SIZE) {
+            for (let i = 0; i < (MAX_EQUIP_BAG_SIZE - size); i++) {
                 role.equipModel.createAndAddEquip(201);
             }
         }
@@ -83,7 +86,7 @@ export class RoleController {
         }
 
         size = role.itemModel.getItemBagSize();
-        if (size < 100) {
+        if (size < MAX_ITEM_BAG_SIZE) {
             for (let i = 0; i < (100 - size); i++) {
                 role.itemModel.createAndAddItem(301 + i);
             }

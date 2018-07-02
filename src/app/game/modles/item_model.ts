@@ -2,7 +2,7 @@ import {BaseModel} from "./base_model";
 import {S2C} from "../../proto/cmd";
 import {Log} from "../../../lib/util/log";
 
-export const MAX_ITEM_BAG_SIZE = 1000;
+export const MAX_ITEM_BAG_SIZE = 2000;
 
 export interface IItem {
     id: number;

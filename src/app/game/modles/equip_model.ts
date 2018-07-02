@@ -2,7 +2,7 @@ import {BaseModel} from "./base_model";
 import {S2C} from "../../proto/cmd";
 import {Log} from "../../../lib/util/log";
 
-export const MAX_EQUIP_BAG_SIZE = 100;
+export const MAX_EQUIP_BAG_SIZE = 400;
 
 export interface IEquip {
     uid: number;
