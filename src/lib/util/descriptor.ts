@@ -1,5 +1,5 @@
 import {Log} from "./log";
-import {Role} from "../../app/game/modles/role";
+import {ERoleMask, Role} from "../../app/game/modles/role";
 import {RedisMgr, RedisType} from "../redis/redis_mgr";
 import * as WorldDB from '../mysql/world_db';
 
@@ -34,7 +34,7 @@ export function execTime(bToLog: boolean = true) {
 
 let gameRedis = RedisMgr.getInstance(RedisType.GAME);
 
-export function controller(readonly: boolean = false, mask?: number) {
+export function controller(readonly: boolean = false, mask?: ERoleMask[] | ERoleMask) {
     return (target: Object, methodName: string, descriptor: TypedPropertyDescriptor<Function>) => {
         let originalMethod = descriptor.value;
         descriptor.value = async function (...args) {
@@ -43,7 +43,7 @@ export function controller(readonly: boolean = false, mask?: number) {
             let returnValue = null;
             if (!readonly) {
                 returnValue = await gameRedis.lock(role.getRedisKey(), async () => {
-                    await role.load(false, mask);
+                    await role.load(mask);
                     await originalMethod.apply(this, args);
                     role.sendProUpdate();
                     await role.save();
@@ -58,15 +58,34 @@ export function controller(readonly: boolean = false, mask?: number) {
     }
 }
 
-export function props(dynamic: boolean = false) {
+export function field(dynamic: boolean = false) {
     return function (target: Object, key: string): void {
         Object.defineProperty(target, key, {
             get: function () {
                 return this['fields'][key];
             },
             set: function (newValue) {
-                if (dynamic && this['fields'][key] !== newValue) {
-                    this['dynamicFields'][key] = newValue;
+                if (this['fields'][key] !== newValue) {
+                    if (dynamic) {
+                        this['dynamicFields'][key] = null;
+                    }
+                    this['dirtyFields'][key] = null;
+                }
+                this['fields'][key] = newValue;
+            }
+        });
+    }
+}
+
+export function modelField() {
+    return function (target: Object, key: string): void {
+        Object.defineProperty(target, key, {
+            get: function () {
+                return this['fields'][key];
+            },
+            set: function (newValue) {
+                if (this['fields'][key] !== newValue) {
+                    this['makeDirty']();
                 }
                 this['fields'][key] = newValue;
             }

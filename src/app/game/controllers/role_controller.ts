@@ -1,6 +1,6 @@
 import {C2S, S2C} from "../../proto/cmd";
 import {GameSession} from "../game_session";
-import {Role} from "../modles/role";
+import {ERoleMask, Role} from "../modles/role";
 import {RedisMgr, RedisType} from "../../../lib/redis/redis_mgr";
 import {GameWorld} from "../game_world";
 import {Log} from "../../../lib/util/log";
@@ -24,7 +24,7 @@ export class RoleController {
             if (isOnline) {
                 await GameWorld.instance.kickRole(roleId);
             }
-            let exist = await role.load(false);
+            let exist = await role.load();
             if (!exist) {
                 await role.create();
                 await role.save(true);
@@ -50,7 +50,7 @@ export class RoleController {
         });
     }
 
-    @controller()
+    @controller(false, [ERoleMask.HERO, ERoleMask.EQUIP, ERoleMask.ITEM])
     async heartBeat(role: Role, msg: C2S.CS_ROLE_HEART_BEAT) {
         role.diamond = role.diamond + 1;
         let size = role.heroModel.getHeroBagSize();
@@ -59,14 +59,22 @@ export class RoleController {
                 role.heroModel.createAndAddHero(101);
             }
         }
-        // else {
-        //     role.heroModel.maxUid = 98;
-        //     role.heroModel.deleteHero(3);
-        //     role.heroModel.deleteHero(4);
-        // }
-        for (let i = 0; i < 2; i++) {
-            role.heroModel.getHero(i + 1).lvl = Math.floor(Math.random() * 100);
-            role.heroModel.getHero(i + 1).combat = Math.floor(Math.random() * 1000);
+        else {
+            let delCnt = 0;
+            let allHero = role.heroModel.getAllHero(true);
+            for (let uid in allHero) {
+                role.heroModel.deleteHero(uid);
+                if (++delCnt > 2) break;
+            }
+        }
+        let changeCnt = 0;
+        let allHero = role.heroModel.getAllHero(true);
+        for (let uid in allHero) {
+            let hero = role.heroModel.getHero(uid, false);
+            hero.lvl = Math.floor(Math.random() * 100);
+            hero.combat = Math.floor(Math.random() * 1000);
+            role.heroModel.sendHeroUpdateProtocol(hero);
+            if (++changeCnt > 2) break;
         }
 
         size = role.equipModel.getEquipBagSize();
@@ -76,32 +84,44 @@ export class RoleController {
             }
         }
         else {
-            role.equipModel.maxUid = 98;
-            role.equipModel.deleteEquip(3);
-            role.equipModel.deleteEquip(4);
+            let delCnt = 0;
+            let container = role.equipModel.getAllEquip(true);
+            for (let uid in container) {
+                role.equipModel.deleteEquip(uid);
+                if (++delCnt > 2) break;
+            }
         }
-        for (let i = 0; i < 2; i++) {
-            role.equipModel.getEquip(i + 1).lvl = Math.floor(Math.random() * 100);
-            role.equipModel.getEquip(i + 1).rank = Math.floor(Math.random() * 1000);
+        changeCnt = 0;
+        let allEquip = role.equipModel.getAllEquip(true);
+        for (let uid in allEquip) {
+            let equip = role.equipModel.getEquip(uid, false);
+            equip.lvl = Math.floor(Math.random() * 100);
+            equip.rank = Math.floor(Math.random() * 1000);
+            role.equipModel.sendEquipUpdateProtocol(equip);
+            if (++changeCnt > 2) break;
         }
 
         size = role.itemModel.getItemBagSize();
         if (size < MAX_ITEM_BAG_SIZE) {
-            for (let i = 0; i < (100 - size); i++) {
+            for (let i = 0; i < (MAX_ITEM_BAG_SIZE - size); i++) {
                 role.itemModel.createAndAddItem(301 + i);
             }
         }
         else {
-            // let delCnt = 0;
-            // for (let itemId in role.itemModel.items) {
-            //     role.itemModel.deleteItem(itemId);
-            //     if (++delCnt > 2) {
-            //         break;
-            //     }
-            // }
+            let delCnt = 0;
+            let container = role.itemModel.getAllItem(true);
+            for (let uid in container) {
+                role.itemModel.deleteItem(uid);
+                if (++delCnt > 2) break;
+            }
         }
-        for (let i = 301; i < 303; i++) {
-            role.itemModel.getItem(i + 1).cnt = Math.floor(Math.random() * 100);
+        changeCnt = 0;
+        let allItem = role.itemModel.getAllItem(true);
+        for (let itemId in allItem) {
+            let item = role.itemModel.getItem(itemId, false);
+            item.cnt = Math.floor(Math.random() * 100);
+            role.itemModel.sendItemUpdateProtocol(item);
+            if (++changeCnt > 2) break;
         }
 
         role.lastAliveTime = Time.realNow();

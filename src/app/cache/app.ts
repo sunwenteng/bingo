@@ -73,7 +73,7 @@ async function main() {
         setTimeout(async () => {
             save().then(update).catch((reason => {
                 Log.sError(reason);
-                update();
+                process.exit(1);
             }));
         }, Config['app']['cache']['saveInterval']);
     }

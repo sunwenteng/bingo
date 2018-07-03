@@ -2,8 +2,6 @@ import * as events from 'events';
 import * as redis from 'redis';
 import {Log} from "../util/log";
 import {ErrorCode} from "../util/error_code";
-import * as deepDiff from "deep-diff";
-import clone = require('clone');
 
 const Config = require('../../config/config.json');
 /**
@@ -28,11 +26,10 @@ export enum RedisChanel {
 
 export abstract class RedisData {
     dynamicFields: any = {};
-    diffs: any[] = null;
-    oldFields: any = {};
     fields: any = {};
     redisPrefix: string;
     redisKeyExpire: number;
+    dirtyFields:any = {};
 
     protected constructor(redisPrefix: string, expireTime: number = 3600) {
         this.redisPrefix = redisPrefix;
@@ -48,42 +45,7 @@ export abstract class RedisData {
         }
     }
 
-    protected reset() {
-        this.dynamicFields = {};
-        this.diffs = null;
-        this.oldFields = clone(this.fields);
-    }
-
-    protected getDataFields(): string[] {
-        return Object.keys(this.fields);
-    }
-
-    public getSaveData(bAll: boolean) {
-        let reply = this.serialize();
-        if (bAll) {
-            return reply;
-        }
-
-        let ret = {};
-        for (let diff of this.diffs) {
-            let key = diff.path[0];
-            if (!reply[key]) {
-                throw new Error('key ' + key + ' not found');
-            }
-            if (!ret[key]) {
-                ret[key] = reply[key];
-            }
-        }
-
-        return ret;
-    }
-
-    public diff() {
-        this.diffs = deepDiff.diff(this.oldFields, this.fields);
-    }
-
-    // TODO fields 如果按照json来存储可能数据较大，可以后续优化成proto存储
-    protected deserialize(reply: { [key: string]: any }, readonly: boolean): void {
+    protected deserialize(reply: { [key: string]: any }): void {
         for (let obj in reply) {
             if (this.fields.hasOwnProperty(obj)) {
                 switch (typeof this.fields[obj]) {
@@ -99,7 +61,8 @@ export abstract class RedisData {
                             if (reply[obj] !== "") {
                                 let ret = JSON.parse(reply[obj]);
                                 for(let key in ret) {
-                                    this.fields[obj][key] = ret[key];
+                                    if(this.fields[obj]['fields'].hasOwnProperty(key))
+                                        this.fields[obj]['fields'][key] = ret[key];
                                 }
                             }
                         } catch (err) {
@@ -114,13 +77,10 @@ export abstract class RedisData {
                 }
             }
         }
-
-        if (!readonly) {
-            this.reset();
-        }
+        this.dynamicFields = {};
+        this.dirtyFields = {};
     }
 
-    // TODO fields 如果按照json来存储可能数据较大，可以后续优化成proto存储
     protected serialize(): { [key: string]: any } {
         let reply: { [key: string]: any } = {};
         for (let obj in this.fields) {
@@ -132,7 +92,7 @@ export abstract class RedisData {
                         reply[obj] = this.fields[obj];
                         break;
                     case 'object' :
-                        reply[obj] = JSON.stringify(this.fields[obj]);
+                        reply[obj] = JSON.stringify(this.fields[obj]['fields']);
                         break;
                     default:
                         Log.sError('wrong type, key=%s, type=%s', obj, typeof this.fields[obj]);
@@ -143,7 +103,6 @@ export abstract class RedisData {
 
         return reply;
     }
-
 }
 
 export class RedisMgr {

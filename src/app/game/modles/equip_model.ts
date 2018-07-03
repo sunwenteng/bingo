@@ -1,6 +1,8 @@
 import {BaseModel} from "./base_model";
 import {S2C} from "../../proto/cmd";
 import {Log} from "../../../lib/util/log";
+import {Role} from "./role";
+import {modelField} from "../../../lib/util/descriptor";
 
 export const MAX_EQUIP_BAG_SIZE = 400;
 
@@ -13,24 +15,24 @@ export interface IEquip {
 }
 
 export class EquipModel extends BaseModel {
-    equips: { [uid: number]: IEquip } = {};
-    maxUid: number = 0;
+    @modelField() private _equips: { [uid: number]: IEquip } = {};
+    @modelField() maxUid: number = 0;
 
-    constructor() {
-        super();
+    constructor(role: Role, key: string) {
+        super(role, key);
     }
 
     serializeInitNetMsg() {
         let pck = S2C.SC_INIT_EQUIP.create(), msg;
-        for (let uid in this.equips) {
+        for (let uid in this._equips) {
             msg = S2C.Equip.create();
-            EquipModel.serializeEquipNetMsg(msg, this.equips[uid]);
+            this.serializeEquipNetMsg(msg, this._equips[uid]);
             pck.equips[uid] = msg;
         }
         return pck;
     }
 
-    static serializeEquipNetMsg(msg: S2C.Equip, equip: IEquip) {
+    serializeEquipNetMsg(msg: S2C.Equip, equip: IEquip) {
         for (let k in msg) {
             if (!equip.hasOwnProperty(k)) {
                 if (k !== 'constructor' && k !== '$type' && k != 'toJSON')
@@ -41,7 +43,7 @@ export class EquipModel extends BaseModel {
         }
     }
 
-    createEquip(equipId: number): IEquip {
+    private createEquip(equipId: number): IEquip {
         if (this.getEquipBagSize() >= MAX_EQUIP_BAG_SIZE) {
             return null;
         }
@@ -55,28 +57,59 @@ export class EquipModel extends BaseModel {
         };
     }
 
-    addEquip(equip: IEquip) {
+    private addEquip(equip: IEquip) {
         equip.uid = ++this.maxUid;
-        this.equips[equip.uid] = equip;
+        this._equips[equip.uid] = equip;
     }
 
-    createAndAddEquip(equipId: number): IEquip {
+    sendEquipUpdateProtocol(equip: IEquip) {
+        let msg = S2C.SC_UPDATE_EQUIP.create();
+        let equipMsg = S2C.Equip.create();
+        this.serializeEquipNetMsg(equipMsg, equip);
+        msg.equips[equip.uid] = equipMsg;
+        this.m_Role.sendProtocol(msg);
+    }
+
+    createAndAddEquip(equipId: number, bSend2Client: boolean = true): IEquip {
         let equip = this.createEquip(equipId);
         if (!equip)
             return null;
         this.addEquip(equip);
+        if (bSend2Client) {
+            let msg = S2C.SC_UPDATE_EQUIP.create();
+            let equipMsg = S2C.Equip.create();
+            this.serializeEquipNetMsg(equipMsg, equip);
+            msg.equips[equip.uid] = equipMsg;
+            this.m_Role.sendProtocol(msg);
+        }
         return equip;
     }
 
-    deleteEquip(uid: number) {
-        delete this.equips[uid];
+    deleteEquip(uid, bSend2Client: boolean = true) {
+        if (bSend2Client) {
+            let msg = S2C.SC_UPDATE_EQUIP.create();
+            msg.equips[-uid] = S2C.Equip.create();
+            this.m_Role.sendProtocol(msg);
+        }
+        delete this._equips[uid];
+        this.makeDirty();
     }
 
-    getEquip(uid): IEquip {
-        return this.equips[uid];
+    getEquip(uid, bReadonly: boolean): IEquip {
+        if (!bReadonly) {
+            this.makeDirty();
+        }
+        return this._equips[uid];
+    }
+
+    getAllEquip(bReadonly: boolean): { [uid: number]: IEquip } {
+        if (!bReadonly) {
+            this.makeDirty();
+        }
+        return this._equips;
     }
 
     getEquipBagSize(): number {
-        return Object.keys(this.equips).length;
+        return Object.keys(this._equips).length;
     }
 }

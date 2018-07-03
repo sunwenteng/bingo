@@ -1,9 +1,3 @@
-export enum EDiffOpt {
-    UPDATE = 'E',
-    DELETE = 'D',
-    ADD = 'N'
-}
-
 export interface BattleRound {
     id: number // from 0 回合数
     heroUid: number;

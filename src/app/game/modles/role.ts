@@ -5,45 +5,42 @@ import * as WorldDB from '../../../lib/mysql/world_db';
 import {WorldDataRedisKey} from "../game_world";
 import {S2C} from "../../proto/cmd";
 import {GameSession} from "../game_session";
-import {props} from "../../../lib/util/descriptor";
+import {field} from "../../../lib/util/descriptor";
 import {HeroModel} from "./hero_model";
 import {EquipModel} from "./equip_model";
 import {ItemModel} from "./item_model";
-import {EDiffOpt} from "./defines";
+import {BaseModel} from "./base_model";
 
 let gameRedis = RedisMgr.getInstance(RedisType.GAME);
 export const RoleRedisPrefix: string = 'role';
 
 export enum ERoleMask {
-    BASE = 1,
-    EQUIP = 2,
-    ITEM = 4,
-    HERO = 8,
-    TASK = 16,
-    ACTIVITY = 32
+    EQUIP = 'equipModel',
+    ITEM = 'itemModel',
+    HERO = 'heroModel',
 }
 
 export class Role extends RedisData {
     _session: GameSession;
 
     // NOTE: 声明的属性必须都在mysql有相应列做存储
-    @props(true) uid: number = 0;
-    @props(true) nickname: string = '';
-    @props(true) headimgurl: string = '';
-    @props(true) diamond: number = 0;
-    @props(true) exp: number = 0;
-    @props(true) gold: number = 0;
-    @props(true) level: number = 0;
-    @props(true) vipLevel: number = 0;
-    @props(true) vipExp: number = 0;
+    @field(true) uid: number = 0;
+    @field(true) nickname: string = '';
+    @field(true) headimgurl: string = '';
+    @field(true) diamond: number = 0;
+    @field(true) exp: number = 0;
+    @field(true) gold: number = 0;
+    @field(true) level: number = 0;
+    @field(true) vipLevel: number = 0;
+    @field(true) vipExp: number = 0;
 
-    @props() lastLoginTime: number = 0;
-    @props() lastAliveTime: number = 0;
-    @props() createTime: number = 0;
+    @field() lastLoginTime: number = 0;
+    @field() lastAliveTime: number = 0;
+    @field() createTime: number = 0;
 
-    @props() heroModel = new HeroModel();
-    @props() equipModel = new EquipModel();
-    @props() itemModel = new ItemModel();
+    @field() heroModel = new HeroModel(this, 'heroModel');
+    @field() equipModel = new EquipModel(this, 'equipModel');
+    @field() itemModel = new ItemModel(this, 'itemModel');
 
     constructor(uid: number, session?: GameSession) {
         super(RoleRedisPrefix);
@@ -51,10 +48,47 @@ export class Role extends RedisData {
         this.uid = uid;
     }
 
-    public async save(bSaveAll: boolean = false): Promise<void> {
-        if (!this.diffs) {
-            this.diff();
+    private getDataFields(mask?: ERoleMask | ERoleMask[]): string[] {
+        if (!mask)
+            return Object.keys(this.fields);
+        else {
+            let ret = [];
+            for (let k in this.fields) {
+                if (!(this.fields[k] instanceof BaseModel)) {
+                    ret.push(k);
+                }
+            }
+            for (let e of mask) {
+                if (this.fields.hasOwnProperty(e)) {
+                    ret.push(e.toString());
+                }
+                else {
+                    Log.sError('%s not exist in role fields', e);
+                }
+            }
+            return ret;
         }
+    }
+
+    public getSaveData(bAll: boolean) {
+        let reply = {};
+        if (bAll) {
+            reply = this.serialize();
+        }
+        else {
+            for (let k in this.dirtyFields) {
+                if(this.fields[k] instanceof BaseModel) {
+                    reply[k] = JSON.stringify(this.fields[k]['fields'])
+                }
+                else {
+                    reply[k] = this.fields[k];
+                }
+            }
+        }
+        return reply;
+    }
+
+    public async save(bSaveAll: boolean = false): Promise<void> {
         let saveData = this.getSaveData(bSaveAll);
         // 同步存储到redis
         await gameRedis.hmset(this.getRedisKey(), saveData, this.redisKeyExpire);
@@ -62,14 +96,14 @@ export class Role extends RedisData {
         await gameRedis.sadd(WorldDataRedisKey.DIRTY_ROLES, this.uid);
     }
 
-    public async load(readonly: boolean = true, mask?: ERoleMask): Promise<boolean> {
+    public async load(mask?: ERoleMask | ERoleMask[]): Promise<boolean> {
         return new Promise<boolean>(async (resolve) => {
             if (!this.uid || this.uid === 0) {
                 resolve(false);
             }
             else {
                 // TODO 后续需要根据mask来读取需要的数据，不然每次load数据太大，对每次回写差异比较有负担
-                let reply = await gameRedis.hmget(this.getRedisKey(), this.getDataFields());
+                let reply = await gameRedis.hmget(this.getRedisKey(), this.getDataFields(mask));
                 // 缓存不存在，从db查询然后放到缓存
                 if (Object.keys(reply).length === 0) {
                     let result = await WorldDB.conn.execute('select * from player_info_' + this.getTableNum() + ' where ?', {uid: this.uid});
@@ -79,13 +113,13 @@ export class Role extends RedisData {
                     }
                     else {
                         await gameRedis.hmset(this.getRedisKey(), result[0], this.redisKeyExpire);
-                        this.deserialize(result[0], readonly);
+                        this.deserialize(result[0]);
                         resolve(true);
                     }
                 }
                 // 缓存命中
                 else {
-                    this.deserialize(reply, readonly);
+                    this.deserialize(reply);
                     resolve(true);
                 }
             }
@@ -108,8 +142,7 @@ export class Role extends RedisData {
 
         let pckData = this.serialize();
         await WorldDB.conn.execute('insert into player_info_' + this.getTableNum() + ' set ?', pckData);
-
-        this.reset();
+        this.dynamicFields = {};
     }
 
     public getTableNum(): number {
@@ -123,108 +156,14 @@ export class Role extends RedisData {
     }
 
     public sendProUpdate() {
-        this.diff();
         // dynamic field
         if (Object.keys(this.dynamicFields).length > 0) {
             let pck = S2C.SC_ROLE_PRO_UPDATE.create();
             for (let key in this.dynamicFields) {
-                pck[key] = this.dynamicFields[key];
+                pck[key] = this.fields[key];
             }
             this.sendProtocol(pck);
             this.dynamicFields = {};
-        }
-
-        // TODO 根据role中不同的属性写自己的客户端更新包，上层只用赋值即可，下层根据差异来发包
-        // other diff model field
-        let uid, key, data, pros, pcks = {}, pck, pckInner;
-        for (let diff of this.diffs) {
-            key = diff.path[1];
-            switch (diff.path[0]) {
-                case 'heroModel': {
-                    if (key === 'heroes') {
-                        uid = diff.kind === EDiffOpt.DELETE ? -parseInt(diff.path[2]) : parseInt(diff.path[2]);
-                        data = diff.rhs;
-                        pros = diff.path.length > 2 ? diff.path[3] : null;
-                        pck = pcks['SC_UPDATE_HERO'];
-                        if (!pck) {
-                            pck = S2C.SC_UPDATE_HERO.create();
-                            pcks['SC_UPDATE_HERO'] = pck;
-                        }
-
-                        pckInner = pck.heroes[uid];
-                        if (!pckInner) {
-                            pckInner = S2C.Hero.create();
-                            pck.heroes[uid] = pckInner;
-                        }
-
-                        if (diff.kind === EDiffOpt.ADD) {
-                            HeroModel.serializeHeroNetMsg(pckInner, data);
-                        }
-                        else if (diff.kind === EDiffOpt.UPDATE) {
-                            pckInner[pros] = data;
-                        }
-                    }
-                    break;
-                }
-                case 'equipModel': {
-                    if (key === 'equips') {
-                        uid = diff.kind === EDiffOpt.DELETE ? -parseInt(diff.path[2]) : parseInt(diff.path[2]);
-                        data = diff.rhs;
-                        pros = diff.path.length > 2 ? diff.path[3] : null;
-                        pck = pcks['SC_UPDATE_EQUIP'];
-                        if (!pck) {
-                            pck = S2C.SC_UPDATE_EQUIP.create();
-                            pcks['SC_UPDATE_EQUIP'] = pck;
-                        }
-
-                        pckInner = pck.equips[uid];
-                        if (!pckInner) {
-                            pckInner = S2C.Equip.create();
-                            pck.equips[uid] = pckInner;
-                        }
-
-                        if (diff.kind === EDiffOpt.ADD) {
-                            EquipModel.serializeEquipNetMsg(pckInner, data);
-                        }
-                        else if (diff.kind === EDiffOpt.UPDATE) {
-                            pckInner[pros] = data;
-                        }
-                    }
-                    break;
-                }
-                case 'itemModel': {
-                    if (key === 'items') {
-                        uid = diff.kind === EDiffOpt.DELETE ? -parseInt(diff.path[2]) : parseInt(diff.path[2]);
-                        data = diff.rhs;
-                        pros = diff.path.length > 2 ? diff.path[3] : null;
-                        pck = pcks['SC_UPDATE_ITEM'];
-                        if (!pck) {
-                            pck = S2C.SC_UPDATE_ITEM.create();
-                            pcks['SC_UPDATE_ITEM'] = pck;
-                        }
-
-                        pckInner = pck.items[uid];
-                        if (!pckInner) {
-                            pckInner = S2C.Item.create();
-                            pck.items[uid] = pckInner;
-                        }
-
-                        if (diff.kind === EDiffOpt.ADD) {
-                            ItemModel.serializeItemNetMsg(pckInner, data);
-                        }
-                        else if (diff.kind === EDiffOpt.UPDATE) {
-                            pckInner[pros] = data;
-                        }
-                    }
-                    break;
-                }
-                default:
-                    break;
-            }
-        }
-
-        for (let key in pcks) {
-            this.sendProtocol(pcks[key]);
         }
     }
 }
