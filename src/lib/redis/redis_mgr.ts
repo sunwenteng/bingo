@@ -29,7 +29,7 @@ export abstract class RedisData {
     fields: any = {};
     redisPrefix: string;
     redisKeyExpire: number;
-    dirtyFields:any = {};
+    dirtyFields: any = {};
 
     protected constructor(redisPrefix: string, expireTime: number = 3600) {
         this.redisPrefix = redisPrefix;
@@ -60,10 +60,11 @@ export abstract class RedisData {
                         try {
                             if (reply[obj] !== "") {
                                 let ret = JSON.parse(reply[obj]);
-                                for(let key in ret) {
-                                    if(this.fields[obj]['fields'].hasOwnProperty(key))
+                                for (let key in ret) {
+                                    if (this.fields[obj]['fields'].hasOwnProperty(key))
                                         this.fields[obj]['fields'][key] = ret[key];
                                 }
+                                this.fields[obj]['m_loaded'] = true;
                             }
                         } catch (err) {
                             Log.sError('redis data parse failed, key=%s, val=%s', obj, reply[obj]);

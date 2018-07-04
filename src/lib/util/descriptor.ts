@@ -2,6 +2,7 @@ import {Log} from "./log";
 import {ERoleMask, Role} from "../../app/game/modles/role";
 import {RedisMgr, RedisType} from "../redis/redis_mgr";
 import * as WorldDB from '../mysql/world_db';
+import {BaseModel} from "../../app/game/modles/base_model";
 
 /**
  * 类函数装饰器，计算函数执行是
@@ -62,6 +63,9 @@ export function field(dynamic: boolean = false) {
     return function (target: Object, key: string): void {
         Object.defineProperty(target, key, {
             get: function () {
+                if (this['fields'][key] instanceof BaseModel && !this['fields'][key].m_loaded) {
+                    throw new Error(key + ' not loaded, pls loaded first');
+                }
                 return this['fields'][key];
             },
             set: function (newValue) {

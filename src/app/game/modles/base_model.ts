@@ -1,6 +1,7 @@
 import {Role} from "./role";
 
 export abstract class BaseModel {
+    m_loaded:boolean = false;
     m_Role: Role = null;
     fields: any = {};
     key:string;
