@@ -4,7 +4,7 @@ import {Log} from "../../../lib/util/log";
 import {Role} from "./role";
 import {modelField} from "../../../lib/util/descriptor";
 
-export const MAX_ITEM_BAG_SIZE = 2000;
+export const MAX_ITEM_BAG_SIZE = 1000;
 
 export interface IItem {
     id: number;

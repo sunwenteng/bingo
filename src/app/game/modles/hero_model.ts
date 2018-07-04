@@ -4,7 +4,7 @@ import {Log} from "../../../lib/util/log";
 import {Role} from "./role";
 import {modelField} from "../../../lib/util/descriptor";
 
-export const MAX_HERO_BAG_SIZE = 400;
+export const MAX_HERO_BAG_SIZE = 200;
 
 export interface IHeroSkill {
     id: number;
@@ -21,27 +21,6 @@ export interface IHero {
     exp: number;
     starLv: number;
     equipUids: number[];
-
-    test1: number;
-    test2: number;
-    test3: number;
-    test4: number;
-    test5: number;
-    test6: number;
-    test7: number;
-    test8: number;
-    test9: number;
-    test10: number;
-    test11: number;
-    test12: number;
-    test13: number;
-    test14: number;
-    test15: number;
-    test16: number;
-    test17: number;
-    test18: number;
-    test19: number;
-    test20: number;
 }
 
 export class HeroModel extends BaseModel {
@@ -89,26 +68,6 @@ export class HeroModel extends BaseModel {
             exp: 0,
             starLv: 0,
             equipUids: [],
-            test1: 0,
-            test2: 0,
-            test3: 0,
-            test4: 0,
-            test5: 0,
-            test6: 0,
-            test7: 0,
-            test8: 0,
-            test9: 0,
-            test10: 0,
-            test11: 0,
-            test12: 0,
-            test13: 0,
-            test14: 0,
-            test15: 0,
-            test16: 0,
-            test17: 0,
-            test18: 0,
-            test19: 0,
-            test20: 0,
         };
     }
 

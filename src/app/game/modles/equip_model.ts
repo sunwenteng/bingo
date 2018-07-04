@@ -4,7 +4,7 @@ import {Log} from "../../../lib/util/log";
 import {Role} from "./role";
 import {modelField} from "../../../lib/util/descriptor";
 
-export const MAX_EQUIP_BAG_SIZE = 400;
+export const MAX_EQUIP_BAG_SIZE = 200;
 
 export interface IEquip {
     uid: number;
