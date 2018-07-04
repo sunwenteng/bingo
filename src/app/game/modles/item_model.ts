@@ -17,6 +17,17 @@ export class Item {
             this.id = id;
         }
     }
+
+    serializeNetMsg(msg: S2C.Item) {
+        for (let k in msg) {
+            if (!this.hasOwnProperty(k)) {
+                if (k !== 'constructor' && k !== '$type' && k != 'toJSON')
+                    Log.sError('SC_UPDATE_ITEM %s not exist in role data', k);
+                continue;
+            }
+            msg[k] = this[k];
+        }
+    }
 }
 
 export class ItemModel extends BaseModel {
@@ -52,27 +63,16 @@ export class ItemModel extends BaseModel {
         let pck = S2C.SC_INIT_ITEM.create(), msg;
         for (let itemId in this._items) {
             msg = S2C.Item.create();
-            this.serializeItemNetMsg(msg, this._items[itemId]);
+            this._items[itemId].serializeNetMsg(msg);
             pck.items[itemId] = msg;
         }
         return pck;
     }
 
-    serializeItemNetMsg(msg: S2C.Item, item: Item) {
-        for (let k in msg) {
-            if (!item.hasOwnProperty(k)) {
-                if (k !== 'constructor' && k !== '$type' && k != 'toJSON')
-                    Log.sError('SC_UPDATE_ITEM %s not exist in role data', k);
-                continue;
-            }
-            msg[k] = item[k];
-        }
-    }
-
     sendItemUpdateProtocol(item: Item) {
         let msg = S2C.SC_UPDATE_ITEM.create();
         let itemMsg = S2C.Item.create();
-        this.serializeItemNetMsg(itemMsg, item);
+        item.serializeNetMsg(itemMsg);
         msg.items[item.id] = itemMsg;
         this.m_Role.sendProtocol(msg);
     }
@@ -97,7 +97,7 @@ export class ItemModel extends BaseModel {
         if (bSend2Client) {
             let msg = S2C.SC_UPDATE_ITEM.create();
             let itemMsg = S2C.Item.create();
-            this.serializeItemNetMsg(itemMsg, item);
+            item.serializeNetMsg(itemMsg);
             msg.items[itemId] = itemMsg;
             this.m_Role.sendProtocol(msg);
         }

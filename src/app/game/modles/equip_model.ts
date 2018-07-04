@@ -19,6 +19,18 @@ export class Equip {
         if (id)
             this.id = id;
     }
+
+    serializeNetMsg(msg: S2C.Equip) {
+        for (let k in msg) {
+            if (!this.hasOwnProperty(k)) {
+                if (k !== 'constructor' && k !== '$type' && k != 'toJSON')
+                    Log.sError('SC_UPDATE_EQUIP %s not exist in role data', k);
+                continue;
+            }
+            msg[k] = this[k];
+        }
+    }
+
 }
 
 export class EquipModel extends BaseModel {
@@ -55,21 +67,10 @@ export class EquipModel extends BaseModel {
         let pck = S2C.SC_INIT_EQUIP.create(), msg;
         for (let uid in this._equips) {
             msg = S2C.Equip.create();
-            this.serializeEquipNetMsg(msg, this._equips[uid]);
+            this._equips[uid].serializeNetMsg(msg);
             pck.equips[uid] = msg;
         }
         return pck;
-    }
-
-    serializeEquipNetMsg(msg: S2C.Equip, equip: Equip) {
-        for (let k in msg) {
-            if (!equip.hasOwnProperty(k)) {
-                if (k !== 'constructor' && k !== '$type' && k != 'toJSON')
-                    Log.sError('SC_UPDATE_EQUIP %s not exist in role data', k);
-                continue;
-            }
-            msg[k] = equip[k];
-        }
     }
 
     private createEquip(equipId: number): Equip {
@@ -88,7 +89,7 @@ export class EquipModel extends BaseModel {
     sendEquipUpdateProtocol(equip: Equip) {
         let msg = S2C.SC_UPDATE_EQUIP.create();
         let equipMsg = S2C.Equip.create();
-        this.serializeEquipNetMsg(equipMsg, equip);
+        equip.serializeNetMsg(equipMsg);
         msg.equips[equip.uid] = equipMsg;
         this.m_Role.sendProtocol(msg);
     }
@@ -101,7 +102,7 @@ export class EquipModel extends BaseModel {
         if (bSend2Client) {
             let msg = S2C.SC_UPDATE_EQUIP.create();
             let equipMsg = S2C.Equip.create();
-            this.serializeEquipNetMsg(equipMsg, equip);
+            equip.serializeNetMsg(equipMsg);
             msg.equips[equip.uid] = equipMsg;
             this.m_Role.sendProtocol(msg);
         }

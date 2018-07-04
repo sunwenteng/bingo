@@ -29,10 +29,20 @@ export class Hero {
             this.id = id;
         }
     }
+
+    serializeNetMsg(msg: S2C.Hero) {
+        for (let k in msg) {
+            if (!this.hasOwnProperty(k)) {
+                if (k !== 'constructor' && k !== '$type' && k != 'toJSON')
+                    Log.sError('SC_UPDATE_HERO %s not exist in role data', k);
+                continue;
+            }
+            msg[k] = this[k];
+        }
+    }
 }
 
 export class HeroModel extends BaseModel {
-    // 必须是简单类型
     @modelField() private _heroes: { [uid: number]: Hero } = {};
     @modelField() maxUid: number = 0;
 
@@ -66,21 +76,10 @@ export class HeroModel extends BaseModel {
         let pck = S2C.SC_INIT_HERO.create(), msg;
         for (let uid in this._heroes) {
             msg = S2C.Hero.create();
-            this.serializeHeroNetMsg(msg, this._heroes[uid]);
+            this._heroes[uid].serializeNetMsg(msg);
             pck.heroes[uid] = msg;
         }
         return pck;
-    }
-
-    serializeHeroNetMsg(msg: S2C.Hero, hero: Hero) {
-        for (let k in msg) {
-            if (!hero.hasOwnProperty(k)) {
-                if (k !== 'constructor' && k !== '$type' && k != 'toJSON')
-                    Log.sError('SC_UPDATE_HERO %s not exist in role data', k);
-                continue;
-            }
-            msg[k] = hero[k];
-        }
     }
 
     private createHero(heroId: number): Hero {
@@ -104,7 +103,7 @@ export class HeroModel extends BaseModel {
         if (bSend2Client) {
             let msg = S2C.SC_UPDATE_HERO.create();
             let heroMsg = S2C.Hero.create();
-            this.serializeHeroNetMsg(heroMsg, hero);
+            hero.serializeNetMsg(heroMsg);
             msg.heroes[hero.uid] = heroMsg;
             this.m_Role.sendProtocol(msg);
         }
@@ -120,13 +119,13 @@ export class HeroModel extends BaseModel {
         }
         delete this._heroes[uid];
         this.makeDirty();
-        Log.uInfo(this.m_Role.uid,  'useType=%d, uid=%d', type, uid);
+        Log.uInfo(this.m_Role.uid, 'useType=%d, uid=%d', type, uid);
     }
 
     sendHeroUpdateProtocol(hero: Hero) {
         let msg = S2C.SC_UPDATE_HERO.create();
         let heroMsg = S2C.Hero.create();
-        this.serializeHeroNetMsg(heroMsg, hero);
+        hero.serializeNetMsg(heroMsg);
         msg.heroes[hero.uid] = heroMsg;
         this.m_Role.sendProtocol(msg);
     }
