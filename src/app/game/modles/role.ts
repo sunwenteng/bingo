@@ -5,7 +5,7 @@ import * as WorldDB from '../../../lib/mysql/world_db';
 import {WorldDataRedisKey} from "../game_world";
 import {S2C} from "../../proto/cmd";
 import {GameSession} from "../game_session";
-import {field} from "../../../lib/util/descriptor";
+import {roleField} from "../../../lib/util/descriptor";
 import {HeroModel} from "./hero_model";
 import {EquipModel} from "./equip_model";
 import {ItemModel} from "./item_model";
@@ -24,23 +24,23 @@ export class Role extends RedisData {
     _session: GameSession;
 
     // NOTE: 声明的属性必须都在mysql有相应列做存储
-    @field(true) uid: number = 0;
-    @field(true) nickname: string = '';
-    @field(true) headimgurl: string = '';
-    @field(true) diamond: number = 0;
-    @field(true) exp: number = 0;
-    @field(true) gold: number = 0;
-    @field(true) level: number = 0;
-    @field(true) vipLevel: number = 0;
-    @field(true) vipExp: number = 0;
+    @roleField(true) uid: number = 0;
+    @roleField(true) nickname: string = '';
+    @roleField(true) headimgurl: string = '';
+    @roleField(true) diamond: number = 0;
+    @roleField(true) exp: number = 0;
+    @roleField(true) gold: number = 0;
+    @roleField(true) level: number = 0;
+    @roleField(true) vipLevel: number = 0;
+    @roleField(true) vipExp: number = 0;
 
-    @field() lastLoginTime: number = 0;
-    @field() lastAliveTime: number = 0;
-    @field() createTime: number = 0;
+    @roleField() lastLoginTime: number = 0;
+    @roleField() lastAliveTime: number = 0;
+    @roleField() createTime: number = 0;
 
-    @field() heroModel = new HeroModel(this, 'heroModel');
-    @field() equipModel = new EquipModel(this, 'equipModel');
-    @field() itemModel = new ItemModel(this, 'itemModel');
+    @roleField() heroModel = new HeroModel(this, 'heroModel');
+    @roleField() equipModel = new EquipModel(this, 'equipModel');
+    @roleField() itemModel = new ItemModel(this, 'itemModel');
 
     constructor(uid: number, session?: GameSession) {
         super(RoleRedisPrefix);

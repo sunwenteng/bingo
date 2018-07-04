@@ -59,7 +59,7 @@ export function controller(readonly: boolean = false, mask?: ERoleMask[] | ERole
     }
 }
 
-export function field(dynamic: boolean = false) {
+export function roleField(dynamic: boolean = false) {
     return function (target: Object, key: string): void {
         Object.defineProperty(target, key, {
             get: function () {
@@ -69,7 +69,7 @@ export function field(dynamic: boolean = false) {
                 return this['fields'][key];
             },
             set: function (newValue) {
-                if (this['fields'][key] !== newValue) {
+                if (this['fields'].hasOwnProperty(key) && this['fields'][key] !== newValue) {
                     if (dynamic) {
                         this['dynamicFields'][key] = null;
                     }
@@ -91,6 +91,19 @@ export function modelField() {
                 if (this['fields'][key] !== newValue) {
                     this['makeDirty']();
                 }
+                this['fields'][key] = newValue;
+            }
+        });
+    }
+}
+
+export function field() {
+    return function (target: Object, key: string): void {
+        Object.defineProperty(target, key, {
+            get: function () {
+                return this['fields'][key];
+            },
+            set: function (newValue) {
                 this['fields'][key] = newValue;
             }
         });

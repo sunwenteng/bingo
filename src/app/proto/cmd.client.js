@@ -2322,6 +2322,7 @@
              * @property {S2C.ISC_ROLE_ONLINE|null} [SC_ROLE_ONLINE] Message SC_ROLE_ONLINE
              * @property {S2C.ISC_ROLE_HEART_BEAT|null} [SC_ROLE_HEART_BEAT] Message SC_ROLE_HEART_BEAT
              * @property {S2C.ISC_ROLE_PRO_UPDATE|null} [SC_ROLE_PRO_UPDATE] Message SC_ROLE_PRO_UPDATE
+             * @property {S2C.ISC_GET_REWARD|null} [SC_GET_REWARD] Message SC_GET_REWARD
              * @property {S2C.ISC_INIT_HERO|null} [SC_INIT_HERO] Message SC_INIT_HERO
              * @property {S2C.ISC_UPDATE_HERO|null} [SC_UPDATE_HERO] Message SC_UPDATE_HERO
              * @property {S2C.ISC_INIT_EQUIP|null} [SC_INIT_EQUIP] Message SC_INIT_EQUIP
@@ -2410,6 +2411,14 @@
             Message.prototype.SC_ROLE_PRO_UPDATE = null;
     
             /**
+             * Message SC_GET_REWARD.
+             * @member {S2C.ISC_GET_REWARD|null|undefined} SC_GET_REWARD
+             * @memberof S2C.Message
+             * @instance
+             */
+            Message.prototype.SC_GET_REWARD = null;
+    
+            /**
              * Message SC_INIT_HERO.
              * @member {S2C.ISC_INIT_HERO|null|undefined} SC_INIT_HERO
              * @memberof S2C.Message
@@ -2462,12 +2471,12 @@
     
             /**
              * Message kind.
-             * @member {"SC_TEST_ECHO"|"LOGIN_SC_LOGIN"|"LOGIN_SC_CHOOSE_SERVER"|"LOGIN_SC_GET_SERVER_LIST"|"LOGIN_SC_GET_INFO"|"SC_ROLE_ONLINE"|"SC_ROLE_HEART_BEAT"|"SC_ROLE_PRO_UPDATE"|"SC_INIT_HERO"|"SC_UPDATE_HERO"|"SC_INIT_EQUIP"|"SC_UPDATE_EQUIP"|"SC_INIT_ITEM"|"SC_UPDATE_ITEM"|undefined} kind
+             * @member {"SC_TEST_ECHO"|"LOGIN_SC_LOGIN"|"LOGIN_SC_CHOOSE_SERVER"|"LOGIN_SC_GET_SERVER_LIST"|"LOGIN_SC_GET_INFO"|"SC_ROLE_ONLINE"|"SC_ROLE_HEART_BEAT"|"SC_ROLE_PRO_UPDATE"|"SC_GET_REWARD"|"SC_INIT_HERO"|"SC_UPDATE_HERO"|"SC_INIT_EQUIP"|"SC_UPDATE_EQUIP"|"SC_INIT_ITEM"|"SC_UPDATE_ITEM"|undefined} kind
              * @memberof S2C.Message
              * @instance
              */
             Object.defineProperty(Message.prototype, "kind", {
-                get: $util.oneOfGetter($oneOfFields = ["SC_TEST_ECHO", "LOGIN_SC_LOGIN", "LOGIN_SC_CHOOSE_SERVER", "LOGIN_SC_GET_SERVER_LIST", "LOGIN_SC_GET_INFO", "SC_ROLE_ONLINE", "SC_ROLE_HEART_BEAT", "SC_ROLE_PRO_UPDATE", "SC_INIT_HERO", "SC_UPDATE_HERO", "SC_INIT_EQUIP", "SC_UPDATE_EQUIP", "SC_INIT_ITEM", "SC_UPDATE_ITEM"]),
+                get: $util.oneOfGetter($oneOfFields = ["SC_TEST_ECHO", "LOGIN_SC_LOGIN", "LOGIN_SC_CHOOSE_SERVER", "LOGIN_SC_GET_SERVER_LIST", "LOGIN_SC_GET_INFO", "SC_ROLE_ONLINE", "SC_ROLE_HEART_BEAT", "SC_ROLE_PRO_UPDATE", "SC_GET_REWARD", "SC_INIT_HERO", "SC_UPDATE_HERO", "SC_INIT_EQUIP", "SC_UPDATE_EQUIP", "SC_INIT_ITEM", "SC_UPDATE_ITEM"]),
                 set: $util.oneOfSetter($oneOfFields)
             });
     
@@ -2503,6 +2512,8 @@
                     $root.S2C.SC_ROLE_HEART_BEAT.encode(message.SC_ROLE_HEART_BEAT, writer.uint32(/* id 1002, wireType 2 =*/8018).fork()).ldelim();
                 if (message.SC_ROLE_PRO_UPDATE != null && message.hasOwnProperty("SC_ROLE_PRO_UPDATE"))
                     $root.S2C.SC_ROLE_PRO_UPDATE.encode(message.SC_ROLE_PRO_UPDATE, writer.uint32(/* id 1003, wireType 2 =*/8026).fork()).ldelim();
+                if (message.SC_GET_REWARD != null && message.hasOwnProperty("SC_GET_REWARD"))
+                    $root.S2C.SC_GET_REWARD.encode(message.SC_GET_REWARD, writer.uint32(/* id 1004, wireType 2 =*/8034).fork()).ldelim();
                 if (message.SC_INIT_HERO != null && message.hasOwnProperty("SC_INIT_HERO"))
                     $root.S2C.SC_INIT_HERO.encode(message.SC_INIT_HERO, writer.uint32(/* id 1101, wireType 2 =*/8810).fork()).ldelim();
                 if (message.SC_UPDATE_HERO != null && message.hasOwnProperty("SC_UPDATE_HERO"))
@@ -2580,6 +2591,9 @@
                         break;
                     case 1003:
                         message.SC_ROLE_PRO_UPDATE = $root.S2C.SC_ROLE_PRO_UPDATE.decode(reader, reader.uint32());
+                        break;
+                    case 1004:
+                        message.SC_GET_REWARD = $root.S2C.SC_GET_REWARD.decode(reader, reader.uint32());
                         break;
                     case 1101:
                         message.SC_INIT_HERO = $root.S2C.SC_INIT_HERO.decode(reader, reader.uint32());
@@ -2713,6 +2727,16 @@
                             return "SC_ROLE_PRO_UPDATE." + error;
                     }
                 }
+                if (message.SC_GET_REWARD != null && message.hasOwnProperty("SC_GET_REWARD")) {
+                    if (properties.kind === 1)
+                        return "kind: multiple values";
+                    properties.kind = 1;
+                    {
+                        var error = $root.S2C.SC_GET_REWARD.verify(message.SC_GET_REWARD);
+                        if (error)
+                            return "SC_GET_REWARD." + error;
+                    }
+                }
                 if (message.SC_INIT_HERO != null && message.hasOwnProperty("SC_INIT_HERO")) {
                     if (properties.kind === 1)
                         return "kind: multiple values";
@@ -2828,6 +2852,11 @@
                         throw TypeError(".S2C.Message.SC_ROLE_PRO_UPDATE: object expected");
                     message.SC_ROLE_PRO_UPDATE = $root.S2C.SC_ROLE_PRO_UPDATE.fromObject(object.SC_ROLE_PRO_UPDATE);
                 }
+                if (object.SC_GET_REWARD != null) {
+                    if (typeof object.SC_GET_REWARD !== "object")
+                        throw TypeError(".S2C.Message.SC_GET_REWARD: object expected");
+                    message.SC_GET_REWARD = $root.S2C.SC_GET_REWARD.fromObject(object.SC_GET_REWARD);
+                }
                 if (object.SC_INIT_HERO != null) {
                     if (typeof object.SC_INIT_HERO !== "object")
                         throw TypeError(".S2C.Message.SC_INIT_HERO: object expected");
@@ -2894,6 +2923,11 @@
                     if (options.oneofs)
                         object.kind = "SC_ROLE_PRO_UPDATE";
                 }
+                if (message.SC_GET_REWARD != null && message.hasOwnProperty("SC_GET_REWARD")) {
+                    object.SC_GET_REWARD = $root.S2C.SC_GET_REWARD.toObject(message.SC_GET_REWARD, options);
+                    if (options.oneofs)
+                        object.kind = "SC_GET_REWARD";
+                }
                 if (message.SC_INIT_HERO != null && message.hasOwnProperty("SC_INIT_HERO")) {
                     object.SC_INIT_HERO = $root.S2C.SC_INIT_HERO.toObject(message.SC_INIT_HERO, options);
                     if (options.oneofs)
@@ -2959,6 +2993,621 @@
             };
     
             return Message;
+        })();
+    
+        S2C.Reward = (function() {
+    
+            /**
+             * Properties of a Reward.
+             * @memberof S2C
+             * @interface IReward
+             * @property {number|Long|null} [gold] Reward gold
+             * @property {number|null} [diamond] Reward diamond
+             * @property {number|Long|null} [exp] Reward exp
+             * @property {number|null} [vipExp] Reward vipExp
+             * @property {Array.<number>|null} [heroes] Reward heroes
+             * @property {Array.<number>|null} [equips] Reward equips
+             * @property {Object.<string,number>|null} [items] Reward items
+             */
+    
+            /**
+             * Constructs a new Reward.
+             * @memberof S2C
+             * @classdesc Represents a Reward.
+             * @implements IReward
+             * @constructor
+             * @param {S2C.IReward=} [properties] Properties to set
+             */
+            function Reward(properties) {
+                this.heroes = [];
+                this.equips = [];
+                this.items = {};
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+    
+            /**
+             * Reward gold.
+             * @member {number|Long} gold
+             * @memberof S2C.Reward
+             * @instance
+             */
+            Reward.prototype.gold = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+    
+            /**
+             * Reward diamond.
+             * @member {number} diamond
+             * @memberof S2C.Reward
+             * @instance
+             */
+            Reward.prototype.diamond = 0;
+    
+            /**
+             * Reward exp.
+             * @member {number|Long} exp
+             * @memberof S2C.Reward
+             * @instance
+             */
+            Reward.prototype.exp = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+    
+            /**
+             * Reward vipExp.
+             * @member {number} vipExp
+             * @memberof S2C.Reward
+             * @instance
+             */
+            Reward.prototype.vipExp = 0;
+    
+            /**
+             * Reward heroes.
+             * @member {Array.<number>} heroes
+             * @memberof S2C.Reward
+             * @instance
+             */
+            Reward.prototype.heroes = $util.emptyArray;
+    
+            /**
+             * Reward equips.
+             * @member {Array.<number>} equips
+             * @memberof S2C.Reward
+             * @instance
+             */
+            Reward.prototype.equips = $util.emptyArray;
+    
+            /**
+             * Reward items.
+             * @member {Object.<string,number>} items
+             * @memberof S2C.Reward
+             * @instance
+             */
+            Reward.prototype.items = $util.emptyObject;
+    
+            /**
+             * Creates a new Reward instance using the specified properties.
+             * @function create
+             * @memberof S2C.Reward
+             * @static
+             * @param {S2C.IReward=} [properties] Properties to set
+             * @returns {S2C.Reward} Reward instance
+             */
+            Reward.create = function create(properties) {
+                return new Reward(properties);
+            };
+    
+            /**
+             * Encodes the specified Reward message. Does not implicitly {@link S2C.Reward.verify|verify} messages.
+             * @function encode
+             * @memberof S2C.Reward
+             * @static
+             * @param {S2C.IReward} message Reward message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            Reward.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.gold != null && message.hasOwnProperty("gold"))
+                    writer.uint32(/* id 1, wireType 0 =*/8).uint64(message.gold);
+                if (message.diamond != null && message.hasOwnProperty("diamond"))
+                    writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.diamond);
+                if (message.exp != null && message.hasOwnProperty("exp"))
+                    writer.uint32(/* id 3, wireType 0 =*/24).uint64(message.exp);
+                if (message.vipExp != null && message.hasOwnProperty("vipExp"))
+                    writer.uint32(/* id 4, wireType 0 =*/32).uint32(message.vipExp);
+                if (message.heroes != null && message.heroes.length) {
+                    writer.uint32(/* id 5, wireType 2 =*/42).fork();
+                    for (var i = 0; i < message.heroes.length; ++i)
+                        writer.uint32(message.heroes[i]);
+                    writer.ldelim();
+                }
+                if (message.equips != null && message.equips.length) {
+                    writer.uint32(/* id 6, wireType 2 =*/50).fork();
+                    for (var i = 0; i < message.equips.length; ++i)
+                        writer.uint32(message.equips[i]);
+                    writer.ldelim();
+                }
+                if (message.items != null && message.hasOwnProperty("items"))
+                    for (var keys = Object.keys(message.items), i = 0; i < keys.length; ++i)
+                        writer.uint32(/* id 7, wireType 2 =*/58).fork().uint32(/* id 1, wireType 0 =*/8).uint32(keys[i]).uint32(/* id 2, wireType 0 =*/16).uint32(message.items[keys[i]]).ldelim();
+                return writer;
+            };
+    
+            /**
+             * Encodes the specified Reward message, length delimited. Does not implicitly {@link S2C.Reward.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof S2C.Reward
+             * @static
+             * @param {S2C.IReward} message Reward message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            Reward.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+    
+            /**
+             * Decodes a Reward message from the specified reader or buffer.
+             * @function decode
+             * @memberof S2C.Reward
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {S2C.Reward} Reward
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            Reward.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.S2C.Reward(), key;
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        message.gold = reader.uint64();
+                        break;
+                    case 2:
+                        message.diamond = reader.uint32();
+                        break;
+                    case 3:
+                        message.exp = reader.uint64();
+                        break;
+                    case 4:
+                        message.vipExp = reader.uint32();
+                        break;
+                    case 5:
+                        if (!(message.heroes && message.heroes.length))
+                            message.heroes = [];
+                        if ((tag & 7) === 2) {
+                            var end2 = reader.uint32() + reader.pos;
+                            while (reader.pos < end2)
+                                message.heroes.push(reader.uint32());
+                        } else
+                            message.heroes.push(reader.uint32());
+                        break;
+                    case 6:
+                        if (!(message.equips && message.equips.length))
+                            message.equips = [];
+                        if ((tag & 7) === 2) {
+                            var end2 = reader.uint32() + reader.pos;
+                            while (reader.pos < end2)
+                                message.equips.push(reader.uint32());
+                        } else
+                            message.equips.push(reader.uint32());
+                        break;
+                    case 7:
+                        reader.skip().pos++;
+                        if (message.items === $util.emptyObject)
+                            message.items = {};
+                        key = reader.uint32();
+                        reader.pos++;
+                        message.items[key] = reader.uint32();
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Decodes a Reward message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof S2C.Reward
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {S2C.Reward} Reward
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            Reward.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+    
+            /**
+             * Verifies a Reward message.
+             * @function verify
+             * @memberof S2C.Reward
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            Reward.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.gold != null && message.hasOwnProperty("gold"))
+                    if (!$util.isInteger(message.gold) && !(message.gold && $util.isInteger(message.gold.low) && $util.isInteger(message.gold.high)))
+                        return "gold: integer|Long expected";
+                if (message.diamond != null && message.hasOwnProperty("diamond"))
+                    if (!$util.isInteger(message.diamond))
+                        return "diamond: integer expected";
+                if (message.exp != null && message.hasOwnProperty("exp"))
+                    if (!$util.isInteger(message.exp) && !(message.exp && $util.isInteger(message.exp.low) && $util.isInteger(message.exp.high)))
+                        return "exp: integer|Long expected";
+                if (message.vipExp != null && message.hasOwnProperty("vipExp"))
+                    if (!$util.isInteger(message.vipExp))
+                        return "vipExp: integer expected";
+                if (message.heroes != null && message.hasOwnProperty("heroes")) {
+                    if (!Array.isArray(message.heroes))
+                        return "heroes: array expected";
+                    for (var i = 0; i < message.heroes.length; ++i)
+                        if (!$util.isInteger(message.heroes[i]))
+                            return "heroes: integer[] expected";
+                }
+                if (message.equips != null && message.hasOwnProperty("equips")) {
+                    if (!Array.isArray(message.equips))
+                        return "equips: array expected";
+                    for (var i = 0; i < message.equips.length; ++i)
+                        if (!$util.isInteger(message.equips[i]))
+                            return "equips: integer[] expected";
+                }
+                if (message.items != null && message.hasOwnProperty("items")) {
+                    if (!$util.isObject(message.items))
+                        return "items: object expected";
+                    var key = Object.keys(message.items);
+                    for (var i = 0; i < key.length; ++i) {
+                        if (!$util.key32Re.test(key[i]))
+                            return "items: integer key{k:uint32} expected";
+                        if (!$util.isInteger(message.items[key[i]]))
+                            return "items: integer{k:uint32} expected";
+                    }
+                }
+                return null;
+            };
+    
+            /**
+             * Creates a Reward message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof S2C.Reward
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {S2C.Reward} Reward
+             */
+            Reward.fromObject = function fromObject(object) {
+                if (object instanceof $root.S2C.Reward)
+                    return object;
+                var message = new $root.S2C.Reward();
+                if (object.gold != null)
+                    if ($util.Long)
+                        (message.gold = $util.Long.fromValue(object.gold)).unsigned = true;
+                    else if (typeof object.gold === "string")
+                        message.gold = parseInt(object.gold, 10);
+                    else if (typeof object.gold === "number")
+                        message.gold = object.gold;
+                    else if (typeof object.gold === "object")
+                        message.gold = new $util.LongBits(object.gold.low >>> 0, object.gold.high >>> 0).toNumber(true);
+                if (object.diamond != null)
+                    message.diamond = object.diamond >>> 0;
+                if (object.exp != null)
+                    if ($util.Long)
+                        (message.exp = $util.Long.fromValue(object.exp)).unsigned = true;
+                    else if (typeof object.exp === "string")
+                        message.exp = parseInt(object.exp, 10);
+                    else if (typeof object.exp === "number")
+                        message.exp = object.exp;
+                    else if (typeof object.exp === "object")
+                        message.exp = new $util.LongBits(object.exp.low >>> 0, object.exp.high >>> 0).toNumber(true);
+                if (object.vipExp != null)
+                    message.vipExp = object.vipExp >>> 0;
+                if (object.heroes) {
+                    if (!Array.isArray(object.heroes))
+                        throw TypeError(".S2C.Reward.heroes: array expected");
+                    message.heroes = [];
+                    for (var i = 0; i < object.heroes.length; ++i)
+                        message.heroes[i] = object.heroes[i] >>> 0;
+                }
+                if (object.equips) {
+                    if (!Array.isArray(object.equips))
+                        throw TypeError(".S2C.Reward.equips: array expected");
+                    message.equips = [];
+                    for (var i = 0; i < object.equips.length; ++i)
+                        message.equips[i] = object.equips[i] >>> 0;
+                }
+                if (object.items) {
+                    if (typeof object.items !== "object")
+                        throw TypeError(".S2C.Reward.items: object expected");
+                    message.items = {};
+                    for (var keys = Object.keys(object.items), i = 0; i < keys.length; ++i)
+                        message.items[keys[i]] = object.items[keys[i]] >>> 0;
+                }
+                return message;
+            };
+    
+            /**
+             * Creates a plain object from a Reward message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof S2C.Reward
+             * @static
+             * @param {S2C.Reward} message Reward
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            Reward.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.arrays || options.defaults) {
+                    object.heroes = [];
+                    object.equips = [];
+                }
+                if (options.objects || options.defaults)
+                    object.items = {};
+                if (options.defaults) {
+                    if ($util.Long) {
+                        var long = new $util.Long(0, 0, true);
+                        object.gold = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    } else
+                        object.gold = options.longs === String ? "0" : 0;
+                    object.diamond = 0;
+                    if ($util.Long) {
+                        var long = new $util.Long(0, 0, true);
+                        object.exp = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    } else
+                        object.exp = options.longs === String ? "0" : 0;
+                    object.vipExp = 0;
+                }
+                if (message.gold != null && message.hasOwnProperty("gold"))
+                    if (typeof message.gold === "number")
+                        object.gold = options.longs === String ? String(message.gold) : message.gold;
+                    else
+                        object.gold = options.longs === String ? $util.Long.prototype.toString.call(message.gold) : options.longs === Number ? new $util.LongBits(message.gold.low >>> 0, message.gold.high >>> 0).toNumber(true) : message.gold;
+                if (message.diamond != null && message.hasOwnProperty("diamond"))
+                    object.diamond = message.diamond;
+                if (message.exp != null && message.hasOwnProperty("exp"))
+                    if (typeof message.exp === "number")
+                        object.exp = options.longs === String ? String(message.exp) : message.exp;
+                    else
+                        object.exp = options.longs === String ? $util.Long.prototype.toString.call(message.exp) : options.longs === Number ? new $util.LongBits(message.exp.low >>> 0, message.exp.high >>> 0).toNumber(true) : message.exp;
+                if (message.vipExp != null && message.hasOwnProperty("vipExp"))
+                    object.vipExp = message.vipExp;
+                if (message.heroes && message.heroes.length) {
+                    object.heroes = [];
+                    for (var j = 0; j < message.heroes.length; ++j)
+                        object.heroes[j] = message.heroes[j];
+                }
+                if (message.equips && message.equips.length) {
+                    object.equips = [];
+                    for (var j = 0; j < message.equips.length; ++j)
+                        object.equips[j] = message.equips[j];
+                }
+                var keys2;
+                if (message.items && (keys2 = Object.keys(message.items)).length) {
+                    object.items = {};
+                    for (var j = 0; j < keys2.length; ++j)
+                        object.items[keys2[j]] = message.items[keys2[j]];
+                }
+                return object;
+            };
+    
+            /**
+             * Converts this Reward to JSON.
+             * @function toJSON
+             * @memberof S2C.Reward
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            Reward.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+    
+            return Reward;
+        })();
+    
+        S2C.SC_GET_REWARD = (function() {
+    
+            /**
+             * Properties of a SC_GET_REWARD.
+             * @memberof S2C
+             * @interface ISC_GET_REWARD
+             * @property {S2C.IReward|null} [reward] SC_GET_REWARD reward
+             */
+    
+            /**
+             * Constructs a new SC_GET_REWARD.
+             * @memberof S2C
+             * @classdesc Represents a SC_GET_REWARD.
+             * @implements ISC_GET_REWARD
+             * @constructor
+             * @param {S2C.ISC_GET_REWARD=} [properties] Properties to set
+             */
+            function SC_GET_REWARD(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+    
+            /**
+             * SC_GET_REWARD reward.
+             * @member {S2C.IReward|null|undefined} reward
+             * @memberof S2C.SC_GET_REWARD
+             * @instance
+             */
+            SC_GET_REWARD.prototype.reward = null;
+    
+            /**
+             * Creates a new SC_GET_REWARD instance using the specified properties.
+             * @function create
+             * @memberof S2C.SC_GET_REWARD
+             * @static
+             * @param {S2C.ISC_GET_REWARD=} [properties] Properties to set
+             * @returns {S2C.SC_GET_REWARD} SC_GET_REWARD instance
+             */
+            SC_GET_REWARD.create = function create(properties) {
+                return new SC_GET_REWARD(properties);
+            };
+    
+            /**
+             * Encodes the specified SC_GET_REWARD message. Does not implicitly {@link S2C.SC_GET_REWARD.verify|verify} messages.
+             * @function encode
+             * @memberof S2C.SC_GET_REWARD
+             * @static
+             * @param {S2C.ISC_GET_REWARD} message SC_GET_REWARD message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            SC_GET_REWARD.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.reward != null && message.hasOwnProperty("reward"))
+                    $root.S2C.Reward.encode(message.reward, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                return writer;
+            };
+    
+            /**
+             * Encodes the specified SC_GET_REWARD message, length delimited. Does not implicitly {@link S2C.SC_GET_REWARD.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof S2C.SC_GET_REWARD
+             * @static
+             * @param {S2C.ISC_GET_REWARD} message SC_GET_REWARD message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            SC_GET_REWARD.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+    
+            /**
+             * Decodes a SC_GET_REWARD message from the specified reader or buffer.
+             * @function decode
+             * @memberof S2C.SC_GET_REWARD
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {S2C.SC_GET_REWARD} SC_GET_REWARD
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            SC_GET_REWARD.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.S2C.SC_GET_REWARD();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        message.reward = $root.S2C.Reward.decode(reader, reader.uint32());
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Decodes a SC_GET_REWARD message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof S2C.SC_GET_REWARD
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {S2C.SC_GET_REWARD} SC_GET_REWARD
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            SC_GET_REWARD.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+    
+            /**
+             * Verifies a SC_GET_REWARD message.
+             * @function verify
+             * @memberof S2C.SC_GET_REWARD
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            SC_GET_REWARD.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.reward != null && message.hasOwnProperty("reward")) {
+                    var error = $root.S2C.Reward.verify(message.reward);
+                    if (error)
+                        return "reward." + error;
+                }
+                return null;
+            };
+    
+            /**
+             * Creates a SC_GET_REWARD message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof S2C.SC_GET_REWARD
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {S2C.SC_GET_REWARD} SC_GET_REWARD
+             */
+            SC_GET_REWARD.fromObject = function fromObject(object) {
+                if (object instanceof $root.S2C.SC_GET_REWARD)
+                    return object;
+                var message = new $root.S2C.SC_GET_REWARD();
+                if (object.reward != null) {
+                    if (typeof object.reward !== "object")
+                        throw TypeError(".S2C.SC_GET_REWARD.reward: object expected");
+                    message.reward = $root.S2C.Reward.fromObject(object.reward);
+                }
+                return message;
+            };
+    
+            /**
+             * Creates a plain object from a SC_GET_REWARD message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof S2C.SC_GET_REWARD
+             * @static
+             * @param {S2C.SC_GET_REWARD} message SC_GET_REWARD
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            SC_GET_REWARD.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.defaults)
+                    object.reward = null;
+                if (message.reward != null && message.hasOwnProperty("reward"))
+                    object.reward = $root.S2C.Reward.toObject(message.reward, options);
+                return object;
+            };
+    
+            /**
+             * Converts this SC_GET_REWARD to JSON.
+             * @function toJSON
+             * @memberof S2C.SC_GET_REWARD
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            SC_GET_REWARD.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+    
+            return SC_GET_REWARD;
         })();
     
         S2C.Hero = (function() {
@@ -3658,7 +4307,7 @@
             /**
              * Properties of an Equip.
              * @memberof S2C
-             * @interface IEquip
+             * @interface Equip
              * @property {number|null} [uid] Equip uid
              * @property {number|null} [id] Equip id
              * @property {number|null} [lvl] Equip lvl
@@ -3670,7 +4319,7 @@
              * Constructs a new Equip.
              * @memberof S2C
              * @classdesc Represents an Equip.
-             * @implements IEquip
+             * @implements Equip
              * @constructor
              * @param {S2C.IEquip=} [properties] Properties to set
              */
@@ -4372,7 +5021,7 @@
             /**
              * Properties of an Item.
              * @memberof S2C
-             * @interface IItem
+             * @interface Item
              * @property {number|null} [id] Item id
              * @property {number|null} [cnt] Item cnt
              */
@@ -4381,7 +5030,7 @@
              * Constructs a new Item.
              * @memberof S2C
              * @classdesc Represents an Item.
-             * @implements IItem
+             * @implements Item
              * @constructor
              * @param {S2C.IItem=} [properties] Properties to set
              */

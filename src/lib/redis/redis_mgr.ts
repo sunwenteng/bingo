@@ -2,6 +2,7 @@ import * as events from 'events';
 import * as redis from 'redis';
 import {Log} from "../util/log";
 import {ErrorCode} from "../util/error_code";
+import {Model} from "../../app/game/modles/model";
 
 const Config = require('../../config/config.json');
 /**
@@ -24,14 +25,14 @@ export enum RedisChanel {
     BROADCAST = 'broadcast',
 }
 
-export abstract class RedisData {
+export abstract class RedisData extends Model{
     dynamicFields: any = {};
-    fields: any = {};
     redisPrefix: string;
     redisKeyExpire: number;
     dirtyFields: any = {};
 
     protected constructor(redisPrefix: string, expireTime: number = 3600) {
+        super();
         this.redisPrefix = redisPrefix;
         this.redisKeyExpire = expireTime;
     }
@@ -59,11 +60,7 @@ export abstract class RedisData {
                     case 'object' :
                         try {
                             if (reply[obj] !== "") {
-                                let ret = JSON.parse(reply[obj]);
-                                for (let key in ret) {
-                                    if (this.fields[obj]['fields'].hasOwnProperty(key))
-                                        this.fields[obj]['fields'][key] = ret[key];
-                                }
+                                this.fields[obj].deserialize(reply[obj]);
                                 this.fields[obj]['m_loaded'] = true;
                             }
                         } catch (err) {
@@ -93,7 +90,7 @@ export abstract class RedisData {
                         reply[obj] = this.fields[obj];
                         break;
                     case 'object' :
-                        reply[obj] = JSON.stringify(this.fields[obj]['fields']);
+                        reply[obj] = this.fields[obj].serialize();
                         break;
                     default:
                         Log.sError('wrong type, key=%s, type=%s', obj, typeof this.fields[obj]);

@@ -77,22 +77,22 @@ export class Log {
     }
 
     // user
-    public static uDebug(roleId: number, operation: string, message: string, ...args: any[]): void {
+    public static uDebug(roleId: number, ...args: any[]): void {
         let arg = roleId + ',' + LineInfoDefault() + ',' + util.format.apply(util, args);
         this._logger.debug(arg);
     }
 
-    public static uInfo(roleId: number, operation: string, message: any, ...args: any[]): void {
+    public static uInfo(roleId: number, ...args: any[]): void {
         let arg = roleId + ',' + LineInfoDefault() + ',' + util.format.apply(util, args);
         this._logger.info(arg);
     }
 
-    public static uWarn(roleId: number, operation: string, message: string, ...args: any[]): void {
+    public static uWarn(roleId: number, ...args: any[]): void {
         let arg = roleId + ',' + LineInfoDefault() + ',' + util.format.apply(util, args);
         this._logger.warn(arg);
     }
 
-    public static uError(roleId: number, operation: string, message: string, ...args: any[]): void {
+    public static uError(roleId: number, ...args: any[]): void {
         let arg = roleId + ',' + LineInfoDefault() + ',' + util.format.apply(util, args);
         this._logger.error(arg);
     }

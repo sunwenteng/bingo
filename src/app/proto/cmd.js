@@ -193,6 +193,7 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
               "SC_ROLE_ONLINE",
               "SC_ROLE_HEART_BEAT",
               "SC_ROLE_PRO_UPDATE",
+              "SC_GET_REWARD",
               "SC_INIT_HERO",
               "SC_UPDATE_HERO",
               "SC_INIT_EQUIP",
@@ -235,6 +236,10 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
             type: "SC_ROLE_PRO_UPDATE",
             id: 1003
           },
+          SC_GET_REWARD: {
+            type: "SC_GET_REWARD",
+            id: 1004
+          },
           SC_INIT_HERO: {
             type: "SC_INIT_HERO",
             id: 1101
@@ -258,6 +263,49 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
           SC_UPDATE_ITEM: {
             type: "SC_UPDATE_ITEM",
             id: 1302
+          }
+        }
+      },
+      Reward: {
+        fields: {
+          gold: {
+            type: "uint64",
+            id: 1
+          },
+          diamond: {
+            type: "uint32",
+            id: 2
+          },
+          exp: {
+            type: "uint64",
+            id: 3
+          },
+          vipExp: {
+            type: "uint32",
+            id: 4
+          },
+          heroes: {
+            rule: "repeated",
+            type: "uint32",
+            id: 5
+          },
+          equips: {
+            rule: "repeated",
+            type: "uint32",
+            id: 6
+          },
+          items: {
+            keyType: "uint32",
+            type: "uint32",
+            id: 7
+          }
+        }
+      },
+      SC_GET_REWARD: {
+        fields: {
+          reward: {
+            type: "Reward",
+            id: 1
           }
         }
       },

@@ -10,6 +10,8 @@ import * as GameUtil from '../../../lib/util/game_util';
 import {MAX_HERO_BAG_SIZE} from "../modles/hero_model";
 import {MAX_EQUIP_BAG_SIZE} from "../modles/equip_model";
 import {MAX_ITEM_BAG_SIZE} from "../modles/item_model";
+import {EResUseType, ResType} from "../modles/defines";
+import {ResourceController} from "./resource_controller";
 
 let gameRedis = RedisMgr.getInstance(RedisType.GAME);
 
@@ -52,18 +54,18 @@ export class RoleController {
 
     @controller(false, [ERoleMask.HERO, ERoleMask.EQUIP, ERoleMask.ITEM])
     async heartBeat(role: Role, msg: C2S.CS_ROLE_HEART_BEAT) {
-        role.diamond = role.diamond + 1;
+        ResourceController.instance.addResource(role, ResType.DIAMOND, 1, EResUseType.GM);
         let size = role.heroModel.getHeroBagSize();
         if (size < MAX_HERO_BAG_SIZE) {
             for (let i = 0; i < (MAX_HERO_BAG_SIZE - size); i++) {
-                role.heroModel.createAndAddHero(101);
+                role.heroModel.createAndAddHero(101, EResUseType.GM);
             }
         }
         else {
             let delCnt = 0;
             let allHero = role.heroModel.getAllHero(true);
             for (let uid in allHero) {
-                role.heroModel.deleteHero(uid);
+                role.heroModel.removeHero(uid, EResUseType.GM);
                 if (++delCnt > 2) break;
             }
         }
@@ -80,14 +82,14 @@ export class RoleController {
         size = role.equipModel.getEquipBagSize();
         if (size < MAX_EQUIP_BAG_SIZE) {
             for (let i = 0; i < (MAX_EQUIP_BAG_SIZE - size); i++) {
-                role.equipModel.createAndAddEquip(201);
+                role.equipModel.createAndAddEquip(201, EResUseType.GM);
             }
         }
         else {
             let delCnt = 0;
             let container = role.equipModel.getAllEquip(true);
             for (let uid in container) {
-                role.equipModel.deleteEquip(uid);
+                role.equipModel.removeEquip(uid, EResUseType.GM);
                 if (++delCnt > 2) break;
             }
         }
@@ -104,14 +106,14 @@ export class RoleController {
         size = role.itemModel.getItemBagSize();
         if (size < MAX_ITEM_BAG_SIZE) {
             for (let i = 0; i < (MAX_ITEM_BAG_SIZE - size); i++) {
-                role.itemModel.createAndAddItem(301 + i);
+                role.itemModel.createAndAddItem(301 + i, 1, EResUseType.GM);
             }
         }
         else {
             let delCnt = 0;
             let container = role.itemModel.getAllItem(true);
             for (let uid in container) {
-                role.itemModel.deleteItem(uid);
+                role.itemModel.removeItem(uid, 1, EResUseType.GM);
                 if (++delCnt > 2) break;
             }
         }

@@ -1,3 +1,12 @@
+export enum ResType {
+    GOLD = 'gold',
+    DIAMOND = 'diamond',
+}
+
+export enum EResUseType {
+    GM = 1,
+}
+
 export interface BattleRound {
     id: number // from 0 回合数
     heroUid: number;

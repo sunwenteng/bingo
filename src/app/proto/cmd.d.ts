@@ -222,6 +222,7 @@ export namespace S2C {
         SC_ROLE_ONLINE?: (S2C.ISC_ROLE_ONLINE|null);
         SC_ROLE_HEART_BEAT?: (S2C.ISC_ROLE_HEART_BEAT|null);
         SC_ROLE_PRO_UPDATE?: (S2C.ISC_ROLE_PRO_UPDATE|null);
+        SC_GET_REWARD?: (S2C.ISC_GET_REWARD|null);
         SC_INIT_HERO?: (S2C.ISC_INIT_HERO|null);
         SC_UPDATE_HERO?: (S2C.ISC_UPDATE_HERO|null);
         SC_INIT_EQUIP?: (S2C.ISC_INIT_EQUIP|null);
@@ -240,13 +241,14 @@ export namespace S2C {
         public SC_ROLE_ONLINE?: (S2C.ISC_ROLE_ONLINE|null);
         public SC_ROLE_HEART_BEAT?: (S2C.ISC_ROLE_HEART_BEAT|null);
         public SC_ROLE_PRO_UPDATE?: (S2C.ISC_ROLE_PRO_UPDATE|null);
+        public SC_GET_REWARD?: (S2C.ISC_GET_REWARD|null);
         public SC_INIT_HERO?: (S2C.ISC_INIT_HERO|null);
         public SC_UPDATE_HERO?: (S2C.ISC_UPDATE_HERO|null);
         public SC_INIT_EQUIP?: (S2C.ISC_INIT_EQUIP|null);
         public SC_UPDATE_EQUIP?: (S2C.ISC_UPDATE_EQUIP|null);
         public SC_INIT_ITEM?: (S2C.ISC_INIT_ITEM|null);
         public SC_UPDATE_ITEM?: (S2C.ISC_UPDATE_ITEM|null);
-        public kind?: ("SC_TEST_ECHO"|"LOGIN_SC_LOGIN"|"LOGIN_SC_CHOOSE_SERVER"|"LOGIN_SC_GET_SERVER_LIST"|"LOGIN_SC_GET_INFO"|"SC_ROLE_ONLINE"|"SC_ROLE_HEART_BEAT"|"SC_ROLE_PRO_UPDATE"|"SC_INIT_HERO"|"SC_UPDATE_HERO"|"SC_INIT_EQUIP"|"SC_UPDATE_EQUIP"|"SC_INIT_ITEM"|"SC_UPDATE_ITEM");
+        public kind?: ("SC_TEST_ECHO"|"LOGIN_SC_LOGIN"|"LOGIN_SC_CHOOSE_SERVER"|"LOGIN_SC_GET_SERVER_LIST"|"LOGIN_SC_GET_INFO"|"SC_ROLE_ONLINE"|"SC_ROLE_HEART_BEAT"|"SC_ROLE_PRO_UPDATE"|"SC_GET_REWARD"|"SC_INIT_HERO"|"SC_UPDATE_HERO"|"SC_INIT_EQUIP"|"SC_UPDATE_EQUIP"|"SC_INIT_ITEM"|"SC_UPDATE_ITEM");
         public static create(properties?: S2C.IMessage): S2C.Message;
         public static encode(message: S2C.IMessage, writer?: $protobuf.Writer): $protobuf.Writer;
         public static encodeDelimited(message: S2C.IMessage, writer?: $protobuf.Writer): $protobuf.Writer;
@@ -255,6 +257,54 @@ export namespace S2C {
         public static verify(message: { [k: string]: any }): (string|null);
         public static fromObject(object: { [k: string]: any }): S2C.Message;
         public static toObject(message: S2C.Message, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public toJSON(): { [k: string]: any };
+    }
+
+    interface IReward {
+        gold?: (number|Long|null);
+        diamond?: (number|null);
+        exp?: (number|Long|null);
+        vipExp?: (number|null);
+        heroes?: (number[]|null);
+        equips?: (number[]|null);
+        items?: ({ [k: string]: number }|null);
+    }
+
+    class Reward implements IReward {
+        constructor(properties?: S2C.IReward);
+        public gold: (number|Long);
+        public diamond: number;
+        public exp: (number|Long);
+        public vipExp: number;
+        public heroes: number[];
+        public equips: number[];
+        public items: { [k: string]: number };
+        public static create(properties?: S2C.IReward): S2C.Reward;
+        public static encode(message: S2C.IReward, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: S2C.IReward, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): S2C.Reward;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): S2C.Reward;
+        public static verify(message: { [k: string]: any }): (string|null);
+        public static fromObject(object: { [k: string]: any }): S2C.Reward;
+        public static toObject(message: S2C.Reward, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public toJSON(): { [k: string]: any };
+    }
+
+    interface ISC_GET_REWARD {
+        reward?: (S2C.IReward|null);
+    }
+
+    class SC_GET_REWARD implements ISC_GET_REWARD {
+        constructor(properties?: S2C.ISC_GET_REWARD);
+        public reward?: (S2C.IReward|null);
+        public static create(properties?: S2C.ISC_GET_REWARD): S2C.SC_GET_REWARD;
+        public static encode(message: S2C.ISC_GET_REWARD, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: S2C.ISC_GET_REWARD, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): S2C.SC_GET_REWARD;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): S2C.SC_GET_REWARD;
+        public static verify(message: { [k: string]: any }): (string|null);
+        public static fromObject(object: { [k: string]: any }): S2C.SC_GET_REWARD;
+        public static toObject(message: S2C.SC_GET_REWARD, options?: $protobuf.IConversionOptions): { [k: string]: any };
         public toJSON(): { [k: string]: any };
     }
 
