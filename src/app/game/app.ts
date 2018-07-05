@@ -7,6 +7,11 @@ import {RedisMgr, RedisType} from "../../lib/redis/redis_mgr";
 import {ConfigMgr} from "../../config/data/config_struct";
 
 async function main() {
+    if (process.env.NODE_ENV === "development") {
+        const easyMonitor = require("easy-monitor");
+        easyMonitor("game-app");
+    }
+
     const Config = require('../../config/config.json');
     Log.init(__dirname + '/' + Config.log.dir, Config.log.level);
 

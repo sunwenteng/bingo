@@ -180,7 +180,7 @@ node-gyp build
 ### node command
 
 * `node --trace_gc --trace_gc_verbose app.js` will log gc info when starts
-* `node --max-old-space-size=4096 app.js` will log gc info when starts
+* `node --max-old-space-size=4096 --max-new-sapce-size=129 app.js` change the memory limit, but not recommended
 * `node --inspect=0.0.0.0:5556 app.js` debug mode, [Reference](http://morning.work/page/maintainable-nodejs/debuging-nodejs-with-chrome-devtools.html)
 * `kill -s SIGUSR1 pid` dynamic open debug mode
 
@@ -192,3 +192,7 @@ node-gyp build
 ### redis
 
 * 批量删除`redis-cli -a redis@ime keys "*" | xargs redis-cli -a redis@ime del`
+
+### 性能调优 Easy-Monitor
+`export NODE_ENV=development&& nodemon --harmony --use_strict XXX.js  -w`
+then visit [127.0.0.1:12333](http://127.0.0.1:12333)

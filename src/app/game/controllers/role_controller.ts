@@ -52,7 +52,7 @@ export class RoleController {
         });
     }
 
-    @controller(false, [ERoleMask.HERO, ERoleMask.EQUIP, ERoleMask.ITEM])
+    @controller(false, false, [ERoleMask.HERO, ERoleMask.EQUIP, ERoleMask.ITEM])
     async heartBeat(role: Role, msg: C2S.CS_ROLE_HEART_BEAT) {
         ResourceController.instance.addResource(role, ResType.DIAMOND, 1, EResUseType.GM);
         let size = role.heroModel.getHeroBagSize();
