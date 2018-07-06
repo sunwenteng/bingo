@@ -40,6 +40,11 @@ export class Hero {
             msg[k] = this[k];
         }
     }
+
+    addExp(exp: number) {
+        // TODO
+    }
+
 }
 
 export class HeroModel extends BaseModel {

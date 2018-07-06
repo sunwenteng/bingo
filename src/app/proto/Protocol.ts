@@ -8,6 +8,7 @@ module Game{
 		 public static SC_ROLE_ONLINE_ID = "SC_ROLE_ONLINE";
 		 public static SC_ROLE_HEART_BEAT_ID = "SC_ROLE_HEART_BEAT";
 		 public static SC_ROLE_PRO_UPDATE_ID = "SC_ROLE_PRO_UPDATE";
+		 public static SC_GET_REWARD_ID = "SC_GET_REWARD";
 		 public static SC_INIT_HERO_ID = "SC_INIT_HERO";
 		 public static SC_UPDATE_HERO_ID = "SC_UPDATE_HERO";
 		 public static SC_INIT_EQUIP_ID = "SC_INIT_EQUIP";

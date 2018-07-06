@@ -32,6 +32,9 @@ export class ResourceController {
             return false;
         }
         role[id] += count;
+        if (id === ResType.EXP) {
+            // TODO
+        }
         Log.uInfo(role.uid, 'id=%s, count=%d', id, count);
         return true;
     }

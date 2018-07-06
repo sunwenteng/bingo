@@ -52,11 +52,11 @@ export class Reward extends Model {
             else if (this['fields'][k] instanceof Object) {
                 for (let id in this['fields'][k]) {
                     if (typeof this['fields'][k][id] == 'number')
-                        this['fields'][k][id] = this['fields'][k][id] * rate;
+                        this['fields'][k][id] = Math.round(this['fields'][k][id] * rate);
                 }
             }
             else if (this['fields'][k] !== 0) {
-                this['fields'][k] *= rate;
+                this['fields'][k] = Math.round(this['fields'][k] * rate);
             }
         }
     }

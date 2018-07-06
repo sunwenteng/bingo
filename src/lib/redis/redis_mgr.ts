@@ -25,7 +25,7 @@ export enum RedisChanel {
     BROADCAST = 'broadcast',
 }
 
-export abstract class RedisData extends Model{
+export abstract class RedisData extends Model {
     dynamicFields: any = {};
     redisPrefix: string;
     redisKeyExpire: number;
@@ -59,10 +59,10 @@ export abstract class RedisData extends Model{
                         break;
                     case 'object' :
                         try {
-                            if (reply[obj] !== "") {
+                            if (reply[obj] !== "" && reply[obj] !==  null) {
                                 this.fields[obj].deserialize(reply[obj]);
-                                this.fields[obj]['m_loaded'] = true;
                             }
+                            this.fields[obj]['m_loaded'] = true;
                         } catch (err) {
                             Log.sError('redis data parse failed, key=%s, val=%s', obj, reply[obj]);
                             this.fields[obj] = {};

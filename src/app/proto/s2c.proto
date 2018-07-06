@@ -24,7 +24,13 @@ message Message {
 
         SC_INIT_ITEM SC_INIT_ITEM = 1301;
         SC_UPDATE_ITEM SC_UPDATE_ITEM = 1302;
+
+        SC_INIT_BATTLE_INFO SC_INIT_BATTLE_INFO = 1401;
     }
+}
+
+message SC_INIT_BATTLE_INFO {
+    map<uint32, uint32> slotInfo = 1;
 }
 
 message Reward {

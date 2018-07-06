@@ -10,6 +10,7 @@ import {HeroModel} from "./hero_model";
 import {EquipModel} from "./equip_model";
 import {ItemModel} from "./item_model";
 import {BaseModel} from "./base_model";
+import {BattleModel} from "./battle_model";
 
 let gameRedis = RedisMgr.getInstance(RedisType.GAME);
 export const RoleRedisPrefix: string = 'role';
@@ -41,6 +42,7 @@ export class Role extends RedisData {
     @roleField() heroModel = new HeroModel(this, 'heroModel');
     @roleField() equipModel = new EquipModel(this, 'equipModel');
     @roleField() itemModel = new ItemModel(this, 'itemModel');
+    @roleField() battleModel = new BattleModel(this, 'battleModel');
 
     constructor(uid: number, session?: GameSession) {
         super(RoleRedisPrefix);
@@ -77,7 +79,7 @@ export class Role extends RedisData {
         }
         else {
             for (let k in this.dirtyFields) {
-                if(this.fields[k] instanceof BaseModel) {
+                if (this.fields[k] instanceof BaseModel) {
                     reply[k] = JSON.stringify(this.fields[k]['fields'])
                 }
                 else {
@@ -103,7 +105,8 @@ export class Role extends RedisData {
             }
             else {
                 // TODO 后续需要根据mask来读取需要的数据，不然每次load数据太大，对每次回写差异比较有负担
-                let reply = await gameRedis.hmget(this.getRedisKey(), this.getDataFields(mask));
+                let queryField = this.getDataFields(mask);
+                let reply = await gameRedis.hmget(this.getRedisKey(), queryField);
                 // 缓存不存在，从db查询然后放到缓存
                 if (Object.keys(reply).length === 0) {
                     let result = await WorldDB.conn.execute('select * from player_info_' + this.getTableNum() + ' where ?', {uid: this.uid});
@@ -112,6 +115,11 @@ export class Role extends RedisData {
                         resolve(false);
                     }
                     else {
+                        for (let f of queryField) {
+                            if (!result[0].hasOwnProperty(f)) {
+                                throw new Error('role column ' + f + ' not in db');
+                            }
+                        }
                         await gameRedis.hmset(this.getRedisKey(), result[0], this.redisKeyExpire);
                         this.deserialize(result[0]);
                         resolve(true);
@@ -119,6 +127,11 @@ export class Role extends RedisData {
                 }
                 // 缓存命中
                 else {
+                    for (let f of queryField) {
+                        if (!reply[f]) {
+                            reply[f] = '';
+                        }
+                    }
                     this.deserialize(reply);
                     resolve(true);
                 }

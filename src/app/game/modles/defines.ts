@@ -1,6 +1,8 @@
 export enum ResType {
     GOLD = 'gold',
     DIAMOND = 'diamond',
+    EXP = 'exp',
+    vipExp = 'vipExp',
 }
 
 export enum EResUseType {

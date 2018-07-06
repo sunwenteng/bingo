@@ -30,13 +30,15 @@ export async function start(config: MysqlConfig): Promise<void> {
             "equipModel	    longblob    NULL," +
             "heroModel	    longblob    NULL," +
             "itemModel 	    longblob    NULL," +
+            "battleModel    blob        NULL," +
             "PRIMARY KEY (uid)" +
             ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
         columns = columns.concat([
             [tableName, 'exp', "BIGINT(20) UNSIGNED NOT NULL DEFAULT 0"],
             [tableName, 'vipExp', "INT UNSIGNED NOT NULL DEFAULT 0"],
             [tableName, 'vipLevel', "INT UNSIGNED NOT NULL DEFAULT 0"],
-            [tableName, 'valid', "INT UNSIGNED NOT NULL DEFAULT 1"]
+            [tableName, 'valid', "INT UNSIGNED NOT NULL DEFAULT 1"],
+            [tableName, 'battleModel', "blob NULL"]
             // add new update column down here
         ]);
 

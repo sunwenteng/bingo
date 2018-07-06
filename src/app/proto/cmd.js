@@ -199,7 +199,8 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
               "SC_INIT_EQUIP",
               "SC_UPDATE_EQUIP",
               "SC_INIT_ITEM",
-              "SC_UPDATE_ITEM"
+              "SC_UPDATE_ITEM",
+              "SC_INIT_BATTLE_INFO"
             ]
           }
         },
@@ -263,6 +264,19 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
           SC_UPDATE_ITEM: {
             type: "SC_UPDATE_ITEM",
             id: 1302
+          },
+          SC_INIT_BATTLE_INFO: {
+            type: "SC_INIT_BATTLE_INFO",
+            id: 1401
+          }
+        }
+      },
+      SC_INIT_BATTLE_INFO: {
+        fields: {
+          slotInfo: {
+            keyType: "uint32",
+            type: "uint32",
+            id: 1
           }
         }
       },

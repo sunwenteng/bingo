@@ -18,6 +18,9 @@ export abstract class BaseModel extends Model {
 
     // to redis
     public abstract serialize(): any;
+
     // from redis
     public abstract deserialize(data: string);
+
+    public abstract serializeInitNetMsg();
 }
