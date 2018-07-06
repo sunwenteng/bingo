@@ -11,6 +11,7 @@ import {EquipModel} from "./equip_model";
 import {ItemModel} from "./item_model";
 import {BaseModel} from "./base_model";
 import {BattleModel} from "./battle_model";
+import {TaskModel} from "./taskModel";
 
 let gameRedis = RedisMgr.getInstance(RedisType.GAME);
 export const RoleRedisPrefix: string = 'role';
@@ -43,6 +44,7 @@ export class Role extends RedisData {
     @roleField() equipModel = new EquipModel(this, 'equipModel');
     @roleField() itemModel = new ItemModel(this, 'itemModel');
     @roleField() battleModel = new BattleModel(this, 'battleModel');
+    @roleField() taskModel = new TaskModel(this, 'taskModel');
 
     constructor(uid: number, session?: GameSession) {
         super(RoleRedisPrefix);

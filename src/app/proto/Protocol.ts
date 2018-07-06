@@ -15,5 +15,8 @@ module Game{
 		 public static SC_UPDATE_EQUIP_ID = "SC_UPDATE_EQUIP";
 		 public static SC_INIT_ITEM_ID = "SC_INIT_ITEM";
 		 public static SC_UPDATE_ITEM_ID = "SC_UPDATE_ITEM";
+		 public static SC_INIT_BATTLE_INFO_ID = "SC_INIT_BATTLE_INFO";
+		 public static SC_INIT_TASK_ID = "SC_INIT_TASK";
+		 public static SC_UPDATE_TASK_ID = "SC_UPDATE_TASK";
 	}
 }

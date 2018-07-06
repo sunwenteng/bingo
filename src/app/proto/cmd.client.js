@@ -2330,6 +2330,8 @@
              * @property {S2C.ISC_INIT_ITEM|null} [SC_INIT_ITEM] Message SC_INIT_ITEM
              * @property {S2C.ISC_UPDATE_ITEM|null} [SC_UPDATE_ITEM] Message SC_UPDATE_ITEM
              * @property {S2C.ISC_INIT_BATTLE_INFO|null} [SC_INIT_BATTLE_INFO] Message SC_INIT_BATTLE_INFO
+             * @property {S2C.ISC_INIT_TASK|null} [SC_INIT_TASK] Message SC_INIT_TASK
+             * @property {S2C.ISC_UPDATE_TASK|null} [SC_UPDATE_TASK] Message SC_UPDATE_TASK
              */
     
             /**
@@ -2475,17 +2477,33 @@
              */
             Message.prototype.SC_INIT_BATTLE_INFO = null;
     
+            /**
+             * Message SC_INIT_TASK.
+             * @member {S2C.ISC_INIT_TASK|null|undefined} SC_INIT_TASK
+             * @memberof S2C.Message
+             * @instance
+             */
+            Message.prototype.SC_INIT_TASK = null;
+    
+            /**
+             * Message SC_UPDATE_TASK.
+             * @member {S2C.ISC_UPDATE_TASK|null|undefined} SC_UPDATE_TASK
+             * @memberof S2C.Message
+             * @instance
+             */
+            Message.prototype.SC_UPDATE_TASK = null;
+    
             // OneOf field names bound to virtual getters and setters
             var $oneOfFields;
     
             /**
              * Message kind.
-             * @member {"SC_TEST_ECHO"|"LOGIN_SC_LOGIN"|"LOGIN_SC_CHOOSE_SERVER"|"LOGIN_SC_GET_SERVER_LIST"|"LOGIN_SC_GET_INFO"|"SC_ROLE_ONLINE"|"SC_ROLE_HEART_BEAT"|"SC_ROLE_PRO_UPDATE"|"SC_GET_REWARD"|"SC_INIT_HERO"|"SC_UPDATE_HERO"|"SC_INIT_EQUIP"|"SC_UPDATE_EQUIP"|"SC_INIT_ITEM"|"SC_UPDATE_ITEM"|"SC_INIT_BATTLE_INFO"|undefined} kind
+             * @member {"SC_TEST_ECHO"|"LOGIN_SC_LOGIN"|"LOGIN_SC_CHOOSE_SERVER"|"LOGIN_SC_GET_SERVER_LIST"|"LOGIN_SC_GET_INFO"|"SC_ROLE_ONLINE"|"SC_ROLE_HEART_BEAT"|"SC_ROLE_PRO_UPDATE"|"SC_GET_REWARD"|"SC_INIT_HERO"|"SC_UPDATE_HERO"|"SC_INIT_EQUIP"|"SC_UPDATE_EQUIP"|"SC_INIT_ITEM"|"SC_UPDATE_ITEM"|"SC_INIT_BATTLE_INFO"|"SC_INIT_TASK"|"SC_UPDATE_TASK"|undefined} kind
              * @memberof S2C.Message
              * @instance
              */
             Object.defineProperty(Message.prototype, "kind", {
-                get: $util.oneOfGetter($oneOfFields = ["SC_TEST_ECHO", "LOGIN_SC_LOGIN", "LOGIN_SC_CHOOSE_SERVER", "LOGIN_SC_GET_SERVER_LIST", "LOGIN_SC_GET_INFO", "SC_ROLE_ONLINE", "SC_ROLE_HEART_BEAT", "SC_ROLE_PRO_UPDATE", "SC_GET_REWARD", "SC_INIT_HERO", "SC_UPDATE_HERO", "SC_INIT_EQUIP", "SC_UPDATE_EQUIP", "SC_INIT_ITEM", "SC_UPDATE_ITEM", "SC_INIT_BATTLE_INFO"]),
+                get: $util.oneOfGetter($oneOfFields = ["SC_TEST_ECHO", "LOGIN_SC_LOGIN", "LOGIN_SC_CHOOSE_SERVER", "LOGIN_SC_GET_SERVER_LIST", "LOGIN_SC_GET_INFO", "SC_ROLE_ONLINE", "SC_ROLE_HEART_BEAT", "SC_ROLE_PRO_UPDATE", "SC_GET_REWARD", "SC_INIT_HERO", "SC_UPDATE_HERO", "SC_INIT_EQUIP", "SC_UPDATE_EQUIP", "SC_INIT_ITEM", "SC_UPDATE_ITEM", "SC_INIT_BATTLE_INFO", "SC_INIT_TASK", "SC_UPDATE_TASK"]),
                 set: $util.oneOfSetter($oneOfFields)
             });
     
@@ -2537,6 +2555,10 @@
                     $root.S2C.SC_UPDATE_ITEM.encode(message.SC_UPDATE_ITEM, writer.uint32(/* id 1302, wireType 2 =*/10418).fork()).ldelim();
                 if (message.SC_INIT_BATTLE_INFO != null && message.hasOwnProperty("SC_INIT_BATTLE_INFO"))
                     $root.S2C.SC_INIT_BATTLE_INFO.encode(message.SC_INIT_BATTLE_INFO, writer.uint32(/* id 1401, wireType 2 =*/11210).fork()).ldelim();
+                if (message.SC_INIT_TASK != null && message.hasOwnProperty("SC_INIT_TASK"))
+                    $root.S2C.SC_INIT_TASK.encode(message.SC_INIT_TASK, writer.uint32(/* id 1501, wireType 2 =*/12010).fork()).ldelim();
+                if (message.SC_UPDATE_TASK != null && message.hasOwnProperty("SC_UPDATE_TASK"))
+                    $root.S2C.SC_UPDATE_TASK.encode(message.SC_UPDATE_TASK, writer.uint32(/* id 1502, wireType 2 =*/12018).fork()).ldelim();
                 if (message.LOGIN_SC_LOGIN != null && message.hasOwnProperty("LOGIN_SC_LOGIN"))
                     $root.S2C.LOGIN_SC_LOGIN.encode(message.LOGIN_SC_LOGIN, writer.uint32(/* id 9001, wireType 2 =*/72010).fork()).ldelim();
                 if (message.LOGIN_SC_CHOOSE_SERVER != null && message.hasOwnProperty("LOGIN_SC_CHOOSE_SERVER"))
@@ -2626,6 +2648,12 @@
                         break;
                     case 1401:
                         message.SC_INIT_BATTLE_INFO = $root.S2C.SC_INIT_BATTLE_INFO.decode(reader, reader.uint32());
+                        break;
+                    case 1501:
+                        message.SC_INIT_TASK = $root.S2C.SC_INIT_TASK.decode(reader, reader.uint32());
+                        break;
+                    case 1502:
+                        message.SC_UPDATE_TASK = $root.S2C.SC_UPDATE_TASK.decode(reader, reader.uint32());
                         break;
                     default:
                         reader.skipType(tag & 7);
@@ -2821,6 +2849,26 @@
                             return "SC_INIT_BATTLE_INFO." + error;
                     }
                 }
+                if (message.SC_INIT_TASK != null && message.hasOwnProperty("SC_INIT_TASK")) {
+                    if (properties.kind === 1)
+                        return "kind: multiple values";
+                    properties.kind = 1;
+                    {
+                        var error = $root.S2C.SC_INIT_TASK.verify(message.SC_INIT_TASK);
+                        if (error)
+                            return "SC_INIT_TASK." + error;
+                    }
+                }
+                if (message.SC_UPDATE_TASK != null && message.hasOwnProperty("SC_UPDATE_TASK")) {
+                    if (properties.kind === 1)
+                        return "kind: multiple values";
+                    properties.kind = 1;
+                    {
+                        var error = $root.S2C.SC_UPDATE_TASK.verify(message.SC_UPDATE_TASK);
+                        if (error)
+                            return "SC_UPDATE_TASK." + error;
+                    }
+                }
                 return null;
             };
     
@@ -2916,6 +2964,16 @@
                         throw TypeError(".S2C.Message.SC_INIT_BATTLE_INFO: object expected");
                     message.SC_INIT_BATTLE_INFO = $root.S2C.SC_INIT_BATTLE_INFO.fromObject(object.SC_INIT_BATTLE_INFO);
                 }
+                if (object.SC_INIT_TASK != null) {
+                    if (typeof object.SC_INIT_TASK !== "object")
+                        throw TypeError(".S2C.Message.SC_INIT_TASK: object expected");
+                    message.SC_INIT_TASK = $root.S2C.SC_INIT_TASK.fromObject(object.SC_INIT_TASK);
+                }
+                if (object.SC_UPDATE_TASK != null) {
+                    if (typeof object.SC_UPDATE_TASK !== "object")
+                        throw TypeError(".S2C.Message.SC_UPDATE_TASK: object expected");
+                    message.SC_UPDATE_TASK = $root.S2C.SC_UPDATE_TASK.fromObject(object.SC_UPDATE_TASK);
+                }
                 return message;
             };
     
@@ -2992,6 +3050,16 @@
                     if (options.oneofs)
                         object.kind = "SC_INIT_BATTLE_INFO";
                 }
+                if (message.SC_INIT_TASK != null && message.hasOwnProperty("SC_INIT_TASK")) {
+                    object.SC_INIT_TASK = $root.S2C.SC_INIT_TASK.toObject(message.SC_INIT_TASK, options);
+                    if (options.oneofs)
+                        object.kind = "SC_INIT_TASK";
+                }
+                if (message.SC_UPDATE_TASK != null && message.hasOwnProperty("SC_UPDATE_TASK")) {
+                    object.SC_UPDATE_TASK = $root.S2C.SC_UPDATE_TASK.toObject(message.SC_UPDATE_TASK, options);
+                    if (options.oneofs)
+                        object.kind = "SC_UPDATE_TASK";
+                }
                 if (message.LOGIN_SC_LOGIN != null && message.hasOwnProperty("LOGIN_SC_LOGIN")) {
                     object.LOGIN_SC_LOGIN = $root.S2C.LOGIN_SC_LOGIN.toObject(message.LOGIN_SC_LOGIN, options);
                     if (options.oneofs)
@@ -3027,6 +3095,676 @@
             };
     
             return Message;
+        })();
+    
+        S2C.Task = (function() {
+    
+            /**
+             * Properties of a Task.
+             * @memberof S2C
+             * @interface ITask
+             * @property {number|null} [uid] Task uid
+             * @property {number|null} [id] Task id
+             * @property {number|null} [state] Task state
+             */
+    
+            /**
+             * Constructs a new Task.
+             * @memberof S2C
+             * @classdesc Represents a Task.
+             * @implements ITask
+             * @constructor
+             * @param {S2C.ITask=} [properties] Properties to set
+             */
+            function Task(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+    
+            /**
+             * Task uid.
+             * @member {number} uid
+             * @memberof S2C.Task
+             * @instance
+             */
+            Task.prototype.uid = 0;
+    
+            /**
+             * Task id.
+             * @member {number} id
+             * @memberof S2C.Task
+             * @instance
+             */
+            Task.prototype.id = 0;
+    
+            /**
+             * Task state.
+             * @member {number} state
+             * @memberof S2C.Task
+             * @instance
+             */
+            Task.prototype.state = 0;
+    
+            /**
+             * Creates a new Task instance using the specified properties.
+             * @function create
+             * @memberof S2C.Task
+             * @static
+             * @param {S2C.ITask=} [properties] Properties to set
+             * @returns {S2C.Task} Task instance
+             */
+            Task.create = function create(properties) {
+                return new Task(properties);
+            };
+    
+            /**
+             * Encodes the specified Task message. Does not implicitly {@link S2C.Task.verify|verify} messages.
+             * @function encode
+             * @memberof S2C.Task
+             * @static
+             * @param {S2C.ITask} message Task message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            Task.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.uid != null && message.hasOwnProperty("uid"))
+                    writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.uid);
+                if (message.id != null && message.hasOwnProperty("id"))
+                    writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.id);
+                if (message.state != null && message.hasOwnProperty("state"))
+                    writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.state);
+                return writer;
+            };
+    
+            /**
+             * Encodes the specified Task message, length delimited. Does not implicitly {@link S2C.Task.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof S2C.Task
+             * @static
+             * @param {S2C.ITask} message Task message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            Task.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+    
+            /**
+             * Decodes a Task message from the specified reader or buffer.
+             * @function decode
+             * @memberof S2C.Task
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {S2C.Task} Task
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            Task.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.S2C.Task();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        message.uid = reader.uint32();
+                        break;
+                    case 2:
+                        message.id = reader.uint32();
+                        break;
+                    case 3:
+                        message.state = reader.uint32();
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Decodes a Task message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof S2C.Task
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {S2C.Task} Task
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            Task.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+    
+            /**
+             * Verifies a Task message.
+             * @function verify
+             * @memberof S2C.Task
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            Task.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.uid != null && message.hasOwnProperty("uid"))
+                    if (!$util.isInteger(message.uid))
+                        return "uid: integer expected";
+                if (message.id != null && message.hasOwnProperty("id"))
+                    if (!$util.isInteger(message.id))
+                        return "id: integer expected";
+                if (message.state != null && message.hasOwnProperty("state"))
+                    if (!$util.isInteger(message.state))
+                        return "state: integer expected";
+                return null;
+            };
+    
+            /**
+             * Creates a Task message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof S2C.Task
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {S2C.Task} Task
+             */
+            Task.fromObject = function fromObject(object) {
+                if (object instanceof $root.S2C.Task)
+                    return object;
+                var message = new $root.S2C.Task();
+                if (object.uid != null)
+                    message.uid = object.uid >>> 0;
+                if (object.id != null)
+                    message.id = object.id >>> 0;
+                if (object.state != null)
+                    message.state = object.state >>> 0;
+                return message;
+            };
+    
+            /**
+             * Creates a plain object from a Task message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof S2C.Task
+             * @static
+             * @param {S2C.Task} message Task
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            Task.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.defaults) {
+                    object.uid = 0;
+                    object.id = 0;
+                    object.state = 0;
+                }
+                if (message.uid != null && message.hasOwnProperty("uid"))
+                    object.uid = message.uid;
+                if (message.id != null && message.hasOwnProperty("id"))
+                    object.id = message.id;
+                if (message.state != null && message.hasOwnProperty("state"))
+                    object.state = message.state;
+                return object;
+            };
+    
+            /**
+             * Converts this Task to JSON.
+             * @function toJSON
+             * @memberof S2C.Task
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            Task.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+    
+            return Task;
+        })();
+    
+        S2C.SC_INIT_TASK = (function() {
+    
+            /**
+             * Properties of a SC_INIT_TASK.
+             * @memberof S2C
+             * @interface ISC_INIT_TASK
+             * @property {Object.<string,S2C.ITask>|null} [tasks] SC_INIT_TASK tasks
+             */
+    
+            /**
+             * Constructs a new SC_INIT_TASK.
+             * @memberof S2C
+             * @classdesc Represents a SC_INIT_TASK.
+             * @implements ISC_INIT_TASK
+             * @constructor
+             * @param {S2C.ISC_INIT_TASK=} [properties] Properties to set
+             */
+            function SC_INIT_TASK(properties) {
+                this.tasks = {};
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+    
+            /**
+             * SC_INIT_TASK tasks.
+             * @member {Object.<string,S2C.ITask>} tasks
+             * @memberof S2C.SC_INIT_TASK
+             * @instance
+             */
+            SC_INIT_TASK.prototype.tasks = $util.emptyObject;
+    
+            /**
+             * Creates a new SC_INIT_TASK instance using the specified properties.
+             * @function create
+             * @memberof S2C.SC_INIT_TASK
+             * @static
+             * @param {S2C.ISC_INIT_TASK=} [properties] Properties to set
+             * @returns {S2C.SC_INIT_TASK} SC_INIT_TASK instance
+             */
+            SC_INIT_TASK.create = function create(properties) {
+                return new SC_INIT_TASK(properties);
+            };
+    
+            /**
+             * Encodes the specified SC_INIT_TASK message. Does not implicitly {@link S2C.SC_INIT_TASK.verify|verify} messages.
+             * @function encode
+             * @memberof S2C.SC_INIT_TASK
+             * @static
+             * @param {S2C.ISC_INIT_TASK} message SC_INIT_TASK message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            SC_INIT_TASK.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.tasks != null && message.hasOwnProperty("tasks"))
+                    for (var keys = Object.keys(message.tasks), i = 0; i < keys.length; ++i) {
+                        writer.uint32(/* id 1, wireType 2 =*/10).fork().uint32(/* id 1, wireType 0 =*/8).uint32(keys[i]);
+                        $root.S2C.Task.encode(message.tasks[keys[i]], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim().ldelim();
+                    }
+                return writer;
+            };
+    
+            /**
+             * Encodes the specified SC_INIT_TASK message, length delimited. Does not implicitly {@link S2C.SC_INIT_TASK.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof S2C.SC_INIT_TASK
+             * @static
+             * @param {S2C.ISC_INIT_TASK} message SC_INIT_TASK message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            SC_INIT_TASK.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+    
+            /**
+             * Decodes a SC_INIT_TASK message from the specified reader or buffer.
+             * @function decode
+             * @memberof S2C.SC_INIT_TASK
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {S2C.SC_INIT_TASK} SC_INIT_TASK
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            SC_INIT_TASK.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.S2C.SC_INIT_TASK(), key;
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        reader.skip().pos++;
+                        if (message.tasks === $util.emptyObject)
+                            message.tasks = {};
+                        key = reader.uint32();
+                        reader.pos++;
+                        message.tasks[key] = $root.S2C.Task.decode(reader, reader.uint32());
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Decodes a SC_INIT_TASK message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof S2C.SC_INIT_TASK
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {S2C.SC_INIT_TASK} SC_INIT_TASK
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            SC_INIT_TASK.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+    
+            /**
+             * Verifies a SC_INIT_TASK message.
+             * @function verify
+             * @memberof S2C.SC_INIT_TASK
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            SC_INIT_TASK.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.tasks != null && message.hasOwnProperty("tasks")) {
+                    if (!$util.isObject(message.tasks))
+                        return "tasks: object expected";
+                    var key = Object.keys(message.tasks);
+                    for (var i = 0; i < key.length; ++i) {
+                        if (!$util.key32Re.test(key[i]))
+                            return "tasks: integer key{k:uint32} expected";
+                        {
+                            var error = $root.S2C.Task.verify(message.tasks[key[i]]);
+                            if (error)
+                                return "tasks." + error;
+                        }
+                    }
+                }
+                return null;
+            };
+    
+            /**
+             * Creates a SC_INIT_TASK message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof S2C.SC_INIT_TASK
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {S2C.SC_INIT_TASK} SC_INIT_TASK
+             */
+            SC_INIT_TASK.fromObject = function fromObject(object) {
+                if (object instanceof $root.S2C.SC_INIT_TASK)
+                    return object;
+                var message = new $root.S2C.SC_INIT_TASK();
+                if (object.tasks) {
+                    if (typeof object.tasks !== "object")
+                        throw TypeError(".S2C.SC_INIT_TASK.tasks: object expected");
+                    message.tasks = {};
+                    for (var keys = Object.keys(object.tasks), i = 0; i < keys.length; ++i) {
+                        if (typeof object.tasks[keys[i]] !== "object")
+                            throw TypeError(".S2C.SC_INIT_TASK.tasks: object expected");
+                        message.tasks[keys[i]] = $root.S2C.Task.fromObject(object.tasks[keys[i]]);
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Creates a plain object from a SC_INIT_TASK message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof S2C.SC_INIT_TASK
+             * @static
+             * @param {S2C.SC_INIT_TASK} message SC_INIT_TASK
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            SC_INIT_TASK.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.objects || options.defaults)
+                    object.tasks = {};
+                var keys2;
+                if (message.tasks && (keys2 = Object.keys(message.tasks)).length) {
+                    object.tasks = {};
+                    for (var j = 0; j < keys2.length; ++j)
+                        object.tasks[keys2[j]] = $root.S2C.Task.toObject(message.tasks[keys2[j]], options);
+                }
+                return object;
+            };
+    
+            /**
+             * Converts this SC_INIT_TASK to JSON.
+             * @function toJSON
+             * @memberof S2C.SC_INIT_TASK
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            SC_INIT_TASK.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+    
+            return SC_INIT_TASK;
+        })();
+    
+        S2C.SC_UPDATE_TASK = (function() {
+    
+            /**
+             * Properties of a SC_UPDATE_TASK.
+             * @memberof S2C
+             * @interface ISC_UPDATE_TASK
+             * @property {Object.<string,S2C.ITask>|null} [tasks] SC_UPDATE_TASK tasks
+             */
+    
+            /**
+             * Constructs a new SC_UPDATE_TASK.
+             * @memberof S2C
+             * @classdesc Represents a SC_UPDATE_TASK.
+             * @implements ISC_UPDATE_TASK
+             * @constructor
+             * @param {S2C.ISC_UPDATE_TASK=} [properties] Properties to set
+             */
+            function SC_UPDATE_TASK(properties) {
+                this.tasks = {};
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+    
+            /**
+             * SC_UPDATE_TASK tasks.
+             * @member {Object.<string,S2C.ITask>} tasks
+             * @memberof S2C.SC_UPDATE_TASK
+             * @instance
+             */
+            SC_UPDATE_TASK.prototype.tasks = $util.emptyObject;
+    
+            /**
+             * Creates a new SC_UPDATE_TASK instance using the specified properties.
+             * @function create
+             * @memberof S2C.SC_UPDATE_TASK
+             * @static
+             * @param {S2C.ISC_UPDATE_TASK=} [properties] Properties to set
+             * @returns {S2C.SC_UPDATE_TASK} SC_UPDATE_TASK instance
+             */
+            SC_UPDATE_TASK.create = function create(properties) {
+                return new SC_UPDATE_TASK(properties);
+            };
+    
+            /**
+             * Encodes the specified SC_UPDATE_TASK message. Does not implicitly {@link S2C.SC_UPDATE_TASK.verify|verify} messages.
+             * @function encode
+             * @memberof S2C.SC_UPDATE_TASK
+             * @static
+             * @param {S2C.ISC_UPDATE_TASK} message SC_UPDATE_TASK message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            SC_UPDATE_TASK.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.tasks != null && message.hasOwnProperty("tasks"))
+                    for (var keys = Object.keys(message.tasks), i = 0; i < keys.length; ++i) {
+                        writer.uint32(/* id 1, wireType 2 =*/10).fork().uint32(/* id 1, wireType 0 =*/8).int32(keys[i]);
+                        $root.S2C.Task.encode(message.tasks[keys[i]], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim().ldelim();
+                    }
+                return writer;
+            };
+    
+            /**
+             * Encodes the specified SC_UPDATE_TASK message, length delimited. Does not implicitly {@link S2C.SC_UPDATE_TASK.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof S2C.SC_UPDATE_TASK
+             * @static
+             * @param {S2C.ISC_UPDATE_TASK} message SC_UPDATE_TASK message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            SC_UPDATE_TASK.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+    
+            /**
+             * Decodes a SC_UPDATE_TASK message from the specified reader or buffer.
+             * @function decode
+             * @memberof S2C.SC_UPDATE_TASK
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {S2C.SC_UPDATE_TASK} SC_UPDATE_TASK
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            SC_UPDATE_TASK.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.S2C.SC_UPDATE_TASK(), key;
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        reader.skip().pos++;
+                        if (message.tasks === $util.emptyObject)
+                            message.tasks = {};
+                        key = reader.int32();
+                        reader.pos++;
+                        message.tasks[key] = $root.S2C.Task.decode(reader, reader.uint32());
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Decodes a SC_UPDATE_TASK message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof S2C.SC_UPDATE_TASK
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {S2C.SC_UPDATE_TASK} SC_UPDATE_TASK
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            SC_UPDATE_TASK.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+    
+            /**
+             * Verifies a SC_UPDATE_TASK message.
+             * @function verify
+             * @memberof S2C.SC_UPDATE_TASK
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            SC_UPDATE_TASK.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.tasks != null && message.hasOwnProperty("tasks")) {
+                    if (!$util.isObject(message.tasks))
+                        return "tasks: object expected";
+                    var key = Object.keys(message.tasks);
+                    for (var i = 0; i < key.length; ++i) {
+                        if (!$util.key32Re.test(key[i]))
+                            return "tasks: integer key{k:int32} expected";
+                        {
+                            var error = $root.S2C.Task.verify(message.tasks[key[i]]);
+                            if (error)
+                                return "tasks." + error;
+                        }
+                    }
+                }
+                return null;
+            };
+    
+            /**
+             * Creates a SC_UPDATE_TASK message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof S2C.SC_UPDATE_TASK
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {S2C.SC_UPDATE_TASK} SC_UPDATE_TASK
+             */
+            SC_UPDATE_TASK.fromObject = function fromObject(object) {
+                if (object instanceof $root.S2C.SC_UPDATE_TASK)
+                    return object;
+                var message = new $root.S2C.SC_UPDATE_TASK();
+                if (object.tasks) {
+                    if (typeof object.tasks !== "object")
+                        throw TypeError(".S2C.SC_UPDATE_TASK.tasks: object expected");
+                    message.tasks = {};
+                    for (var keys = Object.keys(object.tasks), i = 0; i < keys.length; ++i) {
+                        if (typeof object.tasks[keys[i]] !== "object")
+                            throw TypeError(".S2C.SC_UPDATE_TASK.tasks: object expected");
+                        message.tasks[keys[i]] = $root.S2C.Task.fromObject(object.tasks[keys[i]]);
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Creates a plain object from a SC_UPDATE_TASK message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof S2C.SC_UPDATE_TASK
+             * @static
+             * @param {S2C.SC_UPDATE_TASK} message SC_UPDATE_TASK
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            SC_UPDATE_TASK.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.objects || options.defaults)
+                    object.tasks = {};
+                var keys2;
+                if (message.tasks && (keys2 = Object.keys(message.tasks)).length) {
+                    object.tasks = {};
+                    for (var j = 0; j < keys2.length; ++j)
+                        object.tasks[keys2[j]] = $root.S2C.Task.toObject(message.tasks[keys2[j]], options);
+                }
+                return object;
+            };
+    
+            /**
+             * Converts this SC_UPDATE_TASK to JSON.
+             * @function toJSON
+             * @memberof S2C.SC_UPDATE_TASK
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            SC_UPDATE_TASK.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+    
+            return SC_UPDATE_TASK;
         })();
     
         S2C.SC_INIT_BATTLE_INFO = (function() {

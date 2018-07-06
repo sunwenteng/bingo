@@ -200,7 +200,9 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
               "SC_UPDATE_EQUIP",
               "SC_INIT_ITEM",
               "SC_UPDATE_ITEM",
-              "SC_INIT_BATTLE_INFO"
+              "SC_INIT_BATTLE_INFO",
+              "SC_INIT_TASK",
+              "SC_UPDATE_TASK"
             ]
           }
         },
@@ -268,6 +270,48 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
           SC_INIT_BATTLE_INFO: {
             type: "SC_INIT_BATTLE_INFO",
             id: 1401
+          },
+          SC_INIT_TASK: {
+            type: "SC_INIT_TASK",
+            id: 1501
+          },
+          SC_UPDATE_TASK: {
+            type: "SC_UPDATE_TASK",
+            id: 1502
+          }
+        }
+      },
+      Task: {
+        fields: {
+          uid: {
+            type: "uint32",
+            id: 1
+          },
+          id: {
+            type: "uint32",
+            id: 2
+          },
+          state: {
+            type: "uint32",
+            id: 3
+          }
+        }
+      },
+      SC_INIT_TASK: {
+        fields: {
+          tasks: {
+            keyType: "uint32",
+            type: "Task",
+            id: 1
+          }
+        }
+      },
+      SC_UPDATE_TASK: {
+        fields: {
+          tasks: {
+            keyType: "int32",
+            type: "Task",
+            id: 1
           }
         }
       },

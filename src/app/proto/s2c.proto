@@ -26,8 +26,26 @@ message Message {
         SC_UPDATE_ITEM SC_UPDATE_ITEM = 1302;
 
         SC_INIT_BATTLE_INFO SC_INIT_BATTLE_INFO = 1401;
+
+        SC_INIT_TASK SC_INIT_TASK = 1501;
+        SC_UPDATE_TASK SC_UPDATE_TASK = 1502;
     }
 }
+
+message Task {
+    uint32 uid = 1;
+    uint32 id = 2;
+    uint32 state = 3;
+}
+
+message SC_INIT_TASK {
+    map<uint32, Task> tasks = 1;
+}
+
+message SC_UPDATE_TASK {
+    map<int32, Task> tasks = 1;
+}
+
 
 message SC_INIT_BATTLE_INFO {
     map<uint32, uint32> slotInfo = 1;

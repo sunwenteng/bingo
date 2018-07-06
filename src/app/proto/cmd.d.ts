@@ -230,6 +230,8 @@ export namespace S2C {
         SC_INIT_ITEM?: (S2C.ISC_INIT_ITEM|null);
         SC_UPDATE_ITEM?: (S2C.ISC_UPDATE_ITEM|null);
         SC_INIT_BATTLE_INFO?: (S2C.ISC_INIT_BATTLE_INFO|null);
+        SC_INIT_TASK?: (S2C.ISC_INIT_TASK|null);
+        SC_UPDATE_TASK?: (S2C.ISC_UPDATE_TASK|null);
     }
 
     class Message implements IMessage {
@@ -250,7 +252,9 @@ export namespace S2C {
         public SC_INIT_ITEM?: (S2C.ISC_INIT_ITEM|null);
         public SC_UPDATE_ITEM?: (S2C.ISC_UPDATE_ITEM|null);
         public SC_INIT_BATTLE_INFO?: (S2C.ISC_INIT_BATTLE_INFO|null);
-        public kind?: ("SC_TEST_ECHO"|"LOGIN_SC_LOGIN"|"LOGIN_SC_CHOOSE_SERVER"|"LOGIN_SC_GET_SERVER_LIST"|"LOGIN_SC_GET_INFO"|"SC_ROLE_ONLINE"|"SC_ROLE_HEART_BEAT"|"SC_ROLE_PRO_UPDATE"|"SC_GET_REWARD"|"SC_INIT_HERO"|"SC_UPDATE_HERO"|"SC_INIT_EQUIP"|"SC_UPDATE_EQUIP"|"SC_INIT_ITEM"|"SC_UPDATE_ITEM"|"SC_INIT_BATTLE_INFO");
+        public SC_INIT_TASK?: (S2C.ISC_INIT_TASK|null);
+        public SC_UPDATE_TASK?: (S2C.ISC_UPDATE_TASK|null);
+        public kind?: ("SC_TEST_ECHO"|"LOGIN_SC_LOGIN"|"LOGIN_SC_CHOOSE_SERVER"|"LOGIN_SC_GET_SERVER_LIST"|"LOGIN_SC_GET_INFO"|"SC_ROLE_ONLINE"|"SC_ROLE_HEART_BEAT"|"SC_ROLE_PRO_UPDATE"|"SC_GET_REWARD"|"SC_INIT_HERO"|"SC_UPDATE_HERO"|"SC_INIT_EQUIP"|"SC_UPDATE_EQUIP"|"SC_INIT_ITEM"|"SC_UPDATE_ITEM"|"SC_INIT_BATTLE_INFO"|"SC_INIT_TASK"|"SC_UPDATE_TASK");
         public static create(properties?: S2C.IMessage): S2C.Message;
         public static encode(message: S2C.IMessage, writer?: $protobuf.Writer): $protobuf.Writer;
         public static encodeDelimited(message: S2C.IMessage, writer?: $protobuf.Writer): $protobuf.Writer;
@@ -259,6 +263,64 @@ export namespace S2C {
         public static verify(message: { [k: string]: any }): (string|null);
         public static fromObject(object: { [k: string]: any }): S2C.Message;
         public static toObject(message: S2C.Message, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public toJSON(): { [k: string]: any };
+    }
+
+    interface ITask {
+        uid?: (number|null);
+        id?: (number|null);
+        state?: (number|null);
+    }
+
+    class Task implements ITask {
+        constructor(properties?: S2C.ITask);
+        public uid: number;
+        public id: number;
+        public state: number;
+        public static create(properties?: S2C.ITask): S2C.Task;
+        public static encode(message: S2C.ITask, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: S2C.ITask, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): S2C.Task;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): S2C.Task;
+        public static verify(message: { [k: string]: any }): (string|null);
+        public static fromObject(object: { [k: string]: any }): S2C.Task;
+        public static toObject(message: S2C.Task, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public toJSON(): { [k: string]: any };
+    }
+
+    interface ISC_INIT_TASK {
+        tasks?: ({ [k: string]: S2C.ITask }|null);
+    }
+
+    class SC_INIT_TASK implements ISC_INIT_TASK {
+        constructor(properties?: S2C.ISC_INIT_TASK);
+        public tasks: { [k: string]: S2C.ITask };
+        public static create(properties?: S2C.ISC_INIT_TASK): S2C.SC_INIT_TASK;
+        public static encode(message: S2C.ISC_INIT_TASK, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: S2C.ISC_INIT_TASK, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): S2C.SC_INIT_TASK;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): S2C.SC_INIT_TASK;
+        public static verify(message: { [k: string]: any }): (string|null);
+        public static fromObject(object: { [k: string]: any }): S2C.SC_INIT_TASK;
+        public static toObject(message: S2C.SC_INIT_TASK, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public toJSON(): { [k: string]: any };
+    }
+
+    interface ISC_UPDATE_TASK {
+        tasks?: ({ [k: string]: S2C.ITask }|null);
+    }
+
+    class SC_UPDATE_TASK implements ISC_UPDATE_TASK {
+        constructor(properties?: S2C.ISC_UPDATE_TASK);
+        public tasks: { [k: string]: S2C.ITask };
+        public static create(properties?: S2C.ISC_UPDATE_TASK): S2C.SC_UPDATE_TASK;
+        public static encode(message: S2C.ISC_UPDATE_TASK, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: S2C.ISC_UPDATE_TASK, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): S2C.SC_UPDATE_TASK;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): S2C.SC_UPDATE_TASK;
+        public static verify(message: { [k: string]: any }): (string|null);
+        public static fromObject(object: { [k: string]: any }): S2C.SC_UPDATE_TASK;
+        public static toObject(message: S2C.SC_UPDATE_TASK, options?: $protobuf.IConversionOptions): { [k: string]: any };
         public toJSON(): { [k: string]: any };
     }
 

@@ -59,7 +59,7 @@ export abstract class RedisData extends Model {
                         break;
                     case 'object' :
                         try {
-                            if (reply[obj] !== "" && reply[obj] !==  null) {
+                            if (reply[obj] !== "" && reply[obj] !== "null" && reply[obj] !==  null) {
                                 this.fields[obj].deserialize(reply[obj]);
                             }
                             this.fields[obj]['m_loaded'] = true;

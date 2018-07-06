@@ -38,7 +38,8 @@ export async function start(config: MysqlConfig): Promise<void> {
             [tableName, 'vipExp', "INT UNSIGNED NOT NULL DEFAULT 0"],
             [tableName, 'vipLevel', "INT UNSIGNED NOT NULL DEFAULT 0"],
             [tableName, 'valid', "INT UNSIGNED NOT NULL DEFAULT 1"],
-            [tableName, 'battleModel', "blob NULL"]
+            [tableName, 'battleModel', "blob NULL"],
+            [tableName, 'taskModel', "blob NULL"],
             // add new update column down here
         ]);
 

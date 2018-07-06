@@ -40,6 +40,7 @@ export class RoleController {
             role.sendProtocol(role.equipModel.serializeInitNetMsg());
             role.sendProtocol(role.itemModel.serializeInitNetMsg());
             role.sendProtocol(role.battleModel.serializeInitNetMsg());
+            role.sendProtocol(role.taskModel.serializeInitNetMsg());
             // end TODO
 
             // put it to the end
