@@ -20,6 +20,8 @@ export enum ERoleMask {
     EQUIP = 'equipModel',
     ITEM = 'itemModel',
     HERO = 'heroModel',
+    TASK = 'taskModel',
+    BATTLE = 'battleModel',
 }
 
 export class Role extends RedisData {
