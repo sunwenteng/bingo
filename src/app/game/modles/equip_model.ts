@@ -83,9 +83,14 @@ export class EquipModel extends BaseModel {
         return new Equip(equipId);
     }
 
-    private addEquip(equip: Equip) {
+    private addEquip(equip: Equip): boolean {
         equip.uid = ++this._maxUid;
+        if (this._equips.hasOwnProperty(equip.uid)) {
+            Log.sInfo('equipModel maxUid, error, maxUid=%d, uid=%d', this._maxUid, equip.uid);
+            return false;
+        }
         this._equips[equip.uid] = equip;
+        return true;
     }
 
     sendEquipUpdateProtocol(equip: Equip) {
@@ -100,7 +105,9 @@ export class EquipModel extends BaseModel {
         let equip = this.createEquip(equipId);
         if (!equip)
             return null;
-        this.addEquip(equip);
+        if (!this.addEquip(equip)) {
+            return null;
+        }
         if (bSend2Client) {
             let msg = S2C.SC_UPDATE_EQUIP.create();
             let equipMsg = S2C.Equip.create();
@@ -108,11 +115,15 @@ export class EquipModel extends BaseModel {
             msg.equips[equip.uid] = equipMsg;
             this.m_Role.sendProtocol(msg);
         }
-        Log.uInfo(this.m_Role.uid, 'useType=%d, id=%d', type, equipId);
+        Log.uInfo(this.m_Role.uid, 'useType=%d, id=%d, uid=%d, maxUid=%d', type, equipId, this._maxUid);
         return equip;
     }
 
-    removeEquip(uid, type: EResUseType, bSend2Client: boolean = true) {
+    removeEquip(uid, type: EResUseType, bSend2Client: boolean = true): boolean {
+        if (!this._equips.hasOwnProperty(uid)) {
+            Log.sInfo('equipModel maxUid, uid=%d', uid);
+            return false;
+        }
         if (bSend2Client) {
             let msg = S2C.SC_UPDATE_EQUIP.create();
             msg.equips[-uid] = S2C.Equip.create();
@@ -121,6 +132,7 @@ export class EquipModel extends BaseModel {
         delete this._equips[uid];
         this.makeDirty();
         Log.uInfo(this.m_Role.uid, 'useType=%d, uid=%d', type, uid);
+        return true;
     }
 
     getEquip(uid, bReadonly: boolean): Equip {
@@ -141,16 +153,20 @@ export class EquipModel extends BaseModel {
         return Object.keys(this._equips).length;
     }
 
-    isEquipEnough(id, count): boolean {
+    getEquipUidsById(id: number, count: number): number[] {
+        let ret = [];
+        if (!count) return ret;
         let equips = this.getAllEquip(true);
-        let findCnt = 0, equip: Equip = null;
+        let equip: Equip = null;
         for (let uid in equips) {
             equip = equips[uid];
-            if (equip.id === id && equip.isRaw && ++findCnt > count) {
-                return true;
+            if (equip.id === id && equip.isRaw) {
+                ret.push(equip.uid);
+                if (ret.length >= count)
+                    break;
             }
         }
-        return false;
+        return ret;
     }
 
 }

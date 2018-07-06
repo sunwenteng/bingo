@@ -28,7 +28,7 @@ export class GameSession extends UserSession {
     @execTime(false)
     private async doController(controller: Function, session: GameSession, packet: any) {
         Log.sInfo('socketUid=%d, m_roleId=%d, name=%s, data=%j', this.m_socket.uid, this.m_roleId ? this.m_roleId : 0, packet.kind, packet[packet.kind]);
-        await controller(session, packet);
+        await controller(session, packet[packet.kind]);
     }
 
     public async update() {
@@ -59,7 +59,7 @@ export class GameSession extends UserSession {
 
             controller = GameWorld.instance.getController(packet.kind);
             if (controller) {
-                await this.doController(controller, this, packet[packet.kind]);
+                await this.doController(controller, this, packet);
             }
             else {
                 Log.sError('controller not found, name=%s', packet.kind);

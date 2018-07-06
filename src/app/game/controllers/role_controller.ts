@@ -12,6 +12,7 @@ import {MAX_EQUIP_BAG_SIZE} from "../modles/equip_model";
 import {MAX_ITEM_BAG_SIZE} from "../modles/item_model";
 import {EResUseType, ResType} from "../modles/defines";
 import {ResourceController} from "./resource_controller";
+import {Reward} from "../modles/reward";
 
 let gameRedis = RedisMgr.getInstance(RedisType.GAME);
 
@@ -56,20 +57,23 @@ export class RoleController {
 
     @controller(false, false, [ERoleMask.TASK, ERoleMask.HERO, ERoleMask.EQUIP, ERoleMask.ITEM])
     async heartBeat(role: Role, msg: C2S.CS_ROLE_HEART_BEAT) {
-        ResourceController.instance.addResource(role, ResType.DIAMOND, 1, EResUseType.GM);
+        let rwd = new Reward({[ResType.DIAMOND]: 1});
+        ResourceController.instance.applyReward(role, rwd, EResUseType.GM, true);
+
         let size = role.heroModel.getHeroBagSize();
         if (size < MAX_HERO_BAG_SIZE) {
+            rwd.clear();
             for (let i = 0; i < (MAX_HERO_BAG_SIZE - size); i++) {
-                role.heroModel.createAndAddHero(101, EResUseType.GM);
+                rwd.add({heroes: [101]})
             }
+            ResourceController.instance.applyReward(role, rwd, EResUseType.GM, true);
         }
         else {
-            let delCnt = 0;
-            let allHero = role.heroModel.getAllHero(true);
-            for (let uid in allHero) {
-                role.heroModel.removeHero(uid, EResUseType.GM);
-                if (++delCnt > 2) break;
+            rwd.clear();
+            for (let i = 0; i < 3; ++i) {
+                rwd.add({heroes: [101]});
             }
+            ResourceController.instance.removeReward(role, rwd, EResUseType.GM, true);
         }
         let changeCnt = 0;
         let allHero = role.heroModel.getAllHero(true);
@@ -83,17 +87,18 @@ export class RoleController {
 
         size = role.equipModel.getEquipBagSize();
         if (size < MAX_EQUIP_BAG_SIZE) {
+            rwd.clear();
             for (let i = 0; i < (MAX_EQUIP_BAG_SIZE - size); i++) {
-                role.equipModel.createAndAddEquip(201, EResUseType.GM);
+                rwd.add({equips: [201]});
             }
+            ResourceController.instance.applyReward(role, rwd, EResUseType.GM, true);
         }
         else {
-            let delCnt = 0;
-            let container = role.equipModel.getAllEquip(true);
-            for (let uid in container) {
-                role.equipModel.removeEquip(uid, EResUseType.GM);
-                if (++delCnt > 2) break;
+            rwd.clear();
+            for (let i = 0; i < 3; ++i) {
+                rwd.add({equips: [201]});
             }
+            ResourceController.instance.removeReward(role, rwd, EResUseType.GM, true);
         }
         changeCnt = 0;
         let allEquip = role.equipModel.getAllEquip(true);
@@ -106,24 +111,25 @@ export class RoleController {
         }
 
         size = role.itemModel.getItemBagSize();
-        if (size < MAX_ITEM_BAG_SIZE) {
+        if (size === 0) {
+            rwd.clear();
             for (let i = 0; i < (MAX_ITEM_BAG_SIZE - size); i++) {
-                role.itemModel.createAndAddItem(301 + i, 1, EResUseType.GM);
+                rwd.add({items: {[301+i] : Math.floor(Math.random()) * 10}});
             }
+            ResourceController.instance.applyReward(role, rwd, EResUseType.GM, true);
         }
         else {
-            let delCnt = 0;
-            let container = role.itemModel.getAllItem(true);
-            for (let uid in container) {
-                role.itemModel.removeItem(uid, 1, EResUseType.GM);
-                if (++delCnt > 2) break;
-            }
+            // rwd.clear();
+            // for (let i = 0; i < 3; ++i) {
+            //     rwd.add({equips: [201]});
+            // }
+            // ResourceController.instance.removeReward(role, rwd, EResUseType.GM, true);
         }
         changeCnt = 0;
         let allItem = role.itemModel.getAllItem(true);
         for (let itemId in allItem) {
             let item = role.itemModel.getItem(itemId, false);
-            item.cnt = Math.floor(Math.random() * 100);
+            item.cnt = Math.floor(Math.random() * 10);
             role.itemModel.sendItemUpdateProtocol(item);
             if (++changeCnt > 2) break;
         }

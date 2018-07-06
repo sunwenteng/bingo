@@ -2,41 +2,44 @@ import {Model} from "./model";
 import {field} from "../../../lib/util/descriptor";
 
 export class Reward extends Model {
-    @field() gold: number;
-    @field() diamond: number;
-    @field() exp: number;
-    @field() vipExp: number;
+    @field() gold: number = 0;
+    @field() diamond: number = 0;
+    @field() exp: number = 0;
+    @field() vipExp: number = 0;
     @field() heroes: number[] = [];
     @field() equips: number[] = [];
     @field() items: { [itemId: number]: number } = {};
 
-    constructor(o: any) {
+    constructor(o?: any) {
         super();
-        for (let k in o) {
-            if (!this.hasOwnProperty(k)) {
-                throw new Error(JSON.stringify(o) + ' not valid reward format');
+        if (o) {
+            for (let k in o) {
+                if (!this['fields'].hasOwnProperty(k)) {
+                    throw new Error(JSON.stringify(o) + ' not valid reward format');
+                }
             }
+            this.add(o);
         }
-        this.add(o);
     }
 
-    add(rwd: Reward) {
-        for (let k in rwd) {
-            if (rwd[k] instanceof Array) {
-                this['fields'][k].concat(rwd[k]);
+    add(rwd: any) {
+        let o = (rwd instanceof Reward) ? rwd['filed'] : rwd;
+        for (let k in o) {
+            if (o[k] instanceof Array) {
+                this['fields'][k].push(...o[k]);
             }
-            else if (rwd[k] instanceof Object) {
-                for (let id in rwd[k]) {
+            else if (o[k] instanceof Object) {
+                for (let id in o[k]) {
                     if (this['fields'][k].hasOwnProperty(id)) {
-                        this['fields'][k][id] += rwd[k][id];
+                        this['fields'][k][id] += o[k][id];
                     }
                     else {
-                        this['fields'][k][id] = rwd[k][id];
+                        this['fields'][k][id] = o[k][id];
                     }
                 }
             }
             else {
-                this['fields'][k] += rwd[k];
+                this['fields'][k] += o[k];
             }
         }
     }
@@ -46,7 +49,7 @@ export class Reward extends Model {
             if (this['fields'][k] instanceof Array && this['fields'][k].length > 0) {
                 rate = rate < 1 ? 1 : Math.round(rate);
                 for (let i = 0; i < rate; i++) {
-                    this['fields'][k].concat(this['fields'][k]);
+                    this['fields'][k].push(...this['fields'][k]);
                 }
             }
             else if (this['fields'][k] instanceof Object) {

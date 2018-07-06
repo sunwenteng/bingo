@@ -85,15 +85,25 @@ export class ItemModel extends BaseModel {
         return new Item(itemId, cnt);
     }
 
-    private addItem(item: Item) {
+    private addItem(item: Item): boolean {
+        if (this._items.hasOwnProperty(item.id)) {
+            Log.sError('item already exists, id=%d', item.id);
+            return false;
+        }
         this._items[item.id] = item;
+        return true;
     }
 
     createAndAddItem(itemId: number, count: number, type: EResUseType, bSend2Client: boolean = true): Item {
-        let item = this.createItem(itemId, count);
-        if (!item)
-            return null;
-        this.addItem(item);
+        let item = this.getItem(itemId, true);
+        if (!item) {
+            item = this.createItem(itemId, count);
+            if (!this.addItem(item)) return null;
+        }
+        else {
+            item.cnt += count;
+        }
+
         if (bSend2Client) {
             let msg = S2C.SC_UPDATE_ITEM.create();
             let itemMsg = S2C.Item.create();
@@ -105,10 +115,11 @@ export class ItemModel extends BaseModel {
         return item;
     }
 
-    removeItem(itemId: any, count, type: EResUseType, bSend2Client: boolean = true) {
+    removeItem(itemId: any, count, type: EResUseType, bSend2Client: boolean = true): boolean {
         let item = this.getItem(itemId, true);
         if (!item || item.cnt < count) {
-            Log.uError(this.m_Role.uid, 'item not enough, own=%d, req=%d',)
+            Log.uError(this.m_Role.uid, 'item not enough, itemId=%d, req=%d', itemId, count);
+            return false;
         }
 
         if (item.cnt === count) {
@@ -132,6 +143,7 @@ export class ItemModel extends BaseModel {
 
         this.makeDirty();
         Log.uInfo(this.m_Role.uid, 'useType=%d, itemId=%d, count=%d', type, itemId, count);
+        return true;
     }
 
     getItem(itemId, bReadonly: boolean): Item {
@@ -153,6 +165,7 @@ export class ItemModel extends BaseModel {
     }
 
     isItemEnough(id: number, count: number): boolean {
+        if (!count) return true;
         let item = this.getItem(id, true);
         return item && item.cnt > count;
     }

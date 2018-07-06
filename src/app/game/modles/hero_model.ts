@@ -97,16 +97,23 @@ export class HeroModel extends BaseModel {
         return new Hero(heroId);
     }
 
-    private addHero(hero: Hero) {
+    private addHero(hero: Hero): boolean {
         hero.uid = ++this._maxUid;
+        if (this._heroes.hasOwnProperty(hero.uid)) {
+            Log.sInfo('heroModel maxUid, error, maxUid=%d, uid=%d', this._maxUid, hero.uid);
+            return false;
+        }
         this._heroes[hero.uid] = hero;
+        return true;
     }
 
     createAndAddHero(heroId: number, type: EResUseType, bSend2Client: boolean = true): Hero {
         let hero = this.createHero(heroId);
         if (!hero)
             return null;
-        this.addHero(hero);
+        if (!this.addHero(hero)) {
+            return null;
+        }
         if (bSend2Client) {
             let msg = S2C.SC_UPDATE_HERO.create();
             let heroMsg = S2C.Hero.create();
@@ -114,11 +121,14 @@ export class HeroModel extends BaseModel {
             msg.heroes[hero.uid] = heroMsg;
             this.m_Role.sendProtocol(msg);
         }
-        Log.uInfo(this.m_Role.uid, 'useType=%d, id=%d', type, heroId);
+        Log.uInfo(this.m_Role.uid, 'useType=%d, id=%d, uid=%d, maxUid=%d', type, heroId, hero.uid, this._maxUid);
         return hero;
     }
 
-    removeHero(uid, type: EResUseType, bSend2Client: boolean = true) {
+    removeHero(uid, type: EResUseType, bSend2Client: boolean = true): boolean {
+        if (!this._heroes.hasOwnProperty(uid)) {
+            return false;
+        }
         if (bSend2Client) {
             let msg = S2C.SC_UPDATE_HERO.create();
             msg.heroes[-uid] = S2C.Hero.create();
@@ -127,6 +137,7 @@ export class HeroModel extends BaseModel {
         delete this._heroes[uid];
         this.makeDirty();
         Log.uInfo(this.m_Role.uid, 'useType=%d, uid=%d', type, uid);
+        return true;
     }
 
     sendHeroUpdateProtocol(hero: Hero) {
@@ -155,15 +166,19 @@ export class HeroModel extends BaseModel {
         return Object.keys(this._heroes).length;
     }
 
-    isHeroEnough(id, count): boolean {
+    getHeroUidsById(id: number, count: number): number[] {
+        let ret = [];
+        if (!count) return ret;
         let heroes = this.getAllHero(true);
-        let findCnt = 0, hero: Hero = null;
+        let hero: Hero = null;
         for (let uid in heroes) {
             hero = heroes[uid];
-            if (hero.id === id && hero.isRaw && ++findCnt > count) {
-                return true;
+            if (hero.id === id && hero.isRaw) {
+                ret.push(hero.uid);
+                if (ret.length >= count)
+                    break;
             }
         }
-        return false;
+        return ret;
     }
 }
