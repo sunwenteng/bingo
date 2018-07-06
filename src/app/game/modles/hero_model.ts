@@ -44,7 +44,7 @@ export class Hero {
 
 export class HeroModel extends BaseModel {
     @modelField() private _heroes: { [uid: number]: Hero } = {};
-    @modelField() maxUid: number = 0;
+    private _maxUid: number = 0;
 
     constructor(role: Role, key: string) {
         super(role, key);
@@ -55,7 +55,7 @@ export class HeroModel extends BaseModel {
     }
 
     deserialize(data) {
-        let o = JSON.parse(data);
+        let o = JSON.parse(data), t = 0;
         for (let k in o) {
             if (k == '_heroes') {
                 for (let uid in o[k]) {
@@ -64,6 +64,8 @@ export class HeroModel extends BaseModel {
                         hero[pro] = o[k][uid][pro];
                     }
                     this._heroes[uid] = hero;
+                    t = parseInt(uid);
+                    this._maxUid = t > this._maxUid ? t : this._maxUid;
                 }
             }
             else {
@@ -91,7 +93,7 @@ export class HeroModel extends BaseModel {
     }
 
     private addHero(hero: Hero) {
-        hero.uid = ++this.maxUid;
+        hero.uid = ++this._maxUid;
         this._heroes[hero.uid] = hero;
     }
 

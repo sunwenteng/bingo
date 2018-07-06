@@ -48,29 +48,31 @@ export abstract class RedisData extends Model{
 
     protected deserialize(reply: { [key: string]: any }): void {
         for (let obj in reply) {
-            switch (typeof this.fields[obj]) {
-                case 'number' :
-                case 'boolean' :
-                    this.fields[obj] = parseInt(reply[obj]);
-                    break;
-                case 'string' :
-                    this.fields[obj] = reply[obj];
-                    break;
-                case 'object' :
-                    try {
-                        if (reply[obj] !== "") {
-                            this.fields[obj].deserialize(reply[obj]);
-                            this.fields[obj]['m_loaded'] = true;
+            if (this.fields.hasOwnProperty(obj)) {
+                switch (typeof this.fields[obj]) {
+                    case 'number' :
+                    case 'boolean' :
+                        this.fields[obj] = parseInt(reply[obj]);
+                        break;
+                    case 'string' :
+                        this.fields[obj] = reply[obj];
+                        break;
+                    case 'object' :
+                        try {
+                            if (reply[obj] !== "") {
+                                this.fields[obj].deserialize(reply[obj]);
+                                this.fields[obj]['m_loaded'] = true;
+                            }
+                        } catch (err) {
+                            Log.sError('redis data parse failed, key=%s, val=%s', obj, reply[obj]);
+                            this.fields[obj] = {};
                         }
-                    } catch (err) {
-                        Log.sError('redis data parse failed, key=%s, val=%s', obj, reply[obj]);
-                        this.fields[obj] = {};
-                    }
 
-                    break;
-                default:
-                    Log.sError('wrong type, key=%s, type=%s', obj, typeof this.fields[obj]);
-                    break;
+                        break;
+                    default:
+                        Log.sError('wrong type, key=%s, type=%s', obj, typeof this.fields[obj]);
+                        break;
+                }
             }
         }
         this.dynamicFields = {};

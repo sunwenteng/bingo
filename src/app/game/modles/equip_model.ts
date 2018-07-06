@@ -35,7 +35,7 @@ export class Equip {
 
 export class EquipModel extends BaseModel {
     @modelField() private _equips: { [uid: number]: Equip } = {};
-    @modelField() maxUid: number = 0;
+    private _maxUid: number = 0;
 
     constructor(role: Role, key: string) {
         super(role, key);
@@ -46,7 +46,7 @@ export class EquipModel extends BaseModel {
     }
 
     deserialize(data) {
-        let o = JSON.parse(data);
+        let o = JSON.parse(data), t = 0;
         for (let k in o) {
             if (k == '_equips') {
                 for (let uid in o[k]) {
@@ -55,6 +55,8 @@ export class EquipModel extends BaseModel {
                         equip[pro] = o[k][uid][pro];
                     }
                     this._equips[uid] = equip;
+                    t = parseInt(uid);
+                    this._maxUid = t > this._maxUid ? t : this._maxUid;
                 }
             }
             else {
@@ -82,7 +84,7 @@ export class EquipModel extends BaseModel {
     }
 
     private addEquip(equip: Equip) {
-        equip.uid = ++this.maxUid;
+        equip.uid = ++this._maxUid;
         this._equips[equip.uid] = equip;
     }
 
