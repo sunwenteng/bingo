@@ -16,6 +16,7 @@ let gameRedis = RedisMgr.getInstance(RedisType.GAME);
 
 export enum WorldDataRedisKey {
     DIRTY_ROLES = 'dirty_roles',
+    RELOAD_ROLES = 'reload_roles',
 }
 
 interface ServerInfo {

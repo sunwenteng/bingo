@@ -1,9 +1,9 @@
 export const ERROR_CODE = {
     NO_ERROR: 0,                              // 正常
     COMMON: {
-        SYSTEM_ERROR : 10000,               // 系统错误
-        CTL_NOT_FOUND : 10001,              // 控制器找不到
-        CTL_FUNC_NOT_FOUND : 10002,         // 控制器方法找不到
+        SYSTEM_ERROR: 10000,               // 系统错误
+        CTL_NOT_FOUND: 10001,              // 控制器找不到
+        CTL_FUNC_NOT_FOUND: 10002,         // 控制器方法找不到
         CONFIG_NOT_FOUND: 10003,            // 配置未找到
         JSON_PARSE_ERROR: 10004,            // JSON反序列化错误
         HTTP_NO_RESPONSE: 10005,            // http无响应
@@ -12,7 +12,7 @@ export const ERROR_CODE = {
         TOKEN_MISSING: 10008,               // token missing
         CTL_NOT_INTERCEPT: 10009,           // 不需要拦截
         ROLE_NOT_EXIST: 10010,              // 角色不存在
-        PARAM_ERROR : 10011,                // 参数错误
+        PARAM_ERROR: 10011,                // 参数错误
     },
     REDIS: {
         ERROR: 11000,
@@ -35,6 +35,7 @@ export const ERROR_CODE = {
         SADD_ERROR: 11017,
         SMEMBERS_ERROR: 11018,
         SREM_ERROR: 11019,
+        SISMEMBER_ERROR: 11020
     },
     MYSQL: {
         GET_CONN_ERROR: 12001,

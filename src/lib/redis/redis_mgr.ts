@@ -555,6 +555,20 @@ export class RedisMgr {
         }));
     }
 
+    public async sismember(key: string, subKey: string | number, db: number = 0): Promise<boolean> {
+        let client = await this.getClient(db);
+        return new Promise<boolean>(((resolve, reject) => {
+            client.sismember(key, subKey + '', (error, reply) => {
+                if (error) {
+                    Log.sError('name=%s, redis sismember error ' + error, this._name);
+                    reject(ERROR_CODE.REDIS.SISMEMBER_ERROR);
+                } else {
+                    resolve(reply !== 0);
+                }
+            });
+        }));
+    }
+
     public async smembers(key: string, db: number = 0): Promise<string[]> {
         // Log.sInfo('name=%s, redis smember key=%s', this._name, key);
         let client = await this.getClient(db);

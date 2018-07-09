@@ -2,6 +2,8 @@ import {Log} from "./log";
 import {ERoleMask, Role} from "../../app/game/modles/role";
 import {RedisMgr, RedisType} from "../redis/redis_mgr";
 import {BaseModel} from "../../app/game/modles/base_model";
+import {WorldDataRedisKey} from "../../app/game/game_world";
+import {retrieveSourceMap} from "source-map-support";
 
 /**
  * 类函数装饰器，计算函数执行是
@@ -34,42 +36,50 @@ export function execTime(bToLog: boolean = true) {
 
 let gameRedis = RedisMgr.getInstance(RedisType.GAME);
 
-/**
- * @param {boolean} readonly 有一些业务不需要回写，可进行调优
- * @param {boolean} lock 很多数据只会自己修改，所以不需要加锁，可以只对会修改的数据枷锁即可，共享数据修改尽量控制，或者设计层面优先修改离线用户的数据
- * @param {ERoleMask[] | ERoleMask} mask
- * @returns {(target: Object, methodName: string, descriptor: TypedPropertyDescriptor<Function>) => void}
- */
-export function controller(readonly: boolean = false, lock: boolean = false, mask?: ERoleMask[] | ERoleMask) {
+// export function controller(readonly: boolean = false, lock: boolean = false, mask?: ERoleMask[] | ERoleMask) {
+export function controller() {
     return (target: Object, methodName: string, descriptor: TypedPropertyDescriptor<Function>) => {
         let originalMethod = descriptor.value;
         descriptor.value = async function (...args) {
-            let role = new Role(args[0].roleId, args[0]);
+            let role: Role = args[0].role;
+            if (!role) {
+                throw new Error('no role in session');
+            }
             args[0] = role;
-            // let role = args[0].role;
-            // args[0] = role;
-            let returnValue = null;
-            if (!readonly) {
-                if (lock) {
-                    returnValue = await gameRedis.lock(role.getRedisKey(), async () => {
-                        await role.load(mask);
-                        await originalMethod.apply(this, args);
-                        role.sendProUpdate();
-                        await role.save();
-                    });
+            return await gameRedis.lock(role.getRedisKey(), async () => {
+                let needReload = await gameRedis.sismember(WorldDataRedisKey.RELOAD_ROLES, role.uid);
+                if (needReload) {
+                    await role.load();
+                    await gameRedis.srem(WorldDataRedisKey.RELOAD_ROLES, role.uid);
                 }
-                else {
-                    await role.load(mask);
-                    await originalMethod.apply(this, args);
-                    role.sendProUpdate();
-                    await role.save();
-                }
-            }
-            else {
-                await role.load();
-                returnValue = await originalMethod.apply(this, args);
-            }
-            return returnValue;
+
+                await originalMethod.apply(this, args);
+                role.sendProUpdate();
+                await role.save();
+            });
+
+            // let returnValue = null;
+            // if (!readonly) {
+            //     if (lock) {
+            //         returnValue = await gameRedis.lock(role.getRedisKey(), async () => {
+            //             await role.load(mask);
+            //             await originalMethod.apply(this, args);
+            //             role.sendProUpdate();
+            //             await role.save();
+            //         });
+            //     }
+            //     else {
+            //         await role.load(mask);
+            //         await originalMethod.apply(this, args);
+            //         role.sendProUpdate();
+            //         await role.save();
+            //     }
+            // }
+            // else {
+            //     await role.load(mask);
+            //     returnValue = await originalMethod.apply(this, args);
+            // }
+            // return returnValue;
         };
     };
 }

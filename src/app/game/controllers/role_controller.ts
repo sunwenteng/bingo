@@ -32,7 +32,8 @@ export class RoleController {
                 await role.create();
                 await role.save(true);
             }
-            session.roleId = roleId;
+            // session.roleId = roleId;
+            session.role = role;
             role._session = session;
             await session.online();
 
@@ -55,9 +56,19 @@ export class RoleController {
         });
     }
 
-    @controller(false, false, [ERoleMask.TASK, ERoleMask.HERO, ERoleMask.EQUIP, ERoleMask.ITEM])
+    @controller()
     async heartBeat(role: Role, msg: C2S.CS_ROLE_HEART_BEAT) {
         let rwd = new Reward({[ResType.DIAMOND]: 1});
+        // let roleB = new Role(2);
+        //
+        // await gameRedis.lock(roleB.getRedisKey(), async () => {
+        //     let exist = await roleB.load();
+        //     if (exist) {
+        //         roleB.diamond += 1;
+        //         await roleB.save();
+        //     }
+        // });
+
         ResourceController.instance.applyReward(role, rwd, EResUseType.GM, true);
 
         let size = role.heroModel.getHeroBagSize();
@@ -118,7 +129,7 @@ export class RoleController {
         if (size === 0) {
             rwd.clear();
             for (let i = 0; i < (MAX_ITEM_BAG_SIZE - size); i++) {
-                rwd.add({items: {[301+i] : Math.floor(Math.random()) * 10 + 1}});
+                rwd.add({items: {[301 + i]: Math.floor(Math.random()) * 10 + 1}});
             }
             ResourceController.instance.applyReward(role, rwd, EResUseType.GM, true);
         }

@@ -3,7 +3,7 @@
     {
       "name": "game",
       "script": "app.js",
-      "instances": 4,
+      "instances": 1,
       "instance_var": "INSTANCE_ID",
       "exec_mode": "cluster",
       "cwd": "../../app/game",

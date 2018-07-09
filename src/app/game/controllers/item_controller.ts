@@ -16,7 +16,7 @@ export class ItemController {
         role.sendProtocol(pck);
     }
 
-    @controller(true)
+    @controller()
     async readAndWrite(role: Role, msg: C2S.CS_TEST_ECHO) {
 
     }

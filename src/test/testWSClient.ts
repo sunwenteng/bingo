@@ -65,7 +65,7 @@ class Client {
     }
 }
 
-for (let i = 0; i < 1; i++) {
+for (let i = 0; i < 500; i++) {
     let client = new Client(i + 1);
 }
 

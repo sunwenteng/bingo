@@ -88,6 +88,10 @@ export class Role extends RedisData {
         await gameRedis.hmset(this.getRedisKey(), saveData, this.redisKeyExpire);
         // 往脏数据集合添加
         await gameRedis.sadd(WorldDataRedisKey.DIRTY_ROLES, this.uid);
+
+        if (!this._session) {
+            await gameRedis.sadd(WorldDataRedisKey.RELOAD_ROLES, this.uid);
+        }
     }
 
     public async load(mask?: ERoleMask | ERoleMask[]): Promise<boolean> {

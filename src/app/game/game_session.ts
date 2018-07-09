@@ -1,6 +1,6 @@
 import {UserSession} from '../../lib/net/user_session';
 import {Log} from "../../lib/util/log";
-import {GameWorld} from "./game_world";
+import {GameWorld, WorldDataRedisKey} from "./game_world";
 import {RedisMgr, RedisType} from "../../lib/redis/redis_mgr";
 import {Role, roleRedisPrefix} from "./modles/role";
 import {C2S, S2C} from "../proto/cmd";
@@ -8,10 +8,11 @@ import {execTime} from "../../lib/util/descriptor";
 
 const MAX_PACKET_COUNT = 10000;
 
-let roleRedis = RedisMgr.getInstance(RedisType.GAME);
+let gameRedis = RedisMgr.getInstance(RedisType.GAME);
 
 export class GameSession extends UserSession {
-    public roleId: number = 0;
+    // public roleId: number = 0;
+    public role: Role = null;
 
     constructor() {
         super();
@@ -25,9 +26,9 @@ export class GameSession extends UserSession {
         });
     }
 
-    @execTime(false)
+    // @execTime(false)
     private async doController(controller: Function, session: GameSession, packet: any) {
-        Log.sInfo('socketUid=%d, roleId=%d, name=%s, data=%j', this.socket.uid, this.roleId ? this.roleId : 0, packet.kind, packet[packet.kind]);
+        Log.sInfo('socketUid=%d, roleId=%d, name=%s, data=%j', this.socket.uid, this.role ? this.role.uid : 0, packet.kind, packet[packet.kind]);
         await controller(session, packet[packet.kind]);
     }
 
@@ -48,12 +49,12 @@ export class GameSession extends UserSession {
             this.packets.deleteNode(t);
             cur = cur.next;
 
-            if (packet.kind !== 'CS_ROLE_ONLINE' && this.roleId === 0) {
+            if (packet.kind !== 'CS_ROLE_ONLINE' && this.role === null) {
                 Log.sError('not receive online packet yet, uid=' + this.socket.uid);
                 continue;
             }
-            else if (packet.kind === 'CS_ROLE_ONLINE' && this.roleId !== 0) {
-                Log.sError('already online, duplicate online packet, roleId=%d, socketUid=%d', this.roleId, this.socket.uid);
+            else if (packet.kind === 'CS_ROLE_ONLINE' && this.role !== null) {
+                Log.sError('already online, duplicate online packet, roleId=%d, socketUid=%d', this.role.uid, this.socket.uid);
                 continue;
             }
 
@@ -77,19 +78,20 @@ export class GameSession extends UserSession {
     }
 
     public async online() {
-        if (this.roleId) {
-            GameWorld.instance.addAuthedSession(this.roleId, this);
-            await roleRedis.subscribe(roleRedisPrefix + '_' + this.roleId, GameWorld.instance);
-            Log.sInfo('roleId=%d, socketUid=%d, online', this.roleId, this.socket.uid);
+        if (this.role) {
+            await gameRedis.srem(WorldDataRedisKey.RELOAD_ROLES, this.role.uid);
+            GameWorld.instance.addAuthedSession(this.role.uid, this);
+            await gameRedis.subscribe(roleRedisPrefix + '_' + this.role.uid, GameWorld.instance);
+            Log.sInfo('roleId=%d, socketUid=%d, online', this.role.uid, this.socket.uid);
         }
     }
 
     public async offline() {
-        if (this.roleId) {
-            GameWorld.instance.delAuthedSession(this.roleId);
-            await roleRedis.unsubscribe(roleRedisPrefix + '_' + this.roleId);
-            Log.sInfo('roleId=%d, socketUid=%d, offline', this.roleId, this.socket.uid);
-            this.roleId = 0;
+        if (this.role) {
+            GameWorld.instance.delAuthedSession(this.role.uid);
+            await gameRedis.unsubscribe(roleRedisPrefix + '_' + this.role.uid);
+            Log.sInfo('roleId=%d, socketUid=%d, offline', this.role.uid, this.socket.uid);
+            this.role.uid = 0;
         }
     }
 }
