@@ -112,8 +112,8 @@ export class Role extends RedisData {
                                 throw new Error('role column ' + f + ' not in db');
                             }
                         }
-                        await gameRedis.hmset(this.getRedisKey(), result[0], this.redisKeyExpire);
                         this.deserialize(result[0]);
+                        await gameRedis.hmset(this.getRedisKey(), this.serialize(true), this.redisKeyExpire);
                         resolve(true);
                     }
                 }

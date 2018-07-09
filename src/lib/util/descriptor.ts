@@ -35,7 +35,7 @@ export function execTime(bToLog: boolean = true) {
 let gameRedis = RedisMgr.getInstance(RedisType.GAME);
 
 /**
- * @param {boolean} readonly 有一些业务不需要回写，可进行条有
+ * @param {boolean} readonly 有一些业务不需要回写，可进行调优
  * @param {boolean} lock 很多数据只会自己修改，所以不需要加锁，可以只对会修改的数据枷锁即可，共享数据修改尽量控制，或者设计层面优先修改离线用户的数据
  * @param {ERoleMask[] | ERoleMask} mask
  * @returns {(target: Object, methodName: string, descriptor: TypedPropertyDescriptor<Function>) => void}
@@ -46,6 +46,8 @@ export function controller(readonly: boolean = false, lock: boolean = false, mas
         descriptor.value = async function (...args) {
             let role = new Role(args[0].roleId, args[0]);
             args[0] = role;
+            // let role = args[0].role;
+            // args[0] = role;
             let returnValue = null;
             if (!readonly) {
                 if (lock) {

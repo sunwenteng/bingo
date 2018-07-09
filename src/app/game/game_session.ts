@@ -2,7 +2,7 @@ import {UserSession} from '../../lib/net/user_session';
 import {Log} from "../../lib/util/log";
 import {GameWorld} from "./game_world";
 import {RedisMgr, RedisType} from "../../lib/redis/redis_mgr";
-import {roleRedisPrefix} from "./modles/role";
+import {Role, roleRedisPrefix} from "./modles/role";
 import {C2S, S2C} from "../proto/cmd";
 import {execTime} from "../../lib/util/descriptor";
 

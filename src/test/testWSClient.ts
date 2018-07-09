@@ -66,7 +66,7 @@ class Client {
 }
 
 for (let i = 0; i < 1; i++) {
-    new Client(i + 1);
+    let client = new Client(i + 1);
 }
 
 // setInterval(()=>{
