@@ -1,4 +1,4 @@
-export let ErrorCode = {
+export const ERROR_CODE = {
     NO_ERROR: 0,                              // 正常
     COMMON: {
         SYSTEM_ERROR : 10000,               // 系统错误

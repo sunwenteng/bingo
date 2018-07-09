@@ -1,7 +1,7 @@
 import * as events from 'events';
 import * as redis from 'redis';
 import {Log} from "../util/log";
-import {ErrorCode} from "../util/error_code";
+import {ERROR_CODE} from "../util/error_code";
 import {Model} from "../../app/game/modles/model";
 
 const config = require('../../config/config.json');
@@ -170,7 +170,7 @@ export class RedisMgr {
             //如果池中已经有该db对应的连接
             if (this._pool[db]) {
                 if (this._connected === false) { //redis服务出问题的时候，返回redis不可用错误码
-                    reject(ErrorCode.REDIS.ERROR);
+                    reject(ERROR_CODE.REDIS.ERROR);
                 }
                 resolve(this._pool[db]);
             }
@@ -197,7 +197,7 @@ export class RedisMgr {
                     this._pool[db].select(db, (error) => {
                         if (error) {
                             Log.sError('name=%s, redis select error ' + error, this._name);
-                            reject(ErrorCode.REDIS.SELECT_ERROR);
+                            reject(ERROR_CODE.REDIS.SELECT_ERROR);
                         } else {
                             // 定时使用连接，keeplive
                             this._aliveTimer[db] = setInterval(() => {
@@ -217,7 +217,7 @@ export class RedisMgr {
         return new Promise<number>(((resolve, reject) => {
             client.dbsize((error, reply: number) => {
                 if (error) {
-                    reject(ErrorCode.REDIS.DBSZIE_ERROR);
+                    reject(ERROR_CODE.REDIS.DBSZIE_ERROR);
                 }
                 else {
                     resolve(reply);
@@ -233,7 +233,7 @@ export class RedisMgr {
             client.expire(key, expire, (error) => {
                 if (error) {
                     Log.sError('name=%s, redis expire error ' + error, this._name);
-                    reject(ErrorCode.REDIS.EXPIRE_ERROR);
+                    reject(ERROR_CODE.REDIS.EXPIRE_ERROR);
                 } else {
                     resolve();
                 }
@@ -248,7 +248,7 @@ export class RedisMgr {
             client.setnx(key, value, (error, reply) => {
                 if (error) {
                     Log.sError('name=%s, redis set error ' + error, this._name);
-                    reject(ErrorCode.REDIS.SET_ERROR);
+                    reject(ERROR_CODE.REDIS.SET_ERROR);
                 } else {
                     resolve(reply === 1);
                 }
@@ -282,7 +282,7 @@ export class RedisMgr {
             client.set(key, value, mod, duration, flag, (error, reply) => {
                 if (error) {
                     Log.sError('name=%s, redis set %s %s %s %d %s, redis setWithParams error ' + error, this._name, key, value, mod, duration, flag);
-                    reject(ErrorCode.REDIS.SET_ERROR);
+                    reject(ERROR_CODE.REDIS.SET_ERROR);
                 } else {
                     resolve(reply === 'OK');
                 }
@@ -297,7 +297,7 @@ export class RedisMgr {
             client.set(key, value, (error, reply) => {
                 if (error) {
                     Log.sError('name=%s, redis set %s %s, redis set error ' + error, this._name, key, value);
-                    reject(ErrorCode.REDIS.SET_ERROR);
+                    reject(ERROR_CODE.REDIS.SET_ERROR);
                 } else {
                     resolve(reply === 'OK');
                 }
@@ -312,7 +312,7 @@ export class RedisMgr {
             client.get(key, (error, reply) => {
                 if (error) {
                     Log.sError('name=%s, param=%s, redis get error ' + error, this._name, key);
-                    reject(ErrorCode.REDIS.GET_ERROR);
+                    reject(ERROR_CODE.REDIS.GET_ERROR);
                 } else {
                     resolve(reply);
                 }
@@ -327,7 +327,7 @@ export class RedisMgr {
             client.incr(key, (error) => {
                 if (error) {
                     Log.sError('name=%s, redis incr error ' + error, this._name);
-                    reject(ErrorCode.REDIS.INCR_ERROR);
+                    reject(ERROR_CODE.REDIS.INCR_ERROR);
                 } else {
                     resolve();
                 }
@@ -342,7 +342,7 @@ export class RedisMgr {
             client.del(key, (error) => {
                 if (error) {
                     Log.sError('name=%s, param=%s, redis del error ' + error, this._name, key);
-                    reject(ErrorCode.REDIS.DEL_ERROR);
+                    reject(ERROR_CODE.REDIS.DEL_ERROR);
                 } else {
                     resolve();
                 }
@@ -357,7 +357,7 @@ export class RedisMgr {
             client.hset(hkey, key, value, (error) => {
                 if (error) {
                     Log.sError('name=%s, hset error ' + error, this._name);
-                    return reject(ErrorCode.REDIS.HSET_ERROR);
+                    return reject(ERROR_CODE.REDIS.HSET_ERROR);
                 } else {
                     return resolve();
                 }
@@ -372,7 +372,7 @@ export class RedisMgr {
             client.hsetnx(hkey, key, value, (error, reply) => {
                 if (error) {
                     Log.sError('name=%s, hset error ' + error, this._name);
-                    return reject(ErrorCode.REDIS.HSET_ERROR);
+                    return reject(ERROR_CODE.REDIS.HSET_ERROR);
                 } else {
                     return resolve(reply === 1);
                 }
@@ -391,7 +391,7 @@ export class RedisMgr {
                 client.hmset(hkey, obj, (error) => {
                     if (error) {
                         Log.sError('name=%s, redis hmset error ' + error, this._name);
-                        reject(ErrorCode.REDIS.HMSET_ERROR);
+                        reject(ERROR_CODE.REDIS.HMSET_ERROR);
                     } else {
                         if (expire > 0) {
                             client.expire(hkey, expire, () => {
@@ -411,7 +411,7 @@ export class RedisMgr {
             client.hmget(key, value, (error, reply) => {
                 if (error) {
                     Log.sError('name=%s, redis hmget error: ' + error, this._name);
-                    reject(ErrorCode.REDIS.HMGET_ERROR);
+                    reject(ERROR_CODE.REDIS.HMGET_ERROR);
                 } else {
                     //将结果以键值对的形式返回
                     let ret = {};
@@ -433,7 +433,7 @@ export class RedisMgr {
             client.hincrby(hkey, key, incrValue, (error, reply) => {
                 if (error) {
                     Log.sError('name=%s, redis hincrby error ' + error, this._name);
-                    reject(ErrorCode.REDIS.HINCRBY_ERROR);
+                    reject(ERROR_CODE.REDIS.HINCRBY_ERROR);
                 } else {
                     resolve();
                 }
@@ -448,7 +448,7 @@ export class RedisMgr {
             client.hgetall(hkey, (error, reply) => {
                 if (error) {
                     Log.sError('name=%s, redis hgetall error ' + error, this._name);
-                    reject(ErrorCode.REDIS.HGETALL_ERROR);
+                    reject(ERROR_CODE.REDIS.HGETALL_ERROR);
                 } else {
                     resolve(reply);
                 }
@@ -463,7 +463,7 @@ export class RedisMgr {
             client.zadd(key, arr, (error) => {
                 if (error) {
                     Log.sError('name=%s, redis zadd error ' + error, this._name);
-                    reject(ErrorCode.REDIS.ZADD_ERROR);
+                    reject(ERROR_CODE.REDIS.ZADD_ERROR);
                 } else {
                     if (expire > 0) {
                         client.expire(key, expire);
@@ -489,7 +489,7 @@ export class RedisMgr {
             client.zrevrange(key, start, end, 'WITHSCORES', (error, reply) => {
                 if (error) {
                     Log.sError('name=%s, redis zrevange error ' + error, this._name);
-                    reject(ErrorCode.REDIS.ZREVRANGE_ERROR);
+                    reject(ERROR_CODE.REDIS.ZREVRANGE_ERROR);
                 } else {
                     resolve(reply);
                 }
@@ -510,7 +510,7 @@ export class RedisMgr {
             client.zrevrank(key, field, (error, reply) => {
                 if (error) {
                     Log.sError('name=%s, redis zrevrank error ' + error, this._name);
-                    reject(ErrorCode.REDIS.GETRANGE_ERROR);
+                    reject(ERROR_CODE.REDIS.GETRANGE_ERROR);
                 } else {
                     resolve(reply);
                 }
@@ -531,7 +531,7 @@ export class RedisMgr {
             client.zscore(key, field, (error, reply) => {
                 if (error) {
                     Log.sError('name=%s, redis zscore error ' + error, this._name);
-                    reject(ErrorCode.REDIS.ZSCORE_ERROR);
+                    reject(ERROR_CODE.REDIS.ZSCORE_ERROR);
                 } else {
                     resolve(reply);
                 }
@@ -546,7 +546,7 @@ export class RedisMgr {
             client.sadd(key, member, (error) => {
                 if (error) {
                     Log.sError('name=%s, redis sadd error ' + error, this._name);
-                    reject(ErrorCode.REDIS.SADD_ERROR);
+                    reject(ERROR_CODE.REDIS.SADD_ERROR);
                 } else {
                     resolve();
                 }
@@ -561,7 +561,7 @@ export class RedisMgr {
             client.smembers(key, (error, reply) => {
                 if (error) {
                     Log.sError('name=%s, redis smember error ' + error, this._name);
-                    reject(ErrorCode.REDIS.SMEMBERS_ERROR);
+                    reject(ERROR_CODE.REDIS.SMEMBERS_ERROR);
                 } else {
                     resolve(reply);
                 }
@@ -576,7 +576,7 @@ export class RedisMgr {
             client.srem(key, fields, (error, reply) => {
                 if (error) {
                     Log.sError('name=%s, redis srem error ' + error, this._name);
-                    reject(ErrorCode.REDIS.SREM_ERROR);
+                    reject(ERROR_CODE.REDIS.SREM_ERROR);
                 } else {
                     resolve();
                 }
@@ -591,7 +591,7 @@ export class RedisMgr {
             client.spop(key, (error, reply) => {
                 if (error) {
                     Log.sError('name=%s, redis spop error ' + error, this._name);
-                    reject(ErrorCode.REDIS.SREM_ERROR);
+                    reject(ERROR_CODE.REDIS.SREM_ERROR);
                 } else {
                     resolve(reply);
                 }
@@ -662,7 +662,7 @@ export class RedisMgr {
             client.pubsub(command, params, (error, reply) => {
                 if (error) {
                     Log.sError('name=%s, redis pubsub error ' + error, this._name);
-                    reject(ErrorCode.REDIS.ERROR);
+                    reject(ERROR_CODE.REDIS.ERROR);
                 } else {
                     resolve(reply[1]);
                 }

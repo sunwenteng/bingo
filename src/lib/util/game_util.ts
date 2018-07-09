@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as http from 'http';
-import {ErrorCode} from './error_code';
+import {ERROR_CODE} from './error_code';
 import * as crypto from 'crypto';
 import * as request from 'request';
 import {type} from "os";
@@ -425,7 +425,7 @@ function parseHttpResBody(error: any, response: any, body: string, dataType: HTT
     if (error) {
         //TODO:根据error.code是否为ETIMEDOUT可判断请求或响应是否超时
         //如果需要可在这里增加判断是否超时的错误码
-        return {'error': ErrorCode.COMMON.HTTP_NO_RESPONSE, 'data': null};
+        return {'error': ERROR_CODE.COMMON.HTTP_NO_RESPONSE, 'data': null};
     }
     if (response.statusCode === 200) {
         if (body) {
@@ -437,7 +437,7 @@ function parseHttpResBody(error: any, response: any, body: string, dataType: HTT
                 } catch (e) {
                     //TODO:json字符串解析为json对象失败，可能字符串中含有特殊编码字符
                     return {
-                        'error': ErrorCode.COMMON.JSON_PARSE_ERROR,
+                        'error': ERROR_CODE.COMMON.JSON_PARSE_ERROR,
                         'data': null
                     };
                 }
