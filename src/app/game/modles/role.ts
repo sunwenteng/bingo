@@ -84,6 +84,9 @@ export class Role extends RedisData {
 
     public async save(bSaveAll: boolean = false): Promise<void> {
         let saveData = this.serialize(bSaveAll);
+        if (Object.keys(this.dirtyFields).length === 0) {
+            return;
+        }
         // 同步存储到redis
         await gameRedis.hmset(this.getRedisKey(), saveData, this.redisKeyExpire);
         // 往脏数据集合添加

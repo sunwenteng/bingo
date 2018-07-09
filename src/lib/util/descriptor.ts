@@ -1,9 +1,8 @@
 import {Log} from "./log";
-import {ERoleMask, Role} from "../../app/game/modles/role";
+import {Role} from "../../app/game/modles/role";
 import {RedisMgr, RedisType} from "../redis/redis_mgr";
 import {BaseModel} from "../../app/game/modles/base_model";
 import {WorldDataRedisKey} from "../../app/game/game_world";
-import {retrieveSourceMap} from "source-map-support";
 
 /**
  * 类函数装饰器，计算函数执行是

@@ -32,7 +32,6 @@ export class RoleController {
                 await role.create();
                 await role.save(true);
             }
-            // session.roleId = roleId;
             session.role = role;
             role._session = session;
             await session.online();
