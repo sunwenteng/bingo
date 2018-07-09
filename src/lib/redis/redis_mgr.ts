@@ -476,12 +476,56 @@ export class RedisMgr {
     }
 
     /**
-     * 获取start end之间玩家的排行数据
+     * asc
      * @param key
-     * @param start
-     * @param end
-     * @param callback
+     * @param field
      * @param db
+     */
+    public async zrank(key: string, field: string, db: number = 0): Promise<number> {
+        // Log.sInfo('name=%s, redis zrevrank key=%s, field=%s', this._name, key, field);
+        let client = await this.getClient(db);
+        return new Promise<number>(((resolve, reject) => {
+            client.zrank(key, field, (error, reply) => {
+                if (error) {
+                    Log.sError('name=%s, redis zrevrank error ' + error, this._name);
+                    reject(ERROR_CODE.REDIS.GETRANGE_ERROR);
+                } else {
+                    resolve(reply);
+                }
+            });
+        }));
+    }
+
+    /**
+     * asc
+     * @param {string} key
+     * @param {number} start
+     * @param {number} end
+     * @param {number} db
+     * @returns {Promise<string[]>}
+     */
+    public async zrange(key: string, start: number, end: number, db: number = 0): Promise<string[]> {
+        // Log.sInfo('name=%s, redis zrevrange key=%s, start=%d, end=%d', this._name, key, start, end);
+        let client = await this.getClient(db);
+        return new Promise<string[]>(((resolve, reject) => {
+            client.zrange(key, start, end, 'WITHSCORES', (error, reply) => {
+                if (error) {
+                    Log.sError('name=%s, redis zrevange error ' + error, this._name);
+                    reject(ERROR_CODE.REDIS.ZREVRANGE_ERROR);
+                } else {
+                    resolve(reply);
+                }
+            });
+        }));
+    }
+
+    /**
+     * desc
+     * @param {string} key
+     * @param {number} start
+     * @param {number} end
+     * @param {number} db
+     * @returns {Promise<string[]>}
      */
     public async zrevrange(key: string, start: number, end: number, db: number = 0): Promise<string[]> {
         // Log.sInfo('name=%s, redis zrevrange key=%s, start=%d, end=%d', this._name, key, start, end);
@@ -499,7 +543,7 @@ export class RedisMgr {
     }
 
     /**
-     * 获取键值为key的有序集合中field的排行
+     * desc
      * @param key
      * @param field
      * @param db
