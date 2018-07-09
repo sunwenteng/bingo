@@ -9,7 +9,7 @@ import {roleRedisPrefix} from "./modles/role";
 import * as events from "events";
 import * as time from '../../lib/util/time';
 
-const Config = require('../../config/config.json');
+const config = require('../../config/config.json');
 type AuthedSessionMap = { [index: number]: UserSession };
 type ControllerMap = { [index: string]: Function };
 let gameRedis = RedisMgr.getInstance(RedisType.GAME);
@@ -164,9 +164,9 @@ export class GameWorld extends events.EventEmitter {
         this._info = {
             serverId: process.env.INSTANCE_ID ? parseInt(process.env.INSTANCE_ID) : 0,
             resVersion: '',
-            version: Config['app']['game']['version'],
-            host: Config['app']['game']['host'],
-            port: Config['app']['game']['port'],
+            version: config['app']['game']['version'],
+            host: config['app']['game']['host'],
+            port: config['app']['game']['port'],
         };
 
         let self = this;

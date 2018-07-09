@@ -48,8 +48,7 @@ export class LoginWorld {
             }
 
             result = await LoginDB.conn.execute('select * from gameserver_info');
-            for (let i = 0; i < result.length; i++) {
-                let server = result[i];
+            for(let server of result) {
                 let oldServer = this.serverMap[server.server_id];
                 if (oldServer) {
                     server.alive = (server.update_time !== oldServer.update_time);

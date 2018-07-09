@@ -179,8 +179,9 @@ export class HeroModel extends BaseModel {
             hero = heroes[uid];
             if (hero.id === id && hero.isRaw) {
                 ret.push(hero.uid);
-                if (ret.length >= count)
+                if (ret.length >= count) {
                     break;
+                }
             }
         }
         return ret;

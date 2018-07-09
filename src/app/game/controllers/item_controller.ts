@@ -25,6 +25,4 @@ export class ItemController {
     async readonly(role: Role, msg: C2S.CS_TEST_ECHO) {
 
     }
-
-    createEqu
 }

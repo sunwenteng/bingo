@@ -10,7 +10,7 @@ export enum EResUseType {
 }
 
 export interface BattleRound {
-    id: number // from 0 回合数
+    id: number; // from 0 回合数
     heroUid: number;
     skillId: number;
     damage: number;
