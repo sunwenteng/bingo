@@ -42,6 +42,8 @@ export class RoleController {
             role.sendProtocol(role.itemModel.serializeInitNetMsg());
             role.sendProtocol(role.battleModel.serializeInitNetMsg());
             role.sendProtocol(role.taskModel.serializeInitNetMsg());
+            role.sendProtocol(role.friendModel.serializeInitNetMsg());
+            role.sendProtocol(role.mailModel.serializeInitNetMsg());
             // end TODO
 
             // put it to the end
@@ -59,7 +61,7 @@ export class RoleController {
     async heartBeat(role: Role, msg: C2S.CS_ROLE_HEART_BEAT) {
         let rwd = new Reward({[ResType.DIAMOND]: 1});
         // let roleB = new Role(2);
-        //
+
         // await gameRedis.lock(roleB.getRedisKey(), async () => {
         //     let exist = await roleB.load();
         //     if (exist) {
