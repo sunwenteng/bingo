@@ -16,8 +16,8 @@ export async function sleep(time) {
     return new Promise<void>((resolve => {
         setTimeout(() => {
             resolve();
-        }, time)
-    }))
+        }, time);
+    }));
 }
 
 export function realNow(): number {

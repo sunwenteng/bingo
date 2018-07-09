@@ -16,15 +16,17 @@ export class Equip {
     isRaw: boolean = true;
 
     constructor(id?) {
-        if (id)
+        if (id) {
             this.id = id;
+        }
     }
 
     serializeNetMsg(msg: S2C.Equip) {
         for (let k in msg) {
             if (!this.hasOwnProperty(k)) {
-                if (k !== 'constructor' && k !== '$type' && k != 'toJSON')
+                if (k !== 'constructor' && k !== '$type' && k !== 'toJSON') {
                     Log.sError('SC_UPDATE_EQUIP %s not exist in role data', k);
+                }
                 continue;
             }
             msg[k] = this[k];
@@ -48,7 +50,7 @@ export class EquipModel extends BaseModel {
     deserialize(data) {
         let o = JSON.parse(data), t = 0;
         for (let k in o) {
-            if (k == '_equips') {
+            if (k === '_equips') {
                 for (let uid in o[k]) {
                     let equip = new Equip();
                     for (let pro in o[k][uid]) {
@@ -98,13 +100,14 @@ export class EquipModel extends BaseModel {
         let equipMsg = S2C.Equip.create();
         equip.serializeNetMsg(equipMsg);
         msg.equips[equip.uid] = equipMsg;
-        this.m_Role.sendProtocol(msg);
+        this.role.sendProtocol(msg);
     }
 
     createAndAddEquip(equipId: number, type: EResUseType, bSend2Client: boolean = true): Equip {
         let equip = this.createEquip(equipId);
-        if (!equip)
+        if (!equip) {
             return null;
+        }
         if (!this.addEquip(equip)) {
             return null;
         }
@@ -113,9 +116,9 @@ export class EquipModel extends BaseModel {
             let equipMsg = S2C.Equip.create();
             equip.serializeNetMsg(equipMsg);
             msg.equips[equip.uid] = equipMsg;
-            this.m_Role.sendProtocol(msg);
+            this.role.sendProtocol(msg);
         }
-        Log.uInfo(this.m_Role.uid, 'useType=%d, id=%d, uid=%d, maxUid=%d', type, equipId, this._maxUid);
+        Log.uInfo(this.role.uid, 'useType=%d, id=%d, uid=%d, maxUid=%d', type, equipId, this._maxUid);
         return equip;
     }
 
@@ -127,11 +130,11 @@ export class EquipModel extends BaseModel {
         if (bSend2Client) {
             let msg = S2C.SC_UPDATE_EQUIP.create();
             msg.equips[-uid] = S2C.Equip.create();
-            this.m_Role.sendProtocol(msg);
+            this.role.sendProtocol(msg);
         }
         delete this._equips[uid];
         this.makeDirty();
-        Log.uInfo(this.m_Role.uid, 'useType=%d, uid=%d', type, uid);
+        Log.uInfo(this.role.uid, 'useType=%d, uid=%d', type, uid);
         return true;
     }
 
@@ -155,15 +158,18 @@ export class EquipModel extends BaseModel {
 
     getEquipUidsById(id: number, count: number): number[] {
         let ret = [];
-        if (!count) return ret;
+        if (!count) {
+            return ret;
+        }
         let equips = this.getAllEquip(true);
         let equip: Equip = null;
         for (let uid in equips) {
             equip = equips[uid];
             if (equip.id === id && equip.isRaw) {
                 ret.push(equip.uid);
-                if (ret.length >= count)
+                if (ret.length >= count) {
                     break;
+                }
             }
         }
         return ret;

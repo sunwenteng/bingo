@@ -1,6 +1,11 @@
 import {Log} from '../../../lib/util/log';
-import Time = require('../../../lib/util/time');
-import {RedisMgr, RedisType, RedisData, RedisChanel} from '../../../lib/redis/redis_mgr';
+import * as Time from '../../../lib/util/time';
+import {
+    RedisMgr,
+    RedisType,
+    RedisData,
+    RedisChanel
+} from '../../../lib/redis/redis_mgr';
 import * as WorldDB from '../../../lib/mysql/world_db';
 import {WorldDataRedisKey} from "../game_world";
 import {S2C} from "../../proto/cmd";
@@ -11,10 +16,10 @@ import {EquipModel} from "./equip_model";
 import {ItemModel} from "./item_model";
 import {BaseModel} from "./base_model";
 import {BattleModel} from "./battle_model";
-import {TaskModel} from "./taskModel";
+import {TaskModel} from "./task_model";
 
 let gameRedis = RedisMgr.getInstance(RedisType.GAME);
-export const RoleRedisPrefix: string = 'role';
+export const roleRedisPrefix: string = 'role';
 
 export enum ERoleMask {
     EQUIP = 'equipModel',
@@ -49,14 +54,15 @@ export class Role extends RedisData {
     @roleField() taskModel = new TaskModel(this, 'taskModel');
 
     constructor(uid: number, session?: GameSession) {
-        super(RoleRedisPrefix);
+        super(roleRedisPrefix);
         this._session = session;
         this.uid = uid;
     }
 
     private getDataFields(mask?: ERoleMask | ERoleMask[]): string[] {
-        if (!mask)
+        if (!mask) {
             return Object.keys(this.fields);
+        }
         else {
             let ret = [];
             for (let k in this.fields) {
@@ -84,7 +90,7 @@ export class Role extends RedisData {
         else {
             for (let k in this.dirtyFields) {
                 if (this.fields[k] instanceof BaseModel) {
-                    reply[k] = JSON.stringify(this.fields[k]['fields'])
+                    reply[k] = JSON.stringify(this.fields[k]['fields']);
                 }
                 else {
                     reply[k] = this.fields[k];

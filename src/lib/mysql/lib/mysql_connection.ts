@@ -1,5 +1,5 @@
-import * as mysql from 'mysql'
-import {Log} from '../../util/log'
+import * as mysql from 'mysql';
+import {Log} from '../../util/log';
 
 export interface MysqlConfig extends mysql.PoolConfig {
     name?: string;
@@ -41,7 +41,7 @@ export class MysqlConnection {
         });
         this._pool.on("error", (err) => {
             Log.sError(err);
-        })
+        });
     }
 
     public closeDb(): Promise<void> {
@@ -85,7 +85,6 @@ export class MysqlConnection {
             });
         }));
     }
-
 
     public async existColumn(table: string, column: string): Promise<boolean> {
         let queryResult = await this.execute(

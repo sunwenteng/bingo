@@ -21,8 +21,9 @@ export class Item {
     serializeNetMsg(msg: S2C.Item) {
         for (let k in msg) {
             if (!this.hasOwnProperty(k)) {
-                if (k !== 'constructor' && k !== '$type' && k != 'toJSON')
+                if (k !== 'constructor' && k !== '$type' && k !== 'toJSON') {
                     Log.sError('SC_UPDATE_ITEM %s not exist in role data', k);
+                }
                 continue;
             }
             msg[k] = this[k];
@@ -44,7 +45,7 @@ export class ItemModel extends BaseModel {
     deserialize(data) {
         let o = JSON.parse(data);
         for (let k in o) {
-            if (k == '_items') {
+            if (k === '_items') {
                 for (let id in o[k]) {
                     let item = new Item();
                     for (let pro in o[k][id]) {
@@ -74,7 +75,7 @@ export class ItemModel extends BaseModel {
         let itemMsg = S2C.Item.create();
         item.serializeNetMsg(itemMsg);
         msg.items[item.id] = itemMsg;
-        this.m_Role.sendProtocol(msg);
+        this.role.sendProtocol(msg);
     }
 
     private createItem(itemId: number, cnt: number = 1): Item {
@@ -98,7 +99,9 @@ export class ItemModel extends BaseModel {
         let item = this.getItem(itemId, true);
         if (!item) {
             item = this.createItem(itemId, count);
-            if (!this.addItem(item)) return null;
+            if (!this.addItem(item)) {
+                return null;
+            }
         }
         else {
             item.cnt += count;
@@ -109,16 +112,16 @@ export class ItemModel extends BaseModel {
             let itemMsg = S2C.Item.create();
             item.serializeNetMsg(itemMsg);
             msg.items[itemId] = itemMsg;
-            this.m_Role.sendProtocol(msg);
+            this.role.sendProtocol(msg);
         }
-        Log.uInfo(this.m_Role.uid, 'useType=%d, id=%d, count=%d', type, itemId, count);
+        Log.uInfo(this.role.uid, 'useType=%d, id=%d, count=%d', type, itemId, count);
         return item;
     }
 
     removeItem(itemId: any, count, type: EResUseType, bSend2Client: boolean = true): boolean {
         let item = this.getItem(itemId, true);
         if (!item || item.cnt < count) {
-            Log.uError(this.m_Role.uid, 'item not enough, itemId=%d, req=%d', itemId, count);
+            Log.uError(this.role.uid, 'item not enough, itemId=%d, req=%d', itemId, count);
             return false;
         }
 
@@ -126,7 +129,7 @@ export class ItemModel extends BaseModel {
             if (bSend2Client) {
                 let msg = S2C.SC_UPDATE_ITEM.create();
                 msg.items[-itemId] = S2C.Item.create();
-                this.m_Role.sendProtocol(msg);
+                this.role.sendProtocol(msg);
             }
             delete this._items[itemId];
         }
@@ -136,13 +139,13 @@ export class ItemModel extends BaseModel {
                 let t = S2C.Item.create();
                 t.cnt = item.cnt;
                 msg.items[itemId] = t;
-                this.m_Role.sendProtocol(msg);
+                this.role.sendProtocol(msg);
             }
             item.cnt -= count;
         }
 
         this.makeDirty();
-        Log.uInfo(this.m_Role.uid, 'useType=%d, itemId=%d, count=%d', type, itemId, count);
+        Log.uInfo(this.role.uid, 'useType=%d, itemId=%d, count=%d', type, itemId, count);
         return true;
     }
 
@@ -165,7 +168,9 @@ export class ItemModel extends BaseModel {
     }
 
     isItemEnough(id: number, count: number): boolean {
-        if (!count) return true;
+        if (!count) {
+            return true;
+        }
         let item = this.getItem(id, true);
         return item && item.cnt > count;
     }

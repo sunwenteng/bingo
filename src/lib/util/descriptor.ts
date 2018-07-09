@@ -1,7 +1,6 @@
 import {Log} from "./log";
 import {ERoleMask, Role} from "../../app/game/modles/role";
 import {RedisMgr, RedisType} from "../redis/redis_mgr";
-import * as WorldDB from '../mysql/world_db';
 import {BaseModel} from "../../app/game/modles/base_model";
 
 /**
@@ -29,8 +28,8 @@ export function execTime(bToLog: boolean = true) {
                 console.log('time consumed: ' + this.constructor.name + ':' + methodName + ': ' + (end - start) + 'ms');
             }
             return returnValue;
-        }
-    }
+        };
+    };
 }
 
 let gameRedis = RedisMgr.getInstance(RedisType.GAME);
@@ -45,7 +44,7 @@ export function controller(readonly: boolean = false, lock: boolean = false, mas
     return (target: Object, methodName: string, descriptor: TypedPropertyDescriptor<Function>) => {
         let originalMethod = descriptor.value;
         descriptor.value = async function (...args) {
-            let role = new Role(args[0].m_roleId, args[0]);
+            let role = new Role(args[0].roleId, args[0]);
             args[0] = role;
             let returnValue = null;
             if (!readonly) {
@@ -69,15 +68,15 @@ export function controller(readonly: boolean = false, lock: boolean = false, mas
                 returnValue = await originalMethod.apply(this, args);
             }
             return returnValue;
-        }
-    }
+        };
+    };
 }
 
 export function roleField(dynamic: boolean = false) {
-    return function (target: Object, key: string): void {
+    return (target: Object, key: string): void => {
         Object.defineProperty(target, key, {
             get: function () {
-                if (this['fields'][key] instanceof BaseModel && !this['fields'][key].m_loaded) {
+                if (this['fields'][key] instanceof BaseModel && !this['fields'][key].loaded) {
                     throw new Error(key + ' not loaded, pls loaded first');
                 }
                 return this['fields'][key];
@@ -92,11 +91,11 @@ export function roleField(dynamic: boolean = false) {
                 this['fields'][key] = newValue;
             }
         });
-    }
+    };
 }
 
 export function modelField() {
-    return function (target: Object, key: string): void {
+    return (target: Object, key: string): void => {
         Object.defineProperty(target, key, {
             get: function () {
                 return this['fields'][key];
@@ -108,11 +107,11 @@ export function modelField() {
                 this['fields'][key] = newValue;
             }
         });
-    }
+    };
 }
 
 export function field() {
-    return function (target: Object, key: string): void {
+    return (target: Object, key: string): void => {
         Object.defineProperty(target, key, {
             get: function () {
                 return this['fields'][key];
@@ -121,5 +120,5 @@ export function field() {
                 this['fields'][key] = newValue;
             }
         });
-    }
+    };
 }

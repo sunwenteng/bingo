@@ -2,18 +2,18 @@ import {Role} from "./role";
 import {Model} from "./model";
 
 export abstract class BaseModel extends Model {
-    m_loaded: boolean = false;
-    m_Role: Role = null;
+    loaded: boolean = false;
+    role: Role = null;
     key: string;
 
     protected constructor(role: Role, key: string) {
         super();
-        this.m_Role = role;
+        this.role = role;
         this.key = key;
     }
 
     protected makeDirty() {
-        this.m_Role.dirtyFields[this.key] = null;
+        this.role.dirtyFields[this.key] = null;
     }
 
     // to redis

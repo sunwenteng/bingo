@@ -1,11 +1,11 @@
-import {UserSession} from '../../lib/net/user_session'
-import {LinkedList, ListNode} from '../../lib/util/linked_list'
-import * as GameUtil from '../../lib/util/game_util'
-import * as fs from 'fs'
-import {Log} from "../../lib/util/log"
-import {C2S, S2C} from "../proto/cmd"
+import {UserSession} from '../../lib/net/user_session';
+import {LinkedList, ListNode} from '../../lib/util/linked_list';
+import * as GameUtil from '../../lib/util/game_util';
+import * as fs from 'fs';
+import {Log} from "../../lib/util/log";
+import {C2S, S2C} from "../proto/cmd";
 import {RedisChanel, RedisMgr, RedisType} from "../../lib/redis/redis_mgr";
-import {RoleRedisPrefix} from "./modles/role";
+import {roleRedisPrefix} from "./modles/role";
 import * as events from "events";
 import * as time from '../../lib/util/time';
 
@@ -47,11 +47,11 @@ export class GameWorld extends events.EventEmitter {
             let buffer = new Buffer(message);
             if (channel === RedisChanel.BROADCAST) {
                 for (let roleId in this._authedSessionMap) {
-                    this._authedSessionMap[roleId].m_socket.send(buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.length));
+                    this._authedSessionMap[roleId].socket.send(buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.length));
                 }
             }
-            else if (channel.indexOf(RoleRedisPrefix) !== -1) {
-                let roleId = parseInt(channel.substr(RoleRedisPrefix.length + 1));
+            else if (channel.indexOf(roleRedisPrefix) !== -1) {
+                let roleId = parseInt(channel.substr(roleRedisPrefix.length + 1));
                 let session = this._authedSessionMap[roleId];
                 if (!session) {
                     Log.sError('role %d not online, message %s', roleId, message);
@@ -60,11 +60,11 @@ export class GameWorld extends events.EventEmitter {
                 switch (message) {
                     case WorldMsg.KICK:
                         Log.sInfo('role %d online, then kick', roleId);
-                        session.m_socket.close();
+                        session.socket.close();
                         session.offline();
                         break;
                     default:
-                        session.m_socket.send(buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.length));
+                        session.socket.send(buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.length));
                         break;
                 }
             }
@@ -77,7 +77,7 @@ export class GameWorld extends events.EventEmitter {
         let cur = this._sessionList.head, t = null;
         let promises = [];
         while (cur) {
-            if (cur.element.m_socket.isSocketValid()) {
+            if (cur.element.socket.isSocketValid()) {
                 promises.push(cur.element.update());
                 cur = cur.next;
             }
@@ -99,8 +99,9 @@ export class GameWorld extends events.EventEmitter {
 
     private registerController(): void {
         for (let cmd in C2S.Message['fields']) {
-            if (!C2S.Message['fields'].hasOwnProperty(cmd))
+            if (!C2S.Message['fields'].hasOwnProperty(cmd)) {
                 continue;
+            }
             if (cmd.indexOf('CS') !== -1 && cmd.indexOf('LOGIN_') === -1) {
                 let arr = cmd.split('_');
                 if (arr.length > 2) {
@@ -205,7 +206,7 @@ export class GameWorld extends events.EventEmitter {
             if (this._isUpdating) {
                 setTimeout(async () => {
                     GameWorld.instance.stop().then(resolve);
-                }, 100)
+                }, 100);
             }
             else {
                 doStop().then(resolve);
@@ -233,12 +234,12 @@ export class GameWorld extends events.EventEmitter {
     }
 
     public addSession(session: UserSession): void {
-        Log.sInfo('add session to world, socketUid=' + session.m_socket.uid);
+        Log.sInfo('add session to world, socketUid=' + session.socket.uid);
         this._sessionList.append(session);
     }
 
     public delSession(node: ListNode<UserSession>): void {
-        Log.sInfo('del session of world, socketUid=' + node.element.m_socket.uid);
+        Log.sInfo('del session of world, socketUid=' + node.element.socket.uid);
         this._sessionList.deleteNode(node);
     }
 
@@ -252,7 +253,7 @@ export class GameWorld extends events.EventEmitter {
 
     public async sendMsgToRole(roleId: number, msg: S2C.Message) {
         let buffer = S2C.Message.encode(msg).finish();
-        await RedisMgr.getInstance(RedisType.GAME).publish(RoleRedisPrefix + '_' + roleId, buffer.toString());
+        await RedisMgr.getInstance(RedisType.GAME).publish(roleRedisPrefix + '_' + roleId, buffer.toString());
     }
 
     public async sendMsgToAll(msg: S2C.Message) {
@@ -262,17 +263,17 @@ export class GameWorld extends events.EventEmitter {
 
     public async isRoleOnline(roleId: number): Promise<boolean> {
         return new Promise<boolean>((async (resolve) => {
-            let number = await RedisMgr.getInstance(RedisType.GAME).pubsub('numsub', RoleRedisPrefix + '_' + roleId);
-            resolve(number > 0);
-            if (number > 1) {
-                Log.sError(RoleRedisPrefix + '_' + roleId + ' fatal error multi channel');
+            let count = await RedisMgr.getInstance(RedisType.GAME).pubsub('numsub', roleRedisPrefix + '_' + roleId);
+            resolve(count > 0);
+            if (count > 1) {
+                Log.sError(roleRedisPrefix + '_' + roleId + ' fatal error multi channel');
             }
-        }))
+        }));
     }
 
     public async kickRole(roleId: number) {
         return new Promise<void>((async (resolve) => {
-            await RedisMgr.getInstance(RedisType.GAME).publish(RoleRedisPrefix + '_' + roleId, WorldMsg.KICK);
+            await RedisMgr.getInstance(RedisType.GAME).publish(roleRedisPrefix + '_' + roleId, WorldMsg.KICK);
             check();
             let self = this;
 
@@ -285,7 +286,7 @@ export class GameWorld extends events.EventEmitter {
                     else {
                         resolve();
                     }
-                }, 10)
+                }, 10);
             }
         }));
     }

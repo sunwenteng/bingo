@@ -1,4 +1,4 @@
-import {Log} from '../util/log'
+import {Log} from '../util/log';
 import {MysqlConnection, MysqlConfig} from "./lib/mysql_connection";
 
 export let conn: MysqlConnection;
@@ -408,9 +408,9 @@ export async function start(config: MysqlConfig): Promise<void> {
     }, 60000);
 }
 
-export async function getDBTime(): Promise<Number> {
+export async function getDBTime(): Promise<number> {
     let queryResult = await conn.execute('select unix_timestamp() as dbTime');
-    return new Promise<Number>(resolve => resolve(queryResult[0]['dbTime']));
+    return new Promise<number>(resolve => resolve(queryResult[0]['dbTime']));
 }
 
 export async function stop(): Promise<void> {

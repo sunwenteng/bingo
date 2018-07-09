@@ -7,11 +7,11 @@ import {WorldDataRedisKey} from "../game/game_world";
 let isAppValid = true;
 
 async function main() {
-    const Config = require('../../config/config.json');
-    Log.init(__dirname + '/' + Config.log.dir, Config.log.level);
+    const config = require('../../config/config.json');
+    Log.init(__dirname + '/' + config.log.dir, config.log.level);
     let gameRedis = RedisMgr.getInstance(RedisType.GAME);
 
-    await WorldDB.start(Config['mysql']['game_db']);
+    await WorldDB.start(config['mysql']['game_db']);
 
     process.on('uncaughtException', (error => {
         Log.sError(error);
@@ -75,7 +75,7 @@ async function main() {
                 Log.sError(reason);
                 process.exit(1);
             }));
-        }, Config['app']['cache']['saveInterval']);
+        }, config['app']['cache']['saveInterval']);
     }
 
     save().then(update);
@@ -83,6 +83,6 @@ async function main() {
 
 main().then(() => {
     if (process.env.INSTANCE_ID) {
-        process.send('ready')
+        process.send('ready');
     }
 });

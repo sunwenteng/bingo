@@ -1,8 +1,8 @@
-import {UserSession} from '../../lib/net/user_session'
+import {UserSession} from '../../lib/net/user_session';
 import {Log} from "../../lib/util/log";
 import {GameWorld} from "./game_world";
 import {RedisMgr, RedisType} from "../../lib/redis/redis_mgr";
-import {RoleRedisPrefix} from "./modles/role";
+import {roleRedisPrefix} from "./modles/role";
 import {C2S, S2C} from "../proto/cmd";
 import {execTime} from "../../lib/util/descriptor";
 
@@ -11,7 +11,7 @@ const MAX_PACKET_COUNT = 10000;
 let roleRedis = RedisMgr.getInstance(RedisType.GAME);
 
 export class GameSession extends UserSession {
-    public m_roleId: number = 0;
+    public roleId: number = 0;
 
     constructor() {
         super();
@@ -27,7 +27,7 @@ export class GameSession extends UserSession {
 
     @execTime(false)
     private async doController(controller: Function, session: GameSession, packet: any) {
-        Log.sInfo('socketUid=%d, m_roleId=%d, name=%s, data=%j', this.m_socket.uid, this.m_roleId ? this.m_roleId : 0, packet.kind, packet[packet.kind]);
+        Log.sInfo('socketUid=%d, roleId=%d, name=%s, data=%j', this.socket.uid, this.roleId ? this.roleId : 0, packet.kind, packet[packet.kind]);
         await controller(session, packet[packet.kind]);
     }
 
@@ -35,25 +35,25 @@ export class GameSession extends UserSession {
         let controller,
             packet,
             counter = 0,
-            cur = this.m_packets.head,
+            cur = this.packets.head,
             t;
         while (cur) {
-            if (this.m_packets.length > MAX_PACKET_COUNT) {
-                Log.sError('packet array length too long, force close socket, uid=%d, ip=%s, length=%d', this.m_socket.uid, this.m_socket.ip, this.m_packets.length);
+            if (this.packets.length > MAX_PACKET_COUNT) {
+                Log.sError('packet array length too long, force close socket, uid=%d, ip=%s, length=%d', this.socket.uid, this.socket.ip, this.packets.length);
                 this.closeSocket();
             }
 
             packet = cur.element;
             t = cur;
-            this.m_packets.deleteNode(t);
+            this.packets.deleteNode(t);
             cur = cur.next;
 
-            if (packet.kind !== 'CS_ROLE_ONLINE' && this.m_roleId === 0) {
-                Log.sError('not receive online packet yet, uid=' + this.m_socket.uid);
+            if (packet.kind !== 'CS_ROLE_ONLINE' && this.roleId === 0) {
+                Log.sError('not receive online packet yet, uid=' + this.socket.uid);
                 continue;
             }
-            else if (packet.kind === 'CS_ROLE_ONLINE' && this.m_roleId !== 0) {
-                Log.sError('already online, duplicate online packet, m_roleId=%d, socketUid=%d', this.m_roleId, this.m_socket.uid);
+            else if (packet.kind === 'CS_ROLE_ONLINE' && this.roleId !== 0) {
+                Log.sError('already online, duplicate online packet, roleId=%d, socketUid=%d', this.roleId, this.socket.uid);
                 continue;
             }
 
@@ -77,27 +77,19 @@ export class GameSession extends UserSession {
     }
 
     public async online() {
-        if (this.m_roleId) {
-            GameWorld.instance.addAuthedSession(this.m_roleId, this);
-            await roleRedis.subscribe(RoleRedisPrefix + '_' + this.m_roleId, GameWorld.instance);
-            Log.sInfo('m_roleId=%d, socketUid=%d, online', this.m_roleId, this.m_socket.uid);
+        if (this.roleId) {
+            GameWorld.instance.addAuthedSession(this.roleId, this);
+            await roleRedis.subscribe(roleRedisPrefix + '_' + this.roleId, GameWorld.instance);
+            Log.sInfo('roleId=%d, socketUid=%d, online', this.roleId, this.socket.uid);
         }
     }
 
     public async offline() {
-        if (this.m_roleId) {
-            GameWorld.instance.delAuthedSession(this.m_roleId);
-            await roleRedis.unsubscribe(RoleRedisPrefix + '_' + this.m_roleId);
-            Log.sInfo('m_roleId=%d, socketUid=%d, offline', this.m_roleId, this.m_socket.uid);
-            this.m_roleId = 0;
+        if (this.roleId) {
+            GameWorld.instance.delAuthedSession(this.roleId);
+            await roleRedis.unsubscribe(roleRedisPrefix + '_' + this.roleId);
+            Log.sInfo('roleId=%d, socketUid=%d, offline', this.roleId, this.socket.uid);
+            this.roleId = 0;
         }
-    }
-
-    public sendProtocol(data: any) {
-        let msg = S2C.Message.create();
-        msg[data.$type.name] = data;
-        let buffer = S2C.Message.encode(msg).finish();
-        // this.send(buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.length))
-        this.send(buffer);
     }
 }

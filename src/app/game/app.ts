@@ -12,15 +12,15 @@ async function main() {
         easyMonitor("game-app");
     }
 
-    const Config = require('../../config/config.json');
-    Log.init(__dirname + '/' + Config.log.dir, Config.log.level);
+    const config = require('../../config/config.json');
+    Log.init(__dirname + '/' + config.log.dir, config.log.level);
 
-    ConfigMgr.getInstance().loadAllConfig(__dirname + '/' + Config['app']['game']['config']);
+    ConfigMgr.getInstance().loadAllConfig(__dirname + '/' + config['app']['game']['config']);
 
-    await WorldDB.start(Config['mysql']['game_db']);
+    await WorldDB.start(config['mysql']['game_db']);
     await GameWorld.instance.start();
 
-    let server = new Server(Config['app']['game']['host'], parseInt(Config['app']['game']['port']));
+    let server = new Server(config['app']['game']['host'], parseInt(config['app']['game']['port']));
     await server.start(GameSession);
 
     process.on('uncaughtException', (error => {
@@ -52,7 +52,7 @@ async function main() {
                 Log.sError(reason);
                 process.exit(1);
             }));
-        }, time)
+        }, time);
     }
 
     update(100);
@@ -60,6 +60,6 @@ async function main() {
 
 main().then(() => {
     if (process.env.INSTANCE_ID) {
-        process.send('ready')
+        process.send('ready');
     }
 });

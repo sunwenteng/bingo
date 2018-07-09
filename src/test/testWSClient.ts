@@ -49,15 +49,15 @@ class Client {
         });
 
         ws.on('close', (code, reason) => {
-            console.log('close m_roleId %d code %d reason %s', this.roleId, code, reason);
+            console.log('close roleId %d code %d reason %s', this.roleId, code, reason);
             set.delete(this.roleId);
         });
 
         ws.on('message', (data: Buffer) => {
             try {
                 let msg = S2C.Message.decode(data);
-                // console.log('idx=%s, time=%d, data=%j', msg.SC_ROLE_ONLINE.m_roleId, Date.now() - time[msg.SC_ROLE_ONLINE.m_roleId], msg.toJSON(),);
-                console.log('m_roleId %d get msg %j', this.roleId, msg.toJSON());
+                // console.log('idx=%s, time=%d, data=%j', msg.SC_ROLE_ONLINE.roleId, Date.now() - time[msg.SC_ROLE_ONLINE.roleId], msg.toJSON(),);
+                console.log('roleId %d get msg %j', this.roleId, msg.toJSON());
             } catch (e) {
                 console.error(e);
             }

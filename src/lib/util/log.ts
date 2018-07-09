@@ -1,6 +1,6 @@
 import * as winston from "winston";
 import * as sourceMap from "source-map-support";
-import * as util from 'util'
+import * as util from 'util';
 import * as moment from 'moment';
 
 require('winston-daily-rotate-file');

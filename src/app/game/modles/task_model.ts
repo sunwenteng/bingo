@@ -3,7 +3,6 @@ import {S2C} from "../../proto/cmd";
 import {Log} from "../../../lib/util/log";
 import {Role} from "./role";
 import {modelField} from "../../../lib/util/descriptor";
-import {EResUseType} from "./defines";
 
 class Task {
     uid: number = 0;
@@ -11,15 +10,17 @@ class Task {
     state: number = 0;
 
     constructor(taskId?: number) {
-        if (taskId)
+        if (taskId) {
             this.id = taskId;
+        }
     }
 
     serializeNetMsg(msg: S2C.Task) {
         for (let k in msg) {
             if (!this.hasOwnProperty(k)) {
-                if (k !== 'constructor' && k !== '$type' && k != 'toJSON')
+                if (k !== 'constructor' && k !== '$type' && k !== 'toJSON') {
                     Log.sError('SC_UPDATE_TASK %s not exist in role data', k);
+                }
                 continue;
             }
             msg[k] = this[k];
@@ -42,7 +43,7 @@ export class TaskModel extends BaseModel {
     deserialize(data) {
         let o = JSON.parse(data), t = 0;
         for (let k in o) {
-            if (k == '_Tasks') {
+            if (k === '_Tasks') {
                 for (let uid in o[k]) {
                     let task = new Task();
                     for (let pro in o[k][uid]) {
@@ -69,48 +70,49 @@ export class TaskModel extends BaseModel {
         return pck;
     }
 
-    private createTask(TaskId: number): Task {
-        return new Task(TaskId);
+    private createTask(taskId: number): Task {
+        return new Task(taskId);
     }
 
-    private addTask(Task: Task) {
-        Task.uid = ++this._maxUid;
-        this._tasks[Task.uid] = Task;
+    private addTask(task: Task) {
+        task.uid = ++this._maxUid;
+        this._tasks[task.uid] = task;
     }
 
-    sendTaskUpdateProtocol(Task: Task) {
+    sendTaskUpdateProtocol(task: Task) {
         let msg = S2C.SC_UPDATE_TASK.create();
-        let TaskMsg = S2C.Task.create();
-        Task.serializeNetMsg(TaskMsg);
-        msg.tasks[Task.uid] = TaskMsg;
-        this.m_Role.sendProtocol(msg);
+        let taskMsg = S2C.Task.create();
+        task.serializeNetMsg(taskMsg);
+        msg.tasks[task.uid] = taskMsg;
+        this.role.sendProtocol(msg);
     }
 
-    createAndAddTask(TaskId: number, bSend2Client: boolean = true): Task {
-        let Task = this.createTask(TaskId);
-        if (!Task)
+    createAndAddTask(taskId: number, bSend2Client: boolean = true): Task {
+        let task = this.createTask(taskId);
+        if (!task) {
             return null;
-        this.addTask(Task);
+        }
+        this.addTask(task);
         if (bSend2Client) {
             let msg = S2C.SC_UPDATE_TASK.create();
-            let TaskMsg = S2C.Task.create();
-            Task.serializeNetMsg(TaskMsg);
-            msg.tasks[Task.uid] = TaskMsg;
-            this.m_Role.sendProtocol(msg);
+            let taskMsg = S2C.Task.create();
+            task.serializeNetMsg(taskMsg);
+            msg.tasks[task.uid] = taskMsg;
+            this.role.sendProtocol(msg);
         }
-        Log.uInfo(this.m_Role.uid, 'id=%d', TaskId);
-        return Task;
+        Log.uInfo(this.role.uid, 'id=%d', taskId);
+        return task;
     }
 
     removeTask(uid, bSend2Client: boolean = true) {
         if (bSend2Client) {
             let msg = S2C.SC_UPDATE_TASK.create();
             msg.tasks[-uid] = S2C.Task.create();
-            this.m_Role.sendProtocol(msg);
+            this.role.sendProtocol(msg);
         }
         delete this._tasks[uid];
         this.makeDirty();
-        Log.uInfo(this.m_Role.uid, 'uid=%d', uid);
+        Log.uInfo(this.role.uid, 'uid=%d', uid);
     }
 
     getTask(uid, bReadonly: boolean): Task {

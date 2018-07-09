@@ -6,13 +6,13 @@ import {LoginSession} from "./login_session";
 import {RedisMgr, RedisType} from "../../lib/redis/redis_mgr";
 
 async function main() {
-    const Config = require('../../config/config.json');
-    Log.init(__dirname + '/' + Config.log.dir, Config.log.level);
+    const config = require('../../config/config.json');
+    Log.init(__dirname + '/' + config.log.dir, config.log.level);
 
-    await LoginDB.start(Config['mysql']['login_db']);
+    await LoginDB.start(config['mysql']['login_db']);
     await LoginWorld.instance.start();
 
-    let server = new Server(Config['app']['login']['host'], parseInt(Config['app']['login']['port']));
+    let server = new Server(config['app']['login']['host'], parseInt(config['app']['login']['port']));
     await server.start(LoginSession);
 
     process.on('uncaughtException', (error => {
@@ -44,7 +44,7 @@ async function main() {
                 Log.sError(reason);
                 update(100);
             }));
-        }, time)
+        }, time);
     }
 
     update(100);
@@ -52,6 +52,6 @@ async function main() {
 
 main().then(() => {
     if (process.env.INSTANCE_ID) {
-        process.send('ready')
+        process.send('ready');
     }
 });

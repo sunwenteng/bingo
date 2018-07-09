@@ -40,7 +40,7 @@ export class LinkedList<T> {
 
     public prepend(element: T): void {
         let node = new ListNode<T>(element);
-        if (this._length == 0) {
+        if (this._length === 0) {
             this._head = node;
             this._tail = node;
         }
@@ -54,7 +54,7 @@ export class LinkedList<T> {
 
     public append(element: T): void {
         let node = new ListNode<T>(element);
-        if (this._length == 0) {
+        if (this._length === 0) {
             this._head = node;
             this._tail = node;
         }
@@ -89,7 +89,7 @@ export class LinkedList<T> {
                 cur = cur.next;
             }
 
-            if (index == 0) {
+            if (index === 0) {
                 this._head = node;
             }
 
@@ -111,9 +111,9 @@ export class LinkedList<T> {
         if (index >= this._length || index < 0) {
             throw new Error('index exceed the length, index=' + index + ', length=%d' + this._length);
         }
-        if (index == 0) {
+        if (index === 0) {
             this.deleteNode(this._head);
-        } else if (index == this._length - 1) {
+        } else if (index === this._length - 1) {
             this.deleteNode(this._tail);
         } else {
             let cur = this._head;

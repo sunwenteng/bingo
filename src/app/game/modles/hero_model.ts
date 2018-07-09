@@ -33,8 +33,9 @@ export class Hero {
     serializeNetMsg(msg: S2C.Hero) {
         for (let k in msg) {
             if (!this.hasOwnProperty(k)) {
-                if (k !== 'constructor' && k !== '$type' && k != 'toJSON')
+                if (k !== 'constructor' && k !== '$type' && k !== 'toJSON') {
                     Log.sError('SC_UPDATE_HERO %s not exist in role data', k);
+                }
                 continue;
             }
             msg[k] = this[k];
@@ -62,7 +63,7 @@ export class HeroModel extends BaseModel {
     deserialize(data) {
         let o = JSON.parse(data), t = 0;
         for (let k in o) {
-            if (k == '_heroes') {
+            if (k === '_heroes') {
                 for (let uid in o[k]) {
                     let hero = new Hero();
                     for (let pro in o[k][uid]) {
@@ -109,8 +110,9 @@ export class HeroModel extends BaseModel {
 
     createAndAddHero(heroId: number, type: EResUseType, bSend2Client: boolean = true): Hero {
         let hero = this.createHero(heroId);
-        if (!hero)
+        if (!hero) {
             return null;
+        }
         if (!this.addHero(hero)) {
             return null;
         }
@@ -119,9 +121,9 @@ export class HeroModel extends BaseModel {
             let heroMsg = S2C.Hero.create();
             hero.serializeNetMsg(heroMsg);
             msg.heroes[hero.uid] = heroMsg;
-            this.m_Role.sendProtocol(msg);
+            this.role.sendProtocol(msg);
         }
-        Log.uInfo(this.m_Role.uid, 'useType=%d, id=%d, uid=%d, maxUid=%d', type, heroId, hero.uid, this._maxUid);
+        Log.uInfo(this.role.uid, 'useType=%d, id=%d, uid=%d, maxUid=%d', type, heroId, hero.uid, this._maxUid);
         return hero;
     }
 
@@ -132,11 +134,11 @@ export class HeroModel extends BaseModel {
         if (bSend2Client) {
             let msg = S2C.SC_UPDATE_HERO.create();
             msg.heroes[-uid] = S2C.Hero.create();
-            this.m_Role.sendProtocol(msg);
+            this.role.sendProtocol(msg);
         }
         delete this._heroes[uid];
         this.makeDirty();
-        Log.uInfo(this.m_Role.uid, 'useType=%d, uid=%d', type, uid);
+        Log.uInfo(this.role.uid, 'useType=%d, uid=%d', type, uid);
         return true;
     }
 
@@ -145,7 +147,7 @@ export class HeroModel extends BaseModel {
         let heroMsg = S2C.Hero.create();
         hero.serializeNetMsg(heroMsg);
         msg.heroes[hero.uid] = heroMsg;
-        this.m_Role.sendProtocol(msg);
+        this.role.sendProtocol(msg);
     }
 
     getHero(uid, bReadonly: boolean): Hero {
@@ -168,7 +170,9 @@ export class HeroModel extends BaseModel {
 
     getHeroUidsById(id: number, count: number): number[] {
         let ret = [];
-        if (!count) return ret;
+        if (!count) {
+            return ret;
+        }
         let heroes = this.getAllHero(true);
         let hero: Hero = null;
         for (let uid in heroes) {

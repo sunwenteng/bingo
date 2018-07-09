@@ -3,7 +3,7 @@ import * as child_process from "child_process";
 import * as os from "os";
 import * as fs from "fs";
 
-const Config = require('../../config/config.json');
+const config = require('../../config/config.json');
 
 export class AppCluster {
     private readonly _appPath: string;
@@ -13,13 +13,13 @@ export class AppCluster {
     private readonly _args: string[];
 
     constructor(appName: string, appPath: string, args?: string[]) {
-        Log.init(__dirname + Config.log.dir, Config.log.level);
+        Log.init(__dirname + config.log.dir, config.log.level);
 
         if (!fs.existsSync(appPath)) {
             throw new Error('path not found, path=' + appPath);
         }
 
-        if (!Config['app'][appName]) {
+        if (!config['app'][appName]) {
             throw new Error('no app find in config.json, name=' + appName);
         }
 
@@ -34,7 +34,7 @@ export class AppCluster {
     }
 
     public static getForkCount(appName: string): number {
-        let ret = parseInt(Config['app'][appName]['instances']) === 0 ? os.cpus().length - 1 : parseInt(Config['app'][appName]['instances']);
+        let ret = parseInt(config['app'][appName]['instances']) === 0 ? os.cpus().length - 1 : parseInt(config['app'][appName]['instances']);
         if (!ret || ret < 0) {
             throw new Error('app instance config error, name=' + appName);
         }

@@ -68,6 +68,7 @@
     "gulp-shell": "^0.6.5",
     "gulp-sourcemaps": "^2.6.4",
     "gulp-typescript": "^4.0.2",
+    "tslint": "^5.10.0",
     "typescript": "^2.8.3"
   },
   "scripts": {

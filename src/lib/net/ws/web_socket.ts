@@ -1,10 +1,10 @@
 import * as ws from 'ws';
 import * as http from "http";
-import {Log} from '../../util/log'
-import {UserSession} from "../user_session"
+import {Log} from '../../util/log';
+import {UserSession} from "../user_session";
 
 let uid: number = 0;
-export var isServerValid: boolean = false;
+export let isServerValid = false;
 
 export enum SocketStatus {
     VALID,
@@ -26,7 +26,7 @@ export class WebSocket {
         this._webSocket = socket;
         this._uid = uid;
         this._session = new sessionClass();
-        this._session.m_socket = this;
+        this._session.socket = this;
         this._session.addSessionToWorker();
         this._state = SocketStatus.VALID;
         this._webSocket.on('message', (data: ArrayBuffer) => {
@@ -53,7 +53,7 @@ export class WebSocket {
         return isServerValid && this._state === SocketStatus.VALID && this._webSocket.readyState === ws.OPEN;
     }
 
-    public send(data: any): void {
+    public send(data: Buffer | string | Uint8Array | ArrayBuffer): void {
         if (this.isSocketValid()) {
             this._webSocket.send(data);
         }
@@ -97,7 +97,7 @@ export class Server {
                     Log.sInfo('server close at ' + this._host + ':' + this._port);
                     resolve();
                 }
-            })
+            });
         });
     }
 
@@ -129,7 +129,7 @@ export class Server {
             this._server.on('connection', ((s: ws, req: http.IncomingMessage) => {
                 const ip = req.connection.remoteAddress;
                 /*nginx way: const ip = req.headers['x-forwarded-for'].split(/\s*,\s*!/)[0];*/
-                let socket = new WebSocket(ip);
+                const socket = new WebSocket(ip);
                 socket.init(++uid, s, sessionClass);
                 Log.sInfo('new Web_socket connection, ip=' + socket.ip + ', uid=' + socket.uid);
 

@@ -3,7 +3,7 @@ import * as path from 'path';
 import * as http from 'http';
 import {ErrorCode} from './error_code';
 import * as crypto from 'crypto';
-import * as request from 'request'
+import * as request from 'request';
 import {type} from "os";
 
 export function md5(param: string): string {
@@ -23,7 +23,7 @@ export function isInteger(n: number) {
 }
 
 export function isFloat(n: number) {
-    return n === Number(n) && n % 1 !== 0
+    return n === Number(n) && n % 1 !== 0;
 }
 
 export function createArray(size: number, initValue: any): any[] {
@@ -116,7 +116,6 @@ export function upperBound(length: number, search: number, getValue: (index: num
     }
     return left;
 }
-
 
 /**
  *
@@ -264,7 +263,6 @@ export function randOneObjectByWeight(obj: { [key: number]: number }): number {
     return result.length === 0 ? null : result[0];
 }
 
-
 /**
  * TODO
  * @param rate
@@ -397,8 +395,7 @@ export async function deleteFileInDir(dir: string, reg: RegExp) {
  *      获取http://10.1.1.156/test?cmd=redis返回的结果并解析为json对象
  */
 export function httpGet(url: string, callback: (err, data) => void, dataType?: HTTP_RES_DATA_TYPE, timeout?: number) {
-    let options = {'url': url, 'form': null};
-    typeof(timeout) != 'undefined' ? options['timeout'] = timeout : '';
+    let options = {'url': url, 'form': null, 'timeout': timeout};
     request.get(options, (error, response, body) => {
         let result = parseHttpResBody(error, response, body, dataType);
         return callback(result.error, result.data);
@@ -411,9 +408,7 @@ export function httpGet(url: string, callback: (err, data) => void, dataType?: H
  * @example:
  */
 export function httpPost(url: string, form: any, callback: (err, data) => void, dataType?: HTTP_RES_DATA_TYPE, timeout?: number) {
-    let options = {'url': url, 'form': form};
-    typeof(timeout) != 'undefined' ? options['timeout'] = timeout : '';
-
+    let options = {'url': url, 'form': form, 'timeout': timeout};
     request.post(options, (error, response, body) => {
         let result = parseHttpResBody(error, response, body, dataType);
         return callback(result.error, result.data);
@@ -432,7 +427,7 @@ function parseHttpResBody(error: any, response: any, body: string, dataType: HTT
         //如果需要可在这里增加判断是否超时的错误码
         return {'error': ErrorCode.COMMON.HTTP_NO_RESPONSE, 'data': null};
     }
-    if (response.statusCode == 200) {
+    if (response.statusCode === 200) {
         if (body) {
             if (dataType === HTTP_RES_DATA_TYPE.JSON) { //body返回的结果为json字符串
                 try {
@@ -441,7 +436,10 @@ function parseHttpResBody(error: any, response: any, body: string, dataType: HTT
                     return {'error': 0, 'data': data};
                 } catch (e) {
                     //TODO:json字符串解析为json对象失败，可能字符串中含有特殊编码字符
-                    return {'error': ErrorCode.COMMON.JSON_PARSE_ERROR, 'data': null};
+                    return {
+                        'error': ErrorCode.COMMON.JSON_PARSE_ERROR,
+                        'data': null
+                    };
                 }
             } else {
                 return {'error': 0, 'data': body};
@@ -454,14 +452,4 @@ function parseHttpResBody(error: any, response: any, body: string, dataType: HTT
 
 export function capitalize(str: string): string {
     return str.toLowerCase().replace(/( |^)[a-z]/g, (L) => L.toUpperCase());
-}
-
-export function diff(o1: any, o2: any) {
-    if (typeof o1 !== typeof o2) {
-        throw new Error('req o1 the same type of o2');
-    }
-
-    for (let key in o1) {
-
-    }
 }

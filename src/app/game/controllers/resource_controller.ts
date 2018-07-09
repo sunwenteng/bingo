@@ -11,7 +11,9 @@ export class ResourceController {
     public static instance = new ResourceController();
 
     public isResourceEnough(role: Role, id: ResType | string, count: number): boolean {
-        if (!count) return true;
+        if (!count) {
+            return true;
+        }
         if (!role.fields.hasOwnProperty(id)) {
             throw new Error('resType not in role fields, id=' + id);
         }
@@ -20,7 +22,9 @@ export class ResourceController {
     }
 
     public isResourceExceed(role: Role, id: ResType | any, count: number) {
-        if (!count) return false;
+        if (!count) {
+            return false;
+        }
         if (!role.fields.hasOwnProperty(id)) {
             throw new Error('resType not in role fields, id=' + id);
         }
@@ -29,7 +33,9 @@ export class ResourceController {
     }
 
     public addResource(role: Role, id: ResType | any, count: number, type: EResUseType): boolean {
-        if (!count) return true;
+        if (!count) {
+            return true;
+        }
         if (this.isResourceExceed(role, id, count)) {
             Log.uInfo(role.uid, 'resource exceed, id=%s, own=%d, add=%d', id, role[id], count);
             return false;
@@ -43,7 +49,9 @@ export class ResourceController {
     }
 
     public reduceResource(role: Role, id: ResType, count: number, type: EResUseType): boolean {
-        if (!count) return true;
+        if (!count) {
+            return true;
+        }
         if (!this.isResourceEnough(role, id, count)) {
             Log.uInfo(role.uid, 'resource not enough, id=%s, own=%d, req=%d', id, role[id], count);
             return false;
@@ -120,11 +128,19 @@ export class ResourceController {
             switch (k) {
                 case 'equips':
                 case 'heroes':
-                    if (!t[k]) t[k] = {};
-                    for (let i of rwd['fields'][k]) {
-                        if (!t[k][i]) t[k][i] = 1;
-                        else t[k][i] += 1;
+                    if (!t[k]) {
+                        t[k] = {};
                     }
+                    for (let i of rwd['fields'][k]) {
+                        if (!t[k][i]) {
+                            t[k][i] = 1;
+                        }
+                        else {
+                            t[k][i] += 1;
+                        }
+                    }
+                    break;
+                default:
                     break;
             }
         }
@@ -152,8 +168,9 @@ export class ResourceController {
                     break;
                 case 'items':
                     for (let id in rwd['fields'][k]) {
-                        if (!role.itemModel.isItemEnough(parseInt(id), rwd['fields'][k][id]))
+                        if (!role.itemModel.isItemEnough(parseInt(id), rwd['fields'][k][id])) {
                             return false;
+                        }
                     }
                     break;
                 default:
@@ -169,20 +186,26 @@ export class ResourceController {
                 case 'equips':
                     for (let id in t[k]) {
                         for (let uid of t[k][id]) {
-                            if (!role.equipModel.removeEquip(uid, type, bSend2Client)) return false;
+                            if (!role.equipModel.removeEquip(uid, type, bSend2Client)) {
+                                return false;
+                            }
                         }
                     }
                     break;
                 case 'heroes':
                     for (let id in t[k]) {
                         for (let uid of t[k][id]) {
-                            if (!role.heroModel.removeHero(uid, type, bSend2Client)) return false;
+                            if (!role.heroModel.removeHero(uid, type, bSend2Client)) {
+                                return false;
+                            }
                         }
                     }
                     break;
                 case 'items':
                     for (let id in rwd['fields'][k]) {
-                        if (!role.itemModel.removeItem(parseInt(id), rwd['fields'][k][id], type, bSend2Client)) return false;
+                        if (!role.itemModel.removeItem(parseInt(id), rwd['fields'][k][id], type, bSend2Client)) {
+                            return false;
+                        }
                     }
                     break;
                 default:

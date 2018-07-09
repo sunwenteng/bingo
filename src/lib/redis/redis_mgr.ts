@@ -4,7 +4,7 @@ import {Log} from "../util/log";
 import {ErrorCode} from "../util/error_code";
 import {Model} from "../../app/game/modles/model";
 
-const Config = require('../../config/config.json');
+const config = require('../../config/config.json');
 /**
  * 管理游戏内部所有redis实例，每个redis连接可能对应多个db
  * @type {{}}
@@ -26,10 +26,10 @@ export enum RedisChanel {
 }
 
 export abstract class RedisData extends Model {
-    dynamicFields: any = {};
+    dynamicFields: {[key:string]:string} = {};
     redisPrefix: string;
     redisKeyExpire: number;
-    dirtyFields: any = {};
+    dirtyFields: {[key:string]:string} = {};
 
     protected constructor(redisPrefix: string, expireTime: number = 3600) {
         super();
@@ -59,10 +59,10 @@ export abstract class RedisData extends Model {
                         break;
                     case 'object' :
                         try {
-                            if (reply[obj] !== "" && reply[obj] !== "null" && reply[obj] !==  null) {
+                            if (reply[obj] !== "" && reply[obj] !== "null" && reply[obj] !== null) {
                                 this.fields[obj].deserialize(reply[obj]);
                             }
-                            this.fields[obj]['m_loaded'] = true;
+                            this.fields[obj]['loaded'] = true;
                         } catch (err) {
                             Log.sError('redis data parse failed, key=%s, val=%s', obj, reply[obj]);
                             this.fields[obj] = {};
@@ -129,13 +129,13 @@ export class RedisMgr {
     }
 
     public static getInstance(type: RedisType): RedisMgr {
-        if (!Config['redis'] || !Config['redis'][type]) {
+        if (!config['redis'] || !config['redis'][type]) {
             throw new Error('Config Not Valid in key redis, not found name=' + type);
         }
-        let key = Config['redis'][type].host + '_' + Config['redis'][type].port;
+        let key = config['redis'][type].host + '_' + config['redis'][type].port;
         //如果host_port未创建对应redis实例，则创建
         if (!_instances[key]) {
-            _instances[key] = new RedisMgr(Config['redis'][type], Config['redis'][type].name);
+            _instances[key] = new RedisMgr(config['redis'][type], config['redis'][type].name);
         }
         return _instances[key];
     }
@@ -416,8 +416,9 @@ export class RedisMgr {
                     //将结果以键值对的形式返回
                     let ret = {};
                     for (let i = 0; i < value.length; i++) {
-                        if (reply[i])
+                        if (reply[i]) {
                             ret[value[i]] = reply[i];
+                        }
                     }
                     resolve(ret);
                 }

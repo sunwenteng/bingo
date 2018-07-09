@@ -32,7 +32,7 @@ export class RoleController {
                 await role.create();
                 await role.save(true);
             }
-            session.m_roleId = roleId;
+            session.roleId = roleId;
             role._session = session;
             await session.online();
 
@@ -64,7 +64,7 @@ export class RoleController {
         if (size < MAX_HERO_BAG_SIZE) {
             rwd.clear();
             for (let i = 0; i < (MAX_HERO_BAG_SIZE - size); i++) {
-                rwd.add({heroes: [101]})
+                rwd.add({heroes: [101]});
             }
             ResourceController.instance.applyReward(role, rwd, EResUseType.GM, true);
         }
@@ -82,7 +82,9 @@ export class RoleController {
             hero.lvl = Math.floor(Math.random() * 100);
             hero.combat = Math.floor(Math.random() * 1000);
             role.heroModel.sendHeroUpdateProtocol(hero);
-            if (++changeCnt > 2) break;
+            if (++changeCnt > 2) {
+                break;
+            }
         }
 
         size = role.equipModel.getEquipBagSize();
@@ -107,7 +109,9 @@ export class RoleController {
             equip.lvl = Math.floor(Math.random() * 100);
             equip.rank = Math.floor(Math.random() * 1000);
             role.equipModel.sendEquipUpdateProtocol(equip);
-            if (++changeCnt > 2) break;
+            if (++changeCnt > 2) {
+                break;
+            }
         }
 
         size = role.itemModel.getItemBagSize();
@@ -131,7 +135,9 @@ export class RoleController {
             let item = role.itemModel.getItem(itemId, false);
             item.cnt = Math.floor(Math.random() * 10);
             role.itemModel.sendItemUpdateProtocol(item);
-            if (++changeCnt > 2) break;
+            if (++changeCnt > 2) {
+                break;
+            }
         }
 
         role.lastAliveTime = Time.realNow();
