@@ -17,6 +17,7 @@
       ["Number", "Use 'number' instead."],
       ["Boolean", "Use 'boolean' instead."]
     ],
+    "prefer-for-of": true,
     "class-name": true,
     "curly": true,
     "interface-name": [true, "never-prefix"],
