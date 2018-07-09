@@ -43,7 +43,7 @@ export class TaskModel extends BaseModel {
     deserialize(data) {
         let o = JSON.parse(data), t = 0;
         for (let k in o) {
-            if (k === '_Tasks') {
+            if (k === '_tasks') {
                 for (let uid in o[k]) {
                     let task = new Task();
                     for (let pro in o[k][uid]) {
