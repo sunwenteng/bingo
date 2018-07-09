@@ -40,6 +40,8 @@ export async function start(config: MysqlConfig): Promise<void> {
             [tableName, 'valid', "INT UNSIGNED NOT NULL DEFAULT 1"],
             [tableName, 'battleModel', "blob NULL"],
             [tableName, 'taskModel', "blob NULL"],
+            [tableName, 'mailModel', "blob NULL"],
+            [tableName, 'friendModel', "blob NULL"],
             // add new update column down here
         ]);
 

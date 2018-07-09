@@ -232,6 +232,10 @@ export namespace S2C {
         SC_INIT_BATTLE_INFO?: (S2C.ISC_INIT_BATTLE_INFO|null);
         SC_INIT_TASK?: (S2C.ISC_INIT_TASK|null);
         SC_UPDATE_TASK?: (S2C.ISC_UPDATE_TASK|null);
+        SC_INIT_MAIL?: (S2C.ISC_INIT_MAIL|null);
+        SC_UPDATE_MAIL?: (S2C.ISC_UPDATE_MAIL|null);
+        SC_INIT_FRIEND?: (S2C.ISC_INIT_FRIEND|null);
+        SC_UPDATE_FRIEND?: (S2C.ISC_UPDATE_FRIEND|null);
     }
 
     class Message implements IMessage {
@@ -254,7 +258,11 @@ export namespace S2C {
         public SC_INIT_BATTLE_INFO?: (S2C.ISC_INIT_BATTLE_INFO|null);
         public SC_INIT_TASK?: (S2C.ISC_INIT_TASK|null);
         public SC_UPDATE_TASK?: (S2C.ISC_UPDATE_TASK|null);
-        public kind?: ("SC_TEST_ECHO"|"LOGIN_SC_LOGIN"|"LOGIN_SC_CHOOSE_SERVER"|"LOGIN_SC_GET_SERVER_LIST"|"LOGIN_SC_GET_INFO"|"SC_ROLE_ONLINE"|"SC_ROLE_HEART_BEAT"|"SC_ROLE_PRO_UPDATE"|"SC_GET_REWARD"|"SC_INIT_HERO"|"SC_UPDATE_HERO"|"SC_INIT_EQUIP"|"SC_UPDATE_EQUIP"|"SC_INIT_ITEM"|"SC_UPDATE_ITEM"|"SC_INIT_BATTLE_INFO"|"SC_INIT_TASK"|"SC_UPDATE_TASK");
+        public SC_INIT_MAIL?: (S2C.ISC_INIT_MAIL|null);
+        public SC_UPDATE_MAIL?: (S2C.ISC_UPDATE_MAIL|null);
+        public SC_INIT_FRIEND?: (S2C.ISC_INIT_FRIEND|null);
+        public SC_UPDATE_FRIEND?: (S2C.ISC_UPDATE_FRIEND|null);
+        public kind?: ("SC_TEST_ECHO"|"LOGIN_SC_LOGIN"|"LOGIN_SC_CHOOSE_SERVER"|"LOGIN_SC_GET_SERVER_LIST"|"LOGIN_SC_GET_INFO"|"SC_ROLE_ONLINE"|"SC_ROLE_HEART_BEAT"|"SC_ROLE_PRO_UPDATE"|"SC_GET_REWARD"|"SC_INIT_HERO"|"SC_UPDATE_HERO"|"SC_INIT_EQUIP"|"SC_UPDATE_EQUIP"|"SC_INIT_ITEM"|"SC_UPDATE_ITEM"|"SC_INIT_BATTLE_INFO"|"SC_INIT_TASK"|"SC_UPDATE_TASK"|"SC_INIT_MAIL"|"SC_UPDATE_MAIL"|"SC_INIT_FRIEND"|"SC_UPDATE_FRIEND");
         public static create(properties?: S2C.IMessage): S2C.Message;
         public static encode(message: S2C.IMessage, writer?: $protobuf.Writer): $protobuf.Writer;
         public static encodeDelimited(message: S2C.IMessage, writer?: $protobuf.Writer): $protobuf.Writer;
@@ -263,6 +271,130 @@ export namespace S2C {
         public static verify(message: { [k: string]: any }): (string|null);
         public static fromObject(object: { [k: string]: any }): S2C.Message;
         public static toObject(message: S2C.Message, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public toJSON(): { [k: string]: any };
+    }
+
+    interface IFriend {
+        uid?: (number|null);
+        state?: (number|null);
+    }
+
+    class Friend implements IFriend {
+        constructor(properties?: S2C.IFriend);
+        public uid: number;
+        public state: number;
+        public static create(properties?: S2C.IFriend): S2C.Friend;
+        public static encode(message: S2C.IFriend, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: S2C.IFriend, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): S2C.Friend;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): S2C.Friend;
+        public static verify(message: { [k: string]: any }): (string|null);
+        public static fromObject(object: { [k: string]: any }): S2C.Friend;
+        public static toObject(message: S2C.Friend, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public toJSON(): { [k: string]: any };
+    }
+
+    interface ISC_INIT_FRIEND {
+        friends?: ({ [k: string]: S2C.IFriend }|null);
+    }
+
+    class SC_INIT_FRIEND implements ISC_INIT_FRIEND {
+        constructor(properties?: S2C.ISC_INIT_FRIEND);
+        public friends: { [k: string]: S2C.IFriend };
+        public static create(properties?: S2C.ISC_INIT_FRIEND): S2C.SC_INIT_FRIEND;
+        public static encode(message: S2C.ISC_INIT_FRIEND, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: S2C.ISC_INIT_FRIEND, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): S2C.SC_INIT_FRIEND;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): S2C.SC_INIT_FRIEND;
+        public static verify(message: { [k: string]: any }): (string|null);
+        public static fromObject(object: { [k: string]: any }): S2C.SC_INIT_FRIEND;
+        public static toObject(message: S2C.SC_INIT_FRIEND, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public toJSON(): { [k: string]: any };
+    }
+
+    interface ISC_UPDATE_FRIEND {
+        friends?: ({ [k: string]: S2C.IFriend }|null);
+    }
+
+    class SC_UPDATE_FRIEND implements ISC_UPDATE_FRIEND {
+        constructor(properties?: S2C.ISC_UPDATE_FRIEND);
+        public friends: { [k: string]: S2C.IFriend };
+        public static create(properties?: S2C.ISC_UPDATE_FRIEND): S2C.SC_UPDATE_FRIEND;
+        public static encode(message: S2C.ISC_UPDATE_FRIEND, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: S2C.ISC_UPDATE_FRIEND, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): S2C.SC_UPDATE_FRIEND;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): S2C.SC_UPDATE_FRIEND;
+        public static verify(message: { [k: string]: any }): (string|null);
+        public static fromObject(object: { [k: string]: any }): S2C.SC_UPDATE_FRIEND;
+        public static toObject(message: S2C.SC_UPDATE_FRIEND, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public toJSON(): { [k: string]: any };
+    }
+
+    interface IMail {
+        uid?: (number|null);
+        title?: (string|null);
+        content?: (string|null);
+        rwds?: (S2C.IReward[]|null);
+        senderName?: (string|null);
+        senderId?: (number|null);
+        createTme?: (number|null);
+        isNew?: (number|null);
+    }
+
+    class Mail implements IMail {
+        constructor(properties?: S2C.IMail);
+        public uid: number;
+        public title: string;
+        public content: string;
+        public rwds: S2C.IReward[];
+        public senderName: string;
+        public senderId: number;
+        public createTme: number;
+        public isNew: number;
+        public static create(properties?: S2C.IMail): S2C.Mail;
+        public static encode(message: S2C.IMail, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: S2C.IMail, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): S2C.Mail;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): S2C.Mail;
+        public static verify(message: { [k: string]: any }): (string|null);
+        public static fromObject(object: { [k: string]: any }): S2C.Mail;
+        public static toObject(message: S2C.Mail, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public toJSON(): { [k: string]: any };
+    }
+
+    interface ISC_INIT_MAIL {
+        mails?: ({ [k: string]: S2C.IMail }|null);
+    }
+
+    class SC_INIT_MAIL implements ISC_INIT_MAIL {
+        constructor(properties?: S2C.ISC_INIT_MAIL);
+        public mails: { [k: string]: S2C.IMail };
+        public static create(properties?: S2C.ISC_INIT_MAIL): S2C.SC_INIT_MAIL;
+        public static encode(message: S2C.ISC_INIT_MAIL, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: S2C.ISC_INIT_MAIL, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): S2C.SC_INIT_MAIL;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): S2C.SC_INIT_MAIL;
+        public static verify(message: { [k: string]: any }): (string|null);
+        public static fromObject(object: { [k: string]: any }): S2C.SC_INIT_MAIL;
+        public static toObject(message: S2C.SC_INIT_MAIL, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public toJSON(): { [k: string]: any };
+    }
+
+    interface ISC_UPDATE_MAIL {
+        mails?: ({ [k: string]: S2C.IMail }|null);
+    }
+
+    class SC_UPDATE_MAIL implements ISC_UPDATE_MAIL {
+        constructor(properties?: S2C.ISC_UPDATE_MAIL);
+        public mails: { [k: string]: S2C.IMail };
+        public static create(properties?: S2C.ISC_UPDATE_MAIL): S2C.SC_UPDATE_MAIL;
+        public static encode(message: S2C.ISC_UPDATE_MAIL, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: S2C.ISC_UPDATE_MAIL, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): S2C.SC_UPDATE_MAIL;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): S2C.SC_UPDATE_MAIL;
+        public static verify(message: { [k: string]: any }): (string|null);
+        public static fromObject(object: { [k: string]: any }): S2C.SC_UPDATE_MAIL;
+        public static toObject(message: S2C.SC_UPDATE_MAIL, options?: $protobuf.IConversionOptions): { [k: string]: any };
         public toJSON(): { [k: string]: any };
     }
 

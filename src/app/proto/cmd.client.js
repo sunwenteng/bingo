@@ -2332,6 +2332,10 @@
              * @property {S2C.ISC_INIT_BATTLE_INFO|null} [SC_INIT_BATTLE_INFO] Message SC_INIT_BATTLE_INFO
              * @property {S2C.ISC_INIT_TASK|null} [SC_INIT_TASK] Message SC_INIT_TASK
              * @property {S2C.ISC_UPDATE_TASK|null} [SC_UPDATE_TASK] Message SC_UPDATE_TASK
+             * @property {S2C.ISC_INIT_MAIL|null} [SC_INIT_MAIL] Message SC_INIT_MAIL
+             * @property {S2C.ISC_UPDATE_MAIL|null} [SC_UPDATE_MAIL] Message SC_UPDATE_MAIL
+             * @property {S2C.ISC_INIT_FRIEND|null} [SC_INIT_FRIEND] Message SC_INIT_FRIEND
+             * @property {S2C.ISC_UPDATE_FRIEND|null} [SC_UPDATE_FRIEND] Message SC_UPDATE_FRIEND
              */
     
             /**
@@ -2493,17 +2497,49 @@
              */
             Message.prototype.SC_UPDATE_TASK = null;
     
+            /**
+             * Message SC_INIT_MAIL.
+             * @member {S2C.ISC_INIT_MAIL|null|undefined} SC_INIT_MAIL
+             * @memberof S2C.Message
+             * @instance
+             */
+            Message.prototype.SC_INIT_MAIL = null;
+    
+            /**
+             * Message SC_UPDATE_MAIL.
+             * @member {S2C.ISC_UPDATE_MAIL|null|undefined} SC_UPDATE_MAIL
+             * @memberof S2C.Message
+             * @instance
+             */
+            Message.prototype.SC_UPDATE_MAIL = null;
+    
+            /**
+             * Message SC_INIT_FRIEND.
+             * @member {S2C.ISC_INIT_FRIEND|null|undefined} SC_INIT_FRIEND
+             * @memberof S2C.Message
+             * @instance
+             */
+            Message.prototype.SC_INIT_FRIEND = null;
+    
+            /**
+             * Message SC_UPDATE_FRIEND.
+             * @member {S2C.ISC_UPDATE_FRIEND|null|undefined} SC_UPDATE_FRIEND
+             * @memberof S2C.Message
+             * @instance
+             */
+            Message.prototype.SC_UPDATE_FRIEND = null;
+    
             // OneOf field names bound to virtual getters and setters
             var $oneOfFields;
     
             /**
              * Message kind.
-             * @member {"SC_TEST_ECHO"|"LOGIN_SC_LOGIN"|"LOGIN_SC_CHOOSE_SERVER"|"LOGIN_SC_GET_SERVER_LIST"|"LOGIN_SC_GET_INFO"|"SC_ROLE_ONLINE"|"SC_ROLE_HEART_BEAT"|"SC_ROLE_PRO_UPDATE"|"SC_GET_REWARD"|"SC_INIT_HERO"|"SC_UPDATE_HERO"|"SC_INIT_EQUIP"|"SC_UPDATE_EQUIP"|"SC_INIT_ITEM"|"SC_UPDATE_ITEM"|"SC_INIT_BATTLE_INFO"|"SC_INIT_TASK"|"SC_UPDATE_TASK"|undefined} kind
+             * @member {"SC_TEST_ECHO"|"LOGIN_SC_LOGIN"|"LOGIN_SC_CHOOSE_SERVER"|"LOGIN_SC_GET_SERVER_LIST"|"LOGIN_SC_GET_INFO"|"SC_ROLE_ONLINE"|"SC_ROLE_HEART_BEAT"|"SC_ROLE_PRO_UPDATE"|"SC_GET_REWARD"|"SC_INIT_HERO"|"SC_UPDATE_HERO"|"SC_INIT_EQUIP"|"SC_UPDATE_EQUIP"|"SC_INIT_ITEM"|"SC_UPDATE_ITEM"|"SC_INIT_BATTLE_INFO"|"SC_INIT_TASK"|"SC_UPDATE_TASK"|"SC_INIT_MAIL"|"SC_UPDATE_MAIL"|"SC_INIT_FRIEND"|"SC_UPDATE_FRIEND"|undefined} kind
              * @memberof S2C.Message
              * @instance
              */
             Object.defineProperty(Message.prototype, "kind", {
-                get: $util.oneOfGetter($oneOfFields = ["SC_TEST_ECHO", "LOGIN_SC_LOGIN", "LOGIN_SC_CHOOSE_SERVER", "LOGIN_SC_GET_SERVER_LIST", "LOGIN_SC_GET_INFO", "SC_ROLE_ONLINE", "SC_ROLE_HEART_BEAT", "SC_ROLE_PRO_UPDATE", "SC_GET_REWARD", "SC_INIT_HERO", "SC_UPDATE_HERO", "SC_INIT_EQUIP", "SC_UPDATE_EQUIP", "SC_INIT_ITEM", "SC_UPDATE_ITEM", "SC_INIT_BATTLE_INFO", "SC_INIT_TASK", "SC_UPDATE_TASK"]),
+                get: $util.oneOfGetter($oneOfFields = ["SC_TEST_ECHO", "LOGIN_SC_LOGIN", "LOGIN_SC_CHOOSE_SERVER", "LOGIN_SC_GET_SERVER_LIST", "LOGIN_SC_GET_INFO", "SC_ROLE_ONLINE", "SC_ROLE_HEART_BEAT", "SC_ROLE_PRO_UPDATE", "SC_GET_REWARD", "SC_INIT_HERO", "SC_UPDATE_HERO", "SC_INIT_EQUIP", "SC_UPDATE_EQUIP", "SC_INIT_ITEM", "SC_UPDATE_ITEM", "SC_INIT_BATTLE_INFO", "SC_INIT_TASK", "SC_UPDATE_TASK", "SC_INIT_MAIL", "SC_UPDATE_MAIL", "SC_INIT_FRIEND", "SC_UPDATE_FRIEND"]),
                 set: $util.oneOfSetter($oneOfFields)
             });
     
@@ -2559,6 +2595,14 @@
                     $root.S2C.SC_INIT_TASK.encode(message.SC_INIT_TASK, writer.uint32(/* id 1501, wireType 2 =*/12010).fork()).ldelim();
                 if (message.SC_UPDATE_TASK != null && message.hasOwnProperty("SC_UPDATE_TASK"))
                     $root.S2C.SC_UPDATE_TASK.encode(message.SC_UPDATE_TASK, writer.uint32(/* id 1502, wireType 2 =*/12018).fork()).ldelim();
+                if (message.SC_INIT_MAIL != null && message.hasOwnProperty("SC_INIT_MAIL"))
+                    $root.S2C.SC_INIT_MAIL.encode(message.SC_INIT_MAIL, writer.uint32(/* id 1601, wireType 2 =*/12810).fork()).ldelim();
+                if (message.SC_UPDATE_MAIL != null && message.hasOwnProperty("SC_UPDATE_MAIL"))
+                    $root.S2C.SC_UPDATE_MAIL.encode(message.SC_UPDATE_MAIL, writer.uint32(/* id 1602, wireType 2 =*/12818).fork()).ldelim();
+                if (message.SC_INIT_FRIEND != null && message.hasOwnProperty("SC_INIT_FRIEND"))
+                    $root.S2C.SC_INIT_FRIEND.encode(message.SC_INIT_FRIEND, writer.uint32(/* id 1701, wireType 2 =*/13610).fork()).ldelim();
+                if (message.SC_UPDATE_FRIEND != null && message.hasOwnProperty("SC_UPDATE_FRIEND"))
+                    $root.S2C.SC_UPDATE_FRIEND.encode(message.SC_UPDATE_FRIEND, writer.uint32(/* id 1702, wireType 2 =*/13618).fork()).ldelim();
                 if (message.LOGIN_SC_LOGIN != null && message.hasOwnProperty("LOGIN_SC_LOGIN"))
                     $root.S2C.LOGIN_SC_LOGIN.encode(message.LOGIN_SC_LOGIN, writer.uint32(/* id 9001, wireType 2 =*/72010).fork()).ldelim();
                 if (message.LOGIN_SC_CHOOSE_SERVER != null && message.hasOwnProperty("LOGIN_SC_CHOOSE_SERVER"))
@@ -2654,6 +2698,18 @@
                         break;
                     case 1502:
                         message.SC_UPDATE_TASK = $root.S2C.SC_UPDATE_TASK.decode(reader, reader.uint32());
+                        break;
+                    case 1601:
+                        message.SC_INIT_MAIL = $root.S2C.SC_INIT_MAIL.decode(reader, reader.uint32());
+                        break;
+                    case 1602:
+                        message.SC_UPDATE_MAIL = $root.S2C.SC_UPDATE_MAIL.decode(reader, reader.uint32());
+                        break;
+                    case 1701:
+                        message.SC_INIT_FRIEND = $root.S2C.SC_INIT_FRIEND.decode(reader, reader.uint32());
+                        break;
+                    case 1702:
+                        message.SC_UPDATE_FRIEND = $root.S2C.SC_UPDATE_FRIEND.decode(reader, reader.uint32());
                         break;
                     default:
                         reader.skipType(tag & 7);
@@ -2869,6 +2925,46 @@
                             return "SC_UPDATE_TASK." + error;
                     }
                 }
+                if (message.SC_INIT_MAIL != null && message.hasOwnProperty("SC_INIT_MAIL")) {
+                    if (properties.kind === 1)
+                        return "kind: multiple values";
+                    properties.kind = 1;
+                    {
+                        var error = $root.S2C.SC_INIT_MAIL.verify(message.SC_INIT_MAIL);
+                        if (error)
+                            return "SC_INIT_MAIL." + error;
+                    }
+                }
+                if (message.SC_UPDATE_MAIL != null && message.hasOwnProperty("SC_UPDATE_MAIL")) {
+                    if (properties.kind === 1)
+                        return "kind: multiple values";
+                    properties.kind = 1;
+                    {
+                        var error = $root.S2C.SC_UPDATE_MAIL.verify(message.SC_UPDATE_MAIL);
+                        if (error)
+                            return "SC_UPDATE_MAIL." + error;
+                    }
+                }
+                if (message.SC_INIT_FRIEND != null && message.hasOwnProperty("SC_INIT_FRIEND")) {
+                    if (properties.kind === 1)
+                        return "kind: multiple values";
+                    properties.kind = 1;
+                    {
+                        var error = $root.S2C.SC_INIT_FRIEND.verify(message.SC_INIT_FRIEND);
+                        if (error)
+                            return "SC_INIT_FRIEND." + error;
+                    }
+                }
+                if (message.SC_UPDATE_FRIEND != null && message.hasOwnProperty("SC_UPDATE_FRIEND")) {
+                    if (properties.kind === 1)
+                        return "kind: multiple values";
+                    properties.kind = 1;
+                    {
+                        var error = $root.S2C.SC_UPDATE_FRIEND.verify(message.SC_UPDATE_FRIEND);
+                        if (error)
+                            return "SC_UPDATE_FRIEND." + error;
+                    }
+                }
                 return null;
             };
     
@@ -2974,6 +3070,26 @@
                         throw TypeError(".S2C.Message.SC_UPDATE_TASK: object expected");
                     message.SC_UPDATE_TASK = $root.S2C.SC_UPDATE_TASK.fromObject(object.SC_UPDATE_TASK);
                 }
+                if (object.SC_INIT_MAIL != null) {
+                    if (typeof object.SC_INIT_MAIL !== "object")
+                        throw TypeError(".S2C.Message.SC_INIT_MAIL: object expected");
+                    message.SC_INIT_MAIL = $root.S2C.SC_INIT_MAIL.fromObject(object.SC_INIT_MAIL);
+                }
+                if (object.SC_UPDATE_MAIL != null) {
+                    if (typeof object.SC_UPDATE_MAIL !== "object")
+                        throw TypeError(".S2C.Message.SC_UPDATE_MAIL: object expected");
+                    message.SC_UPDATE_MAIL = $root.S2C.SC_UPDATE_MAIL.fromObject(object.SC_UPDATE_MAIL);
+                }
+                if (object.SC_INIT_FRIEND != null) {
+                    if (typeof object.SC_INIT_FRIEND !== "object")
+                        throw TypeError(".S2C.Message.SC_INIT_FRIEND: object expected");
+                    message.SC_INIT_FRIEND = $root.S2C.SC_INIT_FRIEND.fromObject(object.SC_INIT_FRIEND);
+                }
+                if (object.SC_UPDATE_FRIEND != null) {
+                    if (typeof object.SC_UPDATE_FRIEND !== "object")
+                        throw TypeError(".S2C.Message.SC_UPDATE_FRIEND: object expected");
+                    message.SC_UPDATE_FRIEND = $root.S2C.SC_UPDATE_FRIEND.fromObject(object.SC_UPDATE_FRIEND);
+                }
                 return message;
             };
     
@@ -3060,6 +3176,26 @@
                     if (options.oneofs)
                         object.kind = "SC_UPDATE_TASK";
                 }
+                if (message.SC_INIT_MAIL != null && message.hasOwnProperty("SC_INIT_MAIL")) {
+                    object.SC_INIT_MAIL = $root.S2C.SC_INIT_MAIL.toObject(message.SC_INIT_MAIL, options);
+                    if (options.oneofs)
+                        object.kind = "SC_INIT_MAIL";
+                }
+                if (message.SC_UPDATE_MAIL != null && message.hasOwnProperty("SC_UPDATE_MAIL")) {
+                    object.SC_UPDATE_MAIL = $root.S2C.SC_UPDATE_MAIL.toObject(message.SC_UPDATE_MAIL, options);
+                    if (options.oneofs)
+                        object.kind = "SC_UPDATE_MAIL";
+                }
+                if (message.SC_INIT_FRIEND != null && message.hasOwnProperty("SC_INIT_FRIEND")) {
+                    object.SC_INIT_FRIEND = $root.S2C.SC_INIT_FRIEND.toObject(message.SC_INIT_FRIEND, options);
+                    if (options.oneofs)
+                        object.kind = "SC_INIT_FRIEND";
+                }
+                if (message.SC_UPDATE_FRIEND != null && message.hasOwnProperty("SC_UPDATE_FRIEND")) {
+                    object.SC_UPDATE_FRIEND = $root.S2C.SC_UPDATE_FRIEND.toObject(message.SC_UPDATE_FRIEND, options);
+                    if (options.oneofs)
+                        object.kind = "SC_UPDATE_FRIEND";
+                }
                 if (message.LOGIN_SC_LOGIN != null && message.hasOwnProperty("LOGIN_SC_LOGIN")) {
                     object.LOGIN_SC_LOGIN = $root.S2C.LOGIN_SC_LOGIN.toObject(message.LOGIN_SC_LOGIN, options);
                     if (options.oneofs)
@@ -3095,6 +3231,1456 @@
             };
     
             return Message;
+        })();
+    
+        S2C.Friend = (function() {
+    
+            /**
+             * Properties of a Friend.
+             * @memberof S2C
+             * @interface IFriend
+             * @property {number|null} [uid] Friend uid
+             * @property {number|null} [state] Friend state
+             */
+    
+            /**
+             * Constructs a new Friend.
+             * @memberof S2C
+             * @classdesc Represents a Friend.
+             * @implements IFriend
+             * @constructor
+             * @param {S2C.IFriend=} [properties] Properties to set
+             */
+            function Friend(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+    
+            /**
+             * Friend uid.
+             * @member {number} uid
+             * @memberof S2C.Friend
+             * @instance
+             */
+            Friend.prototype.uid = 0;
+    
+            /**
+             * Friend state.
+             * @member {number} state
+             * @memberof S2C.Friend
+             * @instance
+             */
+            Friend.prototype.state = 0;
+    
+            /**
+             * Creates a new Friend instance using the specified properties.
+             * @function create
+             * @memberof S2C.Friend
+             * @static
+             * @param {S2C.IFriend=} [properties] Properties to set
+             * @returns {S2C.Friend} Friend instance
+             */
+            Friend.create = function create(properties) {
+                return new Friend(properties);
+            };
+    
+            /**
+             * Encodes the specified Friend message. Does not implicitly {@link S2C.Friend.verify|verify} messages.
+             * @function encode
+             * @memberof S2C.Friend
+             * @static
+             * @param {S2C.IFriend} message Friend message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            Friend.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.uid != null && message.hasOwnProperty("uid"))
+                    writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.uid);
+                if (message.state != null && message.hasOwnProperty("state"))
+                    writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.state);
+                return writer;
+            };
+    
+            /**
+             * Encodes the specified Friend message, length delimited. Does not implicitly {@link S2C.Friend.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof S2C.Friend
+             * @static
+             * @param {S2C.IFriend} message Friend message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            Friend.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+    
+            /**
+             * Decodes a Friend message from the specified reader or buffer.
+             * @function decode
+             * @memberof S2C.Friend
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {S2C.Friend} Friend
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            Friend.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.S2C.Friend();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        message.uid = reader.uint32();
+                        break;
+                    case 2:
+                        message.state = reader.uint32();
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Decodes a Friend message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof S2C.Friend
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {S2C.Friend} Friend
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            Friend.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+    
+            /**
+             * Verifies a Friend message.
+             * @function verify
+             * @memberof S2C.Friend
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            Friend.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.uid != null && message.hasOwnProperty("uid"))
+                    if (!$util.isInteger(message.uid))
+                        return "uid: integer expected";
+                if (message.state != null && message.hasOwnProperty("state"))
+                    if (!$util.isInteger(message.state))
+                        return "state: integer expected";
+                return null;
+            };
+    
+            /**
+             * Creates a Friend message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof S2C.Friend
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {S2C.Friend} Friend
+             */
+            Friend.fromObject = function fromObject(object) {
+                if (object instanceof $root.S2C.Friend)
+                    return object;
+                var message = new $root.S2C.Friend();
+                if (object.uid != null)
+                    message.uid = object.uid >>> 0;
+                if (object.state != null)
+                    message.state = object.state >>> 0;
+                return message;
+            };
+    
+            /**
+             * Creates a plain object from a Friend message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof S2C.Friend
+             * @static
+             * @param {S2C.Friend} message Friend
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            Friend.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.defaults) {
+                    object.uid = 0;
+                    object.state = 0;
+                }
+                if (message.uid != null && message.hasOwnProperty("uid"))
+                    object.uid = message.uid;
+                if (message.state != null && message.hasOwnProperty("state"))
+                    object.state = message.state;
+                return object;
+            };
+    
+            /**
+             * Converts this Friend to JSON.
+             * @function toJSON
+             * @memberof S2C.Friend
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            Friend.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+    
+            return Friend;
+        })();
+    
+        S2C.SC_INIT_FRIEND = (function() {
+    
+            /**
+             * Properties of a SC_INIT_FRIEND.
+             * @memberof S2C
+             * @interface ISC_INIT_FRIEND
+             * @property {Object.<string,S2C.IFriend>|null} [friends] SC_INIT_FRIEND friends
+             */
+    
+            /**
+             * Constructs a new SC_INIT_FRIEND.
+             * @memberof S2C
+             * @classdesc Represents a SC_INIT_FRIEND.
+             * @implements ISC_INIT_FRIEND
+             * @constructor
+             * @param {S2C.ISC_INIT_FRIEND=} [properties] Properties to set
+             */
+            function SC_INIT_FRIEND(properties) {
+                this.friends = {};
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+    
+            /**
+             * SC_INIT_FRIEND friends.
+             * @member {Object.<string,S2C.IFriend>} friends
+             * @memberof S2C.SC_INIT_FRIEND
+             * @instance
+             */
+            SC_INIT_FRIEND.prototype.friends = $util.emptyObject;
+    
+            /**
+             * Creates a new SC_INIT_FRIEND instance using the specified properties.
+             * @function create
+             * @memberof S2C.SC_INIT_FRIEND
+             * @static
+             * @param {S2C.ISC_INIT_FRIEND=} [properties] Properties to set
+             * @returns {S2C.SC_INIT_FRIEND} SC_INIT_FRIEND instance
+             */
+            SC_INIT_FRIEND.create = function create(properties) {
+                return new SC_INIT_FRIEND(properties);
+            };
+    
+            /**
+             * Encodes the specified SC_INIT_FRIEND message. Does not implicitly {@link S2C.SC_INIT_FRIEND.verify|verify} messages.
+             * @function encode
+             * @memberof S2C.SC_INIT_FRIEND
+             * @static
+             * @param {S2C.ISC_INIT_FRIEND} message SC_INIT_FRIEND message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            SC_INIT_FRIEND.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.friends != null && message.hasOwnProperty("friends"))
+                    for (var keys = Object.keys(message.friends), i = 0; i < keys.length; ++i) {
+                        writer.uint32(/* id 1, wireType 2 =*/10).fork().uint32(/* id 1, wireType 0 =*/8).uint32(keys[i]);
+                        $root.S2C.Friend.encode(message.friends[keys[i]], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim().ldelim();
+                    }
+                return writer;
+            };
+    
+            /**
+             * Encodes the specified SC_INIT_FRIEND message, length delimited. Does not implicitly {@link S2C.SC_INIT_FRIEND.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof S2C.SC_INIT_FRIEND
+             * @static
+             * @param {S2C.ISC_INIT_FRIEND} message SC_INIT_FRIEND message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            SC_INIT_FRIEND.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+    
+            /**
+             * Decodes a SC_INIT_FRIEND message from the specified reader or buffer.
+             * @function decode
+             * @memberof S2C.SC_INIT_FRIEND
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {S2C.SC_INIT_FRIEND} SC_INIT_FRIEND
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            SC_INIT_FRIEND.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.S2C.SC_INIT_FRIEND(), key;
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        reader.skip().pos++;
+                        if (message.friends === $util.emptyObject)
+                            message.friends = {};
+                        key = reader.uint32();
+                        reader.pos++;
+                        message.friends[key] = $root.S2C.Friend.decode(reader, reader.uint32());
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Decodes a SC_INIT_FRIEND message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof S2C.SC_INIT_FRIEND
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {S2C.SC_INIT_FRIEND} SC_INIT_FRIEND
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            SC_INIT_FRIEND.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+    
+            /**
+             * Verifies a SC_INIT_FRIEND message.
+             * @function verify
+             * @memberof S2C.SC_INIT_FRIEND
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            SC_INIT_FRIEND.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.friends != null && message.hasOwnProperty("friends")) {
+                    if (!$util.isObject(message.friends))
+                        return "friends: object expected";
+                    var key = Object.keys(message.friends);
+                    for (var i = 0; i < key.length; ++i) {
+                        if (!$util.key32Re.test(key[i]))
+                            return "friends: integer key{k:uint32} expected";
+                        {
+                            var error = $root.S2C.Friend.verify(message.friends[key[i]]);
+                            if (error)
+                                return "friends." + error;
+                        }
+                    }
+                }
+                return null;
+            };
+    
+            /**
+             * Creates a SC_INIT_FRIEND message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof S2C.SC_INIT_FRIEND
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {S2C.SC_INIT_FRIEND} SC_INIT_FRIEND
+             */
+            SC_INIT_FRIEND.fromObject = function fromObject(object) {
+                if (object instanceof $root.S2C.SC_INIT_FRIEND)
+                    return object;
+                var message = new $root.S2C.SC_INIT_FRIEND();
+                if (object.friends) {
+                    if (typeof object.friends !== "object")
+                        throw TypeError(".S2C.SC_INIT_FRIEND.friends: object expected");
+                    message.friends = {};
+                    for (var keys = Object.keys(object.friends), i = 0; i < keys.length; ++i) {
+                        if (typeof object.friends[keys[i]] !== "object")
+                            throw TypeError(".S2C.SC_INIT_FRIEND.friends: object expected");
+                        message.friends[keys[i]] = $root.S2C.Friend.fromObject(object.friends[keys[i]]);
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Creates a plain object from a SC_INIT_FRIEND message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof S2C.SC_INIT_FRIEND
+             * @static
+             * @param {S2C.SC_INIT_FRIEND} message SC_INIT_FRIEND
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            SC_INIT_FRIEND.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.objects || options.defaults)
+                    object.friends = {};
+                var keys2;
+                if (message.friends && (keys2 = Object.keys(message.friends)).length) {
+                    object.friends = {};
+                    for (var j = 0; j < keys2.length; ++j)
+                        object.friends[keys2[j]] = $root.S2C.Friend.toObject(message.friends[keys2[j]], options);
+                }
+                return object;
+            };
+    
+            /**
+             * Converts this SC_INIT_FRIEND to JSON.
+             * @function toJSON
+             * @memberof S2C.SC_INIT_FRIEND
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            SC_INIT_FRIEND.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+    
+            return SC_INIT_FRIEND;
+        })();
+    
+        S2C.SC_UPDATE_FRIEND = (function() {
+    
+            /**
+             * Properties of a SC_UPDATE_FRIEND.
+             * @memberof S2C
+             * @interface ISC_UPDATE_FRIEND
+             * @property {Object.<string,S2C.IFriend>|null} [friends] SC_UPDATE_FRIEND friends
+             */
+    
+            /**
+             * Constructs a new SC_UPDATE_FRIEND.
+             * @memberof S2C
+             * @classdesc Represents a SC_UPDATE_FRIEND.
+             * @implements ISC_UPDATE_FRIEND
+             * @constructor
+             * @param {S2C.ISC_UPDATE_FRIEND=} [properties] Properties to set
+             */
+            function SC_UPDATE_FRIEND(properties) {
+                this.friends = {};
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+    
+            /**
+             * SC_UPDATE_FRIEND friends.
+             * @member {Object.<string,S2C.IFriend>} friends
+             * @memberof S2C.SC_UPDATE_FRIEND
+             * @instance
+             */
+            SC_UPDATE_FRIEND.prototype.friends = $util.emptyObject;
+    
+            /**
+             * Creates a new SC_UPDATE_FRIEND instance using the specified properties.
+             * @function create
+             * @memberof S2C.SC_UPDATE_FRIEND
+             * @static
+             * @param {S2C.ISC_UPDATE_FRIEND=} [properties] Properties to set
+             * @returns {S2C.SC_UPDATE_FRIEND} SC_UPDATE_FRIEND instance
+             */
+            SC_UPDATE_FRIEND.create = function create(properties) {
+                return new SC_UPDATE_FRIEND(properties);
+            };
+    
+            /**
+             * Encodes the specified SC_UPDATE_FRIEND message. Does not implicitly {@link S2C.SC_UPDATE_FRIEND.verify|verify} messages.
+             * @function encode
+             * @memberof S2C.SC_UPDATE_FRIEND
+             * @static
+             * @param {S2C.ISC_UPDATE_FRIEND} message SC_UPDATE_FRIEND message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            SC_UPDATE_FRIEND.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.friends != null && message.hasOwnProperty("friends"))
+                    for (var keys = Object.keys(message.friends), i = 0; i < keys.length; ++i) {
+                        writer.uint32(/* id 1, wireType 2 =*/10).fork().uint32(/* id 1, wireType 0 =*/8).int32(keys[i]);
+                        $root.S2C.Friend.encode(message.friends[keys[i]], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim().ldelim();
+                    }
+                return writer;
+            };
+    
+            /**
+             * Encodes the specified SC_UPDATE_FRIEND message, length delimited. Does not implicitly {@link S2C.SC_UPDATE_FRIEND.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof S2C.SC_UPDATE_FRIEND
+             * @static
+             * @param {S2C.ISC_UPDATE_FRIEND} message SC_UPDATE_FRIEND message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            SC_UPDATE_FRIEND.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+    
+            /**
+             * Decodes a SC_UPDATE_FRIEND message from the specified reader or buffer.
+             * @function decode
+             * @memberof S2C.SC_UPDATE_FRIEND
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {S2C.SC_UPDATE_FRIEND} SC_UPDATE_FRIEND
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            SC_UPDATE_FRIEND.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.S2C.SC_UPDATE_FRIEND(), key;
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        reader.skip().pos++;
+                        if (message.friends === $util.emptyObject)
+                            message.friends = {};
+                        key = reader.int32();
+                        reader.pos++;
+                        message.friends[key] = $root.S2C.Friend.decode(reader, reader.uint32());
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Decodes a SC_UPDATE_FRIEND message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof S2C.SC_UPDATE_FRIEND
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {S2C.SC_UPDATE_FRIEND} SC_UPDATE_FRIEND
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            SC_UPDATE_FRIEND.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+    
+            /**
+             * Verifies a SC_UPDATE_FRIEND message.
+             * @function verify
+             * @memberof S2C.SC_UPDATE_FRIEND
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            SC_UPDATE_FRIEND.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.friends != null && message.hasOwnProperty("friends")) {
+                    if (!$util.isObject(message.friends))
+                        return "friends: object expected";
+                    var key = Object.keys(message.friends);
+                    for (var i = 0; i < key.length; ++i) {
+                        if (!$util.key32Re.test(key[i]))
+                            return "friends: integer key{k:int32} expected";
+                        {
+                            var error = $root.S2C.Friend.verify(message.friends[key[i]]);
+                            if (error)
+                                return "friends." + error;
+                        }
+                    }
+                }
+                return null;
+            };
+    
+            /**
+             * Creates a SC_UPDATE_FRIEND message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof S2C.SC_UPDATE_FRIEND
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {S2C.SC_UPDATE_FRIEND} SC_UPDATE_FRIEND
+             */
+            SC_UPDATE_FRIEND.fromObject = function fromObject(object) {
+                if (object instanceof $root.S2C.SC_UPDATE_FRIEND)
+                    return object;
+                var message = new $root.S2C.SC_UPDATE_FRIEND();
+                if (object.friends) {
+                    if (typeof object.friends !== "object")
+                        throw TypeError(".S2C.SC_UPDATE_FRIEND.friends: object expected");
+                    message.friends = {};
+                    for (var keys = Object.keys(object.friends), i = 0; i < keys.length; ++i) {
+                        if (typeof object.friends[keys[i]] !== "object")
+                            throw TypeError(".S2C.SC_UPDATE_FRIEND.friends: object expected");
+                        message.friends[keys[i]] = $root.S2C.Friend.fromObject(object.friends[keys[i]]);
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Creates a plain object from a SC_UPDATE_FRIEND message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof S2C.SC_UPDATE_FRIEND
+             * @static
+             * @param {S2C.SC_UPDATE_FRIEND} message SC_UPDATE_FRIEND
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            SC_UPDATE_FRIEND.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.objects || options.defaults)
+                    object.friends = {};
+                var keys2;
+                if (message.friends && (keys2 = Object.keys(message.friends)).length) {
+                    object.friends = {};
+                    for (var j = 0; j < keys2.length; ++j)
+                        object.friends[keys2[j]] = $root.S2C.Friend.toObject(message.friends[keys2[j]], options);
+                }
+                return object;
+            };
+    
+            /**
+             * Converts this SC_UPDATE_FRIEND to JSON.
+             * @function toJSON
+             * @memberof S2C.SC_UPDATE_FRIEND
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            SC_UPDATE_FRIEND.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+    
+            return SC_UPDATE_FRIEND;
+        })();
+    
+        S2C.Mail = (function() {
+    
+            /**
+             * Properties of a Mail.
+             * @memberof S2C
+             * @interface IMail
+             * @property {number|null} [uid] Mail uid
+             * @property {string|null} [title] Mail title
+             * @property {string|null} [content] Mail content
+             * @property {Array.<S2C.IReward>|null} [rwds] Mail rwds
+             * @property {string|null} [senderName] Mail senderName
+             * @property {number|null} [senderId] Mail senderId
+             * @property {number|null} [createTme] Mail createTme
+             * @property {number|null} [isNew] Mail isNew
+             */
+    
+            /**
+             * Constructs a new Mail.
+             * @memberof S2C
+             * @classdesc Represents a Mail.
+             * @implements IMail
+             * @constructor
+             * @param {S2C.IMail=} [properties] Properties to set
+             */
+            function Mail(properties) {
+                this.rwds = [];
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+    
+            /**
+             * Mail uid.
+             * @member {number} uid
+             * @memberof S2C.Mail
+             * @instance
+             */
+            Mail.prototype.uid = 0;
+    
+            /**
+             * Mail title.
+             * @member {string} title
+             * @memberof S2C.Mail
+             * @instance
+             */
+            Mail.prototype.title = "";
+    
+            /**
+             * Mail content.
+             * @member {string} content
+             * @memberof S2C.Mail
+             * @instance
+             */
+            Mail.prototype.content = "";
+    
+            /**
+             * Mail rwds.
+             * @member {Array.<S2C.IReward>} rwds
+             * @memberof S2C.Mail
+             * @instance
+             */
+            Mail.prototype.rwds = $util.emptyArray;
+    
+            /**
+             * Mail senderName.
+             * @member {string} senderName
+             * @memberof S2C.Mail
+             * @instance
+             */
+            Mail.prototype.senderName = "";
+    
+            /**
+             * Mail senderId.
+             * @member {number} senderId
+             * @memberof S2C.Mail
+             * @instance
+             */
+            Mail.prototype.senderId = 0;
+    
+            /**
+             * Mail createTme.
+             * @member {number} createTme
+             * @memberof S2C.Mail
+             * @instance
+             */
+            Mail.prototype.createTme = 0;
+    
+            /**
+             * Mail isNew.
+             * @member {number} isNew
+             * @memberof S2C.Mail
+             * @instance
+             */
+            Mail.prototype.isNew = 0;
+    
+            /**
+             * Creates a new Mail instance using the specified properties.
+             * @function create
+             * @memberof S2C.Mail
+             * @static
+             * @param {S2C.IMail=} [properties] Properties to set
+             * @returns {S2C.Mail} Mail instance
+             */
+            Mail.create = function create(properties) {
+                return new Mail(properties);
+            };
+    
+            /**
+             * Encodes the specified Mail message. Does not implicitly {@link S2C.Mail.verify|verify} messages.
+             * @function encode
+             * @memberof S2C.Mail
+             * @static
+             * @param {S2C.IMail} message Mail message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            Mail.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.uid != null && message.hasOwnProperty("uid"))
+                    writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.uid);
+                if (message.title != null && message.hasOwnProperty("title"))
+                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.title);
+                if (message.content != null && message.hasOwnProperty("content"))
+                    writer.uint32(/* id 3, wireType 2 =*/26).string(message.content);
+                if (message.rwds != null && message.rwds.length)
+                    for (var i = 0; i < message.rwds.length; ++i)
+                        $root.S2C.Reward.encode(message.rwds[i], writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+                if (message.senderName != null && message.hasOwnProperty("senderName"))
+                    writer.uint32(/* id 5, wireType 2 =*/42).string(message.senderName);
+                if (message.senderId != null && message.hasOwnProperty("senderId"))
+                    writer.uint32(/* id 6, wireType 0 =*/48).uint32(message.senderId);
+                if (message.createTme != null && message.hasOwnProperty("createTme"))
+                    writer.uint32(/* id 7, wireType 0 =*/56).uint32(message.createTme);
+                if (message.isNew != null && message.hasOwnProperty("isNew"))
+                    writer.uint32(/* id 8, wireType 0 =*/64).uint32(message.isNew);
+                return writer;
+            };
+    
+            /**
+             * Encodes the specified Mail message, length delimited. Does not implicitly {@link S2C.Mail.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof S2C.Mail
+             * @static
+             * @param {S2C.IMail} message Mail message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            Mail.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+    
+            /**
+             * Decodes a Mail message from the specified reader or buffer.
+             * @function decode
+             * @memberof S2C.Mail
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {S2C.Mail} Mail
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            Mail.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.S2C.Mail();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        message.uid = reader.uint32();
+                        break;
+                    case 2:
+                        message.title = reader.string();
+                        break;
+                    case 3:
+                        message.content = reader.string();
+                        break;
+                    case 4:
+                        if (!(message.rwds && message.rwds.length))
+                            message.rwds = [];
+                        message.rwds.push($root.S2C.Reward.decode(reader, reader.uint32()));
+                        break;
+                    case 5:
+                        message.senderName = reader.string();
+                        break;
+                    case 6:
+                        message.senderId = reader.uint32();
+                        break;
+                    case 7:
+                        message.createTme = reader.uint32();
+                        break;
+                    case 8:
+                        message.isNew = reader.uint32();
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Decodes a Mail message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof S2C.Mail
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {S2C.Mail} Mail
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            Mail.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+    
+            /**
+             * Verifies a Mail message.
+             * @function verify
+             * @memberof S2C.Mail
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            Mail.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.uid != null && message.hasOwnProperty("uid"))
+                    if (!$util.isInteger(message.uid))
+                        return "uid: integer expected";
+                if (message.title != null && message.hasOwnProperty("title"))
+                    if (!$util.isString(message.title))
+                        return "title: string expected";
+                if (message.content != null && message.hasOwnProperty("content"))
+                    if (!$util.isString(message.content))
+                        return "content: string expected";
+                if (message.rwds != null && message.hasOwnProperty("rwds")) {
+                    if (!Array.isArray(message.rwds))
+                        return "rwds: array expected";
+                    for (var i = 0; i < message.rwds.length; ++i) {
+                        var error = $root.S2C.Reward.verify(message.rwds[i]);
+                        if (error)
+                            return "rwds." + error;
+                    }
+                }
+                if (message.senderName != null && message.hasOwnProperty("senderName"))
+                    if (!$util.isString(message.senderName))
+                        return "senderName: string expected";
+                if (message.senderId != null && message.hasOwnProperty("senderId"))
+                    if (!$util.isInteger(message.senderId))
+                        return "senderId: integer expected";
+                if (message.createTme != null && message.hasOwnProperty("createTme"))
+                    if (!$util.isInteger(message.createTme))
+                        return "createTme: integer expected";
+                if (message.isNew != null && message.hasOwnProperty("isNew"))
+                    if (!$util.isInteger(message.isNew))
+                        return "isNew: integer expected";
+                return null;
+            };
+    
+            /**
+             * Creates a Mail message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof S2C.Mail
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {S2C.Mail} Mail
+             */
+            Mail.fromObject = function fromObject(object) {
+                if (object instanceof $root.S2C.Mail)
+                    return object;
+                var message = new $root.S2C.Mail();
+                if (object.uid != null)
+                    message.uid = object.uid >>> 0;
+                if (object.title != null)
+                    message.title = String(object.title);
+                if (object.content != null)
+                    message.content = String(object.content);
+                if (object.rwds) {
+                    if (!Array.isArray(object.rwds))
+                        throw TypeError(".S2C.Mail.rwds: array expected");
+                    message.rwds = [];
+                    for (var i = 0; i < object.rwds.length; ++i) {
+                        if (typeof object.rwds[i] !== "object")
+                            throw TypeError(".S2C.Mail.rwds: object expected");
+                        message.rwds[i] = $root.S2C.Reward.fromObject(object.rwds[i]);
+                    }
+                }
+                if (object.senderName != null)
+                    message.senderName = String(object.senderName);
+                if (object.senderId != null)
+                    message.senderId = object.senderId >>> 0;
+                if (object.createTme != null)
+                    message.createTme = object.createTme >>> 0;
+                if (object.isNew != null)
+                    message.isNew = object.isNew >>> 0;
+                return message;
+            };
+    
+            /**
+             * Creates a plain object from a Mail message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof S2C.Mail
+             * @static
+             * @param {S2C.Mail} message Mail
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            Mail.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.arrays || options.defaults)
+                    object.rwds = [];
+                if (options.defaults) {
+                    object.uid = 0;
+                    object.title = "";
+                    object.content = "";
+                    object.senderName = "";
+                    object.senderId = 0;
+                    object.createTme = 0;
+                    object.isNew = 0;
+                }
+                if (message.uid != null && message.hasOwnProperty("uid"))
+                    object.uid = message.uid;
+                if (message.title != null && message.hasOwnProperty("title"))
+                    object.title = message.title;
+                if (message.content != null && message.hasOwnProperty("content"))
+                    object.content = message.content;
+                if (message.rwds && message.rwds.length) {
+                    object.rwds = [];
+                    for (var j = 0; j < message.rwds.length; ++j)
+                        object.rwds[j] = $root.S2C.Reward.toObject(message.rwds[j], options);
+                }
+                if (message.senderName != null && message.hasOwnProperty("senderName"))
+                    object.senderName = message.senderName;
+                if (message.senderId != null && message.hasOwnProperty("senderId"))
+                    object.senderId = message.senderId;
+                if (message.createTme != null && message.hasOwnProperty("createTme"))
+                    object.createTme = message.createTme;
+                if (message.isNew != null && message.hasOwnProperty("isNew"))
+                    object.isNew = message.isNew;
+                return object;
+            };
+    
+            /**
+             * Converts this Mail to JSON.
+             * @function toJSON
+             * @memberof S2C.Mail
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            Mail.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+    
+            return Mail;
+        })();
+    
+        S2C.SC_INIT_MAIL = (function() {
+    
+            /**
+             * Properties of a SC_INIT_MAIL.
+             * @memberof S2C
+             * @interface ISC_INIT_MAIL
+             * @property {Object.<string,S2C.IMail>|null} [mails] SC_INIT_MAIL mails
+             */
+    
+            /**
+             * Constructs a new SC_INIT_MAIL.
+             * @memberof S2C
+             * @classdesc Represents a SC_INIT_MAIL.
+             * @implements ISC_INIT_MAIL
+             * @constructor
+             * @param {S2C.ISC_INIT_MAIL=} [properties] Properties to set
+             */
+            function SC_INIT_MAIL(properties) {
+                this.mails = {};
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+    
+            /**
+             * SC_INIT_MAIL mails.
+             * @member {Object.<string,S2C.IMail>} mails
+             * @memberof S2C.SC_INIT_MAIL
+             * @instance
+             */
+            SC_INIT_MAIL.prototype.mails = $util.emptyObject;
+    
+            /**
+             * Creates a new SC_INIT_MAIL instance using the specified properties.
+             * @function create
+             * @memberof S2C.SC_INIT_MAIL
+             * @static
+             * @param {S2C.ISC_INIT_MAIL=} [properties] Properties to set
+             * @returns {S2C.SC_INIT_MAIL} SC_INIT_MAIL instance
+             */
+            SC_INIT_MAIL.create = function create(properties) {
+                return new SC_INIT_MAIL(properties);
+            };
+    
+            /**
+             * Encodes the specified SC_INIT_MAIL message. Does not implicitly {@link S2C.SC_INIT_MAIL.verify|verify} messages.
+             * @function encode
+             * @memberof S2C.SC_INIT_MAIL
+             * @static
+             * @param {S2C.ISC_INIT_MAIL} message SC_INIT_MAIL message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            SC_INIT_MAIL.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.mails != null && message.hasOwnProperty("mails"))
+                    for (var keys = Object.keys(message.mails), i = 0; i < keys.length; ++i) {
+                        writer.uint32(/* id 1, wireType 2 =*/10).fork().uint32(/* id 1, wireType 0 =*/8).uint32(keys[i]);
+                        $root.S2C.Mail.encode(message.mails[keys[i]], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim().ldelim();
+                    }
+                return writer;
+            };
+    
+            /**
+             * Encodes the specified SC_INIT_MAIL message, length delimited. Does not implicitly {@link S2C.SC_INIT_MAIL.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof S2C.SC_INIT_MAIL
+             * @static
+             * @param {S2C.ISC_INIT_MAIL} message SC_INIT_MAIL message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            SC_INIT_MAIL.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+    
+            /**
+             * Decodes a SC_INIT_MAIL message from the specified reader or buffer.
+             * @function decode
+             * @memberof S2C.SC_INIT_MAIL
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {S2C.SC_INIT_MAIL} SC_INIT_MAIL
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            SC_INIT_MAIL.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.S2C.SC_INIT_MAIL(), key;
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        reader.skip().pos++;
+                        if (message.mails === $util.emptyObject)
+                            message.mails = {};
+                        key = reader.uint32();
+                        reader.pos++;
+                        message.mails[key] = $root.S2C.Mail.decode(reader, reader.uint32());
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Decodes a SC_INIT_MAIL message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof S2C.SC_INIT_MAIL
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {S2C.SC_INIT_MAIL} SC_INIT_MAIL
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            SC_INIT_MAIL.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+    
+            /**
+             * Verifies a SC_INIT_MAIL message.
+             * @function verify
+             * @memberof S2C.SC_INIT_MAIL
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            SC_INIT_MAIL.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.mails != null && message.hasOwnProperty("mails")) {
+                    if (!$util.isObject(message.mails))
+                        return "mails: object expected";
+                    var key = Object.keys(message.mails);
+                    for (var i = 0; i < key.length; ++i) {
+                        if (!$util.key32Re.test(key[i]))
+                            return "mails: integer key{k:uint32} expected";
+                        {
+                            var error = $root.S2C.Mail.verify(message.mails[key[i]]);
+                            if (error)
+                                return "mails." + error;
+                        }
+                    }
+                }
+                return null;
+            };
+    
+            /**
+             * Creates a SC_INIT_MAIL message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof S2C.SC_INIT_MAIL
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {S2C.SC_INIT_MAIL} SC_INIT_MAIL
+             */
+            SC_INIT_MAIL.fromObject = function fromObject(object) {
+                if (object instanceof $root.S2C.SC_INIT_MAIL)
+                    return object;
+                var message = new $root.S2C.SC_INIT_MAIL();
+                if (object.mails) {
+                    if (typeof object.mails !== "object")
+                        throw TypeError(".S2C.SC_INIT_MAIL.mails: object expected");
+                    message.mails = {};
+                    for (var keys = Object.keys(object.mails), i = 0; i < keys.length; ++i) {
+                        if (typeof object.mails[keys[i]] !== "object")
+                            throw TypeError(".S2C.SC_INIT_MAIL.mails: object expected");
+                        message.mails[keys[i]] = $root.S2C.Mail.fromObject(object.mails[keys[i]]);
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Creates a plain object from a SC_INIT_MAIL message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof S2C.SC_INIT_MAIL
+             * @static
+             * @param {S2C.SC_INIT_MAIL} message SC_INIT_MAIL
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            SC_INIT_MAIL.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.objects || options.defaults)
+                    object.mails = {};
+                var keys2;
+                if (message.mails && (keys2 = Object.keys(message.mails)).length) {
+                    object.mails = {};
+                    for (var j = 0; j < keys2.length; ++j)
+                        object.mails[keys2[j]] = $root.S2C.Mail.toObject(message.mails[keys2[j]], options);
+                }
+                return object;
+            };
+    
+            /**
+             * Converts this SC_INIT_MAIL to JSON.
+             * @function toJSON
+             * @memberof S2C.SC_INIT_MAIL
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            SC_INIT_MAIL.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+    
+            return SC_INIT_MAIL;
+        })();
+    
+        S2C.SC_UPDATE_MAIL = (function() {
+    
+            /**
+             * Properties of a SC_UPDATE_MAIL.
+             * @memberof S2C
+             * @interface ISC_UPDATE_MAIL
+             * @property {Object.<string,S2C.IMail>|null} [mails] SC_UPDATE_MAIL mails
+             */
+    
+            /**
+             * Constructs a new SC_UPDATE_MAIL.
+             * @memberof S2C
+             * @classdesc Represents a SC_UPDATE_MAIL.
+             * @implements ISC_UPDATE_MAIL
+             * @constructor
+             * @param {S2C.ISC_UPDATE_MAIL=} [properties] Properties to set
+             */
+            function SC_UPDATE_MAIL(properties) {
+                this.mails = {};
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+    
+            /**
+             * SC_UPDATE_MAIL mails.
+             * @member {Object.<string,S2C.IMail>} mails
+             * @memberof S2C.SC_UPDATE_MAIL
+             * @instance
+             */
+            SC_UPDATE_MAIL.prototype.mails = $util.emptyObject;
+    
+            /**
+             * Creates a new SC_UPDATE_MAIL instance using the specified properties.
+             * @function create
+             * @memberof S2C.SC_UPDATE_MAIL
+             * @static
+             * @param {S2C.ISC_UPDATE_MAIL=} [properties] Properties to set
+             * @returns {S2C.SC_UPDATE_MAIL} SC_UPDATE_MAIL instance
+             */
+            SC_UPDATE_MAIL.create = function create(properties) {
+                return new SC_UPDATE_MAIL(properties);
+            };
+    
+            /**
+             * Encodes the specified SC_UPDATE_MAIL message. Does not implicitly {@link S2C.SC_UPDATE_MAIL.verify|verify} messages.
+             * @function encode
+             * @memberof S2C.SC_UPDATE_MAIL
+             * @static
+             * @param {S2C.ISC_UPDATE_MAIL} message SC_UPDATE_MAIL message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            SC_UPDATE_MAIL.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.mails != null && message.hasOwnProperty("mails"))
+                    for (var keys = Object.keys(message.mails), i = 0; i < keys.length; ++i) {
+                        writer.uint32(/* id 1, wireType 2 =*/10).fork().uint32(/* id 1, wireType 0 =*/8).int32(keys[i]);
+                        $root.S2C.Mail.encode(message.mails[keys[i]], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim().ldelim();
+                    }
+                return writer;
+            };
+    
+            /**
+             * Encodes the specified SC_UPDATE_MAIL message, length delimited. Does not implicitly {@link S2C.SC_UPDATE_MAIL.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof S2C.SC_UPDATE_MAIL
+             * @static
+             * @param {S2C.ISC_UPDATE_MAIL} message SC_UPDATE_MAIL message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            SC_UPDATE_MAIL.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+    
+            /**
+             * Decodes a SC_UPDATE_MAIL message from the specified reader or buffer.
+             * @function decode
+             * @memberof S2C.SC_UPDATE_MAIL
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {S2C.SC_UPDATE_MAIL} SC_UPDATE_MAIL
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            SC_UPDATE_MAIL.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.S2C.SC_UPDATE_MAIL(), key;
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        reader.skip().pos++;
+                        if (message.mails === $util.emptyObject)
+                            message.mails = {};
+                        key = reader.int32();
+                        reader.pos++;
+                        message.mails[key] = $root.S2C.Mail.decode(reader, reader.uint32());
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Decodes a SC_UPDATE_MAIL message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof S2C.SC_UPDATE_MAIL
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {S2C.SC_UPDATE_MAIL} SC_UPDATE_MAIL
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            SC_UPDATE_MAIL.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+    
+            /**
+             * Verifies a SC_UPDATE_MAIL message.
+             * @function verify
+             * @memberof S2C.SC_UPDATE_MAIL
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            SC_UPDATE_MAIL.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.mails != null && message.hasOwnProperty("mails")) {
+                    if (!$util.isObject(message.mails))
+                        return "mails: object expected";
+                    var key = Object.keys(message.mails);
+                    for (var i = 0; i < key.length; ++i) {
+                        if (!$util.key32Re.test(key[i]))
+                            return "mails: integer key{k:int32} expected";
+                        {
+                            var error = $root.S2C.Mail.verify(message.mails[key[i]]);
+                            if (error)
+                                return "mails." + error;
+                        }
+                    }
+                }
+                return null;
+            };
+    
+            /**
+             * Creates a SC_UPDATE_MAIL message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof S2C.SC_UPDATE_MAIL
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {S2C.SC_UPDATE_MAIL} SC_UPDATE_MAIL
+             */
+            SC_UPDATE_MAIL.fromObject = function fromObject(object) {
+                if (object instanceof $root.S2C.SC_UPDATE_MAIL)
+                    return object;
+                var message = new $root.S2C.SC_UPDATE_MAIL();
+                if (object.mails) {
+                    if (typeof object.mails !== "object")
+                        throw TypeError(".S2C.SC_UPDATE_MAIL.mails: object expected");
+                    message.mails = {};
+                    for (var keys = Object.keys(object.mails), i = 0; i < keys.length; ++i) {
+                        if (typeof object.mails[keys[i]] !== "object")
+                            throw TypeError(".S2C.SC_UPDATE_MAIL.mails: object expected");
+                        message.mails[keys[i]] = $root.S2C.Mail.fromObject(object.mails[keys[i]]);
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Creates a plain object from a SC_UPDATE_MAIL message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof S2C.SC_UPDATE_MAIL
+             * @static
+             * @param {S2C.SC_UPDATE_MAIL} message SC_UPDATE_MAIL
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            SC_UPDATE_MAIL.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.objects || options.defaults)
+                    object.mails = {};
+                var keys2;
+                if (message.mails && (keys2 = Object.keys(message.mails)).length) {
+                    object.mails = {};
+                    for (var j = 0; j < keys2.length; ++j)
+                        object.mails[keys2[j]] = $root.S2C.Mail.toObject(message.mails[keys2[j]], options);
+                }
+                return object;
+            };
+    
+            /**
+             * Converts this SC_UPDATE_MAIL to JSON.
+             * @function toJSON
+             * @memberof S2C.SC_UPDATE_MAIL
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            SC_UPDATE_MAIL.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+    
+            return SC_UPDATE_MAIL;
         })();
     
         S2C.Task = (function() {

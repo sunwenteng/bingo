@@ -32,20 +32,20 @@ class Client {
             }
             // }, 1000);
 
-            // setInterval(() => {
-            //     for (let i = 0; i < 1; i++) {
-            //         let id = Math.floor(Math.random() * 100);
-            //         id = id === 0 ? 1 : id;
-            //         let msg = C2S.Message.create({
-            //             CS_ROLE_HEART_BEAT: {msg: Math.floor(Math.random() * 100) + '' }
-            //         });
-            //
-            //         let buffer = C2S.Message.encode(msg).finish();
-            //
-            //         ws.send(buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.length));
-            //         time[count++] = Date.now();
-            //     }
-            // }, 1000);
+            setInterval(() => {
+                for (let i = 0; i < 1; i++) {
+                    let id = Math.floor(Math.random() * 100);
+                    id = id === 0 ? 1 : id;
+                    let msg = C2S.Message.create({
+                        CS_ROLE_HEART_BEAT: {msg: Math.floor(Math.random() * 100) + '' }
+                    });
+
+                    let buffer = C2S.Message.encode(msg).finish();
+
+                    ws.send(buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.length));
+                    time[count++] = Date.now();
+                }
+            }, 1000);
         });
 
         ws.on('close', (code, reason) => {
@@ -65,8 +65,8 @@ class Client {
     }
 }
 
-for (let i = 0; i < 10; i++) {
-    let client = new Client(1);
+for (let i = 0; i < 1; i++) {
+    let client = new Client(i + 1);
 }
 
 // setInterval(()=>{

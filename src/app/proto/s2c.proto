@@ -29,7 +29,46 @@ message Message {
 
         SC_INIT_TASK SC_INIT_TASK = 1501;
         SC_UPDATE_TASK SC_UPDATE_TASK = 1502;
+
+        SC_INIT_MAIL SC_INIT_MAIL = 1601;
+        SC_UPDATE_MAIL SC_UPDATE_MAIL = 1602;
+
+        SC_INIT_FRIEND SC_INIT_FRIEND = 1701;
+        SC_UPDATE_FRIEND SC_UPDATE_FRIEND = 1702;
+
     }
+}
+
+message Friend {
+    uint32 uid = 1;
+    uint32 state = 2;
+}
+
+message SC_INIT_FRIEND {
+    map<uint32, Friend> friends = 1;
+}
+
+message SC_UPDATE_FRIEND {
+    map<int32, Friend> friends = 1;
+}
+
+message Mail {
+    uint32 uid = 1;
+    string title = 2;
+    string content = 3;
+    repeated Reward rwds = 4;
+    string senderName = 5;
+    uint32 senderId = 6;
+    uint32 createTme = 7;
+    uint32 isNew = 8;
+}
+
+message SC_INIT_MAIL {
+    map<uint32, Mail> mails = 1;
+}
+
+message SC_UPDATE_MAIL {
+    map<int32, Mail> mails = 1;
 }
 
 message Task {

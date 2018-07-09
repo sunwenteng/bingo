@@ -202,7 +202,11 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
               "SC_UPDATE_ITEM",
               "SC_INIT_BATTLE_INFO",
               "SC_INIT_TASK",
-              "SC_UPDATE_TASK"
+              "SC_UPDATE_TASK",
+              "SC_INIT_MAIL",
+              "SC_UPDATE_MAIL",
+              "SC_INIT_FRIEND",
+              "SC_UPDATE_FRIEND"
             ]
           }
         },
@@ -278,6 +282,107 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
           SC_UPDATE_TASK: {
             type: "SC_UPDATE_TASK",
             id: 1502
+          },
+          SC_INIT_MAIL: {
+            type: "SC_INIT_MAIL",
+            id: 1601
+          },
+          SC_UPDATE_MAIL: {
+            type: "SC_UPDATE_MAIL",
+            id: 1602
+          },
+          SC_INIT_FRIEND: {
+            type: "SC_INIT_FRIEND",
+            id: 1701
+          },
+          SC_UPDATE_FRIEND: {
+            type: "SC_UPDATE_FRIEND",
+            id: 1702
+          }
+        }
+      },
+      Friend: {
+        fields: {
+          uid: {
+            type: "uint32",
+            id: 1
+          },
+          state: {
+            type: "uint32",
+            id: 2
+          }
+        }
+      },
+      SC_INIT_FRIEND: {
+        fields: {
+          friends: {
+            keyType: "uint32",
+            type: "Friend",
+            id: 1
+          }
+        }
+      },
+      SC_UPDATE_FRIEND: {
+        fields: {
+          friends: {
+            keyType: "int32",
+            type: "Friend",
+            id: 1
+          }
+        }
+      },
+      Mail: {
+        fields: {
+          uid: {
+            type: "uint32",
+            id: 1
+          },
+          title: {
+            type: "string",
+            id: 2
+          },
+          content: {
+            type: "string",
+            id: 3
+          },
+          rwds: {
+            rule: "repeated",
+            type: "Reward",
+            id: 4
+          },
+          senderName: {
+            type: "string",
+            id: 5
+          },
+          senderId: {
+            type: "uint32",
+            id: 6
+          },
+          createTme: {
+            type: "uint32",
+            id: 7
+          },
+          isNew: {
+            type: "uint32",
+            id: 8
+          }
+        }
+      },
+      SC_INIT_MAIL: {
+        fields: {
+          mails: {
+            keyType: "uint32",
+            type: "Mail",
+            id: 1
+          }
+        }
+      },
+      SC_UPDATE_MAIL: {
+        fields: {
+          mails: {
+            keyType: "int32",
+            type: "Mail",
+            id: 1
           }
         }
       },

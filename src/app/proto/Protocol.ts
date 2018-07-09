@@ -18,5 +18,9 @@ module Game{
 		 public static SC_INIT_BATTLE_INFO_ID = "SC_INIT_BATTLE_INFO";
 		 public static SC_INIT_TASK_ID = "SC_INIT_TASK";
 		 public static SC_UPDATE_TASK_ID = "SC_UPDATE_TASK";
+		 public static SC_INIT_MAIL_ID = "SC_INIT_MAIL";
+		 public static SC_UPDATE_MAIL_ID = "SC_UPDATE_MAIL";
+		 public static SC_INIT_FRIEND_ID = "SC_INIT_FRIEND";
+		 public static SC_UPDATE_FRIEND_ID = "SC_UPDATE_FRIEND";
 	}
 }
