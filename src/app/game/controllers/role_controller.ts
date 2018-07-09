@@ -118,7 +118,7 @@ export class RoleController {
         if (size === 0) {
             rwd.clear();
             for (let i = 0; i < (MAX_ITEM_BAG_SIZE - size); i++) {
-                rwd.add({items: {[301+i] : Math.floor(Math.random()) * 10}});
+                rwd.add({items: {[301+i] : Math.floor(Math.random()) * 10 + 1}});
             }
             ResourceController.instance.applyReward(role, rwd, EResUseType.GM, true);
         }

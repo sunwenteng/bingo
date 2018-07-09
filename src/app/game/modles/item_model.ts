@@ -79,6 +79,10 @@ export class ItemModel extends BaseModel {
     }
 
     private createItem(itemId: number, cnt: number = 1): Item {
+        if (!Number.isInteger(cnt) || cnt <= 0) {
+            Log.sError('create item error, cnt=' + cnt);
+            return null;
+        }
         if (this.getItemBagSize() >= MAX_ITEM_BAG_SIZE) {
             return null;
         }
@@ -99,7 +103,7 @@ export class ItemModel extends BaseModel {
         let item = this.getItem(itemId, true);
         if (!item) {
             item = this.createItem(itemId, count);
-            if (!this.addItem(item)) {
+            if (!item || !this.addItem(item)) {
                 return null;
             }
         }

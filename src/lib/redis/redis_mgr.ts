@@ -26,10 +26,10 @@ export enum RedisChanel {
 }
 
 export abstract class RedisData extends Model {
-    dynamicFields: {[key:string]:string} = {};
+    dynamicFields: { [key: string]: string } = {};
     redisPrefix: string;
     redisKeyExpire: number;
-    dirtyFields: {[key:string]:string} = {};
+    dirtyFields: { [key: string]: string } = {};
 
     protected constructor(redisPrefix: string, expireTime: number = 3600) {
         super();
@@ -46,7 +46,7 @@ export abstract class RedisData extends Model {
         }
     }
 
-    protected deserialize(reply: { [key: string]: any }): void {
+    public deserialize(reply: { [key: string]: any }): void {
         for (let obj in reply) {
             if (this.fields.hasOwnProperty(obj)) {
                 switch (typeof this.fields[obj]) {
@@ -79,9 +79,10 @@ export abstract class RedisData extends Model {
         this.dirtyFields = {};
     }
 
-    protected serialize(): { [key: string]: any } {
+    public serialize(bAll: boolean): { [key: string]: any } {
         let reply: { [key: string]: any } = {};
-        for (let obj in this.fields) {
+        let checkFields = bAll ? this.fields : this.dirtyFields;
+        for (let obj in checkFields) {
             if (this.fields.hasOwnProperty(obj)) {
                 switch (typeof this.fields[obj]) {
                     case 'number' :

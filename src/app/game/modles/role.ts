@@ -82,26 +82,8 @@ export class Role extends RedisData {
         }
     }
 
-    public getSaveData(bAll: boolean) {
-        let reply = {};
-        if (bAll) {
-            reply = this.serialize();
-        }
-        else {
-            for (let k in this.dirtyFields) {
-                if (this.fields[k] instanceof BaseModel) {
-                    reply[k] = JSON.stringify(this.fields[k]['fields']);
-                }
-                else {
-                    reply[k] = this.fields[k];
-                }
-            }
-        }
-        return reply;
-    }
-
     public async save(bSaveAll: boolean = false): Promise<void> {
-        let saveData = this.getSaveData(bSaveAll);
+        let saveData = this.serialize(bSaveAll);
         // 同步存储到redis
         await gameRedis.hmset(this.getRedisKey(), saveData, this.redisKeyExpire);
         // 往脏数据集合添加
@@ -163,7 +145,7 @@ export class Role extends RedisData {
         this.nickname = 'robot' + this.uid;
         this.headimgurl = 'img' + this.uid;
 
-        let pckData = this.serialize();
+        let pckData = this.serialize(true);
         await WorldDB.conn.execute('insert into player_info_' + this.getTableNum() + ' set ?', pckData);
         this.dynamicFields = {};
     }
