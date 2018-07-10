@@ -148,7 +148,7 @@ export class RankController {
         }
     }
 
-    async getRankInfo(rankType: any, serverId): Promise<RankInfo[]> {
+    async getRankInfo(rankType: any | ERankType, serverId): Promise<RankInfo[]> {
         return new Promise<RankInfo[]>(async (resolve, reject) => {
             let rankInfo = this._rankMetaInfo[rankType];
             if (!rankInfo) {
@@ -167,7 +167,12 @@ export class RankController {
         });
     }
 
-    async getRoleRank(roleId: number, serverId: number, rankType: any): Promise<number> {
+    async getRoleRank(roleId: number, serverId: number, rankType: ERankType): Promise<number> {
+        if (!this._rankMetaInfo.hasOwnProperty(rankType)) {
+            Log.uError(roleId, 'rankType not found, val=' + rankType);
+            return;
+        }
+
         return new Promise<number>(async (resolve, reject) => {
             let rankInfo = this._rankMetaInfo[rankType];
             if (!rankInfo) {
@@ -186,7 +191,15 @@ export class RankController {
         });
     }
 
-    async updateRoleRankValue(role: Role, rankType: any, value: number) {
+    async updateRoleRankValue(role: Role, rankType: ERankType, value: number) {
+        if (!value) {
+            return;
+        }
+
+        if (!this._rankMetaInfo.hasOwnProperty(rankType)) {
+            Log.uError(role.uid, 'rankType not found, val=' + rankType);
+            return;
+        }
         await gameRedis.zadd(this.getRankRedisKey(rankType, GameWorld.instance.info.server_id), [{
             id: role.uid,
             value: value
