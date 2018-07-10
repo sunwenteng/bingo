@@ -1,5 +1,6 @@
 import {Log} from "../../lib/util/log";
 import * as WorldDB from "../../lib/mysql/world_db";
+import * as LoginDB from "../../lib/mysql/login_db";
 import {GameWorld} from "./game_world";
 import {isServerValid, Server} from "../../lib/net/ws/web_socket";
 import {GameSession} from "./game_session";
@@ -18,6 +19,7 @@ async function main() {
     ConfigMgr.getInstance().loadAllConfig(__dirname + '/' + config['app']['game']['config']);
 
     await WorldDB.start(config['mysql']['game_db']);
+    await LoginDB.start(config['mysql']['login_db']);
     await GameWorld.instance.start();
 
     let server = new Server(config['app']['game']['host'], parseInt(config['app']['game']['port']));

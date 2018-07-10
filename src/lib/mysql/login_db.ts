@@ -386,7 +386,7 @@ export async function start(config: MysqlConfig): Promise<void> {
 
         ['charge_info', 'diamond_pay', 'int(10) unsigned NOT NULL DEFAULT 0'],
 
-        ['gameserver_info', 'res_version_config', 'VARCHAR(64) CHARACTER SET utf8 NOT NULL'],
+        ['gameserver_info', 'res_version_config', "VARCHAR(64) CHARACTER SET utf8 NOT NULL DEFAULT ''"],
 
         ['gift_box_config', "use_every", "INT UNSIGNED NOT NULL DEFAULT '1'"]
     ];

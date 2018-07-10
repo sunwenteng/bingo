@@ -21,8 +21,25 @@ export enum WorldDataRedisKey {
     RELOAD_ROLES = 'reload_roles',
 }
 
-interface ServerInfo extends LoginDB.Server{
-    instanceId: number;
+class InstanceServerInfo implements LoginDB.Server {
+    instanceId = process.env.INSTANCE_ID ? process.env.INSTANCE_ID : 0;
+    alive: boolean = true;
+    can_login: boolean = true;
+    ip: string = config['app']['game']['host'];
+    is_recommend: boolean = false;
+    local_ip: string = config['app']['game']['host'];
+    login_strategy_id: number = 0;
+    online_num: number = 0;
+    port: number = config['app']['game']['port'];
+    res_server_config: string = '';
+    res_server_ip: string = '';
+    res_version: string = '';
+    server_id: number = config['app']['game']['serverId'];
+    server_name: string = 'server' + this.server_id;
+    status: number = 0;
+    update_time: number = Date.now();
+    version: string = config['app']['game']['version'];
+    res_version_config: string = '';
 }
 
 enum WorldMsg {
@@ -32,7 +49,7 @@ enum WorldMsg {
 export class GameWorld extends events.EventEmitter {
     public _isUpdating: boolean;
     public static instance = new GameWorld();
-    public info: ServerInfo;
+    public info: InstanceServerInfo = new InstanceServerInfo();
     private readonly _sessionList: LinkedList<UserSession> = new LinkedList<UserSession>();
     private readonly _authedSessionMap: AuthedSessionMap = {}; // 玩家上线通过后加入进来
     private readonly _allControllers: ControllerMap = {};
@@ -143,20 +160,54 @@ export class GameWorld extends events.EventEmitter {
             // await time.sleep(2 * time.SECOND);
         });
 
-        await this.addTimer('game_world_update1s', 15 * time.SECOND, async () => {
+        await this.addTimer('game_world_update15s', 15 * time.SECOND, async () => {
             let instances = await gameRedis.hgetall('game_servers');
-            if(instances) {
-                let totalCount = 0;
-                for(let key in instances) {
+            if (instances) {
+                for (let key in instances) {
                     let arr = key.split('_');
                     let serverId = parseInt(arr[1]);
-                    if(serverId === this.info.server_id) {
-
+                    if (serverId === this.info.server_id) {
                         let detail = JSON.parse(instances[key]);
-                        totalCount += detail.onlineCount;
+                        this.info.online_num += detail.online_num;
                     }
                 }
             }
+            this.info.update_time = Date.now() / 1000;
+            await LoginDB.conn.execute('insert into gameserver_info set ? on duplicate key update ?',
+                [{
+                    server_id: this.info.server_id,
+                    server_name: this.info.server_name,
+                    ip: this.info.ip,
+                    local_ip: this.info.local_ip,
+                    port: this.info.port,
+                    version: this.info.version,
+                    res_version: this.info.res_version,
+                    res_version_config: this.info.res_version_config,
+                    res_server_ip: this.info.res_server_ip,
+                    res_server_config: this.info.res_server_config,
+                    online_num: this.info.online_num,
+                    can_login: this.info.can_login,
+                    status: this.info.status,
+                    update_time: this.info.update_time,
+                    login_strategy_id: this.info.login_strategy_id,
+                    is_recommend: this.info.is_recommend,
+                }, {
+                    server_name: this.info.server_name,
+                    ip: this.info.ip,
+                    local_ip: this.info.local_ip,
+                    port: this.info.port,
+                    version: this.info.version,
+                    res_version: this.info.res_version,
+                    res_version_config: this.info.res_version_config,
+                    res_server_ip: this.info.res_server_ip,
+                    res_server_config: this.info.res_server_config,
+                    online_num: this.info.online_num,
+                    can_login: this.info.can_login,
+                    status: this.info.status,
+                    update_time: this.info.update_time,
+                    login_strategy_id: this.info.login_strategy_id,
+                    is_recommend: this.info.is_recommend,
+                }]);
         });
         // await this.addTimer('game_world_update1m', time.MINUTE, async () => {
         // });
@@ -176,14 +227,14 @@ export class GameWorld extends events.EventEmitter {
     }
 
     private async registerServer() {
-        this.info = {
-            server_id: config['app']['game']['serverId'],
-            instanceId: process.env.INSTANCE_ID ? parseInt(process.env.INSTANCE_ID) : 0,
-            resVersion: '',
-            version: config['app']['game']['version'],
-            host: config['app']['game']['host'],
-            port: config['app']['game']['port'],
-        };
+        let ret = await LoginDB.conn.execute('select * from gameserver_info where ?', {server_id: parseInt(config['app']['game']['serverId'])});
+        if (ret.length !== 0) {
+            for (let k in ret[0]) {
+                if (this.info.hasOwnProperty(k)) {
+                    this.info[k] = ret[0][k];
+                }
+            }
+        }
 
         let self = this;
 
@@ -191,11 +242,11 @@ export class GameWorld extends events.EventEmitter {
             setTimeout(() => {
                 let data = [
                     self.getServerRedisKey(), JSON.stringify({
-                        onlineCount: Object.keys(self._authedSessionMap).length,
-                        updateMS: Date.now(),
-                        resVersion: self.info.port,
+                        online_num: Object.keys(self._authedSessionMap).length,
+                        update_time: Date.now(),
+                        res_version: self.info.port,
                         version: self.info.version,
-                        host: self.info.host,
+                        host: self.info.ip,
                         port: self.info.port
                     })];
                 Log.sInfo('updateServerInfo, data=%j', data);
