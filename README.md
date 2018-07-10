@@ -42,11 +42,11 @@ It contains several **key** you must be aware of.
 
 ### cache_app
 
-The app will flush the dirty data in redis to mysql. The entrance file is `src/cache_app/app.ts`. 
+The app will flush the dirty data in redis to mysql. The entrance file is `src/cache_app/cache_app.ts`. 
 
 ### game_app
 
-Stateless web socket server for the game logic. The entrance file is `src/game_app/app.ts`.
+Stateless web socket server for the game logic. The entrance file is `src/game_app/cache_app.ts`.
 
 How to Run? 
 

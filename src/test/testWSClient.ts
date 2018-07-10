@@ -10,7 +10,7 @@ class Client {
 
     constructor(roleId) {
         this.roleId = roleId;
-        let ws = new WebSocket('ws://127.0.0.1:5555/abc/efg');
+        let ws = new WebSocket('ws://127.0.0.1:7777/abc/efg');
 
         ws.on('open', () => {
             set.add(this.roleId);
@@ -19,7 +19,7 @@ class Client {
                 let id = Math.floor(Math.random() * 100);
                 id = id === 0 ? 1 : id;
                 let msg = C2S.Message.create({
-                    CS_ROLE_ONLINE: {
+                    LOGIN_CS_LOGIN: {
                         passport: this.roleId + ''
                     }
                 });

@@ -18,7 +18,7 @@ export class GameSession extends UserSession {
         super();
         this.on('message', (data) => {
             try {
-                let msg = C2S.Message.decode(new Uint8Array(data));
+                let msg = C2S.Message.decode(data);
                 this.pushPacket(msg);
             } catch (e) {
                 Log.sError(e);

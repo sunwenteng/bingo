@@ -176,6 +176,23 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
             id: 2
           }
         }
+      },
+      CS_RANK_GET_RANK: {
+        fields: {
+          types: {
+            rule: "repeated",
+            type: "ERankType",
+            id: 1
+          }
+        },
+        nested: {
+          ERankType: {
+            values: {
+              level: 0,
+              combat: 1
+            }
+          }
+        }
       }
     }
   },

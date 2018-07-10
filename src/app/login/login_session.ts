@@ -16,7 +16,7 @@ export class LoginSession extends UserSession {
         super();
         this.on('message', (data) => {
             try {
-                let msg = C2S.Message.decode(new Uint8Array(data));
+                let msg = C2S.Message.decode(data);
                 this.pushPacket(msg);
             } catch (e) {
                 Log.sError(e);
@@ -44,16 +44,16 @@ export class LoginSession extends UserSession {
 
             switch (packet.kind) {
                 case 'LOGIN_CS_LOGIN' :
-                    await this.handleLogin(packet);
+                    await this.handleLogin(packet[packet.kind]);
                     break;
                 case 'LOGIN_CS_CHOOSE_SERVER':
-                    await this.handleChooseServer(packet);
+                    await this.handleChooseServer(packet[packet.kind]);
                     break;
                 case 'LOGIN_CS_GET_SERVER_LIST':
                     await this.handleGetServerList();
                     break;
                 case 'LOGIN_CS_GET_INFO':
-                    await this.handleGetInfo(packet);
+                    await this.handleGetInfo(packet[packet.kind]);
                     break;
                 default:
                     Log.sError('controller not found, name=%s', packet.kind);

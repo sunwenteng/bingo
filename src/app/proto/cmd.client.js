@@ -2296,6 +2296,246 @@
             return LOGIN_CS_GET_INFO;
         })();
     
+        C2S.CS_RANK_GET_RANK = (function() {
+    
+            /**
+             * Properties of a CS_RANK_GET_RANK.
+             * @memberof C2S
+             * @interface ICS_RANK_GET_RANK
+             * @property {Array.<C2S.CS_RANK_GET_RANK.ERankType>|null} [types] CS_RANK_GET_RANK types
+             */
+    
+            /**
+             * Constructs a new CS_RANK_GET_RANK.
+             * @memberof C2S
+             * @classdesc Represents a CS_RANK_GET_RANK.
+             * @implements ICS_RANK_GET_RANK
+             * @constructor
+             * @param {C2S.ICS_RANK_GET_RANK=} [properties] Properties to set
+             */
+            function CS_RANK_GET_RANK(properties) {
+                this.types = [];
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+    
+            /**
+             * CS_RANK_GET_RANK types.
+             * @member {Array.<C2S.CS_RANK_GET_RANK.ERankType>} types
+             * @memberof C2S.CS_RANK_GET_RANK
+             * @instance
+             */
+            CS_RANK_GET_RANK.prototype.types = $util.emptyArray;
+    
+            /**
+             * Creates a new CS_RANK_GET_RANK instance using the specified properties.
+             * @function create
+             * @memberof C2S.CS_RANK_GET_RANK
+             * @static
+             * @param {C2S.ICS_RANK_GET_RANK=} [properties] Properties to set
+             * @returns {C2S.CS_RANK_GET_RANK} CS_RANK_GET_RANK instance
+             */
+            CS_RANK_GET_RANK.create = function create(properties) {
+                return new CS_RANK_GET_RANK(properties);
+            };
+    
+            /**
+             * Encodes the specified CS_RANK_GET_RANK message. Does not implicitly {@link C2S.CS_RANK_GET_RANK.verify|verify} messages.
+             * @function encode
+             * @memberof C2S.CS_RANK_GET_RANK
+             * @static
+             * @param {C2S.ICS_RANK_GET_RANK} message CS_RANK_GET_RANK message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            CS_RANK_GET_RANK.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.types != null && message.types.length) {
+                    writer.uint32(/* id 1, wireType 2 =*/10).fork();
+                    for (var i = 0; i < message.types.length; ++i)
+                        writer.int32(message.types[i]);
+                    writer.ldelim();
+                }
+                return writer;
+            };
+    
+            /**
+             * Encodes the specified CS_RANK_GET_RANK message, length delimited. Does not implicitly {@link C2S.CS_RANK_GET_RANK.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof C2S.CS_RANK_GET_RANK
+             * @static
+             * @param {C2S.ICS_RANK_GET_RANK} message CS_RANK_GET_RANK message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            CS_RANK_GET_RANK.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+    
+            /**
+             * Decodes a CS_RANK_GET_RANK message from the specified reader or buffer.
+             * @function decode
+             * @memberof C2S.CS_RANK_GET_RANK
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {C2S.CS_RANK_GET_RANK} CS_RANK_GET_RANK
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            CS_RANK_GET_RANK.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.C2S.CS_RANK_GET_RANK();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        if (!(message.types && message.types.length))
+                            message.types = [];
+                        if ((tag & 7) === 2) {
+                            var end2 = reader.uint32() + reader.pos;
+                            while (reader.pos < end2)
+                                message.types.push(reader.int32());
+                        } else
+                            message.types.push(reader.int32());
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Decodes a CS_RANK_GET_RANK message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof C2S.CS_RANK_GET_RANK
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {C2S.CS_RANK_GET_RANK} CS_RANK_GET_RANK
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            CS_RANK_GET_RANK.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+    
+            /**
+             * Verifies a CS_RANK_GET_RANK message.
+             * @function verify
+             * @memberof C2S.CS_RANK_GET_RANK
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            CS_RANK_GET_RANK.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.types != null && message.hasOwnProperty("types")) {
+                    if (!Array.isArray(message.types))
+                        return "types: array expected";
+                    for (var i = 0; i < message.types.length; ++i)
+                        switch (message.types[i]) {
+                        default:
+                            return "types: enum value[] expected";
+                        case 0:
+                        case 1:
+                            break;
+                        }
+                }
+                return null;
+            };
+    
+            /**
+             * Creates a CS_RANK_GET_RANK message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof C2S.CS_RANK_GET_RANK
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {C2S.CS_RANK_GET_RANK} CS_RANK_GET_RANK
+             */
+            CS_RANK_GET_RANK.fromObject = function fromObject(object) {
+                if (object instanceof $root.C2S.CS_RANK_GET_RANK)
+                    return object;
+                var message = new $root.C2S.CS_RANK_GET_RANK();
+                if (object.types) {
+                    if (!Array.isArray(object.types))
+                        throw TypeError(".C2S.CS_RANK_GET_RANK.types: array expected");
+                    message.types = [];
+                    for (var i = 0; i < object.types.length; ++i)
+                        switch (object.types[i]) {
+                        default:
+                        case "level":
+                        case 0:
+                            message.types[i] = 0;
+                            break;
+                        case "combat":
+                        case 1:
+                            message.types[i] = 1;
+                            break;
+                        }
+                }
+                return message;
+            };
+    
+            /**
+             * Creates a plain object from a CS_RANK_GET_RANK message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof C2S.CS_RANK_GET_RANK
+             * @static
+             * @param {C2S.CS_RANK_GET_RANK} message CS_RANK_GET_RANK
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            CS_RANK_GET_RANK.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.arrays || options.defaults)
+                    object.types = [];
+                if (message.types && message.types.length) {
+                    object.types = [];
+                    for (var j = 0; j < message.types.length; ++j)
+                        object.types[j] = options.enums === String ? $root.C2S.CS_RANK_GET_RANK.ERankType[message.types[j]] : message.types[j];
+                }
+                return object;
+            };
+    
+            /**
+             * Converts this CS_RANK_GET_RANK to JSON.
+             * @function toJSON
+             * @memberof C2S.CS_RANK_GET_RANK
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            CS_RANK_GET_RANK.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+    
+            /**
+             * ERankType enum.
+             * @name C2S.CS_RANK_GET_RANK.ERankType
+             * @enum {string}
+             * @property {number} level=0 level value
+             * @property {number} combat=1 combat value
+             */
+            CS_RANK_GET_RANK.ERankType = (function() {
+                var valuesById = {}, values = Object.create(valuesById);
+                values[valuesById[0] = "level"] = 0;
+                values[valuesById[1] = "combat"] = 1;
+                return values;
+            })();
+    
+            return CS_RANK_GET_RANK;
+        })();
+    
         return C2S;
     })();
     

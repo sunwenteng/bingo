@@ -25,6 +25,11 @@ export enum RedisChanel {
     BROADCAST = 'broadcast',
 }
 
+export interface RankInfo {
+    id: number;
+    value: number;
+}
+
 export abstract class RedisData extends Model {
     dynamicFields: { [key: string]: string } = {};
     redisPrefix: string;
@@ -457,18 +462,34 @@ export class RedisMgr {
         }));
     }
 
-    public async zadd(key, arr: any[], expire?: number, db: number = 0): Promise<void> {
+    public async zadd(key, arr: RankInfo[], db: number = 0): Promise<void> {
         // Log.sInfo('name=%s, redis zadd', this._name);
         let client = await this.getClient(db);
         return new Promise<void>(((resolve, reject) => {
-            client.zadd(key, arr, (error) => {
+            let p = [];
+            for (let a of arr) {
+                p.push(...[a.value, a.id]);
+            }
+            client.zadd(key, p, (error) => {
                 if (error) {
                     Log.sError('name=%s, redis zadd error ' + error, this._name);
                     reject(ERROR_CODE.REDIS.ZADD_ERROR);
                 } else {
-                    if (expire > 0) {
-                        client.expire(key, expire);
-                    }
+                    resolve();
+                }
+            });
+        }));
+    }
+
+    public async zrem(key, subKeys: any[] | any, db: number = 0): Promise<void> {
+        // Log.sInfo('name=%s, redis zadd', this._name);
+        let client = await this.getClient(db);
+        return new Promise<void>(((resolve, reject) => {
+            client.zrem(key, subKeys, (error) => {
+                if (error) {
+                    Log.sError('name=%s, redis zadd error ' + error, this._name);
+                    reject(ERROR_CODE.REDIS.ZADD_ERROR);
+                } else {
                     resolve();
                 }
             });
@@ -481,11 +502,11 @@ export class RedisMgr {
      * @param field
      * @param db
      */
-    public async zrank(key: string, field: string, db: number = 0): Promise<number> {
+    public async zrank(key: string, field: string | number, db: number = 0): Promise<number> {
         // Log.sInfo('name=%s, redis zrevrank key=%s, field=%s', this._name, key, field);
         let client = await this.getClient(db);
         return new Promise<number>(((resolve, reject) => {
-            client.zrank(key, field, (error, reply) => {
+            client.zrank(key, field + '', (error, reply) => {
                 if (error) {
                     Log.sError('name=%s, redis zrevrank error ' + error, this._name);
                     reject(ERROR_CODE.REDIS.GETRANGE_ERROR);
@@ -502,18 +523,25 @@ export class RedisMgr {
      * @param {number} start
      * @param {number} end
      * @param {number} db
-     * @returns {Promise<string[]>}
+     * @returns {Promise<RankInfo[]>}
      */
-    public async zrange(key: string, start: number, end: number, db: number = 0): Promise<string[]> {
+    public async zrange(key: string, start: number, end: number, db: number = 0): Promise<RankInfo[]> {
         // Log.sInfo('name=%s, redis zrevrange key=%s, start=%d, end=%d', this._name, key, start, end);
         let client = await this.getClient(db);
-        return new Promise<string[]>(((resolve, reject) => {
+        return new Promise<RankInfo[]>(((resolve, reject) => {
             client.zrange(key, start, end, 'WITHSCORES', (error, reply) => {
                 if (error) {
                     Log.sError('name=%s, redis zrevange error ' + error, this._name);
                     reject(ERROR_CODE.REDIS.ZREVRANGE_ERROR);
                 } else {
-                    resolve(reply);
+                    let ret: RankInfo[] = [];
+                    for (let i = 0; i < reply.length; i = i + 2) {
+                        ret.push({
+                            id: parseInt(reply[i]),
+                            value: parseInt(reply[i + 1])
+                        });
+                    }
+                    resolve(ret);
                 }
             });
         }));
@@ -525,18 +553,25 @@ export class RedisMgr {
      * @param {number} start
      * @param {number} end
      * @param {number} db
-     * @returns {Promise<string[]>}
+     * @returns {Promise<RankInfo[]>}
      */
-    public async zrevrange(key: string, start: number, end: number, db: number = 0): Promise<string[]> {
+    public async zrevrange(key: string, start: number, end: number, db: number = 0): Promise<RankInfo[]> {
         // Log.sInfo('name=%s, redis zrevrange key=%s, start=%d, end=%d', this._name, key, start, end);
         let client = await this.getClient(db);
-        return new Promise<string[]>(((resolve, reject) => {
+        return new Promise<RankInfo[]>(((resolve, reject) => {
             client.zrevrange(key, start, end, 'WITHSCORES', (error, reply) => {
                 if (error) {
                     Log.sError('name=%s, redis zrevange error ' + error, this._name);
                     reject(ERROR_CODE.REDIS.ZREVRANGE_ERROR);
                 } else {
-                    resolve(reply);
+                    let ret: RankInfo[] = [];
+                    for (let i = 0; i < reply.length; i = i + 2) {
+                        ret.push({
+                            id: parseInt(reply[i]),
+                            value: parseInt(reply[i + 1])
+                        });
+                    }
+                    resolve(ret);
                 }
             });
         }));
@@ -548,11 +583,11 @@ export class RedisMgr {
      * @param field
      * @param db
      */
-    public async zrevrank(key: string, field: string, db: number = 0): Promise<number> {
+    public async zrevrank(key: string, field: string | number, db: number = 0): Promise<number> {
         // Log.sInfo('name=%s, redis zrevrank key=%s, field=%s', this._name, key, field);
         let client = await this.getClient(db);
         return new Promise<number>(((resolve, reject) => {
-            client.zrevrank(key, field, (error, reply) => {
+            client.zrevrank(key, field + '', (error, reply) => {
                 if (error) {
                     Log.sError('name=%s, redis zrevrank error ' + error, this._name);
                     reject(ERROR_CODE.REDIS.GETRANGE_ERROR);

@@ -8,6 +8,8 @@ import {RedisChanel, RedisMgr, RedisType} from "../../lib/redis/redis_mgr";
 import {roleRedisPrefix} from "./modles/role";
 import * as events from "events";
 import * as time from '../../lib/util/time';
+import {RankController} from "./controllers/rank_controller";
+import * as LoginDB from "../../lib/mysql/login_db";
 
 const config = require('../../config/config.json');
 type AuthedSessionMap = { [index: number]: UserSession };
@@ -19,13 +21,8 @@ export enum WorldDataRedisKey {
     RELOAD_ROLES = 'reload_roles',
 }
 
-interface ServerInfo {
-    serverId: number;
+interface ServerInfo extends LoginDB.Server{
     instanceId: number;
-    host: string;
-    port: number;
-    version: string;
-    resVersion: string;
 }
 
 enum WorldMsg {
@@ -145,6 +142,22 @@ export class GameWorld extends events.EventEmitter {
         await this.addTimer('game_world_update1s', time.SECOND, async () => {
             // await time.sleep(2 * time.SECOND);
         });
+
+        await this.addTimer('game_world_update1s', 15 * time.SECOND, async () => {
+            let instances = await gameRedis.hgetall('game_servers');
+            if(instances) {
+                let totalCount = 0;
+                for(let key in instances) {
+                    let arr = key.split('_');
+                    let serverId = parseInt(arr[1]);
+                    if(serverId === this.info.server_id) {
+
+                        let detail = JSON.parse(instances[key]);
+                        totalCount += detail.onlineCount;
+                    }
+                }
+            }
+        });
         // await this.addTimer('game_world_update1m', time.MINUTE, async () => {
         // });
         // await this.addTimer('game_world_update1h', time.HOUR, async () => {
@@ -164,7 +177,7 @@ export class GameWorld extends events.EventEmitter {
 
     private async registerServer() {
         this.info = {
-            serverId: config['app']['game']['serverId'],
+            server_id: config['app']['game']['serverId'],
             instanceId: process.env.INSTANCE_ID ? parseInt(process.env.INSTANCE_ID) : 0,
             resVersion: '',
             version: config['app']['game']['version'],
@@ -194,7 +207,7 @@ export class GameWorld extends events.EventEmitter {
     }
 
     public getServerRedisKey() {
-        return 'server_' + this.info.serverId + '_' + this.info.instanceId + '_' + this.info.host + '_' + this.info.port;
+        return 'server_' + this.info.server_id + '_' + this.info.instanceId + '_' + this.info.ip + '_' + this.info.port;
     }
 
     public async stop() {
@@ -218,9 +231,7 @@ export class GameWorld extends events.EventEmitter {
     }
 
     private async initControllers(): Promise<void> {
-        return new Promise<void>((resolve => {
-            resolve();
-        }));
+        await RankController.instance.init();
     }
 
     private async saveControllers(): Promise<void> {

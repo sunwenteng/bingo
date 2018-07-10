@@ -156,8 +156,7 @@ export class Role extends RedisData {
         this.nickname = 'robot' + this.uid;
         this.headimgurl = 'img' + this.uid;
 
-        let pckData = this.serialize(true);
-        await WorldDB.conn.execute('insert into player_info_' + this.getTableNum() + ' set ?', pckData);
+        await WorldDB.conn.execute('insert into player_info_' + this.getTableNum() + ' set ?', this.serialize(true));
         this.dynamicFields = {};
     }
 

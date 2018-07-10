@@ -67,7 +67,7 @@ export async function start(config: MysqlConfig): Promise<void> {
     await conn.addIndexes(indexes);
 
     _timer = setInterval(async () => {
-        await conn.execute('select 1');
+        await conn.execute('select 1', );
         Log.sInfo('keep mysql alive');
     }, 60000);
 }

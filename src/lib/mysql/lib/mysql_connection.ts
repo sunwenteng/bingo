@@ -1,5 +1,6 @@
 import * as mysql from 'mysql';
 import {Log} from '../../util/log';
+import {type} from "os";
 
 export interface MysqlConfig extends mysql.PoolConfig {
     name?: string;
@@ -63,14 +64,14 @@ export class MysqlConnection {
         return new Promise<any[]>(((resolve, reject) => {
             this._pool.getConnection((err: mysql.MysqlError, connection: mysql.PoolConnection) => {
                 if (err) {
-                    Log.sError('sql:' + sql + param ? '\nparam:' + JSON.stringify(param) : '' + '\n' + err.stack);
+                    Log.sError(err.stack);
                     reject(err);
                 }
                 else {
                     // Use the connection
                     connection.query(sql, param, (err: mysql.MysqlError, result: any[]) => {
                         if (err) {
-                            Log.sError('sql:' + sql + param ? '\nparam:' + JSON.stringify(param) : '' + '\n' + err.stack);
+                            Log.sError(err.stack);
                             connection.release();
                             reject(err);
                         }

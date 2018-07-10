@@ -2,7 +2,7 @@
   "apps": [
     {
       "name": "cache",
-      "script": "app.js",
+      "script": "cache_app.js",
       "instances": 1,
       "instance_var": "INSTANCE_ID",
       "exec_mode": "cluster",

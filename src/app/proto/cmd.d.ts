@@ -209,6 +209,32 @@ export namespace C2S {
         public static toObject(message: C2S.LOGIN_CS_GET_INFO, options?: $protobuf.IConversionOptions): { [k: string]: any };
         public toJSON(): { [k: string]: any };
     }
+
+    interface ICS_RANK_GET_RANK {
+        types?: (C2S.CS_RANK_GET_RANK.ERankType[]|null);
+    }
+
+    class CS_RANK_GET_RANK implements ICS_RANK_GET_RANK {
+        constructor(properties?: C2S.ICS_RANK_GET_RANK);
+        public types: C2S.CS_RANK_GET_RANK.ERankType[];
+        public static create(properties?: C2S.ICS_RANK_GET_RANK): C2S.CS_RANK_GET_RANK;
+        public static encode(message: C2S.ICS_RANK_GET_RANK, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: C2S.ICS_RANK_GET_RANK, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): C2S.CS_RANK_GET_RANK;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): C2S.CS_RANK_GET_RANK;
+        public static verify(message: { [k: string]: any }): (string|null);
+        public static fromObject(object: { [k: string]: any }): C2S.CS_RANK_GET_RANK;
+        public static toObject(message: C2S.CS_RANK_GET_RANK, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public toJSON(): { [k: string]: any };
+    }
+
+    namespace CS_RANK_GET_RANK {
+
+        enum ERankType {
+            level = 0,
+            combat = 1
+        }
+    }
 }
 
 export namespace S2C {

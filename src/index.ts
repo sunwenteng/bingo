@@ -1,40 +1,30 @@
-// import {Role} from "./app/game/modles/role";
-// import * as deepDiff from 'deep-diff';
-//
-// let a = {equips: {1 : {lv: 1, power: 3}}}, b = {equips: {1 : {lv: 2, power: 3}, 2 : {lv: 1, power: 3}}};
-//
-// console.time('diff');
-// let diffs = deepDiff.diff(a, b);
-// console.timeEnd('diff');
+import {RedisMgr, RedisType} from "./lib/redis/redis_mgr";
+import {Log} from "./lib/util/log";
 
+let gameRedis = RedisMgr.getInstance(RedisType.GAME);
+const rankType = 'rank_1_0';
 
-// class T {
-//     _secret: number;
-//     public nosecret:number;
-//     public static instance = new T(1);
-//
-//     constructor(secret) {
-//         console.log('i am called');
-//         this._secret = secret;
-//     }
-//
-//
-// }
+async function main() {
+    const config = require('./config/config.json');
+    Log.init(__dirname + '/' + config.log.dir, config.log.level);
+    for (let i = 0; i < 200; i++) {
+        await gameRedis.zadd(rankType, [{id: i + 1, value: i + 1}]);
+    }
 
-// T.instance.nosecret = 2;
-// console.log(T.instance.nosecret + ' ' + T.instance._secret);
-// let t = new T(3);
-// console.log(t.nosecret + ' ' + t._secret);
-// console.time('1');
-// for(let i = 0; i < 1000000000; ++i) {
-//     let {foo, num, test} = obj;
-// }
-// console.timeEnd('1');
-//
-// console.time('2');
-// for(let i = 0; i < 1000000000; ++i) {
-//     let foo = obj['foo'];
-//     let num = obj['num'];
-//     let test = obj['test'];
-// }
-// console.timeEnd('2');
+    let ret;
+    ret = await gameRedis.zrevrange(rankType, 0, 99);
+    console.log(ret);
+    ret = await gameRedis.zrange(rankType, 0, 99);
+    console.log(ret);
+
+    ret = await gameRedis.zrevrank(rankType, 1);
+    console.log(ret);
+    ret = await gameRedis.zrank(rankType, 1);
+    console.log(ret);
+
+    for (let i = 0; i < 200; i++) {
+        await gameRedis.zrem(rankType, i + 1);
+    }
+}
+
+main();

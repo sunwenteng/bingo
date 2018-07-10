@@ -2,7 +2,7 @@
   "apps": [
     {
       "name": "game",
-      "script": "app.js",
+      "script": "game_app.js",
       "instances": 1,
       "instance_var": "INSTANCE_ID",
       "exec_mode": "cluster",

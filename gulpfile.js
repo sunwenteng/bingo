@@ -2,7 +2,7 @@ const gulp = require('gulp');
 const ts = require('gulp-typescript');
 const sourceMaps = require('gulp-sourcemaps');
 const rm = require('gulp-rm');
-const shell = require('gulp-shell');
+const exec = require('child_process').exec;
 const fs = require('fs');
 const {S2C} = require("./src/app/proto/cmd");
 
@@ -37,10 +37,16 @@ gulp.task('compile', ['scripts_src'], () => {
 // proto文件解析
 let protoFiles = ['./src/app/proto/c2s.proto', './src/app/proto/s2c.proto'];
 // 这个文件小一点 速度比后者稍微慢一点
-gulp.task('proto2json', shell.task('./node_modules/protobufjs/bin/pbjs -t json-module -w commonjs -o ./src/app/proto/cmd.js ' + protoFiles.join(' ')));
+gulp.task('proto2json', (cb) => {
+    exec('./node_modules/protobufjs/bin/pbjs -t json-module -w commonjs -o ./src/app/proto/cmd.js ' + protoFiles.join(' '), () => cb)
+});
+
 // 生成closure
-gulp.task('proto2closure', shell.task('./node_modules/protobufjs/bin/pbjs -t static-module -w closure -o ./src/app/proto/cmd.client.js ' + protoFiles.join(' ') + ' && ' +
-    './node_modules/protobufjs/bin/pbts --no-comments -o ./src/app/proto/cmd.d.ts ./src/app/proto/cmd.client.js'));
+gulp.task('proto2closure', (cb) => {
+    exec('./node_modules/protobufjs/bin/pbjs -t static-module -w closure -o ./src/app/proto/cmd.client.js ' + protoFiles.join(' ') + ' && ' +
+        './node_modules/protobufjs/bin/pbts --no-comments -o ./src/app/proto/cmd.d.ts ./src/app/proto/cmd.client.js', () => cb)
+});
+
 // 客户端用
 gulp.task('proto2client', ['proto2closure'], () => {
     let _class_txt = "";
