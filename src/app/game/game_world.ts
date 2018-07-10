@@ -21,6 +21,7 @@ export enum WorldDataRedisKey {
 
 interface ServerInfo {
     serverId: number;
+    instanceId: number;
     host: string;
     port: number;
     version: string;
@@ -34,7 +35,7 @@ enum WorldMsg {
 export class GameWorld extends events.EventEmitter {
     public _isUpdating: boolean;
     public static instance = new GameWorld();
-    private _info: ServerInfo;
+    public info: ServerInfo;
     private readonly _sessionList: LinkedList<UserSession> = new LinkedList<UserSession>();
     private readonly _authedSessionMap: AuthedSessionMap = {}; // 玩家上线通过后加入进来
     private readonly _allControllers: ControllerMap = {};
@@ -162,8 +163,9 @@ export class GameWorld extends events.EventEmitter {
     }
 
     private async registerServer() {
-        this._info = {
-            serverId: process.env.INSTANCE_ID ? parseInt(process.env.INSTANCE_ID) : 0,
+        this.info = {
+            serverId: config['app']['game']['serverId'],
+            instanceId: process.env.INSTANCE_ID ? parseInt(process.env.INSTANCE_ID) : 0,
             resVersion: '',
             version: config['app']['game']['version'],
             host: config['app']['game']['host'],
@@ -178,10 +180,10 @@ export class GameWorld extends events.EventEmitter {
                     self.getServerRedisKey(), JSON.stringify({
                         onlineCount: Object.keys(self._authedSessionMap).length,
                         updateMS: Date.now(),
-                        resVersion: self._info.port,
-                        version: self._info.version,
-                        host: self._info.host,
-                        port: self._info.port
+                        resVersion: self.info.port,
+                        version: self.info.version,
+                        host: self.info.host,
+                        port: self.info.port
                     })];
                 Log.sInfo('updateServerInfo, data=%j', data);
                 gameRedis.hmset('game_servers', data).then(updateServerInfo);
@@ -192,7 +194,7 @@ export class GameWorld extends events.EventEmitter {
     }
 
     public getServerRedisKey() {
-        return 'server_' + this._info.serverId + '_' + this._info.host + '_' + this._info.port;
+        return 'server_' + this.info.serverId + '_' + this.info.instanceId + '_' + this.info.host + '_' + this.info.port;
     }
 
     public async stop() {

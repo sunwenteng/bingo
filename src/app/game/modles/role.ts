@@ -43,6 +43,7 @@ export class Role extends RedisData {
     @roleField(true) level: number = 0;
     @roleField(true) vipLevel: number = 0;
     @roleField(true) vipExp: number = 0;
+    @roleField(true) combat: number = 0;
 
     @roleField() lastLoginTime: number = 0;
     @roleField() lastAliveTime: number = 0;

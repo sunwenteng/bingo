@@ -42,6 +42,8 @@ export async function start(config: MysqlConfig): Promise<void> {
             [tableName, 'taskModel', "blob NULL"],
             [tableName, 'mailModel', "blob NULL"],
             [tableName, 'friendModel', "blob NULL"],
+            [tableName, 'summary', "blob NULL"],
+            [tableName, 'combat', "BIGINT(20) UNSIGNED NOT NULL DEFAULT 0"],
             // add new update column down here
         ]);
 

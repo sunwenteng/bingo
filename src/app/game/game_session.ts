@@ -26,7 +26,7 @@ export class GameSession extends UserSession {
         });
     }
 
-    // @execTime(false)
+    @execTime(false)
     private async doController(controller: Function, session: GameSession, packet: any) {
         Log.sInfo('socketUid=%d, roleId=%d, name=%s, data=%j', this.socket.uid, this.role ? this.role.uid : 0, packet.kind, packet[packet.kind]);
         await controller(session, packet[packet.kind]);

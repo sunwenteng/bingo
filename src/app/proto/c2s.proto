@@ -66,3 +66,11 @@ message LOGIN_CS_GET_INFO {
     uint32 platform_id = 1;
     string client_version = 2;
 }
+
+message CS_RANK_GET_RANK {
+    enum ERankType {
+        level = 0;
+        combat = 1;
+    }
+    repeated ERankType types = 1;
+}
