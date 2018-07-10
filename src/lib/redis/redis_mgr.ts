@@ -520,8 +520,8 @@ export class RedisMgr {
     /**
      * asc
      * @param {string} key
-     * @param {number} start
-     * @param {number} end
+     * @param {number} start from 0
+     * @param {number} end -1 means all
      * @param {number} db
      * @returns {Promise<RankInfo[]>}
      */
@@ -550,8 +550,8 @@ export class RedisMgr {
     /**
      * desc
      * @param {string} key
-     * @param {number} start
-     * @param {number} end
+     * @param {number} start from 0
+     * @param {number} end -1 means all
      * @param {number} db
      * @returns {Promise<RankInfo[]>}
      */
