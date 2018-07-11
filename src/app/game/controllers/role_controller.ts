@@ -1,12 +1,11 @@
 import {C2S, S2C} from "../../proto/cmd";
 import {GameSession} from "../game_session";
-import {ERoleMask, Role} from "../modles/role";
+import {Role} from "../modles/role";
 import {RedisMgr, RedisType} from "../../../lib/redis/redis_mgr";
 import {GameWorld} from "../game_world";
 import {Log} from "../../../lib/util/log";
 import {controller} from "../../../lib/util/descriptor";
 import Time = require('../../../lib/util/time');
-import * as GameUtil from '../../../lib/util/game_util';
 import {MAX_HERO_BAG_SIZE} from "../modles/hero_model";
 import {MAX_EQUIP_BAG_SIZE} from "../modles/equip_model";
 import {MAX_ITEM_BAG_SIZE} from "../modles/item_model";

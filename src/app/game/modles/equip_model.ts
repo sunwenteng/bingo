@@ -118,7 +118,7 @@ export class EquipModel extends BaseModel {
             msg.equips[equip.uid] = equipMsg;
             this.role.sendProtocol(msg);
         }
-        Log.uInfo(this.role.uid, 'useType=%d, id=%d, uid=%d, maxUid=%d', type, equipId, this._maxUid);
+        Log.uInfo(this.role.uid, 'useType=%d, id=%d, uid=%d, maxUid=%d', type, equipId, equip.uid, this._maxUid);
         return equip;
     }
 
