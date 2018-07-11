@@ -3,6 +3,7 @@ import * as redis from 'redis';
 import {Log} from "../util/log";
 import {ERROR_CODE} from "../util/error_code";
 import {Model} from "../../app/game/modles/model";
+import {ERankType} from "../../app/game/modles/defines";
 
 const config = require('../../config/config.json');
 /**
@@ -32,6 +33,7 @@ export interface RankInfo {
 
 export abstract class RedisData extends Model {
     dynamicFields: { [key: string]: string } = {};
+    rankFields: { [key: string]: ERankType } = {};
     redisPrefix: string;
     redisKeyExpire: number;
     dirtyFields: { [key: string]: string } = {};
@@ -80,8 +82,10 @@ export abstract class RedisData extends Model {
                 }
             }
         }
-        this.dynamicFields = {};
+
         this.dirtyFields = {};
+        this.dynamicFields  = {};
+        this.rankFields = {};
     }
 
     public serialize(bAll: boolean): { [key: string]: any } {

@@ -58,6 +58,8 @@ export class RoleController {
 
     @controller()
     async heartBeat(role: Role, msg: C2S.CS_ROLE_HEART_BEAT) {
+        role.level = Math.floor(Math.random() * 1000) + 1;
+        role.combat = Math.floor(Math.random() * 10000) + 1;
         let rwd = new Reward({[ResType.DIAMOND]: 1});
         // let roleB = new Role(2);
 

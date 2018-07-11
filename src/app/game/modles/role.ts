@@ -18,6 +18,8 @@ import {BaseModel} from "./base_model";
 import {BattleModel} from "./battle_model";
 import {TaskModel} from "./task_model";
 import {MailModel} from "./mail_model";
+import {ERankType} from "./defines";
+import {RankController} from "../controllers/rank_controller";
 
 let gameRedis = RedisMgr.getInstance(RedisType.GAME);
 export const roleRedisPrefix: string = 'role';
@@ -40,10 +42,10 @@ export class Role extends RedisData {
     @roleField(true) diamond: number = 0;
     @roleField(true) exp: number = 0;
     @roleField(true) gold: number = 0;
-    @roleField(true) level: number = 0;
+    @roleField(true, ERankType.level) level: number = 0;
     @roleField(true) vipLevel: number = 0;
     @roleField(true) vipExp: number = 0;
-    @roleField(true) combat: number = 0;
+    @roleField(true, ERankType.combat) combat: number = 0;
 
     @roleField() lastLoginTime: number = 0;
     @roleField() lastAliveTime: number = 0;
@@ -99,6 +101,8 @@ export class Role extends RedisData {
         if (!this._session) {
             await gameRedis.sadd(WorldDataRedisKey.RELOAD_ROLES, this.uid);
         }
+
+        this.dirtyFields = {};
     }
 
     public async load(mask?: ERoleMask | ERoleMask[]): Promise<boolean> {
@@ -170,7 +174,7 @@ export class Role extends RedisData {
         }
     }
 
-    public sendProUpdate() {
+    private sendProUpdate() {
         // dynamic field
         if (Object.keys(this.dynamicFields).length > 0) {
             let pck = S2C.SC_ROLE_PRO_UPDATE.create();
@@ -180,5 +184,10 @@ export class Role extends RedisData {
             this.sendProtocol(pck);
             this.dynamicFields = {};
         }
+    }
+
+    public async notify() {
+        this.sendProUpdate();
+        await RankController.instance.notify(this);
     }
 }

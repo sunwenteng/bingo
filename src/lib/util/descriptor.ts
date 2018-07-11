@@ -3,6 +3,7 @@ import {Role} from "../../app/game/modles/role";
 import {RedisMgr, RedisType} from "../redis/redis_mgr";
 import {BaseModel} from "../../app/game/modles/base_model";
 import {WorldDataRedisKey} from "../../app/game/game_world";
+import {ERankType} from "../../app/game/modles/defines";
 
 /**
  * 类函数装饰器，计算函数执行是
@@ -53,7 +54,7 @@ export function controller() {
                 }
 
                 await originalMethod.apply(this, args);
-                role.sendProUpdate();
+                await role.notify();
                 await role.save();
             });
 
@@ -83,7 +84,7 @@ export function controller() {
     };
 }
 
-export function roleField(dynamic: boolean = false) {
+export function roleField(dynamic: boolean = false, rankType?: ERankType) {
     return (target: Object, key: string): void => {
         Object.defineProperty(target, key, {
             get: function () {
@@ -96,6 +97,9 @@ export function roleField(dynamic: boolean = false) {
                 if (this['fields'].hasOwnProperty(key) && this['fields'][key] !== newValue) {
                     if (dynamic) {
                         this['dynamicFields'][key] = null;
+                    }
+                    if (rankType !== null && rankType !== undefined) {
+                        this['rankFields'][key] = rankType;
                     }
                     this['dirtyFields'][key] = null;
                 }

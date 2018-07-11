@@ -6,14 +6,9 @@ import {Log} from "../../../lib/util/log";
 import {RankInfo, RedisMgr, RedisType} from "../../../lib/redis/redis_mgr";
 import * as WorldDB from "../../..//lib/mysql/world_db";
 import {Model} from "../modles/model";
+import {ERankType} from "../modles/defines";
 
 let gameRedis = RedisMgr.getInstance(RedisType.GAME);
-
-export enum ERankType {
-    level = 0,
-    combat = 1,
-    arena = 2,
-}
 
 export enum ERankSortType {
     asc = 'asc',
@@ -149,7 +144,7 @@ export class RankController {
         }
     }
 
-    async getRankInfo(rankType: any | ERankType, serverId): Promise<RankInfo[]> {
+    private async getRankInfo(rankType: any | ERankType, serverId): Promise<RankInfo[]> {
         return new Promise<RankInfo[]>(async (resolve, reject) => {
             let rankInfo = this._rankMetaInfo[rankType];
             if (!rankInfo) {
@@ -192,7 +187,7 @@ export class RankController {
         });
     }
 
-    async updateRoleRankValue(role: Role, rankType: ERankType, value: number) {
+    private async updateRoleRankValue(role: Role, rankType: ERankType, value: number) {
         if (!value) {
             return;
         }
@@ -207,15 +202,26 @@ export class RankController {
         }]);
     }
 
-    getRankRedisKey(rankType: any, serverId: number): string {
+    private getRankRedisKey(rankType: any, serverId: number): string {
         return 'rank_' + serverId + '_' + rankType;
     }
 
-    getRankDataRedisKey(rankType: any, serverId: number): string {
+    private getRankDataRedisKey(rankType: any, serverId: number): string {
         return 'rank_data_' + serverId + '_' + rankType;
     }
 
-    getRankDBKey(rankType: any): string {
+    private getRankDBKey(rankType: any): string {
         return 'rank_data_' + rankType;
+    }
+
+    async notify(role: Role) {
+        let newValue, rankType;
+        for (let key in role.rankFields) {
+            newValue = role.fields[key];
+            rankType = role.rankFields[key];
+            await this.updateRoleRankValue(role, rankType, newValue);
+        }
+
+        role.rankFields = {};
     }
 }
