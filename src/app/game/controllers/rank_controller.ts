@@ -11,7 +11,8 @@ let gameRedis = RedisMgr.getInstance(RedisType.GAME);
 
 export enum ERankType {
     level = 0,
-    combat = 1
+    combat = 1,
+    arena = 2,
 }
 
 export enum ERankSortType {

@@ -120,6 +120,7 @@ export class RaceTimer {
     private _interval: number;
     private readonly _callback: Function;
     private _bFirstUpdate: boolean;
+    private _timer:any;
 
     constructor(mutex: string, interval: number, callback: Function) {
         this._bFirstUpdate = true;
@@ -143,7 +144,7 @@ export class RaceTimer {
         doUpdate();
 
         function doUpdate() {
-            setTimeout(() => {
+            self._timer = setTimeout(() => {
                 RedisMgr.getInstance(RedisType.GAME).lock(self._mutex, async (hasLock: boolean) => {
                     if (hasLock) {
                         // Log.sInfo('start run raceTimer mutex=' + self._mutex);
@@ -153,5 +154,9 @@ export class RaceTimer {
                 }, false).then(doUpdate);
             }, self._interval);
         }
+    }
+
+    public stop() {
+        clearTimeout(this._timer);
     }
 }
