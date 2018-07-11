@@ -13,6 +13,7 @@ let gameRedis = RedisMgr.getInstance(RedisType.GAME);
 export class GameSession extends UserSession {
     // public roleId: number = 0;
     public role: Role = null;
+    //private _isUpdating = false;
 
     constructor() {
         super();
@@ -20,6 +21,7 @@ export class GameSession extends UserSession {
             try {
                 let msg = C2S.Message.decode(data);
                 this.pushPacket(msg);
+                // this.newUpdate();
             } catch (e) {
                 Log.sError(e);
             }
@@ -31,6 +33,48 @@ export class GameSession extends UserSession {
         Log.sInfo('socketUid=%d, roleId=%d, name=%s, data=%j', this.socket.uid, this.role ? this.role.uid : 0, packet.kind, packet[packet.kind]);
         await controller(session, packet[packet.kind]);
     }
+
+    // public async newUpdate() {
+    //     if (this._isUpdating) {
+    //         return;
+    //     }
+    //
+    //     if (this.packets.length === 0) {
+    //         return;
+    //     }
+    //
+    //     this._isUpdating = true;
+    //     let controller,
+    //         packet,
+    //         cur = this.packets.head;
+    //     if (this.packets.length > MAX_PACKET_COUNT) {
+    //         Log.sError('packet array length too long, force close socket, uid=%d, ip=%s, length=%d', this.socket.uid, this.socket.ip, this.packets.length);
+    //         this.closeSocket();
+    //     }
+    //
+    //     packet = cur.element;
+    //     this.packets.deleteNode(cur);
+    //
+    //     // if (packet.kind !== 'CS_ROLE_ONLINE' && this.role === null) {
+    //     //     Log.sError('not receive online packet yet, uid=' + this.socket.uid);
+    //     //     continue;
+    //     // }
+    //     // else if (packet.kind === 'CS_ROLE_ONLINE' && this.role !== null) {
+    //     //     Log.sError('already online, duplicate online packet, roleId=%d, socketUid=%d', this.role.uid, this.socket.uid);
+    //     //     continue;
+    //     // }
+    //
+    //     controller = GameWorld.instance.getController(packet.kind);
+    //     if (controller) {
+    //         await this.doController(controller, this, packet);
+    //     }
+    //     else {
+    //         Log.sError('controller not found, name=%s', packet.kind);
+    //     }
+    //
+    //     this._isUpdating = false;
+    //     this.newUpdate();
+    // }
 
     public async update() {
         let controller,
