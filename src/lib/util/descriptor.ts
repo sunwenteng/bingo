@@ -85,6 +85,13 @@ export function controller() {
     };
 }
 
+/**
+ *
+ * @param {boolean} dynamic true时，属性被修改会自动发包给客户端
+ * @param {boolean} summary true时，属性被修改会自动存入redis供其他玩家查看快照信息
+ * @param {C2S.CS_RANK_GET_RANK.ERankType} rankType 绑定时，属性修改会自动更新对应排行榜
+ * @returns {(target: Object, key: string) => void}
+ */
 export function roleField(dynamic: boolean = false, summary: boolean = false, rankType?: ERankType) {
     return (target: Object, key: string): void => {
         Object.defineProperty(target, key, {
