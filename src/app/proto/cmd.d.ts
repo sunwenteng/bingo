@@ -11,6 +11,7 @@ export namespace C2S {
         LOGIN_CS_CHOOSE_SERVER?: (C2S.ILOGIN_CS_CHOOSE_SERVER|null);
         LOGIN_CS_GET_SERVER_LIST?: (C2S.ILOGIN_CS_GET_SERVER_LIST|null);
         LOGIN_CS_GET_INFO?: (C2S.ILOGIN_CS_GET_INFO|null);
+        CS_RANK_GET_RANK?: (C2S.ICS_RANK_GET_RANK|null);
     }
 
     class Message implements IMessage {
@@ -23,7 +24,8 @@ export namespace C2S {
         public LOGIN_CS_CHOOSE_SERVER?: (C2S.ILOGIN_CS_CHOOSE_SERVER|null);
         public LOGIN_CS_GET_SERVER_LIST?: (C2S.ILOGIN_CS_GET_SERVER_LIST|null);
         public LOGIN_CS_GET_INFO?: (C2S.ILOGIN_CS_GET_INFO|null);
-        public kind?: ("CS_TEST_ECHO"|"CS_ROLE_ONLINE"|"CS_ROLE_HEART_BEAT"|"CS_ABC_DEF"|"LOGIN_CS_LOGIN"|"LOGIN_CS_CHOOSE_SERVER"|"LOGIN_CS_GET_SERVER_LIST"|"LOGIN_CS_GET_INFO");
+        public CS_RANK_GET_RANK?: (C2S.ICS_RANK_GET_RANK|null);
+        public kind?: ("CS_TEST_ECHO"|"CS_ROLE_ONLINE"|"CS_ROLE_HEART_BEAT"|"CS_ABC_DEF"|"LOGIN_CS_LOGIN"|"LOGIN_CS_CHOOSE_SERVER"|"LOGIN_CS_GET_SERVER_LIST"|"LOGIN_CS_GET_INFO"|"CS_RANK_GET_RANK");
         public static create(properties?: C2S.IMessage): C2S.Message;
         public static encode(message: C2S.IMessage, writer?: $protobuf.Writer): $protobuf.Writer;
         public static encodeDelimited(message: C2S.IMessage, writer?: $protobuf.Writer): $protobuf.Writer;
@@ -249,6 +251,7 @@ export namespace S2C {
         SC_ROLE_HEART_BEAT?: (S2C.ISC_ROLE_HEART_BEAT|null);
         SC_ROLE_PRO_UPDATE?: (S2C.ISC_ROLE_PRO_UPDATE|null);
         SC_GET_REWARD?: (S2C.ISC_GET_REWARD|null);
+        SC_ROLE_SUMMARY?: (S2C.ISC_ROLE_SUMMARY|null);
         SC_INIT_HERO?: (S2C.ISC_INIT_HERO|null);
         SC_UPDATE_HERO?: (S2C.ISC_UPDATE_HERO|null);
         SC_INIT_EQUIP?: (S2C.ISC_INIT_EQUIP|null);
@@ -262,6 +265,7 @@ export namespace S2C {
         SC_UPDATE_MAIL?: (S2C.ISC_UPDATE_MAIL|null);
         SC_INIT_FRIEND?: (S2C.ISC_INIT_FRIEND|null);
         SC_UPDATE_FRIEND?: (S2C.ISC_UPDATE_FRIEND|null);
+        SC_RANK_GET_RANK?: (S2C.ISC_RANK_GET_RANK|null);
     }
 
     class Message implements IMessage {
@@ -275,6 +279,7 @@ export namespace S2C {
         public SC_ROLE_HEART_BEAT?: (S2C.ISC_ROLE_HEART_BEAT|null);
         public SC_ROLE_PRO_UPDATE?: (S2C.ISC_ROLE_PRO_UPDATE|null);
         public SC_GET_REWARD?: (S2C.ISC_GET_REWARD|null);
+        public SC_ROLE_SUMMARY?: (S2C.ISC_ROLE_SUMMARY|null);
         public SC_INIT_HERO?: (S2C.ISC_INIT_HERO|null);
         public SC_UPDATE_HERO?: (S2C.ISC_UPDATE_HERO|null);
         public SC_INIT_EQUIP?: (S2C.ISC_INIT_EQUIP|null);
@@ -288,7 +293,8 @@ export namespace S2C {
         public SC_UPDATE_MAIL?: (S2C.ISC_UPDATE_MAIL|null);
         public SC_INIT_FRIEND?: (S2C.ISC_INIT_FRIEND|null);
         public SC_UPDATE_FRIEND?: (S2C.ISC_UPDATE_FRIEND|null);
-        public kind?: ("SC_TEST_ECHO"|"LOGIN_SC_LOGIN"|"LOGIN_SC_CHOOSE_SERVER"|"LOGIN_SC_GET_SERVER_LIST"|"LOGIN_SC_GET_INFO"|"SC_ROLE_ONLINE"|"SC_ROLE_HEART_BEAT"|"SC_ROLE_PRO_UPDATE"|"SC_GET_REWARD"|"SC_INIT_HERO"|"SC_UPDATE_HERO"|"SC_INIT_EQUIP"|"SC_UPDATE_EQUIP"|"SC_INIT_ITEM"|"SC_UPDATE_ITEM"|"SC_INIT_BATTLE_INFO"|"SC_INIT_TASK"|"SC_UPDATE_TASK"|"SC_INIT_MAIL"|"SC_UPDATE_MAIL"|"SC_INIT_FRIEND"|"SC_UPDATE_FRIEND");
+        public SC_RANK_GET_RANK?: (S2C.ISC_RANK_GET_RANK|null);
+        public kind?: ("SC_TEST_ECHO"|"LOGIN_SC_LOGIN"|"LOGIN_SC_CHOOSE_SERVER"|"LOGIN_SC_GET_SERVER_LIST"|"LOGIN_SC_GET_INFO"|"SC_ROLE_ONLINE"|"SC_ROLE_HEART_BEAT"|"SC_ROLE_PRO_UPDATE"|"SC_GET_REWARD"|"SC_ROLE_SUMMARY"|"SC_INIT_HERO"|"SC_UPDATE_HERO"|"SC_INIT_EQUIP"|"SC_UPDATE_EQUIP"|"SC_INIT_ITEM"|"SC_UPDATE_ITEM"|"SC_INIT_BATTLE_INFO"|"SC_INIT_TASK"|"SC_UPDATE_TASK"|"SC_INIT_MAIL"|"SC_UPDATE_MAIL"|"SC_INIT_FRIEND"|"SC_UPDATE_FRIEND"|"SC_RANK_GET_RANK");
         public static create(properties?: S2C.IMessage): S2C.Message;
         public static encode(message: S2C.IMessage, writer?: $protobuf.Writer): $protobuf.Writer;
         public static encodeDelimited(message: S2C.IMessage, writer?: $protobuf.Writer): $protobuf.Writer;
@@ -297,6 +303,48 @@ export namespace S2C {
         public static verify(message: { [k: string]: any }): (string|null);
         public static fromObject(object: { [k: string]: any }): S2C.Message;
         public static toObject(message: S2C.Message, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public toJSON(): { [k: string]: any };
+    }
+
+    interface IRankInfo {
+        roles?: (S2C.ISC_ROLE_SUMMARY[]|null);
+        values?: (number[]|null);
+        rank?: (number|null);
+        value?: (number|null);
+    }
+
+    class RankInfo implements IRankInfo {
+        constructor(properties?: S2C.IRankInfo);
+        public roles: S2C.ISC_ROLE_SUMMARY[];
+        public values: number[];
+        public rank: number;
+        public value: number;
+        public static create(properties?: S2C.IRankInfo): S2C.RankInfo;
+        public static encode(message: S2C.IRankInfo, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: S2C.IRankInfo, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): S2C.RankInfo;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): S2C.RankInfo;
+        public static verify(message: { [k: string]: any }): (string|null);
+        public static fromObject(object: { [k: string]: any }): S2C.RankInfo;
+        public static toObject(message: S2C.RankInfo, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public toJSON(): { [k: string]: any };
+    }
+
+    interface ISC_RANK_GET_RANK {
+        ranks?: ({ [k: string]: S2C.IRankInfo }|null);
+    }
+
+    class SC_RANK_GET_RANK implements ISC_RANK_GET_RANK {
+        constructor(properties?: S2C.ISC_RANK_GET_RANK);
+        public ranks: { [k: string]: S2C.IRankInfo };
+        public static create(properties?: S2C.ISC_RANK_GET_RANK): S2C.SC_RANK_GET_RANK;
+        public static encode(message: S2C.ISC_RANK_GET_RANK, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: S2C.ISC_RANK_GET_RANK, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): S2C.SC_RANK_GET_RANK;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): S2C.SC_RANK_GET_RANK;
+        public static verify(message: { [k: string]: any }): (string|null);
+        public static fromObject(object: { [k: string]: any }): S2C.SC_RANK_GET_RANK;
+        public static toObject(message: S2C.SC_RANK_GET_RANK, options?: $protobuf.IConversionOptions): { [k: string]: any };
         public toJSON(): { [k: string]: any };
     }
 
@@ -723,6 +771,32 @@ export namespace S2C {
         public static verify(message: { [k: string]: any }): (string|null);
         public static fromObject(object: { [k: string]: any }): S2C.SC_UPDATE_ITEM;
         public static toObject(message: S2C.SC_UPDATE_ITEM, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public toJSON(): { [k: string]: any };
+    }
+
+    interface ISC_ROLE_SUMMARY {
+        uid?: (number|null);
+        nickname?: (string|null);
+        headimgurl?: (string|null);
+        level?: (number|null);
+        vipLevel?: (number|null);
+    }
+
+    class SC_ROLE_SUMMARY implements ISC_ROLE_SUMMARY {
+        constructor(properties?: S2C.ISC_ROLE_SUMMARY);
+        public uid: number;
+        public nickname: string;
+        public headimgurl: string;
+        public level: number;
+        public vipLevel: number;
+        public static create(properties?: S2C.ISC_ROLE_SUMMARY): S2C.SC_ROLE_SUMMARY;
+        public static encode(message: S2C.ISC_ROLE_SUMMARY, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: S2C.ISC_ROLE_SUMMARY, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): S2C.SC_ROLE_SUMMARY;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): S2C.SC_ROLE_SUMMARY;
+        public static verify(message: { [k: string]: any }): (string|null);
+        public static fromObject(object: { [k: string]: any }): S2C.SC_ROLE_SUMMARY;
+        public static toObject(message: S2C.SC_ROLE_SUMMARY, options?: $protobuf.IConversionOptions): { [k: string]: any };
         public toJSON(): { [k: string]: any };
     }
 

@@ -1,9 +1,3 @@
-export enum ERankType {
-    level = 0,
-    combat = 1,
-    arena = 2,
-}
-
 export enum ResType {
     GOLD = 'gold',
     DIAMOND = 'diamond',

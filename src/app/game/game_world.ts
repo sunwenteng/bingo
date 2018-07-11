@@ -53,6 +53,7 @@ export class GameWorld extends events.EventEmitter {
     private readonly _sessionList: LinkedList<UserSession> = new LinkedList<UserSession>();
     private readonly _authedSessionMap: AuthedSessionMap = {}; // 玩家上线通过后加入进来
     private readonly _allControllers: ControllerMap = {};
+    private readonly _allScopes = {};
     private readonly _timer: { [mutex: string]: time.RaceTimer } = {};
 
     constructor() {
@@ -143,6 +144,7 @@ export class GameWorld extends events.EventEmitter {
                         }
                         else {
                             this._allControllers[cmd] = module[GameUtil.capitalize(arr[1]) + 'Controller']['instance'][methodName];
+                            this._allScopes[cmd] = module[GameUtil.capitalize(arr[1]) + 'Controller']['instance'];
                         }
                     }
                 }
@@ -357,5 +359,9 @@ export class GameWorld extends events.EventEmitter {
                 }, 10);
             }
         }));
+    }
+
+    public getScopes(cmd) {
+        return this._allScopes[cmd];
     }
 }

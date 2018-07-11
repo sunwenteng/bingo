@@ -18,7 +18,8 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
               "LOGIN_CS_LOGIN",
               "LOGIN_CS_CHOOSE_SERVER",
               "LOGIN_CS_GET_SERVER_LIST",
-              "LOGIN_CS_GET_INFO"
+              "LOGIN_CS_GET_INFO",
+              "CS_RANK_GET_RANK"
             ]
           }
         },
@@ -54,6 +55,10 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
           LOGIN_CS_GET_INFO: {
             type: "LOGIN_CS_GET_INFO",
             id: 8
+          },
+          CS_RANK_GET_RANK: {
+            type: "CS_RANK_GET_RANK",
+            id: 1801
           }
         }
       },
@@ -211,6 +216,7 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
               "SC_ROLE_HEART_BEAT",
               "SC_ROLE_PRO_UPDATE",
               "SC_GET_REWARD",
+              "SC_ROLE_SUMMARY",
               "SC_INIT_HERO",
               "SC_UPDATE_HERO",
               "SC_INIT_EQUIP",
@@ -223,7 +229,8 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
               "SC_INIT_MAIL",
               "SC_UPDATE_MAIL",
               "SC_INIT_FRIEND",
-              "SC_UPDATE_FRIEND"
+              "SC_UPDATE_FRIEND",
+              "SC_RANK_GET_RANK"
             ]
           }
         },
@@ -263,6 +270,10 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
           SC_GET_REWARD: {
             type: "SC_GET_REWARD",
             id: 1004
+          },
+          SC_ROLE_SUMMARY: {
+            type: "SC_ROLE_SUMMARY",
+            id: 1005
           },
           SC_INIT_HERO: {
             type: "SC_INIT_HERO",
@@ -315,6 +326,41 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
           SC_UPDATE_FRIEND: {
             type: "SC_UPDATE_FRIEND",
             id: 1702
+          },
+          SC_RANK_GET_RANK: {
+            type: "SC_RANK_GET_RANK",
+            id: 1801
+          }
+        }
+      },
+      RankInfo: {
+        fields: {
+          roles: {
+            rule: "repeated",
+            type: "SC_ROLE_SUMMARY",
+            id: 1
+          },
+          values: {
+            rule: "repeated",
+            type: "uint32",
+            id: 2
+          },
+          rank: {
+            type: "uint32",
+            id: 3
+          },
+          value: {
+            type: "uint32",
+            id: 4
+          }
+        }
+      },
+      SC_RANK_GET_RANK: {
+        fields: {
+          ranks: {
+            keyType: "uint32",
+            type: "RankInfo",
+            id: 1
           }
         }
       },
@@ -596,6 +642,30 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
             keyType: "int32",
             type: "Item",
             id: 1
+          }
+        }
+      },
+      SC_ROLE_SUMMARY: {
+        fields: {
+          uid: {
+            type: "uint32",
+            id: 1
+          },
+          nickname: {
+            type: "string",
+            id: 2
+          },
+          headimgurl: {
+            type: "string",
+            id: 3
+          },
+          level: {
+            type: "uint32",
+            id: 4
+          },
+          vipLevel: {
+            type: "uint32",
+            id: 5
           }
         }
       },

@@ -3,7 +3,8 @@ import * as redis from 'redis';
 import {Log} from "../util/log";
 import {ERROR_CODE} from "../util/error_code";
 import {Model} from "../../app/game/modles/model";
-import {ERankType} from "../../app/game/modles/defines";
+import {C2S} from "../../app/proto/cmd";
+import ERankType = C2S.CS_RANK_GET_RANK.ERankType;
 
 const config = require('../../config/config.json');
 /**
@@ -34,6 +35,7 @@ export interface RankInfo {
 export abstract class RedisData extends Model {
     dynamicFields: { [key: string]: string } = {};
     rankFields: { [key: string]: ERankType } = {};
+    revRankFields: { [eRankType: string]: string } = {};
     redisPrefix: string;
     redisKeyExpire: number;
     dirtyFields: { [key: string]: string } = {};

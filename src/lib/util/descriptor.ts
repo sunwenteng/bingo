@@ -2,8 +2,9 @@ import {Log} from "./log";
 import {Role} from "../../app/game/modles/role";
 import {RedisMgr, RedisType} from "../redis/redis_mgr";
 import {BaseModel} from "../../app/game/modles/base_model";
-import {WorldDataRedisKey} from "../../app/game/game_world";
-import {ERankType} from "../../app/game/modles/defines";
+import {GameWorld, WorldDataRedisKey} from "../../app/game/game_world";
+import {C2S} from "../../app/proto/cmd";
+import ERankType = C2S.CS_RANK_GET_RANK.ERankType;
 
 /**
  * 类函数装饰器，计算函数执行是
@@ -40,7 +41,7 @@ let gameRedis = RedisMgr.getInstance(RedisType.GAME);
 export function controller() {
     return (target: Object, methodName: string, descriptor: TypedPropertyDescriptor<Function>) => {
         let originalMethod = descriptor.value;
-        descriptor.value = async function (...args) {
+        descriptor.value = async (...args) => {
             let role: Role = args[0].role;
             if (!role) {
                 throw new Error('no role in session');
@@ -53,7 +54,7 @@ export function controller() {
                     await gameRedis.srem(WorldDataRedisKey.RELOAD_ROLES, role.uid);
                 }
 
-                await originalMethod.apply(this, args);
+                await originalMethod.apply(GameWorld.instance.getScopes(args[1].$type.name), args);
                 await role.notify();
                 await role.save();
             });
@@ -98,12 +99,15 @@ export function roleField(dynamic: boolean = false, rankType?: ERankType) {
                     if (dynamic) {
                         this['dynamicFields'][key] = null;
                     }
-                    if (rankType !== null && rankType !== undefined) {
+                    if (rankType !== undefined && rankType !== null) {
                         this['rankFields'][key] = rankType;
                     }
                     this['dirtyFields'][key] = null;
                 }
                 this['fields'][key] = newValue;
+                if (rankType !== undefined && rankType !== null) {
+                    this['revRankFields'][rankType] = key;
+                }
             }
         });
     };

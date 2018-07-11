@@ -13,6 +13,7 @@ message Message {
         LOGIN_CS_GET_SERVER_LIST LOGIN_CS_GET_SERVER_LIST = 7;
         LOGIN_CS_GET_INFO LOGIN_CS_GET_INFO = 8;
 
+        CS_RANK_GET_RANK CS_RANK_GET_RANK = 1801;
     }
 }
 

@@ -1,4 +1,5 @@
-module Game{
+module Water
+{
 	export class Protocol{
 		 public static SC_TEST_ECHO_ID = "SC_TEST_ECHO";
 		 public static LOGIN_SC_LOGIN_ID = "LOGIN_SC_LOGIN";
@@ -9,6 +10,7 @@ module Game{
 		 public static SC_ROLE_HEART_BEAT_ID = "SC_ROLE_HEART_BEAT";
 		 public static SC_ROLE_PRO_UPDATE_ID = "SC_ROLE_PRO_UPDATE";
 		 public static SC_GET_REWARD_ID = "SC_GET_REWARD";
+		 public static SC_ROLE_SUMMARY_ID = "SC_ROLE_SUMMARY";
 		 public static SC_INIT_HERO_ID = "SC_INIT_HERO";
 		 public static SC_UPDATE_HERO_ID = "SC_UPDATE_HERO";
 		 public static SC_INIT_EQUIP_ID = "SC_INIT_EQUIP";
@@ -22,5 +24,6 @@ module Game{
 		 public static SC_UPDATE_MAIL_ID = "SC_UPDATE_MAIL";
 		 public static SC_INIT_FRIEND_ID = "SC_INIT_FRIEND";
 		 public static SC_UPDATE_FRIEND_ID = "SC_UPDATE_FRIEND";
+		 public static SC_RANK_GET_RANK_ID = "SC_RANK_GET_RANK";
 	}
 }

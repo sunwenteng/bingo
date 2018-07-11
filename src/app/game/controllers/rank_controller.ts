@@ -6,7 +6,7 @@ import {Log} from "../../../lib/util/log";
 import {RankInfo, RedisMgr, RedisType} from "../../../lib/redis/redis_mgr";
 import * as WorldDB from "../../..//lib/mysql/world_db";
 import {Model} from "../modles/model";
-import {ERankType} from "../modles/defines";
+import ERankType = C2S.CS_RANK_GET_RANK.ERankType;
 
 let gameRedis = RedisMgr.getInstance(RedisType.GAME);
 
@@ -137,14 +137,30 @@ export class RankController {
 
     @controller()
     async getRank(role: Role, msg: C2S.CS_RANK_GET_RANK) {
+        let ret = S2C.SC_RANK_GET_RANK.create();
         for (let rankType of msg.types) {
-            let key = this.getRankRedisKey(rankType, GameWorld.instance.info.server_id);
-            await gameRedis.lock(key, async () => {
-            });
+            let rankInfo = S2C.RankInfo.create();
+            rankInfo.rank = await this.getRoleRank(role.uid, GameWorld.instance.info.server_id, rankType);
+            rankInfo.value = role.getRankValue(rankType);
+
+            let allInfo = await this.getRankInfo(rankType, GameWorld.instance.info.server_id);
+            for (let info of allInfo) {
+                // let r = new Role(info.id);
+                // let exist = await r.load();
+                // if (!exist) {
+                //     throw new Error(info.id + ' role not exist');
+                // }
+                //
+                // let roleMsg = await r.serializeSummaryNetMsg();
+                // rankInfo.roles.push(roleMsg);
+                rankInfo.values.push(info.value);
+            }
+            ret.ranks[rankType] = rankInfo;
         }
+        role.sendProtocol(ret);
     }
 
-    private async getRankInfo(rankType: any | ERankType, serverId): Promise<RankInfo[]> {
+    private async getRankInfo(rankType: ERankType | string, serverId): Promise<RankInfo[]> {
         return new Promise<RankInfo[]>(async (resolve, reject) => {
             let rankInfo = this._rankMetaInfo[rankType];
             if (!rankInfo) {
@@ -164,24 +180,25 @@ export class RankController {
     }
 
     async getRoleRank(roleId: number, serverId: number, rankType: ERankType): Promise<number> {
-        if (!this._rankMetaInfo.hasOwnProperty(rankType)) {
-            Log.uError(roleId, 'rankType not found, val=' + rankType);
-            return;
-        }
-
         return new Promise<number>(async (resolve, reject) => {
-            let rankInfo = this._rankMetaInfo[rankType];
-            if (!rankInfo) {
-                reject('rankType error, rankType=' + rankType);
+            if (!this._rankMetaInfo.hasOwnProperty(rankType)) {
+                Log.uError(roleId, 'rankType not found, val=' + rankType);
+                resolve(0);
             }
             else {
-                if (rankInfo.sortType === ERankSortType.desc) {
-                    let ret = await gameRedis.zrevrank(this.getRankRedisKey(rankType, serverId), roleId, rankInfo.limit);
-                    resolve(ret);
+                let rankInfo = this._rankMetaInfo[rankType];
+                if (!rankInfo) {
+                    reject('rankType error, rankType=' + rankType);
                 }
                 else {
-                    let ret = await gameRedis.zrank(this.getRankRedisKey(rankType, serverId), roleId, rankInfo.limit);
-                    resolve(ret);
+                    if (rankInfo.sortType === ERankSortType.desc) {
+                        let ret = await gameRedis.zrevrank(this.getRankRedisKey(rankType, serverId), roleId);
+                        resolve(ret);
+                    }
+                    else {
+                        let ret = await gameRedis.zrank(this.getRankRedisKey(rankType, serverId), roleId);
+                        resolve(ret);
+                    }
                 }
             }
         });

@@ -31,6 +31,7 @@
              * @property {C2S.ILOGIN_CS_CHOOSE_SERVER|null} [LOGIN_CS_CHOOSE_SERVER] Message LOGIN_CS_CHOOSE_SERVER
              * @property {C2S.ILOGIN_CS_GET_SERVER_LIST|null} [LOGIN_CS_GET_SERVER_LIST] Message LOGIN_CS_GET_SERVER_LIST
              * @property {C2S.ILOGIN_CS_GET_INFO|null} [LOGIN_CS_GET_INFO] Message LOGIN_CS_GET_INFO
+             * @property {C2S.ICS_RANK_GET_RANK|null} [CS_RANK_GET_RANK] Message CS_RANK_GET_RANK
              */
     
             /**
@@ -112,17 +113,25 @@
              */
             Message.prototype.LOGIN_CS_GET_INFO = null;
     
+            /**
+             * Message CS_RANK_GET_RANK.
+             * @member {C2S.ICS_RANK_GET_RANK|null|undefined} CS_RANK_GET_RANK
+             * @memberof C2S.Message
+             * @instance
+             */
+            Message.prototype.CS_RANK_GET_RANK = null;
+    
             // OneOf field names bound to virtual getters and setters
             var $oneOfFields;
     
             /**
              * Message kind.
-             * @member {"CS_TEST_ECHO"|"CS_ROLE_ONLINE"|"CS_ROLE_HEART_BEAT"|"CS_ABC_DEF"|"LOGIN_CS_LOGIN"|"LOGIN_CS_CHOOSE_SERVER"|"LOGIN_CS_GET_SERVER_LIST"|"LOGIN_CS_GET_INFO"|undefined} kind
+             * @member {"CS_TEST_ECHO"|"CS_ROLE_ONLINE"|"CS_ROLE_HEART_BEAT"|"CS_ABC_DEF"|"LOGIN_CS_LOGIN"|"LOGIN_CS_CHOOSE_SERVER"|"LOGIN_CS_GET_SERVER_LIST"|"LOGIN_CS_GET_INFO"|"CS_RANK_GET_RANK"|undefined} kind
              * @memberof C2S.Message
              * @instance
              */
             Object.defineProperty(Message.prototype, "kind", {
-                get: $util.oneOfGetter($oneOfFields = ["CS_TEST_ECHO", "CS_ROLE_ONLINE", "CS_ROLE_HEART_BEAT", "CS_ABC_DEF", "LOGIN_CS_LOGIN", "LOGIN_CS_CHOOSE_SERVER", "LOGIN_CS_GET_SERVER_LIST", "LOGIN_CS_GET_INFO"]),
+                get: $util.oneOfGetter($oneOfFields = ["CS_TEST_ECHO", "CS_ROLE_ONLINE", "CS_ROLE_HEART_BEAT", "CS_ABC_DEF", "LOGIN_CS_LOGIN", "LOGIN_CS_CHOOSE_SERVER", "LOGIN_CS_GET_SERVER_LIST", "LOGIN_CS_GET_INFO", "CS_RANK_GET_RANK"]),
                 set: $util.oneOfSetter($oneOfFields)
             });
     
@@ -166,6 +175,8 @@
                     $root.C2S.LOGIN_CS_GET_SERVER_LIST.encode(message.LOGIN_CS_GET_SERVER_LIST, writer.uint32(/* id 7, wireType 2 =*/58).fork()).ldelim();
                 if (message.LOGIN_CS_GET_INFO != null && message.hasOwnProperty("LOGIN_CS_GET_INFO"))
                     $root.C2S.LOGIN_CS_GET_INFO.encode(message.LOGIN_CS_GET_INFO, writer.uint32(/* id 8, wireType 2 =*/66).fork()).ldelim();
+                if (message.CS_RANK_GET_RANK != null && message.hasOwnProperty("CS_RANK_GET_RANK"))
+                    $root.C2S.CS_RANK_GET_RANK.encode(message.CS_RANK_GET_RANK, writer.uint32(/* id 1801, wireType 2 =*/14410).fork()).ldelim();
                 return writer;
             };
     
@@ -223,6 +234,9 @@
                         break;
                     case 8:
                         message.LOGIN_CS_GET_INFO = $root.C2S.LOGIN_CS_GET_INFO.decode(reader, reader.uint32());
+                        break;
+                    case 1801:
+                        message.CS_RANK_GET_RANK = $root.C2S.CS_RANK_GET_RANK.decode(reader, reader.uint32());
                         break;
                     default:
                         reader.skipType(tag & 7);
@@ -338,6 +352,16 @@
                             return "LOGIN_CS_GET_INFO." + error;
                     }
                 }
+                if (message.CS_RANK_GET_RANK != null && message.hasOwnProperty("CS_RANK_GET_RANK")) {
+                    if (properties.kind === 1)
+                        return "kind: multiple values";
+                    properties.kind = 1;
+                    {
+                        var error = $root.C2S.CS_RANK_GET_RANK.verify(message.CS_RANK_GET_RANK);
+                        if (error)
+                            return "CS_RANK_GET_RANK." + error;
+                    }
+                }
                 return null;
             };
     
@@ -392,6 +416,11 @@
                     if (typeof object.LOGIN_CS_GET_INFO !== "object")
                         throw TypeError(".C2S.Message.LOGIN_CS_GET_INFO: object expected");
                     message.LOGIN_CS_GET_INFO = $root.C2S.LOGIN_CS_GET_INFO.fromObject(object.LOGIN_CS_GET_INFO);
+                }
+                if (object.CS_RANK_GET_RANK != null) {
+                    if (typeof object.CS_RANK_GET_RANK !== "object")
+                        throw TypeError(".C2S.Message.CS_RANK_GET_RANK: object expected");
+                    message.CS_RANK_GET_RANK = $root.C2S.CS_RANK_GET_RANK.fromObject(object.CS_RANK_GET_RANK);
                 }
                 return message;
             };
@@ -448,6 +477,11 @@
                     object.LOGIN_CS_GET_INFO = $root.C2S.LOGIN_CS_GET_INFO.toObject(message.LOGIN_CS_GET_INFO, options);
                     if (options.oneofs)
                         object.kind = "LOGIN_CS_GET_INFO";
+                }
+                if (message.CS_RANK_GET_RANK != null && message.hasOwnProperty("CS_RANK_GET_RANK")) {
+                    object.CS_RANK_GET_RANK = $root.C2S.CS_RANK_GET_RANK.toObject(message.CS_RANK_GET_RANK, options);
+                    if (options.oneofs)
+                        object.kind = "CS_RANK_GET_RANK";
                 }
                 return object;
             };
@@ -2563,6 +2597,7 @@
              * @property {S2C.ISC_ROLE_HEART_BEAT|null} [SC_ROLE_HEART_BEAT] Message SC_ROLE_HEART_BEAT
              * @property {S2C.ISC_ROLE_PRO_UPDATE|null} [SC_ROLE_PRO_UPDATE] Message SC_ROLE_PRO_UPDATE
              * @property {S2C.ISC_GET_REWARD|null} [SC_GET_REWARD] Message SC_GET_REWARD
+             * @property {S2C.ISC_ROLE_SUMMARY|null} [SC_ROLE_SUMMARY] Message SC_ROLE_SUMMARY
              * @property {S2C.ISC_INIT_HERO|null} [SC_INIT_HERO] Message SC_INIT_HERO
              * @property {S2C.ISC_UPDATE_HERO|null} [SC_UPDATE_HERO] Message SC_UPDATE_HERO
              * @property {S2C.ISC_INIT_EQUIP|null} [SC_INIT_EQUIP] Message SC_INIT_EQUIP
@@ -2576,6 +2611,7 @@
              * @property {S2C.ISC_UPDATE_MAIL|null} [SC_UPDATE_MAIL] Message SC_UPDATE_MAIL
              * @property {S2C.ISC_INIT_FRIEND|null} [SC_INIT_FRIEND] Message SC_INIT_FRIEND
              * @property {S2C.ISC_UPDATE_FRIEND|null} [SC_UPDATE_FRIEND] Message SC_UPDATE_FRIEND
+             * @property {S2C.ISC_RANK_GET_RANK|null} [SC_RANK_GET_RANK] Message SC_RANK_GET_RANK
              */
     
             /**
@@ -2664,6 +2700,14 @@
              * @instance
              */
             Message.prototype.SC_GET_REWARD = null;
+    
+            /**
+             * Message SC_ROLE_SUMMARY.
+             * @member {S2C.ISC_ROLE_SUMMARY|null|undefined} SC_ROLE_SUMMARY
+             * @memberof S2C.Message
+             * @instance
+             */
+            Message.prototype.SC_ROLE_SUMMARY = null;
     
             /**
              * Message SC_INIT_HERO.
@@ -2769,17 +2813,25 @@
              */
             Message.prototype.SC_UPDATE_FRIEND = null;
     
+            /**
+             * Message SC_RANK_GET_RANK.
+             * @member {S2C.ISC_RANK_GET_RANK|null|undefined} SC_RANK_GET_RANK
+             * @memberof S2C.Message
+             * @instance
+             */
+            Message.prototype.SC_RANK_GET_RANK = null;
+    
             // OneOf field names bound to virtual getters and setters
             var $oneOfFields;
     
             /**
              * Message kind.
-             * @member {"SC_TEST_ECHO"|"LOGIN_SC_LOGIN"|"LOGIN_SC_CHOOSE_SERVER"|"LOGIN_SC_GET_SERVER_LIST"|"LOGIN_SC_GET_INFO"|"SC_ROLE_ONLINE"|"SC_ROLE_HEART_BEAT"|"SC_ROLE_PRO_UPDATE"|"SC_GET_REWARD"|"SC_INIT_HERO"|"SC_UPDATE_HERO"|"SC_INIT_EQUIP"|"SC_UPDATE_EQUIP"|"SC_INIT_ITEM"|"SC_UPDATE_ITEM"|"SC_INIT_BATTLE_INFO"|"SC_INIT_TASK"|"SC_UPDATE_TASK"|"SC_INIT_MAIL"|"SC_UPDATE_MAIL"|"SC_INIT_FRIEND"|"SC_UPDATE_FRIEND"|undefined} kind
+             * @member {"SC_TEST_ECHO"|"LOGIN_SC_LOGIN"|"LOGIN_SC_CHOOSE_SERVER"|"LOGIN_SC_GET_SERVER_LIST"|"LOGIN_SC_GET_INFO"|"SC_ROLE_ONLINE"|"SC_ROLE_HEART_BEAT"|"SC_ROLE_PRO_UPDATE"|"SC_GET_REWARD"|"SC_ROLE_SUMMARY"|"SC_INIT_HERO"|"SC_UPDATE_HERO"|"SC_INIT_EQUIP"|"SC_UPDATE_EQUIP"|"SC_INIT_ITEM"|"SC_UPDATE_ITEM"|"SC_INIT_BATTLE_INFO"|"SC_INIT_TASK"|"SC_UPDATE_TASK"|"SC_INIT_MAIL"|"SC_UPDATE_MAIL"|"SC_INIT_FRIEND"|"SC_UPDATE_FRIEND"|"SC_RANK_GET_RANK"|undefined} kind
              * @memberof S2C.Message
              * @instance
              */
             Object.defineProperty(Message.prototype, "kind", {
-                get: $util.oneOfGetter($oneOfFields = ["SC_TEST_ECHO", "LOGIN_SC_LOGIN", "LOGIN_SC_CHOOSE_SERVER", "LOGIN_SC_GET_SERVER_LIST", "LOGIN_SC_GET_INFO", "SC_ROLE_ONLINE", "SC_ROLE_HEART_BEAT", "SC_ROLE_PRO_UPDATE", "SC_GET_REWARD", "SC_INIT_HERO", "SC_UPDATE_HERO", "SC_INIT_EQUIP", "SC_UPDATE_EQUIP", "SC_INIT_ITEM", "SC_UPDATE_ITEM", "SC_INIT_BATTLE_INFO", "SC_INIT_TASK", "SC_UPDATE_TASK", "SC_INIT_MAIL", "SC_UPDATE_MAIL", "SC_INIT_FRIEND", "SC_UPDATE_FRIEND"]),
+                get: $util.oneOfGetter($oneOfFields = ["SC_TEST_ECHO", "LOGIN_SC_LOGIN", "LOGIN_SC_CHOOSE_SERVER", "LOGIN_SC_GET_SERVER_LIST", "LOGIN_SC_GET_INFO", "SC_ROLE_ONLINE", "SC_ROLE_HEART_BEAT", "SC_ROLE_PRO_UPDATE", "SC_GET_REWARD", "SC_ROLE_SUMMARY", "SC_INIT_HERO", "SC_UPDATE_HERO", "SC_INIT_EQUIP", "SC_UPDATE_EQUIP", "SC_INIT_ITEM", "SC_UPDATE_ITEM", "SC_INIT_BATTLE_INFO", "SC_INIT_TASK", "SC_UPDATE_TASK", "SC_INIT_MAIL", "SC_UPDATE_MAIL", "SC_INIT_FRIEND", "SC_UPDATE_FRIEND", "SC_RANK_GET_RANK"]),
                 set: $util.oneOfSetter($oneOfFields)
             });
     
@@ -2817,6 +2869,8 @@
                     $root.S2C.SC_ROLE_PRO_UPDATE.encode(message.SC_ROLE_PRO_UPDATE, writer.uint32(/* id 1003, wireType 2 =*/8026).fork()).ldelim();
                 if (message.SC_GET_REWARD != null && message.hasOwnProperty("SC_GET_REWARD"))
                     $root.S2C.SC_GET_REWARD.encode(message.SC_GET_REWARD, writer.uint32(/* id 1004, wireType 2 =*/8034).fork()).ldelim();
+                if (message.SC_ROLE_SUMMARY != null && message.hasOwnProperty("SC_ROLE_SUMMARY"))
+                    $root.S2C.SC_ROLE_SUMMARY.encode(message.SC_ROLE_SUMMARY, writer.uint32(/* id 1005, wireType 2 =*/8042).fork()).ldelim();
                 if (message.SC_INIT_HERO != null && message.hasOwnProperty("SC_INIT_HERO"))
                     $root.S2C.SC_INIT_HERO.encode(message.SC_INIT_HERO, writer.uint32(/* id 1101, wireType 2 =*/8810).fork()).ldelim();
                 if (message.SC_UPDATE_HERO != null && message.hasOwnProperty("SC_UPDATE_HERO"))
@@ -2843,6 +2897,8 @@
                     $root.S2C.SC_INIT_FRIEND.encode(message.SC_INIT_FRIEND, writer.uint32(/* id 1701, wireType 2 =*/13610).fork()).ldelim();
                 if (message.SC_UPDATE_FRIEND != null && message.hasOwnProperty("SC_UPDATE_FRIEND"))
                     $root.S2C.SC_UPDATE_FRIEND.encode(message.SC_UPDATE_FRIEND, writer.uint32(/* id 1702, wireType 2 =*/13618).fork()).ldelim();
+                if (message.SC_RANK_GET_RANK != null && message.hasOwnProperty("SC_RANK_GET_RANK"))
+                    $root.S2C.SC_RANK_GET_RANK.encode(message.SC_RANK_GET_RANK, writer.uint32(/* id 1801, wireType 2 =*/14410).fork()).ldelim();
                 if (message.LOGIN_SC_LOGIN != null && message.hasOwnProperty("LOGIN_SC_LOGIN"))
                     $root.S2C.LOGIN_SC_LOGIN.encode(message.LOGIN_SC_LOGIN, writer.uint32(/* id 9001, wireType 2 =*/72010).fork()).ldelim();
                 if (message.LOGIN_SC_CHOOSE_SERVER != null && message.hasOwnProperty("LOGIN_SC_CHOOSE_SERVER"))
@@ -2912,6 +2968,9 @@
                     case 1004:
                         message.SC_GET_REWARD = $root.S2C.SC_GET_REWARD.decode(reader, reader.uint32());
                         break;
+                    case 1005:
+                        message.SC_ROLE_SUMMARY = $root.S2C.SC_ROLE_SUMMARY.decode(reader, reader.uint32());
+                        break;
                     case 1101:
                         message.SC_INIT_HERO = $root.S2C.SC_INIT_HERO.decode(reader, reader.uint32());
                         break;
@@ -2950,6 +3009,9 @@
                         break;
                     case 1702:
                         message.SC_UPDATE_FRIEND = $root.S2C.SC_UPDATE_FRIEND.decode(reader, reader.uint32());
+                        break;
+                    case 1801:
+                        message.SC_RANK_GET_RANK = $root.S2C.SC_RANK_GET_RANK.decode(reader, reader.uint32());
                         break;
                     default:
                         reader.skipType(tag & 7);
@@ -3073,6 +3135,16 @@
                         var error = $root.S2C.SC_GET_REWARD.verify(message.SC_GET_REWARD);
                         if (error)
                             return "SC_GET_REWARD." + error;
+                    }
+                }
+                if (message.SC_ROLE_SUMMARY != null && message.hasOwnProperty("SC_ROLE_SUMMARY")) {
+                    if (properties.kind === 1)
+                        return "kind: multiple values";
+                    properties.kind = 1;
+                    {
+                        var error = $root.S2C.SC_ROLE_SUMMARY.verify(message.SC_ROLE_SUMMARY);
+                        if (error)
+                            return "SC_ROLE_SUMMARY." + error;
                     }
                 }
                 if (message.SC_INIT_HERO != null && message.hasOwnProperty("SC_INIT_HERO")) {
@@ -3205,6 +3277,16 @@
                             return "SC_UPDATE_FRIEND." + error;
                     }
                 }
+                if (message.SC_RANK_GET_RANK != null && message.hasOwnProperty("SC_RANK_GET_RANK")) {
+                    if (properties.kind === 1)
+                        return "kind: multiple values";
+                    properties.kind = 1;
+                    {
+                        var error = $root.S2C.SC_RANK_GET_RANK.verify(message.SC_RANK_GET_RANK);
+                        if (error)
+                            return "SC_RANK_GET_RANK." + error;
+                    }
+                }
                 return null;
             };
     
@@ -3264,6 +3346,11 @@
                     if (typeof object.SC_GET_REWARD !== "object")
                         throw TypeError(".S2C.Message.SC_GET_REWARD: object expected");
                     message.SC_GET_REWARD = $root.S2C.SC_GET_REWARD.fromObject(object.SC_GET_REWARD);
+                }
+                if (object.SC_ROLE_SUMMARY != null) {
+                    if (typeof object.SC_ROLE_SUMMARY !== "object")
+                        throw TypeError(".S2C.Message.SC_ROLE_SUMMARY: object expected");
+                    message.SC_ROLE_SUMMARY = $root.S2C.SC_ROLE_SUMMARY.fromObject(object.SC_ROLE_SUMMARY);
                 }
                 if (object.SC_INIT_HERO != null) {
                     if (typeof object.SC_INIT_HERO !== "object")
@@ -3330,6 +3417,11 @@
                         throw TypeError(".S2C.Message.SC_UPDATE_FRIEND: object expected");
                     message.SC_UPDATE_FRIEND = $root.S2C.SC_UPDATE_FRIEND.fromObject(object.SC_UPDATE_FRIEND);
                 }
+                if (object.SC_RANK_GET_RANK != null) {
+                    if (typeof object.SC_RANK_GET_RANK !== "object")
+                        throw TypeError(".S2C.Message.SC_RANK_GET_RANK: object expected");
+                    message.SC_RANK_GET_RANK = $root.S2C.SC_RANK_GET_RANK.fromObject(object.SC_RANK_GET_RANK);
+                }
                 return message;
             };
     
@@ -3370,6 +3462,11 @@
                     object.SC_GET_REWARD = $root.S2C.SC_GET_REWARD.toObject(message.SC_GET_REWARD, options);
                     if (options.oneofs)
                         object.kind = "SC_GET_REWARD";
+                }
+                if (message.SC_ROLE_SUMMARY != null && message.hasOwnProperty("SC_ROLE_SUMMARY")) {
+                    object.SC_ROLE_SUMMARY = $root.S2C.SC_ROLE_SUMMARY.toObject(message.SC_ROLE_SUMMARY, options);
+                    if (options.oneofs)
+                        object.kind = "SC_ROLE_SUMMARY";
                 }
                 if (message.SC_INIT_HERO != null && message.hasOwnProperty("SC_INIT_HERO")) {
                     object.SC_INIT_HERO = $root.S2C.SC_INIT_HERO.toObject(message.SC_INIT_HERO, options);
@@ -3436,6 +3533,11 @@
                     if (options.oneofs)
                         object.kind = "SC_UPDATE_FRIEND";
                 }
+                if (message.SC_RANK_GET_RANK != null && message.hasOwnProperty("SC_RANK_GET_RANK")) {
+                    object.SC_RANK_GET_RANK = $root.S2C.SC_RANK_GET_RANK.toObject(message.SC_RANK_GET_RANK, options);
+                    if (options.oneofs)
+                        object.kind = "SC_RANK_GET_RANK";
+                }
                 if (message.LOGIN_SC_LOGIN != null && message.hasOwnProperty("LOGIN_SC_LOGIN")) {
                     object.LOGIN_SC_LOGIN = $root.S2C.LOGIN_SC_LOGIN.toObject(message.LOGIN_SC_LOGIN, options);
                     if (options.oneofs)
@@ -3471,6 +3573,526 @@
             };
     
             return Message;
+        })();
+    
+        S2C.RankInfo = (function() {
+    
+            /**
+             * Properties of a RankInfo.
+             * @memberof S2C
+             * @interface IRankInfo
+             * @property {Array.<S2C.ISC_ROLE_SUMMARY>|null} [roles] RankInfo roles
+             * @property {Array.<number>|null} [values] RankInfo values
+             * @property {number|null} [rank] RankInfo rank
+             * @property {number|null} [value] RankInfo value
+             */
+    
+            /**
+             * Constructs a new RankInfo.
+             * @memberof S2C
+             * @classdesc Represents a RankInfo.
+             * @implements IRankInfo
+             * @constructor
+             * @param {S2C.IRankInfo=} [properties] Properties to set
+             */
+            function RankInfo(properties) {
+                this.roles = [];
+                this.values = [];
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+    
+            /**
+             * RankInfo roles.
+             * @member {Array.<S2C.ISC_ROLE_SUMMARY>} roles
+             * @memberof S2C.RankInfo
+             * @instance
+             */
+            RankInfo.prototype.roles = $util.emptyArray;
+    
+            /**
+             * RankInfo values.
+             * @member {Array.<number>} values
+             * @memberof S2C.RankInfo
+             * @instance
+             */
+            RankInfo.prototype.values = $util.emptyArray;
+    
+            /**
+             * RankInfo rank.
+             * @member {number} rank
+             * @memberof S2C.RankInfo
+             * @instance
+             */
+            RankInfo.prototype.rank = 0;
+    
+            /**
+             * RankInfo value.
+             * @member {number} value
+             * @memberof S2C.RankInfo
+             * @instance
+             */
+            RankInfo.prototype.value = 0;
+    
+            /**
+             * Creates a new RankInfo instance using the specified properties.
+             * @function create
+             * @memberof S2C.RankInfo
+             * @static
+             * @param {S2C.IRankInfo=} [properties] Properties to set
+             * @returns {S2C.RankInfo} RankInfo instance
+             */
+            RankInfo.create = function create(properties) {
+                return new RankInfo(properties);
+            };
+    
+            /**
+             * Encodes the specified RankInfo message. Does not implicitly {@link S2C.RankInfo.verify|verify} messages.
+             * @function encode
+             * @memberof S2C.RankInfo
+             * @static
+             * @param {S2C.IRankInfo} message RankInfo message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            RankInfo.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.roles != null && message.roles.length)
+                    for (var i = 0; i < message.roles.length; ++i)
+                        $root.S2C.SC_ROLE_SUMMARY.encode(message.roles[i], writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+                if (message.values != null && message.values.length) {
+                    writer.uint32(/* id 2, wireType 2 =*/18).fork();
+                    for (var i = 0; i < message.values.length; ++i)
+                        writer.uint32(message.values[i]);
+                    writer.ldelim();
+                }
+                if (message.rank != null && message.hasOwnProperty("rank"))
+                    writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.rank);
+                if (message.value != null && message.hasOwnProperty("value"))
+                    writer.uint32(/* id 4, wireType 0 =*/32).uint32(message.value);
+                return writer;
+            };
+    
+            /**
+             * Encodes the specified RankInfo message, length delimited. Does not implicitly {@link S2C.RankInfo.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof S2C.RankInfo
+             * @static
+             * @param {S2C.IRankInfo} message RankInfo message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            RankInfo.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+    
+            /**
+             * Decodes a RankInfo message from the specified reader or buffer.
+             * @function decode
+             * @memberof S2C.RankInfo
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {S2C.RankInfo} RankInfo
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            RankInfo.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.S2C.RankInfo();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        if (!(message.roles && message.roles.length))
+                            message.roles = [];
+                        message.roles.push($root.S2C.SC_ROLE_SUMMARY.decode(reader, reader.uint32()));
+                        break;
+                    case 2:
+                        if (!(message.values && message.values.length))
+                            message.values = [];
+                        if ((tag & 7) === 2) {
+                            var end2 = reader.uint32() + reader.pos;
+                            while (reader.pos < end2)
+                                message.values.push(reader.uint32());
+                        } else
+                            message.values.push(reader.uint32());
+                        break;
+                    case 3:
+                        message.rank = reader.uint32();
+                        break;
+                    case 4:
+                        message.value = reader.uint32();
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Decodes a RankInfo message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof S2C.RankInfo
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {S2C.RankInfo} RankInfo
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            RankInfo.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+    
+            /**
+             * Verifies a RankInfo message.
+             * @function verify
+             * @memberof S2C.RankInfo
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            RankInfo.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.roles != null && message.hasOwnProperty("roles")) {
+                    if (!Array.isArray(message.roles))
+                        return "roles: array expected";
+                    for (var i = 0; i < message.roles.length; ++i) {
+                        var error = $root.S2C.SC_ROLE_SUMMARY.verify(message.roles[i]);
+                        if (error)
+                            return "roles." + error;
+                    }
+                }
+                if (message.values != null && message.hasOwnProperty("values")) {
+                    if (!Array.isArray(message.values))
+                        return "values: array expected";
+                    for (var i = 0; i < message.values.length; ++i)
+                        if (!$util.isInteger(message.values[i]))
+                            return "values: integer[] expected";
+                }
+                if (message.rank != null && message.hasOwnProperty("rank"))
+                    if (!$util.isInteger(message.rank))
+                        return "rank: integer expected";
+                if (message.value != null && message.hasOwnProperty("value"))
+                    if (!$util.isInteger(message.value))
+                        return "value: integer expected";
+                return null;
+            };
+    
+            /**
+             * Creates a RankInfo message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof S2C.RankInfo
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {S2C.RankInfo} RankInfo
+             */
+            RankInfo.fromObject = function fromObject(object) {
+                if (object instanceof $root.S2C.RankInfo)
+                    return object;
+                var message = new $root.S2C.RankInfo();
+                if (object.roles) {
+                    if (!Array.isArray(object.roles))
+                        throw TypeError(".S2C.RankInfo.roles: array expected");
+                    message.roles = [];
+                    for (var i = 0; i < object.roles.length; ++i) {
+                        if (typeof object.roles[i] !== "object")
+                            throw TypeError(".S2C.RankInfo.roles: object expected");
+                        message.roles[i] = $root.S2C.SC_ROLE_SUMMARY.fromObject(object.roles[i]);
+                    }
+                }
+                if (object.values) {
+                    if (!Array.isArray(object.values))
+                        throw TypeError(".S2C.RankInfo.values: array expected");
+                    message.values = [];
+                    for (var i = 0; i < object.values.length; ++i)
+                        message.values[i] = object.values[i] >>> 0;
+                }
+                if (object.rank != null)
+                    message.rank = object.rank >>> 0;
+                if (object.value != null)
+                    message.value = object.value >>> 0;
+                return message;
+            };
+    
+            /**
+             * Creates a plain object from a RankInfo message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof S2C.RankInfo
+             * @static
+             * @param {S2C.RankInfo} message RankInfo
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            RankInfo.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.arrays || options.defaults) {
+                    object.roles = [];
+                    object.values = [];
+                }
+                if (options.defaults) {
+                    object.rank = 0;
+                    object.value = 0;
+                }
+                if (message.roles && message.roles.length) {
+                    object.roles = [];
+                    for (var j = 0; j < message.roles.length; ++j)
+                        object.roles[j] = $root.S2C.SC_ROLE_SUMMARY.toObject(message.roles[j], options);
+                }
+                if (message.values && message.values.length) {
+                    object.values = [];
+                    for (var j = 0; j < message.values.length; ++j)
+                        object.values[j] = message.values[j];
+                }
+                if (message.rank != null && message.hasOwnProperty("rank"))
+                    object.rank = message.rank;
+                if (message.value != null && message.hasOwnProperty("value"))
+                    object.value = message.value;
+                return object;
+            };
+    
+            /**
+             * Converts this RankInfo to JSON.
+             * @function toJSON
+             * @memberof S2C.RankInfo
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            RankInfo.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+    
+            return RankInfo;
+        })();
+    
+        S2C.SC_RANK_GET_RANK = (function() {
+    
+            /**
+             * Properties of a SC_RANK_GET_RANK.
+             * @memberof S2C
+             * @interface ISC_RANK_GET_RANK
+             * @property {Object.<string,S2C.IRankInfo>|null} [ranks] SC_RANK_GET_RANK ranks
+             */
+    
+            /**
+             * Constructs a new SC_RANK_GET_RANK.
+             * @memberof S2C
+             * @classdesc Represents a SC_RANK_GET_RANK.
+             * @implements ISC_RANK_GET_RANK
+             * @constructor
+             * @param {S2C.ISC_RANK_GET_RANK=} [properties] Properties to set
+             */
+            function SC_RANK_GET_RANK(properties) {
+                this.ranks = {};
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+    
+            /**
+             * SC_RANK_GET_RANK ranks.
+             * @member {Object.<string,S2C.IRankInfo>} ranks
+             * @memberof S2C.SC_RANK_GET_RANK
+             * @instance
+             */
+            SC_RANK_GET_RANK.prototype.ranks = $util.emptyObject;
+    
+            /**
+             * Creates a new SC_RANK_GET_RANK instance using the specified properties.
+             * @function create
+             * @memberof S2C.SC_RANK_GET_RANK
+             * @static
+             * @param {S2C.ISC_RANK_GET_RANK=} [properties] Properties to set
+             * @returns {S2C.SC_RANK_GET_RANK} SC_RANK_GET_RANK instance
+             */
+            SC_RANK_GET_RANK.create = function create(properties) {
+                return new SC_RANK_GET_RANK(properties);
+            };
+    
+            /**
+             * Encodes the specified SC_RANK_GET_RANK message. Does not implicitly {@link S2C.SC_RANK_GET_RANK.verify|verify} messages.
+             * @function encode
+             * @memberof S2C.SC_RANK_GET_RANK
+             * @static
+             * @param {S2C.ISC_RANK_GET_RANK} message SC_RANK_GET_RANK message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            SC_RANK_GET_RANK.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.ranks != null && message.hasOwnProperty("ranks"))
+                    for (var keys = Object.keys(message.ranks), i = 0; i < keys.length; ++i) {
+                        writer.uint32(/* id 1, wireType 2 =*/10).fork().uint32(/* id 1, wireType 0 =*/8).uint32(keys[i]);
+                        $root.S2C.RankInfo.encode(message.ranks[keys[i]], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim().ldelim();
+                    }
+                return writer;
+            };
+    
+            /**
+             * Encodes the specified SC_RANK_GET_RANK message, length delimited. Does not implicitly {@link S2C.SC_RANK_GET_RANK.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof S2C.SC_RANK_GET_RANK
+             * @static
+             * @param {S2C.ISC_RANK_GET_RANK} message SC_RANK_GET_RANK message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            SC_RANK_GET_RANK.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+    
+            /**
+             * Decodes a SC_RANK_GET_RANK message from the specified reader or buffer.
+             * @function decode
+             * @memberof S2C.SC_RANK_GET_RANK
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {S2C.SC_RANK_GET_RANK} SC_RANK_GET_RANK
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            SC_RANK_GET_RANK.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.S2C.SC_RANK_GET_RANK(), key;
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        reader.skip().pos++;
+                        if (message.ranks === $util.emptyObject)
+                            message.ranks = {};
+                        key = reader.uint32();
+                        reader.pos++;
+                        message.ranks[key] = $root.S2C.RankInfo.decode(reader, reader.uint32());
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Decodes a SC_RANK_GET_RANK message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof S2C.SC_RANK_GET_RANK
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {S2C.SC_RANK_GET_RANK} SC_RANK_GET_RANK
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            SC_RANK_GET_RANK.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+    
+            /**
+             * Verifies a SC_RANK_GET_RANK message.
+             * @function verify
+             * @memberof S2C.SC_RANK_GET_RANK
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            SC_RANK_GET_RANK.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.ranks != null && message.hasOwnProperty("ranks")) {
+                    if (!$util.isObject(message.ranks))
+                        return "ranks: object expected";
+                    var key = Object.keys(message.ranks);
+                    for (var i = 0; i < key.length; ++i) {
+                        if (!$util.key32Re.test(key[i]))
+                            return "ranks: integer key{k:uint32} expected";
+                        {
+                            var error = $root.S2C.RankInfo.verify(message.ranks[key[i]]);
+                            if (error)
+                                return "ranks." + error;
+                        }
+                    }
+                }
+                return null;
+            };
+    
+            /**
+             * Creates a SC_RANK_GET_RANK message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof S2C.SC_RANK_GET_RANK
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {S2C.SC_RANK_GET_RANK} SC_RANK_GET_RANK
+             */
+            SC_RANK_GET_RANK.fromObject = function fromObject(object) {
+                if (object instanceof $root.S2C.SC_RANK_GET_RANK)
+                    return object;
+                var message = new $root.S2C.SC_RANK_GET_RANK();
+                if (object.ranks) {
+                    if (typeof object.ranks !== "object")
+                        throw TypeError(".S2C.SC_RANK_GET_RANK.ranks: object expected");
+                    message.ranks = {};
+                    for (var keys = Object.keys(object.ranks), i = 0; i < keys.length; ++i) {
+                        if (typeof object.ranks[keys[i]] !== "object")
+                            throw TypeError(".S2C.SC_RANK_GET_RANK.ranks: object expected");
+                        message.ranks[keys[i]] = $root.S2C.RankInfo.fromObject(object.ranks[keys[i]]);
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Creates a plain object from a SC_RANK_GET_RANK message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof S2C.SC_RANK_GET_RANK
+             * @static
+             * @param {S2C.SC_RANK_GET_RANK} message SC_RANK_GET_RANK
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            SC_RANK_GET_RANK.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.objects || options.defaults)
+                    object.ranks = {};
+                var keys2;
+                if (message.ranks && (keys2 = Object.keys(message.ranks)).length) {
+                    object.ranks = {};
+                    for (var j = 0; j < keys2.length; ++j)
+                        object.ranks[keys2[j]] = $root.S2C.RankInfo.toObject(message.ranks[keys2[j]], options);
+                }
+                return object;
+            };
+    
+            /**
+             * Converts this SC_RANK_GET_RANK to JSON.
+             * @function toJSON
+             * @memberof S2C.SC_RANK_GET_RANK
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            SC_RANK_GET_RANK.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+    
+            return SC_RANK_GET_RANK;
         })();
     
         S2C.Friend = (function() {
@@ -8471,6 +9093,282 @@
             };
     
             return SC_UPDATE_ITEM;
+        })();
+    
+        S2C.SC_ROLE_SUMMARY = (function() {
+    
+            /**
+             * Properties of a SC_ROLE_SUMMARY.
+             * @memberof S2C
+             * @interface ISC_ROLE_SUMMARY
+             * @property {number|null} [uid] SC_ROLE_SUMMARY uid
+             * @property {string|null} [nickname] SC_ROLE_SUMMARY nickname
+             * @property {string|null} [headimgurl] SC_ROLE_SUMMARY headimgurl
+             * @property {number|null} [level] SC_ROLE_SUMMARY level
+             * @property {number|null} [vipLevel] SC_ROLE_SUMMARY vipLevel
+             */
+    
+            /**
+             * Constructs a new SC_ROLE_SUMMARY.
+             * @memberof S2C
+             * @classdesc Represents a SC_ROLE_SUMMARY.
+             * @implements ISC_ROLE_SUMMARY
+             * @constructor
+             * @param {S2C.ISC_ROLE_SUMMARY=} [properties] Properties to set
+             */
+            function SC_ROLE_SUMMARY(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+    
+            /**
+             * SC_ROLE_SUMMARY uid.
+             * @member {number} uid
+             * @memberof S2C.SC_ROLE_SUMMARY
+             * @instance
+             */
+            SC_ROLE_SUMMARY.prototype.uid = 0;
+    
+            /**
+             * SC_ROLE_SUMMARY nickname.
+             * @member {string} nickname
+             * @memberof S2C.SC_ROLE_SUMMARY
+             * @instance
+             */
+            SC_ROLE_SUMMARY.prototype.nickname = "";
+    
+            /**
+             * SC_ROLE_SUMMARY headimgurl.
+             * @member {string} headimgurl
+             * @memberof S2C.SC_ROLE_SUMMARY
+             * @instance
+             */
+            SC_ROLE_SUMMARY.prototype.headimgurl = "";
+    
+            /**
+             * SC_ROLE_SUMMARY level.
+             * @member {number} level
+             * @memberof S2C.SC_ROLE_SUMMARY
+             * @instance
+             */
+            SC_ROLE_SUMMARY.prototype.level = 0;
+    
+            /**
+             * SC_ROLE_SUMMARY vipLevel.
+             * @member {number} vipLevel
+             * @memberof S2C.SC_ROLE_SUMMARY
+             * @instance
+             */
+            SC_ROLE_SUMMARY.prototype.vipLevel = 0;
+    
+            /**
+             * Creates a new SC_ROLE_SUMMARY instance using the specified properties.
+             * @function create
+             * @memberof S2C.SC_ROLE_SUMMARY
+             * @static
+             * @param {S2C.ISC_ROLE_SUMMARY=} [properties] Properties to set
+             * @returns {S2C.SC_ROLE_SUMMARY} SC_ROLE_SUMMARY instance
+             */
+            SC_ROLE_SUMMARY.create = function create(properties) {
+                return new SC_ROLE_SUMMARY(properties);
+            };
+    
+            /**
+             * Encodes the specified SC_ROLE_SUMMARY message. Does not implicitly {@link S2C.SC_ROLE_SUMMARY.verify|verify} messages.
+             * @function encode
+             * @memberof S2C.SC_ROLE_SUMMARY
+             * @static
+             * @param {S2C.ISC_ROLE_SUMMARY} message SC_ROLE_SUMMARY message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            SC_ROLE_SUMMARY.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.uid != null && message.hasOwnProperty("uid"))
+                    writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.uid);
+                if (message.nickname != null && message.hasOwnProperty("nickname"))
+                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.nickname);
+                if (message.headimgurl != null && message.hasOwnProperty("headimgurl"))
+                    writer.uint32(/* id 3, wireType 2 =*/26).string(message.headimgurl);
+                if (message.level != null && message.hasOwnProperty("level"))
+                    writer.uint32(/* id 4, wireType 0 =*/32).uint32(message.level);
+                if (message.vipLevel != null && message.hasOwnProperty("vipLevel"))
+                    writer.uint32(/* id 5, wireType 0 =*/40).uint32(message.vipLevel);
+                return writer;
+            };
+    
+            /**
+             * Encodes the specified SC_ROLE_SUMMARY message, length delimited. Does not implicitly {@link S2C.SC_ROLE_SUMMARY.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof S2C.SC_ROLE_SUMMARY
+             * @static
+             * @param {S2C.ISC_ROLE_SUMMARY} message SC_ROLE_SUMMARY message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            SC_ROLE_SUMMARY.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+    
+            /**
+             * Decodes a SC_ROLE_SUMMARY message from the specified reader or buffer.
+             * @function decode
+             * @memberof S2C.SC_ROLE_SUMMARY
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {S2C.SC_ROLE_SUMMARY} SC_ROLE_SUMMARY
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            SC_ROLE_SUMMARY.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.S2C.SC_ROLE_SUMMARY();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        message.uid = reader.uint32();
+                        break;
+                    case 2:
+                        message.nickname = reader.string();
+                        break;
+                    case 3:
+                        message.headimgurl = reader.string();
+                        break;
+                    case 4:
+                        message.level = reader.uint32();
+                        break;
+                    case 5:
+                        message.vipLevel = reader.uint32();
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Decodes a SC_ROLE_SUMMARY message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof S2C.SC_ROLE_SUMMARY
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {S2C.SC_ROLE_SUMMARY} SC_ROLE_SUMMARY
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            SC_ROLE_SUMMARY.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+    
+            /**
+             * Verifies a SC_ROLE_SUMMARY message.
+             * @function verify
+             * @memberof S2C.SC_ROLE_SUMMARY
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            SC_ROLE_SUMMARY.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.uid != null && message.hasOwnProperty("uid"))
+                    if (!$util.isInteger(message.uid))
+                        return "uid: integer expected";
+                if (message.nickname != null && message.hasOwnProperty("nickname"))
+                    if (!$util.isString(message.nickname))
+                        return "nickname: string expected";
+                if (message.headimgurl != null && message.hasOwnProperty("headimgurl"))
+                    if (!$util.isString(message.headimgurl))
+                        return "headimgurl: string expected";
+                if (message.level != null && message.hasOwnProperty("level"))
+                    if (!$util.isInteger(message.level))
+                        return "level: integer expected";
+                if (message.vipLevel != null && message.hasOwnProperty("vipLevel"))
+                    if (!$util.isInteger(message.vipLevel))
+                        return "vipLevel: integer expected";
+                return null;
+            };
+    
+            /**
+             * Creates a SC_ROLE_SUMMARY message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof S2C.SC_ROLE_SUMMARY
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {S2C.SC_ROLE_SUMMARY} SC_ROLE_SUMMARY
+             */
+            SC_ROLE_SUMMARY.fromObject = function fromObject(object) {
+                if (object instanceof $root.S2C.SC_ROLE_SUMMARY)
+                    return object;
+                var message = new $root.S2C.SC_ROLE_SUMMARY();
+                if (object.uid != null)
+                    message.uid = object.uid >>> 0;
+                if (object.nickname != null)
+                    message.nickname = String(object.nickname);
+                if (object.headimgurl != null)
+                    message.headimgurl = String(object.headimgurl);
+                if (object.level != null)
+                    message.level = object.level >>> 0;
+                if (object.vipLevel != null)
+                    message.vipLevel = object.vipLevel >>> 0;
+                return message;
+            };
+    
+            /**
+             * Creates a plain object from a SC_ROLE_SUMMARY message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof S2C.SC_ROLE_SUMMARY
+             * @static
+             * @param {S2C.SC_ROLE_SUMMARY} message SC_ROLE_SUMMARY
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            SC_ROLE_SUMMARY.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.defaults) {
+                    object.uid = 0;
+                    object.nickname = "";
+                    object.headimgurl = "";
+                    object.level = 0;
+                    object.vipLevel = 0;
+                }
+                if (message.uid != null && message.hasOwnProperty("uid"))
+                    object.uid = message.uid;
+                if (message.nickname != null && message.hasOwnProperty("nickname"))
+                    object.nickname = message.nickname;
+                if (message.headimgurl != null && message.hasOwnProperty("headimgurl"))
+                    object.headimgurl = message.headimgurl;
+                if (message.level != null && message.hasOwnProperty("level"))
+                    object.level = message.level;
+                if (message.vipLevel != null && message.hasOwnProperty("vipLevel"))
+                    object.vipLevel = message.vipLevel;
+                return object;
+            };
+    
+            /**
+             * Converts this SC_ROLE_SUMMARY to JSON.
+             * @function toJSON
+             * @memberof S2C.SC_ROLE_SUMMARY
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            SC_ROLE_SUMMARY.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+    
+            return SC_ROLE_SUMMARY;
         })();
     
         S2C.SC_ROLE_PRO_UPDATE = (function() {

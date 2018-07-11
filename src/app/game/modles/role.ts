@@ -8,7 +8,7 @@ import {
 } from '../../../lib/redis/redis_mgr';
 import * as WorldDB from '../../../lib/mysql/world_db';
 import {WorldDataRedisKey} from "../game_world";
-import {S2C} from "../../proto/cmd";
+import {C2S, S2C} from "../../proto/cmd";
 import {GameSession} from "../game_session";
 import {roleField} from "../../../lib/util/descriptor";
 import {HeroModel} from "./hero_model";
@@ -18,8 +18,9 @@ import {BaseModel} from "./base_model";
 import {BattleModel} from "./battle_model";
 import {TaskModel} from "./task_model";
 import {MailModel} from "./mail_model";
-import {ERankType} from "./defines";
 import {RankController} from "../controllers/rank_controller";
+import ERankType = C2S.CS_RANK_GET_RANK.ERankType;
+import {FriendModel} from "./friend_model";
 
 let gameRedis = RedisMgr.getInstance(RedisType.GAME);
 export const roleRedisPrefix: string = 'role';
@@ -57,7 +58,7 @@ export class Role extends RedisData {
     @roleField() battleModel = new BattleModel(this, 'battleModel');
     @roleField() taskModel = new TaskModel(this, 'taskModel');
     @roleField() mailModel = new MailModel(this, 'mailModel');
-    @roleField() friendModel = new MailModel(this, 'friendModel');
+    @roleField() friendModel = new FriendModel(this, 'friendModel');
 
     constructor(uid: number, session?: GameSession) {
         super(roleRedisPrefix);
@@ -189,5 +190,29 @@ export class Role extends RedisData {
     public async notify() {
         this.sendProUpdate();
         await RankController.instance.notify(this);
+    }
+
+    public async serializeSummaryNetMsg(): Promise<S2C.SC_ROLE_SUMMARY> {
+        return new Promise<S2C.SC_ROLE_SUMMARY>(((resolve, reject) => {
+            let msg = S2C.SC_ROLE_SUMMARY.create();
+            for (let k in msg) {
+                if (!this['fields'].hasOwnProperty(k)) {
+                    if (k !== 'constructor' && k !== '$type' && k !== 'toJSON') {
+                        Log.sError('SC_ROLE_SUMMARY %s not exist in role data', k);
+                    }
+                    continue;
+                }
+                msg[k] = this[k];
+            }
+            resolve(msg);
+        }));
+    }
+
+    public getRankValue(rankType: ERankType):number {
+        if (!this.revRankFields.hasOwnProperty(rankType)) {
+            throw new Error(rankType + ' rankType, not found in role define');
+        }
+
+        return this.fields[this.revRankFields[rankType]];
     }
 }

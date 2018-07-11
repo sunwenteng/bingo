@@ -15,6 +15,7 @@ message Message {
         SC_ROLE_HEART_BEAT SC_ROLE_HEART_BEAT = 1002;
         SC_ROLE_PRO_UPDATE SC_ROLE_PRO_UPDATE = 1003;
         SC_GET_REWARD SC_GET_REWARD = 1004;
+        SC_ROLE_SUMMARY SC_ROLE_SUMMARY = 1005;
 
         SC_INIT_HERO SC_INIT_HERO = 1101;
         SC_UPDATE_HERO SC_UPDATE_HERO = 1102;
@@ -36,7 +37,19 @@ message Message {
         SC_INIT_FRIEND SC_INIT_FRIEND = 1701;
         SC_UPDATE_FRIEND SC_UPDATE_FRIEND = 1702;
 
+        SC_RANK_GET_RANK SC_RANK_GET_RANK = 1801;
     }
+}
+
+message RankInfo {
+    repeated SC_ROLE_SUMMARY roles = 1;
+    repeated uint32 values = 2;
+    uint32 rank = 3;
+    uint32 value = 4;
+}
+
+message SC_RANK_GET_RANK {
+    map<uint32, RankInfo> ranks = 1;
 }
 
 message Friend {
@@ -146,6 +159,14 @@ message SC_INIT_ITEM {
 
 message SC_UPDATE_ITEM {
     map<int32, Item> items = 1;
+}
+
+message SC_ROLE_SUMMARY {
+    uint32 uid = 1;
+    string nickname = 2;
+    string headimgurl = 3;
+    uint32 level = 4;
+    uint32 vip_level = 5;
 }
 
 message SC_ROLE_PRO_UPDATE {
