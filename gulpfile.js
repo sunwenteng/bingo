@@ -38,13 +38,17 @@ gulp.task('compile', ['scripts_src'], () => {
 let protoFiles = ['./src/app/proto/c2s.proto', './src/app/proto/s2c.proto'];
 // 这个文件小一点 速度比后者稍微慢一点
 gulp.task('proto2json', (cb) => {
-    exec('./node_modules/protobufjs/bin/pbjs -t json-module -w commonjs -o ./src/app/proto/cmd.js ' + protoFiles.join(' '), () => cb)
+    exec('./node_modules/protobufjs/bin/pbjs -t json-module -w commonjs -o ./src/app/proto/cmd.js ' + protoFiles.join(' '), () => {
+        cb();
+    })
 });
 
 // 生成closure
 gulp.task('proto2closure', (cb) => {
     exec('./node_modules/protobufjs/bin/pbjs -t static-module -w closure -o ./src/app/proto/cmd.client.js ' + protoFiles.join(' ') + ' && ' +
-        './node_modules/protobufjs/bin/pbts --no-comments -o ./src/app/proto/cmd.d.ts ./src/app/proto/cmd.client.js', () => cb)
+        './node_modules/protobufjs/bin/pbts --no-comments -o ./src/app/proto/cmd.d.ts ./src/app/proto/cmd.client.js', () => {
+        cb();
+    })
 });
 
 // 客户端用
@@ -69,3 +73,43 @@ gulp.task('proto2client', ['proto2closure'], () => {
 });
 
 gulp.task('proto2all', ['proto2json', 'proto2client']);
+
+
+// proto文件解析
+let win_protoFiles = ['.\\src\\app\\proto\\c2s.proto', '.\\src\\app\\proto\\s2c.proto'];
+// 这个文件小一点 速度比后者稍微慢一点
+gulp.task('win_proto2json', (cb) => {
+    exec('.\\node_modules\\.bin\\pbjs.cmd -t json-module -w commonjs -o .\\src\\app\\proto\\cmd.js ' + win_protoFiles.join(' '), () => {
+        cb();
+    })
+});
+
+// 生成closure
+gulp.task('win_proto2closure', (cb) => {
+    exec('.\\node_modules\\.bin\\pbjs.cmd -t static-module -w closure -o .\\src\\app\\proto\\cmd.client.js ' + win_protoFiles.join(' ') + ' && ' +
+        '.\\node_modules\\.bin\\pbts.cmd --no-comments -o .\\src\\app\\proto\\cmd.d.ts .\\src\\app\\proto\\cmd.client.js', () => {
+        cb();
+    })
+});
+
+// 客户端用
+gulp.task('win_proto2client', ['win_proto2closure'], () => {
+    let _class_txt = "";
+    function write(str) {
+        _class_txt += str + "\n";
+    }
+
+    write("module Game{");
+    write("\texport class Protocol{");
+
+    for (let cmd  in S2C.Message['fields']) {
+        if (cmd.indexOf("SC_") !== -1) {
+            write("\t\t public static " + cmd + "_ID = \"" + cmd + "\";")
+        }
+    }
+    write("\t}\n}");
+
+    fs.writeFileSync("./src/app/proto/Protocol.ts", _class_txt)
+});
+
+gulp.task('win_proto2all', ['win_proto2json', 'win_proto2client']);
