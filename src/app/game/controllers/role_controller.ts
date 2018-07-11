@@ -53,6 +53,7 @@ export class RoleController {
             role.lastAliveTime = Time.realNow();
             role.lastLoginTime = Time.realNow();
             await role.save();
+            await role.saveSummary();
         });
     }
 

@@ -666,6 +666,10 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
           vipLevel: {
             type: "uint32",
             id: 5
+          },
+          combat: {
+            type: "uint64",
+            id: 6
           }
         }
       },

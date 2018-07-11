@@ -38,8 +38,8 @@ class Client {
                     let id = Math.floor(Math.random() * 100);
                     id = id === 0 ? 1 : id;
                     let msg = C2S.Message.create({
-                        // CS_ROLE_HEART_BEAT: {msg: Math.floor(Math.random() * 100) + '' }
-                        CS_RANK_GET_RANK: {types: [ERankType.level]}
+                        CS_ROLE_HEART_BEAT: {msg: Math.floor(Math.random() * 100) + '' }
+                        // CS_RANK_GET_RANK: {types: [ERankType.level]}
                     });
 
                     let buffer = C2S.Message.encode(msg).finish();

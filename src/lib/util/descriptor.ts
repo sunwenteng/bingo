@@ -85,7 +85,7 @@ export function controller() {
     };
 }
 
-export function roleField(dynamic: boolean = false, rankType?: ERankType) {
+export function roleField(dynamic: boolean = false, summary: boolean = false, rankType?: ERankType) {
     return (target: Object, key: string): void => {
         Object.defineProperty(target, key, {
             get: function () {
@@ -95,19 +95,25 @@ export function roleField(dynamic: boolean = false, rankType?: ERankType) {
                 return this['fields'][key];
             },
             set: function (newValue) {
-                if (this['fields'].hasOwnProperty(key) && this['fields'][key] !== newValue) {
+                // 首次定义
+                if (!this['fields'].hasOwnProperty(key)) {
+                    if (rankType !== undefined && rankType !== null) {
+                        this['revRankFields'][rankType] = key;
+                    }
+                }
+                else if (this['fields'][key] !== newValue) {
                     if (dynamic) {
                         this['dynamicFields'][key] = null;
                     }
-                    if (rankType !== undefined && rankType !== null) {
+                    if (rankType !== undefined) {
                         this['rankFields'][key] = rankType;
+                    }
+                    if (summary) {
+                        this['isSummaryDirty'] = true;
                     }
                     this['dirtyFields'][key] = null;
                 }
                 this['fields'][key] = newValue;
-                if (rankType !== undefined && rankType !== null) {
-                    this['revRankFields'][rankType] = key;
-                }
             }
         });
     };

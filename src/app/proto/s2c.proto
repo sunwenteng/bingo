@@ -167,6 +167,7 @@ message SC_ROLE_SUMMARY {
     string headimgurl = 3;
     uint32 level = 4;
     uint32 vip_level = 5;
+    uint64 combat = 6;
 }
 
 message SC_ROLE_PRO_UPDATE {

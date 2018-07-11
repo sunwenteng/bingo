@@ -24,8 +24,10 @@ import {FriendModel} from "./friend_model";
 
 let gameRedis = RedisMgr.getInstance(RedisType.GAME);
 export const roleRedisPrefix: string = 'role';
+const roleSummaryRedisKey: string = 'role_summary';
 
 export enum ERoleMask {
+    BASE = 'base',
     EQUIP = 'equipModel',
     ITEM = 'itemModel',
     HERO = 'heroModel',
@@ -37,16 +39,16 @@ export class Role extends RedisData {
     _session: GameSession;
 
     // NOTE: 声明的属性必须都在mysql有相应列做存储
-    @roleField(true) uid: number = 0;
-    @roleField(true) nickname: string = '';
-    @roleField(true) headimgurl: string = '';
+    @roleField(true, true) uid: number = 0;
+    @roleField(true, true) nickname: string = '';
+    @roleField(true, true) headimgurl: string = '';
     @roleField(true) diamond: number = 0;
     @roleField(true) exp: number = 0;
     @roleField(true) gold: number = 0;
-    @roleField(true, ERankType.level) level: number = 0;
-    @roleField(true) vipLevel: number = 0;
+    @roleField(true, true, ERankType.level) level: number = 0;
+    @roleField(true, true) vipLevel: number = 0;
     @roleField(true) vipExp: number = 0;
-    @roleField(true, ERankType.combat) combat: number = 0;
+    @roleField(true, true, ERankType.combat) combat: number = 0;
 
     @roleField() lastLoginTime: number = 0;
     @roleField() lastAliveTime: number = 0;
@@ -72,17 +74,21 @@ export class Role extends RedisData {
         }
         else {
             let ret = [];
-            for (let k in this.fields) {
-                if (!(this.fields[k] instanceof BaseModel)) {
-                    ret.push(k);
-                }
-            }
             for (let e of mask) {
-                if (this.fields.hasOwnProperty(e)) {
-                    ret.push(e.toString());
+                if (e === ERoleMask.BASE) {
+                    for (let k in this.fields) {
+                        if (!(this.fields[k] instanceof BaseModel)) {
+                            ret.push(k);
+                        }
+                    }
                 }
                 else {
-                    Log.sError('%s not exist in role fields', e);
+                    if (this.fields.hasOwnProperty(e)) {
+                        ret.push(e.toString());
+                    }
+                    else {
+                        Log.sError('%s not exist in role fields', e);
+                    }
                 }
             }
             return ret;
@@ -103,7 +109,16 @@ export class Role extends RedisData {
             await gameRedis.sadd(WorldDataRedisKey.RELOAD_ROLES, this.uid);
         }
 
-        this.dirtyFields = {};
+        if (bSaveAll || this.isSummaryDirty) {
+            await this.saveSummary();
+        }
+        this.reset();
+    }
+
+    public async saveSummary() {
+        let msg = await this.serializeSummaryNetMsg();
+        let str = JSON.stringify(msg.toJSON());
+        await gameRedis.hmset(roleSummaryRedisKey, {[this.uid]: str});
     }
 
     public async load(mask?: ERoleMask | ERoleMask[]): Promise<boolean> {
@@ -193,7 +208,7 @@ export class Role extends RedisData {
     }
 
     public async serializeSummaryNetMsg(): Promise<S2C.SC_ROLE_SUMMARY> {
-        return new Promise<S2C.SC_ROLE_SUMMARY>(((resolve, reject) => {
+        return new Promise<S2C.SC_ROLE_SUMMARY>(((resolve) => {
             let msg = S2C.SC_ROLE_SUMMARY.create();
             for (let k in msg) {
                 if (!this['fields'].hasOwnProperty(k)) {
@@ -208,11 +223,27 @@ export class Role extends RedisData {
         }));
     }
 
-    public getRankValue(rankType: ERankType):number {
+    public getRankValue(rankType: ERankType): number {
         if (!this.revRankFields.hasOwnProperty(rankType)) {
             throw new Error(rankType + ' rankType, not found in role define');
         }
 
         return this.fields[this.revRankFields[rankType]];
+    }
+
+    /**
+     * 尽量批量调用，效率高一些
+     * @param {number | number[]} roleId
+     * @returns {Promise<S2C.SC_ROLE_SUMMARY[]>}
+     */
+    static async getRoleSummary(roleId: number | number[]): Promise<S2C.SC_ROLE_SUMMARY[]> {
+        return new Promise<S2C.SC_ROLE_SUMMARY[]>((async resolve => {
+            let ret = [];
+            let roleSummary = await gameRedis.hmget(roleSummaryRedisKey, roleId);
+            for (let uid in roleSummary) {
+                ret.push(S2C.SC_ROLE_SUMMARY.fromObject(JSON.parse(roleSummary[uid])));
+            }
+            resolve(ret);
+        }));
     }
 }

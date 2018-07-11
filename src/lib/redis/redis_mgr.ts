@@ -36,6 +36,7 @@ export abstract class RedisData extends Model {
     dynamicFields: { [key: string]: string } = {};
     rankFields: { [key: string]: ERankType } = {};
     revRankFields: { [eRankType: string]: string } = {};
+    isSummaryDirty: boolean = false;
     redisPrefix: string;
     redisKeyExpire: number;
     dirtyFields: { [key: string]: string } = {};
@@ -53,6 +54,13 @@ export abstract class RedisData extends Model {
         else {
             return this.redisPrefix;
         }
+    }
+
+    public reset() {
+        this.dirtyFields = {};
+        this.dynamicFields = {};
+        this.rankFields = {};
+        this.isSummaryDirty = false;
     }
 
     public deserialize(reply: { [key: string]: any }): void {
@@ -84,10 +92,7 @@ export abstract class RedisData extends Model {
                 }
             }
         }
-
-        this.dirtyFields = {};
-        this.dynamicFields  = {};
-        this.rankFields = {};
+        this.reset();
     }
 
     public serialize(bAll: boolean): { [key: string]: any } {
@@ -110,7 +115,6 @@ export abstract class RedisData extends Model {
                 }
             }
         }
-
         return reply;
     }
 }
@@ -416,7 +420,7 @@ export class RedisMgr {
         }));
     }
 
-    public async hmget(key, value: string[] | string, db: number = 0): Promise<{ [key: string]: any }> {
+    public async hmget(key, value: string[] | string | any, db: number = 0): Promise<{ [key: string]: any }> {
         // Log.sInfo('name=%s, redis hmget %s %s', this._name, key, util.inspect(value));
         let client = await this.getClient(db);
         return new Promise<{ [key: string]: any }>(((resolve, reject) => {

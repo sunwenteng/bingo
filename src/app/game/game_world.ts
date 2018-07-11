@@ -268,7 +268,7 @@ export class GameWorld extends events.EventEmitter {
             let self = this;
 
             async function doStop() {
-                for(let k in self._timer) {
+                for (let k in self._timer) {
                     self._timer[k].stop();
                 }
                 await self.allOffline();

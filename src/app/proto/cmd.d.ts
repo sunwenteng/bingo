@@ -780,6 +780,7 @@ export namespace S2C {
         headimgurl?: (string|null);
         level?: (number|null);
         vipLevel?: (number|null);
+        combat?: (number|Long|null);
     }
 
     class SC_ROLE_SUMMARY implements ISC_ROLE_SUMMARY {
@@ -789,6 +790,7 @@ export namespace S2C {
         public headimgurl: string;
         public level: number;
         public vipLevel: number;
+        public combat: (number|Long);
         public static create(properties?: S2C.ISC_ROLE_SUMMARY): S2C.SC_ROLE_SUMMARY;
         public static encode(message: S2C.ISC_ROLE_SUMMARY, writer?: $protobuf.Writer): $protobuf.Writer;
         public static encodeDelimited(message: S2C.ISC_ROLE_SUMMARY, writer?: $protobuf.Writer): $protobuf.Writer;

@@ -144,17 +144,13 @@ export class RankController {
             rankInfo.value = role.getRankValue(rankType);
 
             let allInfo = await this.getRankInfo(rankType, GameWorld.instance.info.server_id);
+            let ids = [];
             for (let info of allInfo) {
-                // let r = new Role(info.id);
-                // let exist = await r.load();
-                // if (!exist) {
-                //     throw new Error(info.id + ' role not exist');
-                // }
-                //
-                // let roleMsg = await r.serializeSummaryNetMsg();
-                // rankInfo.roles.push(roleMsg);
                 rankInfo.values.push(info.value);
+                ids.push(info.id);
             }
+
+            rankInfo.roles = await Role.getRoleSummary(ids);
             ret.ranks[rankType] = rankInfo;
         }
         role.sendProtocol(ret);

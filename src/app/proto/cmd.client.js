@@ -9106,6 +9106,7 @@
              * @property {string|null} [headimgurl] SC_ROLE_SUMMARY headimgurl
              * @property {number|null} [level] SC_ROLE_SUMMARY level
              * @property {number|null} [vipLevel] SC_ROLE_SUMMARY vipLevel
+             * @property {number|Long|null} [combat] SC_ROLE_SUMMARY combat
              */
     
             /**
@@ -9164,6 +9165,14 @@
             SC_ROLE_SUMMARY.prototype.vipLevel = 0;
     
             /**
+             * SC_ROLE_SUMMARY combat.
+             * @member {number|Long} combat
+             * @memberof S2C.SC_ROLE_SUMMARY
+             * @instance
+             */
+            SC_ROLE_SUMMARY.prototype.combat = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+    
+            /**
              * Creates a new SC_ROLE_SUMMARY instance using the specified properties.
              * @function create
              * @memberof S2C.SC_ROLE_SUMMARY
@@ -9197,6 +9206,8 @@
                     writer.uint32(/* id 4, wireType 0 =*/32).uint32(message.level);
                 if (message.vipLevel != null && message.hasOwnProperty("vipLevel"))
                     writer.uint32(/* id 5, wireType 0 =*/40).uint32(message.vipLevel);
+                if (message.combat != null && message.hasOwnProperty("combat"))
+                    writer.uint32(/* id 6, wireType 0 =*/48).uint64(message.combat);
                 return writer;
             };
     
@@ -9245,6 +9256,9 @@
                         break;
                     case 5:
                         message.vipLevel = reader.uint32();
+                        break;
+                    case 6:
+                        message.combat = reader.uint64();
                         break;
                     default:
                         reader.skipType(tag & 7);
@@ -9296,6 +9310,9 @@
                 if (message.vipLevel != null && message.hasOwnProperty("vipLevel"))
                     if (!$util.isInteger(message.vipLevel))
                         return "vipLevel: integer expected";
+                if (message.combat != null && message.hasOwnProperty("combat"))
+                    if (!$util.isInteger(message.combat) && !(message.combat && $util.isInteger(message.combat.low) && $util.isInteger(message.combat.high)))
+                        return "combat: integer|Long expected";
                 return null;
             };
     
@@ -9321,6 +9338,15 @@
                     message.level = object.level >>> 0;
                 if (object.vipLevel != null)
                     message.vipLevel = object.vipLevel >>> 0;
+                if (object.combat != null)
+                    if ($util.Long)
+                        (message.combat = $util.Long.fromValue(object.combat)).unsigned = true;
+                    else if (typeof object.combat === "string")
+                        message.combat = parseInt(object.combat, 10);
+                    else if (typeof object.combat === "number")
+                        message.combat = object.combat;
+                    else if (typeof object.combat === "object")
+                        message.combat = new $util.LongBits(object.combat.low >>> 0, object.combat.high >>> 0).toNumber(true);
                 return message;
             };
     
@@ -9343,6 +9369,11 @@
                     object.headimgurl = "";
                     object.level = 0;
                     object.vipLevel = 0;
+                    if ($util.Long) {
+                        var long = new $util.Long(0, 0, true);
+                        object.combat = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    } else
+                        object.combat = options.longs === String ? "0" : 0;
                 }
                 if (message.uid != null && message.hasOwnProperty("uid"))
                     object.uid = message.uid;
@@ -9354,6 +9385,11 @@
                     object.level = message.level;
                 if (message.vipLevel != null && message.hasOwnProperty("vipLevel"))
                     object.vipLevel = message.vipLevel;
+                if (message.combat != null && message.hasOwnProperty("combat"))
+                    if (typeof message.combat === "number")
+                        object.combat = options.longs === String ? String(message.combat) : message.combat;
+                    else
+                        object.combat = options.longs === String ? $util.Long.prototype.toString.call(message.combat) : options.longs === Number ? new $util.LongBits(message.combat.low >>> 0, message.combat.high >>> 0).toNumber(true) : message.combat;
                 return object;
             };
     
