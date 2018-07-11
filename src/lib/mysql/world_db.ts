@@ -62,6 +62,21 @@ export async function start(config: MysqlConfig): Promise<void> {
         "PRIMARY KEY (server_id, key_id)" +
         ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 
+    tableName = 'guild';
+    tables[tableName] =
+        "CREATE TABLE IF NOT EXISTS " + tableName + " (" +
+        "uid            INT 	    UNSIGNED 	NOT NULL," +
+        "serverId	    INT         UNSIGNED    NOT NULL    DEFAULT 0," +
+        "guildName      VARCHAR(64) CHARACTER SET utf8 NOT NULL DEFAULT ''," +
+        "level  	    INT         UNSIGNED    NOT NULL    DEFAULT 0," +
+        "gold   	    INT         UNSIGNED    NOT NULL    DEFAULT 0," +
+        "members	    blob        NULL" +
+        "applicants	    blob        NULL" +
+        "logs   	    blob        NULL" +
+        "createTime	    INT         UNSIGNED    NOT NULL    DEFAULT 0," +
+        "PRIMARY KEY (uid)" +
+        ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+
     await conn.createTables(tables);
     await conn.addColumns(columns);
     await conn.addIndexes(indexes);

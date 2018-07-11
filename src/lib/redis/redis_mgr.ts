@@ -2,7 +2,7 @@ import * as events from 'events';
 import * as redis from 'redis';
 import {Log} from "../util/log";
 import {ERROR_CODE} from "../util/error_code";
-import {Model} from "../../app/game/modles/model";
+import {DirtyModel} from "../../app/game/modles/model";
 import {C2S} from "../../app/proto/cmd";
 import ERankType = C2S.CS_RANK_GET_RANK.ERankType;
 
@@ -32,14 +32,13 @@ export interface RankInfo {
     value: number;
 }
 
-export abstract class RedisData extends Model {
+export abstract class RedisData extends DirtyModel {
     dynamicFields: { [key: string]: string } = {};
     rankFields: { [key: string]: ERankType } = {};
     revRankFields: { [eRankType: string]: string } = {};
     isSummaryDirty: boolean = false;
     redisPrefix: string;
     redisKeyExpire: number;
-    dirtyFields: { [key: string]: string } = {};
 
     protected constructor(redisPrefix: string, expireTime: number = 3600) {
         super();

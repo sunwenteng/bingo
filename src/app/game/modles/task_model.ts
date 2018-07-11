@@ -1,4 +1,4 @@
-import {BaseModel} from "./base_model";
+import {RoleModel} from "./role_model";
 import {S2C} from "../../proto/cmd";
 import {Log} from "../../../lib/util/log";
 import {Role} from "./role";
@@ -28,7 +28,7 @@ class Task {
     }
 }
 
-export class TaskModel extends BaseModel {
+export class TaskModel extends RoleModel {
     @modelField() private _tasks: { [uid: number]: Task } = {};
     private _maxUid: number = 0;
 

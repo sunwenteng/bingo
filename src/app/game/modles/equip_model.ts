@@ -1,4 +1,4 @@
-import {BaseModel} from "./base_model";
+import {RoleModel} from "./role_model";
 import {S2C} from "../../proto/cmd";
 import {Log} from "../../../lib/util/log";
 import {Role} from "./role";
@@ -35,7 +35,7 @@ export class Equip {
 
 }
 
-export class EquipModel extends BaseModel {
+export class EquipModel extends RoleModel {
     @modelField() private _equips: { [uid: number]: Equip } = {};
     private _maxUid: number = 0;
 

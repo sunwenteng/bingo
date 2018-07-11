@@ -1,4 +1,4 @@
-import {BaseModel} from "./base_model";
+import {RoleModel} from "./role_model";
 import {S2C} from "../../proto/cmd";
 import {Log} from "../../../lib/util/log";
 import {Role} from "./role";
@@ -6,7 +6,7 @@ import {modelField} from "../../../lib/util/descriptor";
 
 const MAX_SLOT_SIZE = 5;
 
-export class BattleModel extends BaseModel {
+export class BattleModel extends RoleModel {
     @modelField() private _battleSlot: { [idx: number]: number } = {};
 
     constructor(role: Role, key: string) {

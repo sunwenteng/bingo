@@ -14,7 +14,7 @@ import {roleField} from "../../../lib/util/descriptor";
 import {HeroModel} from "./hero_model";
 import {EquipModel} from "./equip_model";
 import {ItemModel} from "./item_model";
-import {BaseModel} from "./base_model";
+import {RoleModel} from "./role_model";
 import {BattleModel} from "./battle_model";
 import {TaskModel} from "./task_model";
 import {MailModel} from "./mail_model";
@@ -77,7 +77,7 @@ export class Role extends RedisData {
             for (let e of mask) {
                 if (e === ERoleMask.BASE) {
                     for (let k in this.fields) {
-                        if (!(this.fields[k] instanceof BaseModel)) {
+                        if (!(this.fields[k] instanceof RoleModel)) {
                             ret.push(k);
                         }
                     }

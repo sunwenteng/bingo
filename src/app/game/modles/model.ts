@@ -5,3 +5,7 @@ export abstract class Model {
         return this.fields.hasOwnProperty(key);
     }
 }
+
+export abstract class DirtyModel extends Model {
+    dirtyFields: { [key: string]: string } = {};
+}

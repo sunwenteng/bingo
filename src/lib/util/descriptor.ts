@@ -1,7 +1,7 @@
 import {Log} from "./log";
 import {Role} from "../../app/game/modles/role";
 import {RedisMgr, RedisType} from "../redis/redis_mgr";
-import {BaseModel} from "../../app/game/modles/base_model";
+import {RoleModel} from "../../app/game/modles/role_model";
 import {GameWorld, WorldDataRedisKey} from "../../app/game/game_world";
 import {C2S} from "../../app/proto/cmd";
 import ERankType = C2S.CS_RANK_GET_RANK.ERankType;
@@ -96,7 +96,7 @@ export function roleField(dynamic: boolean = false, summary: boolean = false, ra
     return (target: Object, key: string): void => {
         Object.defineProperty(target, key, {
             get: function () {
-                if (this['fields'][key] instanceof BaseModel && !this['fields'][key].loaded) {
+                if (this['fields'][key] instanceof RoleModel && !this['fields'][key].loaded) {
                     throw new Error(key + ' not loaded, pls loaded first');
                 }
                 return this['fields'][key];
@@ -149,6 +149,22 @@ export function field() {
                 return this['fields'][key];
             },
             set: function (newValue) {
+                this['fields'][key] = newValue;
+            }
+        });
+    };
+}
+
+export function dirtyField() {
+    return (target: Object, key: string): void => {
+        Object.defineProperty(target, key, {
+            get: function () {
+                return this['fields'][key];
+            },
+            set: function (newValue) {
+                if (this['fields'].hasOwnProperty(key) && this['fields'][key] !== newValue) {
+                    this['dirtyFields'][key] = null;
+                }
                 this['fields'][key] = newValue;
             }
         });

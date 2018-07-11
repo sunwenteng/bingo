@@ -1,4 +1,4 @@
-import {BaseModel} from "./base_model";
+import {RoleModel} from "./role_model";
 import {S2C} from "../../proto/cmd";
 import {Log} from "../../../lib/util/log";
 import {Role} from "./role";
@@ -31,7 +31,7 @@ export class Item {
     }
 }
 
-export class ItemModel extends BaseModel {
+export class ItemModel extends RoleModel {
     @modelField() private _items: { [itemId: number]: Item } = {};
 
     constructor(role: Role, key: string) {

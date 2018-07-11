@@ -1,7 +1,7 @@
 import {Role} from "./role";
 import {Model} from "./model";
 
-export abstract class BaseModel extends Model {
+export abstract class RoleModel extends Model {
     loaded: boolean = false;
     role: Role = null;
     key: string;
