@@ -17,6 +17,7 @@ module Water
 		 public static SC_UPDATE_TASK_ID = "SC_UPDATE_TASK";
 		 public static SC_UPDATE_MAIL_ID = "SC_UPDATE_MAIL";
 		 public static SC_UPDATE_FRIEND_ID = "SC_UPDATE_FRIEND";
+		 public static SC_UPDATE_BATTLE_ID = "SC_UPDATE_BATTLE";
 		 public static SC_RANK_GET_RANK_ID = "SC_RANK_GET_RANK";
 		 public static SC_GUILD_CREATE_ID = "SC_GUILD_CREATE";
 	}

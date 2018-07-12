@@ -2848,6 +2848,7 @@
              * @property {S2C.ISC_UPDATE_TASK|null} [SC_UPDATE_TASK] Message SC_UPDATE_TASK
              * @property {S2C.ISC_UPDATE_MAIL|null} [SC_UPDATE_MAIL] Message SC_UPDATE_MAIL
              * @property {S2C.ISC_UPDATE_FRIEND|null} [SC_UPDATE_FRIEND] Message SC_UPDATE_FRIEND
+             * @property {S2C.ISC_UPDATE_BATTLE|null} [SC_UPDATE_BATTLE] Message SC_UPDATE_BATTLE
              * @property {S2C.ISC_RANK_GET_RANK|null} [SC_RANK_GET_RANK] Message SC_RANK_GET_RANK
              * @property {S2C.ISC_GUILD_CREATE|null} [SC_GUILD_CREATE] Message SC_GUILD_CREATE
              */
@@ -2996,6 +2997,14 @@
             Message.prototype.SC_UPDATE_FRIEND = null;
     
             /**
+             * Message SC_UPDATE_BATTLE.
+             * @member {S2C.ISC_UPDATE_BATTLE|null|undefined} SC_UPDATE_BATTLE
+             * @memberof S2C.Message
+             * @instance
+             */
+            Message.prototype.SC_UPDATE_BATTLE = null;
+    
+            /**
              * Message SC_RANK_GET_RANK.
              * @member {S2C.ISC_RANK_GET_RANK|null|undefined} SC_RANK_GET_RANK
              * @memberof S2C.Message
@@ -3016,12 +3025,12 @@
     
             /**
              * Message kind.
-             * @member {"SC_TEST_ECHO"|"LOGIN_SC_LOGIN"|"LOGIN_SC_CHOOSE_SERVER"|"LOGIN_SC_GET_SERVER_LIST"|"LOGIN_SC_GET_INFO"|"SC_ROLE_ONLINE"|"SC_ROLE_HEART_BEAT"|"SC_ROLE_PRO_UPDATE"|"SC_GET_REWARD"|"SC_ROLE_SUMMARY"|"SC_UPDATE_HERO"|"SC_UPDATE_EQUIP"|"SC_UPDATE_ITEM"|"SC_UPDATE_TASK"|"SC_UPDATE_MAIL"|"SC_UPDATE_FRIEND"|"SC_RANK_GET_RANK"|"SC_GUILD_CREATE"|undefined} kind
+             * @member {"SC_TEST_ECHO"|"LOGIN_SC_LOGIN"|"LOGIN_SC_CHOOSE_SERVER"|"LOGIN_SC_GET_SERVER_LIST"|"LOGIN_SC_GET_INFO"|"SC_ROLE_ONLINE"|"SC_ROLE_HEART_BEAT"|"SC_ROLE_PRO_UPDATE"|"SC_GET_REWARD"|"SC_ROLE_SUMMARY"|"SC_UPDATE_HERO"|"SC_UPDATE_EQUIP"|"SC_UPDATE_ITEM"|"SC_UPDATE_TASK"|"SC_UPDATE_MAIL"|"SC_UPDATE_FRIEND"|"SC_UPDATE_BATTLE"|"SC_RANK_GET_RANK"|"SC_GUILD_CREATE"|undefined} kind
              * @memberof S2C.Message
              * @instance
              */
             Object.defineProperty(Message.prototype, "kind", {
-                get: $util.oneOfGetter($oneOfFields = ["SC_TEST_ECHO", "LOGIN_SC_LOGIN", "LOGIN_SC_CHOOSE_SERVER", "LOGIN_SC_GET_SERVER_LIST", "LOGIN_SC_GET_INFO", "SC_ROLE_ONLINE", "SC_ROLE_HEART_BEAT", "SC_ROLE_PRO_UPDATE", "SC_GET_REWARD", "SC_ROLE_SUMMARY", "SC_UPDATE_HERO", "SC_UPDATE_EQUIP", "SC_UPDATE_ITEM", "SC_UPDATE_TASK", "SC_UPDATE_MAIL", "SC_UPDATE_FRIEND", "SC_RANK_GET_RANK", "SC_GUILD_CREATE"]),
+                get: $util.oneOfGetter($oneOfFields = ["SC_TEST_ECHO", "LOGIN_SC_LOGIN", "LOGIN_SC_CHOOSE_SERVER", "LOGIN_SC_GET_SERVER_LIST", "LOGIN_SC_GET_INFO", "SC_ROLE_ONLINE", "SC_ROLE_HEART_BEAT", "SC_ROLE_PRO_UPDATE", "SC_GET_REWARD", "SC_ROLE_SUMMARY", "SC_UPDATE_HERO", "SC_UPDATE_EQUIP", "SC_UPDATE_ITEM", "SC_UPDATE_TASK", "SC_UPDATE_MAIL", "SC_UPDATE_FRIEND", "SC_UPDATE_BATTLE", "SC_RANK_GET_RANK", "SC_GUILD_CREATE"]),
                 set: $util.oneOfSetter($oneOfFields)
             });
     
@@ -3073,6 +3082,8 @@
                     $root.S2C.SC_UPDATE_MAIL.encode(message.SC_UPDATE_MAIL, writer.uint32(/* id 1010, wireType 2 =*/8082).fork()).ldelim();
                 if (message.SC_UPDATE_FRIEND != null && message.hasOwnProperty("SC_UPDATE_FRIEND"))
                     $root.S2C.SC_UPDATE_FRIEND.encode(message.SC_UPDATE_FRIEND, writer.uint32(/* id 1011, wireType 2 =*/8090).fork()).ldelim();
+                if (message.SC_UPDATE_BATTLE != null && message.hasOwnProperty("SC_UPDATE_BATTLE"))
+                    $root.S2C.SC_UPDATE_BATTLE.encode(message.SC_UPDATE_BATTLE, writer.uint32(/* id 1012, wireType 2 =*/8098).fork()).ldelim();
                 if (message.SC_RANK_GET_RANK != null && message.hasOwnProperty("SC_RANK_GET_RANK"))
                     $root.S2C.SC_RANK_GET_RANK.encode(message.SC_RANK_GET_RANK, writer.uint32(/* id 1801, wireType 2 =*/14410).fork()).ldelim();
                 if (message.SC_GUILD_CREATE != null && message.hasOwnProperty("SC_GUILD_CREATE"))
@@ -3166,6 +3177,9 @@
                         break;
                     case 1011:
                         message.SC_UPDATE_FRIEND = $root.S2C.SC_UPDATE_FRIEND.decode(reader, reader.uint32());
+                        break;
+                    case 1012:
+                        message.SC_UPDATE_BATTLE = $root.S2C.SC_UPDATE_BATTLE.decode(reader, reader.uint32());
                         break;
                     case 1801:
                         message.SC_RANK_GET_RANK = $root.S2C.SC_RANK_GET_RANK.decode(reader, reader.uint32());
@@ -3367,6 +3381,16 @@
                             return "SC_UPDATE_FRIEND." + error;
                     }
                 }
+                if (message.SC_UPDATE_BATTLE != null && message.hasOwnProperty("SC_UPDATE_BATTLE")) {
+                    if (properties.kind === 1)
+                        return "kind: multiple values";
+                    properties.kind = 1;
+                    {
+                        var error = $root.S2C.SC_UPDATE_BATTLE.verify(message.SC_UPDATE_BATTLE);
+                        if (error)
+                            return "SC_UPDATE_BATTLE." + error;
+                    }
+                }
                 if (message.SC_RANK_GET_RANK != null && message.hasOwnProperty("SC_RANK_GET_RANK")) {
                     if (properties.kind === 1)
                         return "kind: multiple values";
@@ -3482,6 +3506,11 @@
                         throw TypeError(".S2C.Message.SC_UPDATE_FRIEND: object expected");
                     message.SC_UPDATE_FRIEND = $root.S2C.SC_UPDATE_FRIEND.fromObject(object.SC_UPDATE_FRIEND);
                 }
+                if (object.SC_UPDATE_BATTLE != null) {
+                    if (typeof object.SC_UPDATE_BATTLE !== "object")
+                        throw TypeError(".S2C.Message.SC_UPDATE_BATTLE: object expected");
+                    message.SC_UPDATE_BATTLE = $root.S2C.SC_UPDATE_BATTLE.fromObject(object.SC_UPDATE_BATTLE);
+                }
                 if (object.SC_RANK_GET_RANK != null) {
                     if (typeof object.SC_RANK_GET_RANK !== "object")
                         throw TypeError(".S2C.Message.SC_RANK_GET_RANK: object expected");
@@ -3567,6 +3596,11 @@
                     object.SC_UPDATE_FRIEND = $root.S2C.SC_UPDATE_FRIEND.toObject(message.SC_UPDATE_FRIEND, options);
                     if (options.oneofs)
                         object.kind = "SC_UPDATE_FRIEND";
+                }
+                if (message.SC_UPDATE_BATTLE != null && message.hasOwnProperty("SC_UPDATE_BATTLE")) {
+                    object.SC_UPDATE_BATTLE = $root.S2C.SC_UPDATE_BATTLE.toObject(message.SC_UPDATE_BATTLE, options);
+                    if (options.oneofs)
+                        object.kind = "SC_UPDATE_BATTLE";
                 }
                 if (message.SC_RANK_GET_RANK != null && message.hasOwnProperty("SC_RANK_GET_RANK")) {
                     object.SC_RANK_GET_RANK = $root.S2C.SC_RANK_GET_RANK.toObject(message.SC_RANK_GET_RANK, options);

@@ -240,6 +240,7 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
               "SC_UPDATE_TASK",
               "SC_UPDATE_MAIL",
               "SC_UPDATE_FRIEND",
+              "SC_UPDATE_BATTLE",
               "SC_RANK_GET_RANK",
               "SC_GUILD_CREATE"
             ]
@@ -309,6 +310,10 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
           SC_UPDATE_FRIEND: {
             type: "SC_UPDATE_FRIEND",
             id: 1011
+          },
+          SC_UPDATE_BATTLE: {
+            type: "SC_UPDATE_BATTLE",
+            id: 1012
           },
           SC_RANK_GET_RANK: {
             type: "SC_RANK_GET_RANK",
