@@ -63,7 +63,7 @@ export class FriendModel extends RoleModel {
     }
 
     serializeInitNetMsg() {
-        let pck = S2C.SC_INIT_FRIEND.create(), msg;
+        let pck = S2C.SC_UPDATE_FRIEND.create(), msg;
         for (let uid in this._friends) {
             msg = S2C.Friend.create();
             this._friends[uid].serializeNetMsg(msg);

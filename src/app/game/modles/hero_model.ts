@@ -81,7 +81,7 @@ export class HeroModel extends RoleModel {
     }
 
     serializeInitNetMsg() {
-        let pck = S2C.SC_INIT_HERO.create(), msg;
+        let pck = S2C.SC_UPDATE_HERO.create(), msg;
         for (let uid in this._heroes) {
             msg = S2C.Hero.create();
             this._heroes[uid].serializeNetMsg(msg);

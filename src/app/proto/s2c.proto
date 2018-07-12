@@ -16,31 +16,22 @@ message Message {
         SC_ROLE_PRO_UPDATE SC_ROLE_PRO_UPDATE = 1003;
         SC_GET_REWARD SC_GET_REWARD = 1004;
         SC_ROLE_SUMMARY SC_ROLE_SUMMARY = 1005;
-
-        SC_INIT_HERO SC_INIT_HERO = 1101;
-        SC_UPDATE_HERO SC_UPDATE_HERO = 1102;
-
-        SC_INIT_EQUIP SC_INIT_EQUIP = 1201;
-        SC_UPDATE_EQUIP SC_UPDATE_EQUIP = 1202;
-
-        SC_INIT_ITEM SC_INIT_ITEM = 1301;
-        SC_UPDATE_ITEM SC_UPDATE_ITEM = 1302;
-
-        SC_INIT_BATTLE_INFO SC_INIT_BATTLE_INFO = 1401;
-
-        SC_INIT_TASK SC_INIT_TASK = 1501;
-        SC_UPDATE_TASK SC_UPDATE_TASK = 1502;
-
-        SC_INIT_MAIL SC_INIT_MAIL = 1601;
-        SC_UPDATE_MAIL SC_UPDATE_MAIL = 1602;
-
-        SC_INIT_FRIEND SC_INIT_FRIEND = 1701;
-        SC_UPDATE_FRIEND SC_UPDATE_FRIEND = 1702;
+        SC_UPDATE_HERO SC_UPDATE_HERO = 1006;
+        SC_UPDATE_EQUIP SC_UPDATE_EQUIP = 1007;
+        SC_UPDATE_ITEM SC_UPDATE_ITEM = 1008;
+        SC_UPDATE_TASK SC_UPDATE_TASK = 1009;
+        SC_UPDATE_MAIL SC_UPDATE_MAIL = 1010;
+        SC_UPDATE_FRIEND SC_UPDATE_FRIEND = 1011;
+        SC_UPDATE_BATTLE SC_UPDATE_BATTLE = 1012;
 
         SC_RANK_GET_RANK SC_RANK_GET_RANK = 1801;
 
         SC_GUILD_CREATE SC_GUILD_CREATE = 1901;
     }
+}
+
+message SC_UPDATE_BATTLE {
+    map<int32, uint32> slotInfo = 1;
 }
 
 message GuildSummary {
@@ -86,10 +77,6 @@ message Friend {
     uint32 state = 2;
 }
 
-message SC_INIT_FRIEND {
-    map<uint32, Friend> friends = 1;
-}
-
 message SC_UPDATE_FRIEND {
     map<int32, Friend> friends = 1;
 }
@@ -105,10 +92,6 @@ message Mail {
     uint32 isNew = 8;
 }
 
-message SC_INIT_MAIL {
-    map<uint32, Mail> mails = 1;
-}
-
 message SC_UPDATE_MAIL {
     map<int32, Mail> mails = 1;
 }
@@ -119,18 +102,10 @@ message Task {
     uint32 state = 3;
 }
 
-message SC_INIT_TASK {
-    map<uint32, Task> tasks = 1;
-}
-
 message SC_UPDATE_TASK {
     map<int32, Task> tasks = 1;
 }
 
-
-message SC_INIT_BATTLE_INFO {
-    map<uint32, uint32> slotInfo = 1;
-}
 
 message Reward {
     uint64 gold = 1;
@@ -153,10 +128,6 @@ message Hero {
     uint32 lvl = 4;
 }
 
-message SC_INIT_HERO {
-    map<uint32, Hero> heroes = 1;
-}
-
 message SC_UPDATE_HERO {
     map<int32, Hero> heroes = 1;
 }
@@ -169,10 +140,6 @@ message Equip {
     uint32 star = 5;
 }
 
-message SC_INIT_EQUIP {
-    map<uint32, Equip> equips = 1;
-}
-
 message SC_UPDATE_EQUIP {
     map<int32, Equip> equips = 1;
 }
@@ -180,10 +147,6 @@ message SC_UPDATE_EQUIP {
 message Item {
     uint32 id = 1;
     uint32 cnt = 2;
-}
-
-message SC_INIT_ITEM {
-    map<uint32, Item> items = 1;
 }
 
 message SC_UPDATE_ITEM {

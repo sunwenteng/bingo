@@ -191,9 +191,21 @@ export class Role extends RedisData {
         }
     }
 
-    private sendProUpdate() {
-        // dynamic field
-        if (Object.keys(this.dynamicFields).length > 0) {
+    public sendProUpdate(bAll: boolean = false) {
+        if (bAll) {
+            let pck = S2C.SC_ROLE_PRO_UPDATE.create();
+            for (let k in pck) {
+                if (!this.fields.hasOwnProperty(k)) {
+                    if (k !== 'constructor' && k !== '$type' && k !== 'toJSON') {
+                        Log.sError('SC_ROLE_PRO_UPDATE %s not exist in role data', k);
+                    }
+                    continue;
+                }
+                pck[k] = this.fields[k];
+            }
+            this.sendProtocol(pck);
+        }
+        else if (Object.keys(this.dynamicFields).length > 0) {
             let pck = S2C.SC_ROLE_PRO_UPDATE.create();
             for (let key in this.dynamicFields) {
                 pck[key] = this.fields[key];

@@ -36,6 +36,7 @@ export class RoleController {
             await session.online();
 
             // start TODO
+            role.sendProUpdate(true);
             role.sendProtocol(role.heroModel.serializeInitNetMsg());
             role.sendProtocol(role.equipModel.serializeInitNetMsg());
             role.sendProtocol(role.itemModel.serializeInitNetMsg());

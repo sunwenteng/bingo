@@ -11,19 +11,13 @@ module Water
 		 public static SC_ROLE_PRO_UPDATE_ID = "SC_ROLE_PRO_UPDATE";
 		 public static SC_GET_REWARD_ID = "SC_GET_REWARD";
 		 public static SC_ROLE_SUMMARY_ID = "SC_ROLE_SUMMARY";
-		 public static SC_INIT_HERO_ID = "SC_INIT_HERO";
 		 public static SC_UPDATE_HERO_ID = "SC_UPDATE_HERO";
-		 public static SC_INIT_EQUIP_ID = "SC_INIT_EQUIP";
 		 public static SC_UPDATE_EQUIP_ID = "SC_UPDATE_EQUIP";
-		 public static SC_INIT_ITEM_ID = "SC_INIT_ITEM";
 		 public static SC_UPDATE_ITEM_ID = "SC_UPDATE_ITEM";
-		 public static SC_INIT_BATTLE_INFO_ID = "SC_INIT_BATTLE_INFO";
-		 public static SC_INIT_TASK_ID = "SC_INIT_TASK";
 		 public static SC_UPDATE_TASK_ID = "SC_UPDATE_TASK";
-		 public static SC_INIT_MAIL_ID = "SC_INIT_MAIL";
 		 public static SC_UPDATE_MAIL_ID = "SC_UPDATE_MAIL";
-		 public static SC_INIT_FRIEND_ID = "SC_INIT_FRIEND";
 		 public static SC_UPDATE_FRIEND_ID = "SC_UPDATE_FRIEND";
 		 public static SC_RANK_GET_RANK_ID = "SC_RANK_GET_RANK";
+		 public static SC_GUILD_CREATE_ID = "SC_GUILD_CREATE";
 	}
 }

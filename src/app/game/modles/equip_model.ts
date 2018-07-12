@@ -68,7 +68,7 @@ export class EquipModel extends RoleModel {
     }
 
     serializeInitNetMsg() {
-        let pck = S2C.SC_INIT_EQUIP.create(), msg;
+        let pck = S2C.SC_UPDATE_EQUIP.create(), msg;
         for (let uid in this._equips) {
             msg = S2C.Equip.create();
             this._equips[uid].serializeNetMsg(msg);

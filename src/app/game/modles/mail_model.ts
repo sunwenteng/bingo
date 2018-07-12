@@ -73,7 +73,7 @@ export class MailModel extends RoleModel {
     }
 
     serializeInitNetMsg() {
-        let pck = S2C.SC_INIT_MAIL.create(), msg;
+        let pck = S2C.SC_UPDATE_MAIL.create(), msg;
         for (let uid in this._mails) {
             msg = S2C.Mail.create();
             this._mails[uid].serializeNetMsg(msg);

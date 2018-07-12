@@ -61,7 +61,7 @@ export class ItemModel extends RoleModel {
     }
 
     serializeInitNetMsg() {
-        let pck = S2C.SC_INIT_ITEM.create(), msg;
+        let pck = S2C.SC_UPDATE_ITEM.create(), msg;
         for (let itemId in this._items) {
             msg = S2C.Item.create();
             this._items[itemId].serializeNetMsg(msg);

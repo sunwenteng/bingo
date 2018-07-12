@@ -38,9 +38,9 @@ class Client {
                     let id = Math.floor(Math.random() * 100);
                     id = id === 0 ? 1 : id;
                     let msg = C2S.Message.create({
-                        // CS_ROLE_HEART_BEAT: {msg: Math.floor(Math.random() * 100) + '' }
+                        CS_ROLE_HEART_BEAT: {msg: Math.floor(Math.random() * 100) + '' }
                         // CS_RANK_GET_RANK: {types: [ERankType.level, ERankType.combat]}
-                        CS_GUILD_CREATE:{guildName: 'fuck' + Math.floor(Math.random() * 100), iconId: Math.floor(Math.random() * 100)}
+                        // CS_GUILD_CREATE:{guildName: 'fuck' + Math.floor(Math.random() * 100), iconId: Math.floor(Math.random() * 100)}
                     });
 
                     let buffer = C2S.Message.encode(msg).finish();

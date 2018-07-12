@@ -61,7 +61,7 @@ export class TaskModel extends RoleModel {
     }
 
     serializeInitNetMsg() {
-        let pck = S2C.SC_INIT_TASK.create(), msg;
+        let pck = S2C.SC_UPDATE_TASK.create(), msg;
         for (let uid in this._tasks) {
             msg = S2C.Task.create();
             this._tasks[uid].serializeNetMsg(msg);

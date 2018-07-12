@@ -22,8 +22,9 @@ export class BattleModel extends RoleModel {
     }
 
     serializeInitNetMsg() {
-        let pck = S2C.SC_INIT_BATTLE_INFO.create();
-        pck.slotInfo = this._battleSlot;
+        // TODO
+        let pck = S2C.SC_UPDATE_BATTLE.create();
+        // pck.slotInfo = this._battleSlot;
         return pck;
     }
 

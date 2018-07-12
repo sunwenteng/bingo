@@ -234,18 +234,11 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
               "SC_ROLE_PRO_UPDATE",
               "SC_GET_REWARD",
               "SC_ROLE_SUMMARY",
-              "SC_INIT_HERO",
               "SC_UPDATE_HERO",
-              "SC_INIT_EQUIP",
               "SC_UPDATE_EQUIP",
-              "SC_INIT_ITEM",
               "SC_UPDATE_ITEM",
-              "SC_INIT_BATTLE_INFO",
-              "SC_INIT_TASK",
               "SC_UPDATE_TASK",
-              "SC_INIT_MAIL",
               "SC_UPDATE_MAIL",
-              "SC_INIT_FRIEND",
               "SC_UPDATE_FRIEND",
               "SC_RANK_GET_RANK",
               "SC_GUILD_CREATE"
@@ -293,57 +286,29 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
             type: "SC_ROLE_SUMMARY",
             id: 1005
           },
-          SC_INIT_HERO: {
-            type: "SC_INIT_HERO",
-            id: 1101
-          },
           SC_UPDATE_HERO: {
             type: "SC_UPDATE_HERO",
-            id: 1102
-          },
-          SC_INIT_EQUIP: {
-            type: "SC_INIT_EQUIP",
-            id: 1201
+            id: 1006
           },
           SC_UPDATE_EQUIP: {
             type: "SC_UPDATE_EQUIP",
-            id: 1202
-          },
-          SC_INIT_ITEM: {
-            type: "SC_INIT_ITEM",
-            id: 1301
+            id: 1007
           },
           SC_UPDATE_ITEM: {
             type: "SC_UPDATE_ITEM",
-            id: 1302
-          },
-          SC_INIT_BATTLE_INFO: {
-            type: "SC_INIT_BATTLE_INFO",
-            id: 1401
-          },
-          SC_INIT_TASK: {
-            type: "SC_INIT_TASK",
-            id: 1501
+            id: 1008
           },
           SC_UPDATE_TASK: {
             type: "SC_UPDATE_TASK",
-            id: 1502
-          },
-          SC_INIT_MAIL: {
-            type: "SC_INIT_MAIL",
-            id: 1601
+            id: 1009
           },
           SC_UPDATE_MAIL: {
             type: "SC_UPDATE_MAIL",
-            id: 1602
-          },
-          SC_INIT_FRIEND: {
-            type: "SC_INIT_FRIEND",
-            id: 1701
+            id: 1010
           },
           SC_UPDATE_FRIEND: {
             type: "SC_UPDATE_FRIEND",
-            id: 1702
+            id: 1011
           },
           SC_RANK_GET_RANK: {
             type: "SC_RANK_GET_RANK",
@@ -352,6 +317,15 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
           SC_GUILD_CREATE: {
             type: "SC_GUILD_CREATE",
             id: 1901
+          }
+        }
+      },
+      SC_UPDATE_BATTLE: {
+        fields: {
+          slotInfo: {
+            keyType: "int32",
+            type: "uint32",
+            id: 1
           }
         }
       },
@@ -468,15 +442,6 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
           }
         }
       },
-      SC_INIT_FRIEND: {
-        fields: {
-          friends: {
-            keyType: "uint32",
-            type: "Friend",
-            id: 1
-          }
-        }
-      },
       SC_UPDATE_FRIEND: {
         fields: {
           friends: {
@@ -523,15 +488,6 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
           }
         }
       },
-      SC_INIT_MAIL: {
-        fields: {
-          mails: {
-            keyType: "uint32",
-            type: "Mail",
-            id: 1
-          }
-        }
-      },
       SC_UPDATE_MAIL: {
         fields: {
           mails: {
@@ -557,29 +513,11 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
           }
         }
       },
-      SC_INIT_TASK: {
-        fields: {
-          tasks: {
-            keyType: "uint32",
-            type: "Task",
-            id: 1
-          }
-        }
-      },
       SC_UPDATE_TASK: {
         fields: {
           tasks: {
             keyType: "int32",
             type: "Task",
-            id: 1
-          }
-        }
-      },
-      SC_INIT_BATTLE_INFO: {
-        fields: {
-          slotInfo: {
-            keyType: "uint32",
-            type: "uint32",
             id: 1
           }
         }
@@ -647,15 +585,6 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
           }
         }
       },
-      SC_INIT_HERO: {
-        fields: {
-          heroes: {
-            keyType: "uint32",
-            type: "Hero",
-            id: 1
-          }
-        }
-      },
       SC_UPDATE_HERO: {
         fields: {
           heroes: {
@@ -689,15 +618,6 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
           }
         }
       },
-      SC_INIT_EQUIP: {
-        fields: {
-          equips: {
-            keyType: "uint32",
-            type: "Equip",
-            id: 1
-          }
-        }
-      },
       SC_UPDATE_EQUIP: {
         fields: {
           equips: {
@@ -716,15 +636,6 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
           cnt: {
             type: "uint32",
             id: 2
-          }
-        }
-      },
-      SC_INIT_ITEM: {
-        fields: {
-          items: {
-            keyType: "uint32",
-            type: "Item",
-            id: 1
           }
         }
       },
