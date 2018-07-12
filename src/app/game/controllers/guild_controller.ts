@@ -5,47 +5,31 @@ import {GameWorld} from "../game_world";
 import {Log} from "../../../lib/util/log";
 import * as WorldDB from "../../../lib/mysql/world_db";
 import {RedisMgr, RedisType} from "../../../lib/redis/redis_mgr";
-import {Guild} from "../modles/guild";
+import {EGuildTilte, Guild} from "../modles/guild";
 
 let gameRedis = RedisMgr.getInstance(RedisType.GAME);
 
 export class GuildController {
     public static instance = new GuildController();
 
-    async loadData(serverId: number) {
-        await gameRedis.lock('guild_load', async (hasLock: boolean) => {
-            if (hasLock) {
-                let redisKey = this.getGuildDataRedisKey(serverId);
-                let data = await gameRedis.get(redisKey);
-                if (!data) {
-                    let ret = await WorldDB.conn.execute('select * from guild where serverId=?',
-                        [serverId]);
-                    for (let i = 0; i < ret.length; ++i) {
-                        let guild = new Guild();
-                        for (let k in ret[i]) {
-                            if (guild.has(k)) {
-                                if (typeof guild[k] === 'object') {
-                                    guild[k] = JSON.parse(ret[i][k]);
-                                }
-                                else {
-                                    guild[k] = ret[i][k];
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }, false);
-    }
+    @controller()
+    async create(role: Role, msg: C2S.CS_GUILD_CREATE) {
+        let guild = new Guild(msg.guildName, msg.iconId);
+        guild.uid = 1;
+        let exist = await guild.load();
+        if (exist) {
+            console.log('no');
+        }
 
-    async saveData(serverId: number) {
-        await gameRedis.lock('guild_save', async (hasLock: boolean) => {
-            if (hasLock) {
-            }
-        }, false);
-    }
+        guild.addMember(role.uid, EGuildTilte.owner);
+        await guild.create();
+        await guild.save(true);
+        role.guildId = guild.uid;
+        role.sendProtocol(S2C.SC_GUILD_CREATE.create());
 
-    private getGuildDataRedisKey(serverId: number): string {
-        return 'guild_data_' + serverId;
+        exist = await guild.load();
+        if (exist) {
+            console.log('yes');
+        }
     }
 }

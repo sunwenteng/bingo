@@ -38,7 +38,36 @@ message Message {
         SC_UPDATE_FRIEND SC_UPDATE_FRIEND = 1702;
 
         SC_RANK_GET_RANK SC_RANK_GET_RANK = 1801;
+
+        SC_GUILD_CREATE SC_GUILD_CREATE = 1901;
     }
+}
+
+message GuildSummary {
+    uint32 uid = 1;
+    string guildName = 2;
+    uint32 iconId = 3;
+    uint32 level = 4;
+    uint64 combat = 5;
+    string notice = 6;
+}
+
+message Guild {
+    uint32 uid = 1;
+    string guildName = 2;
+    uint32 iconId = 3;
+    uint32 level = 4;
+    uint64 combat = 5;
+    string notice = 6;
+    uint32 gold = 7;
+    uint64 exp = 8;
+}
+
+message SC_GUILD_INIT {
+
+}
+
+message SC_GUILD_CREATE {
 }
 
 message RankInfo {

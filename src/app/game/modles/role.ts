@@ -50,6 +50,7 @@ export class Role extends RedisData {
     @roleField(true) vipExp: number = 0;
     @roleField(true, true, ERankType.combat) combat: number = 0;
 
+    @roleField() guildId: number = 0;
     @roleField() lastLoginTime: number = 0;
     @roleField() lastAliveTime: number = 0;
     @roleField() createTime: number = 0;
@@ -97,7 +98,7 @@ export class Role extends RedisData {
 
     public async save(bSaveAll: boolean = false): Promise<void> {
         let saveData = this.serialize(bSaveAll);
-        if (Object.keys(this.dirtyFields).length === 0) {
+        if (Object.keys(saveData).length === 0) {
             return;
         }
         // 同步存储到redis

@@ -44,6 +44,7 @@ export async function start(config: MysqlConfig): Promise<void> {
             [tableName, 'friendModel', "blob NULL"],
             [tableName, 'summary', "blob NULL"],
             [tableName, 'combat', "BIGINT(20) UNSIGNED NOT NULL DEFAULT 0"],
+            [tableName, 'guildId', "INT UNSIGNED NOT NULL DEFAULT 0"],
             // add new update column down here
         ]);
 
@@ -65,7 +66,7 @@ export async function start(config: MysqlConfig): Promise<void> {
     tableName = 'guild';
     tables[tableName] =
         "CREATE TABLE IF NOT EXISTS " + tableName + " (" +
-        "uid            INT 	    UNSIGNED 	NOT NULL," +
+        "uid            INT 	    UNSIGNED 	NOT NULL AUTO_INCREMENT," +
         "serverId	    INT         UNSIGNED    NOT NULL    DEFAULT 0," +
         "iconId 	    INT         UNSIGNED    NOT NULL    DEFAULT 0," +
         "guildName      VARCHAR(64) CHARACTER SET utf8 NOT NULL DEFAULT ''," +

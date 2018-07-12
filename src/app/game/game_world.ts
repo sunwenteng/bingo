@@ -20,6 +20,7 @@ export enum WorldDataRedisKey {
     GAME_SERVERS = 'hash_game_servers',
     DIRTY_ROLES = 'set_dirty_roles',
     RELOAD_ROLES = 'set_reload_roles',
+    DIRTY_GUILDS = 'set_dirty_guilds',
 }
 
 class InstanceServerInfo implements LoginDB.Server {

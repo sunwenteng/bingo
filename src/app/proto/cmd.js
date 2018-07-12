@@ -19,7 +19,8 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
               "LOGIN_CS_CHOOSE_SERVER",
               "LOGIN_CS_GET_SERVER_LIST",
               "LOGIN_CS_GET_INFO",
-              "CS_RANK_GET_RANK"
+              "CS_RANK_GET_RANK",
+              "CS_GUILD_CREATE"
             ]
           }
         },
@@ -59,6 +60,10 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
           CS_RANK_GET_RANK: {
             type: "CS_RANK_GET_RANK",
             id: 1801
+          },
+          CS_GUILD_CREATE: {
+            type: "CS_GUILD_CREATE",
+            id: 1901
           }
         }
       },
@@ -198,6 +203,18 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
             }
           }
         }
+      },
+      CS_GUILD_CREATE: {
+        fields: {
+          iconId: {
+            type: "uint32",
+            id: 1
+          },
+          guildName: {
+            type: "string",
+            id: 2
+          }
+        }
       }
     }
   },
@@ -230,7 +247,8 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
               "SC_UPDATE_MAIL",
               "SC_INIT_FRIEND",
               "SC_UPDATE_FRIEND",
-              "SC_RANK_GET_RANK"
+              "SC_RANK_GET_RANK",
+              "SC_GUILD_CREATE"
             ]
           }
         },
@@ -330,8 +348,82 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
           SC_RANK_GET_RANK: {
             type: "SC_RANK_GET_RANK",
             id: 1801
+          },
+          SC_GUILD_CREATE: {
+            type: "SC_GUILD_CREATE",
+            id: 1901
           }
         }
+      },
+      GuildSummary: {
+        fields: {
+          uid: {
+            type: "uint32",
+            id: 1
+          },
+          guildName: {
+            type: "string",
+            id: 2
+          },
+          iconId: {
+            type: "uint32",
+            id: 3
+          },
+          level: {
+            type: "uint32",
+            id: 4
+          },
+          combat: {
+            type: "uint64",
+            id: 5
+          },
+          notice: {
+            type: "string",
+            id: 6
+          }
+        }
+      },
+      Guild: {
+        fields: {
+          uid: {
+            type: "uint32",
+            id: 1
+          },
+          guildName: {
+            type: "string",
+            id: 2
+          },
+          iconId: {
+            type: "uint32",
+            id: 3
+          },
+          level: {
+            type: "uint32",
+            id: 4
+          },
+          combat: {
+            type: "uint64",
+            id: 5
+          },
+          notice: {
+            type: "string",
+            id: 6
+          },
+          gold: {
+            type: "uint32",
+            id: 7
+          },
+          exp: {
+            type: "uint64",
+            id: 8
+          }
+        }
+      },
+      SC_GUILD_INIT: {
+        fields: {}
+      },
+      SC_GUILD_CREATE: {
+        fields: {}
       },
       RankInfo: {
         fields: {

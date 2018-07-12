@@ -164,7 +164,7 @@ export async function start(config: MysqlConfig): Promise<void> {
         "create_time	INT			UNSIGNED	NOT NULL," +
         "role_st		SMALLINT	UNSIGNED	NOT NULL DEFAULT '0'," +
         "PRIMARY KEY (role_id)" +
-        ") ENGINE=InnoDB DEFAULT CHARSET=utf8;",
+        ") ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=100000;",
 
         "role_login_info": "CREATE TABLE IF NOT EXISTS role_login_info (" +
         "auto_id		INT			UNSIGNED	NOT NULL AUTO_INCREMENT," +

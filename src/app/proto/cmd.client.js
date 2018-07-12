@@ -32,6 +32,7 @@
              * @property {C2S.ILOGIN_CS_GET_SERVER_LIST|null} [LOGIN_CS_GET_SERVER_LIST] Message LOGIN_CS_GET_SERVER_LIST
              * @property {C2S.ILOGIN_CS_GET_INFO|null} [LOGIN_CS_GET_INFO] Message LOGIN_CS_GET_INFO
              * @property {C2S.ICS_RANK_GET_RANK|null} [CS_RANK_GET_RANK] Message CS_RANK_GET_RANK
+             * @property {C2S.ICS_GUILD_CREATE|null} [CS_GUILD_CREATE] Message CS_GUILD_CREATE
              */
     
             /**
@@ -121,17 +122,25 @@
              */
             Message.prototype.CS_RANK_GET_RANK = null;
     
+            /**
+             * Message CS_GUILD_CREATE.
+             * @member {C2S.ICS_GUILD_CREATE|null|undefined} CS_GUILD_CREATE
+             * @memberof C2S.Message
+             * @instance
+             */
+            Message.prototype.CS_GUILD_CREATE = null;
+    
             // OneOf field names bound to virtual getters and setters
             var $oneOfFields;
     
             /**
              * Message kind.
-             * @member {"CS_TEST_ECHO"|"CS_ROLE_ONLINE"|"CS_ROLE_HEART_BEAT"|"CS_ABC_DEF"|"LOGIN_CS_LOGIN"|"LOGIN_CS_CHOOSE_SERVER"|"LOGIN_CS_GET_SERVER_LIST"|"LOGIN_CS_GET_INFO"|"CS_RANK_GET_RANK"|undefined} kind
+             * @member {"CS_TEST_ECHO"|"CS_ROLE_ONLINE"|"CS_ROLE_HEART_BEAT"|"CS_ABC_DEF"|"LOGIN_CS_LOGIN"|"LOGIN_CS_CHOOSE_SERVER"|"LOGIN_CS_GET_SERVER_LIST"|"LOGIN_CS_GET_INFO"|"CS_RANK_GET_RANK"|"CS_GUILD_CREATE"|undefined} kind
              * @memberof C2S.Message
              * @instance
              */
             Object.defineProperty(Message.prototype, "kind", {
-                get: $util.oneOfGetter($oneOfFields = ["CS_TEST_ECHO", "CS_ROLE_ONLINE", "CS_ROLE_HEART_BEAT", "CS_ABC_DEF", "LOGIN_CS_LOGIN", "LOGIN_CS_CHOOSE_SERVER", "LOGIN_CS_GET_SERVER_LIST", "LOGIN_CS_GET_INFO", "CS_RANK_GET_RANK"]),
+                get: $util.oneOfGetter($oneOfFields = ["CS_TEST_ECHO", "CS_ROLE_ONLINE", "CS_ROLE_HEART_BEAT", "CS_ABC_DEF", "LOGIN_CS_LOGIN", "LOGIN_CS_CHOOSE_SERVER", "LOGIN_CS_GET_SERVER_LIST", "LOGIN_CS_GET_INFO", "CS_RANK_GET_RANK", "CS_GUILD_CREATE"]),
                 set: $util.oneOfSetter($oneOfFields)
             });
     
@@ -177,6 +186,8 @@
                     $root.C2S.LOGIN_CS_GET_INFO.encode(message.LOGIN_CS_GET_INFO, writer.uint32(/* id 8, wireType 2 =*/66).fork()).ldelim();
                 if (message.CS_RANK_GET_RANK != null && message.hasOwnProperty("CS_RANK_GET_RANK"))
                     $root.C2S.CS_RANK_GET_RANK.encode(message.CS_RANK_GET_RANK, writer.uint32(/* id 1801, wireType 2 =*/14410).fork()).ldelim();
+                if (message.CS_GUILD_CREATE != null && message.hasOwnProperty("CS_GUILD_CREATE"))
+                    $root.C2S.CS_GUILD_CREATE.encode(message.CS_GUILD_CREATE, writer.uint32(/* id 1901, wireType 2 =*/15210).fork()).ldelim();
                 return writer;
             };
     
@@ -237,6 +248,9 @@
                         break;
                     case 1801:
                         message.CS_RANK_GET_RANK = $root.C2S.CS_RANK_GET_RANK.decode(reader, reader.uint32());
+                        break;
+                    case 1901:
+                        message.CS_GUILD_CREATE = $root.C2S.CS_GUILD_CREATE.decode(reader, reader.uint32());
                         break;
                     default:
                         reader.skipType(tag & 7);
@@ -362,6 +376,16 @@
                             return "CS_RANK_GET_RANK." + error;
                     }
                 }
+                if (message.CS_GUILD_CREATE != null && message.hasOwnProperty("CS_GUILD_CREATE")) {
+                    if (properties.kind === 1)
+                        return "kind: multiple values";
+                    properties.kind = 1;
+                    {
+                        var error = $root.C2S.CS_GUILD_CREATE.verify(message.CS_GUILD_CREATE);
+                        if (error)
+                            return "CS_GUILD_CREATE." + error;
+                    }
+                }
                 return null;
             };
     
@@ -421,6 +445,11 @@
                     if (typeof object.CS_RANK_GET_RANK !== "object")
                         throw TypeError(".C2S.Message.CS_RANK_GET_RANK: object expected");
                     message.CS_RANK_GET_RANK = $root.C2S.CS_RANK_GET_RANK.fromObject(object.CS_RANK_GET_RANK);
+                }
+                if (object.CS_GUILD_CREATE != null) {
+                    if (typeof object.CS_GUILD_CREATE !== "object")
+                        throw TypeError(".C2S.Message.CS_GUILD_CREATE: object expected");
+                    message.CS_GUILD_CREATE = $root.C2S.CS_GUILD_CREATE.fromObject(object.CS_GUILD_CREATE);
                 }
                 return message;
             };
@@ -482,6 +511,11 @@
                     object.CS_RANK_GET_RANK = $root.C2S.CS_RANK_GET_RANK.toObject(message.CS_RANK_GET_RANK, options);
                     if (options.oneofs)
                         object.kind = "CS_RANK_GET_RANK";
+                }
+                if (message.CS_GUILD_CREATE != null && message.hasOwnProperty("CS_GUILD_CREATE")) {
+                    object.CS_GUILD_CREATE = $root.C2S.CS_GUILD_CREATE.toObject(message.CS_GUILD_CREATE, options);
+                    if (options.oneofs)
+                        object.kind = "CS_GUILD_CREATE";
                 }
                 return object;
             };
@@ -2570,6 +2604,216 @@
             return CS_RANK_GET_RANK;
         })();
     
+        C2S.CS_GUILD_CREATE = (function() {
+    
+            /**
+             * Properties of a CS_GUILD_CREATE.
+             * @memberof C2S
+             * @interface ICS_GUILD_CREATE
+             * @property {number|null} [iconId] CS_GUILD_CREATE iconId
+             * @property {string|null} [guildName] CS_GUILD_CREATE guildName
+             */
+    
+            /**
+             * Constructs a new CS_GUILD_CREATE.
+             * @memberof C2S
+             * @classdesc Represents a CS_GUILD_CREATE.
+             * @implements ICS_GUILD_CREATE
+             * @constructor
+             * @param {C2S.ICS_GUILD_CREATE=} [properties] Properties to set
+             */
+            function CS_GUILD_CREATE(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+    
+            /**
+             * CS_GUILD_CREATE iconId.
+             * @member {number} iconId
+             * @memberof C2S.CS_GUILD_CREATE
+             * @instance
+             */
+            CS_GUILD_CREATE.prototype.iconId = 0;
+    
+            /**
+             * CS_GUILD_CREATE guildName.
+             * @member {string} guildName
+             * @memberof C2S.CS_GUILD_CREATE
+             * @instance
+             */
+            CS_GUILD_CREATE.prototype.guildName = "";
+    
+            /**
+             * Creates a new CS_GUILD_CREATE instance using the specified properties.
+             * @function create
+             * @memberof C2S.CS_GUILD_CREATE
+             * @static
+             * @param {C2S.ICS_GUILD_CREATE=} [properties] Properties to set
+             * @returns {C2S.CS_GUILD_CREATE} CS_GUILD_CREATE instance
+             */
+            CS_GUILD_CREATE.create = function create(properties) {
+                return new CS_GUILD_CREATE(properties);
+            };
+    
+            /**
+             * Encodes the specified CS_GUILD_CREATE message. Does not implicitly {@link C2S.CS_GUILD_CREATE.verify|verify} messages.
+             * @function encode
+             * @memberof C2S.CS_GUILD_CREATE
+             * @static
+             * @param {C2S.ICS_GUILD_CREATE} message CS_GUILD_CREATE message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            CS_GUILD_CREATE.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.iconId != null && message.hasOwnProperty("iconId"))
+                    writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.iconId);
+                if (message.guildName != null && message.hasOwnProperty("guildName"))
+                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.guildName);
+                return writer;
+            };
+    
+            /**
+             * Encodes the specified CS_GUILD_CREATE message, length delimited. Does not implicitly {@link C2S.CS_GUILD_CREATE.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof C2S.CS_GUILD_CREATE
+             * @static
+             * @param {C2S.ICS_GUILD_CREATE} message CS_GUILD_CREATE message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            CS_GUILD_CREATE.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+    
+            /**
+             * Decodes a CS_GUILD_CREATE message from the specified reader or buffer.
+             * @function decode
+             * @memberof C2S.CS_GUILD_CREATE
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {C2S.CS_GUILD_CREATE} CS_GUILD_CREATE
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            CS_GUILD_CREATE.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.C2S.CS_GUILD_CREATE();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        message.iconId = reader.uint32();
+                        break;
+                    case 2:
+                        message.guildName = reader.string();
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Decodes a CS_GUILD_CREATE message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof C2S.CS_GUILD_CREATE
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {C2S.CS_GUILD_CREATE} CS_GUILD_CREATE
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            CS_GUILD_CREATE.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+    
+            /**
+             * Verifies a CS_GUILD_CREATE message.
+             * @function verify
+             * @memberof C2S.CS_GUILD_CREATE
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            CS_GUILD_CREATE.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.iconId != null && message.hasOwnProperty("iconId"))
+                    if (!$util.isInteger(message.iconId))
+                        return "iconId: integer expected";
+                if (message.guildName != null && message.hasOwnProperty("guildName"))
+                    if (!$util.isString(message.guildName))
+                        return "guildName: string expected";
+                return null;
+            };
+    
+            /**
+             * Creates a CS_GUILD_CREATE message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof C2S.CS_GUILD_CREATE
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {C2S.CS_GUILD_CREATE} CS_GUILD_CREATE
+             */
+            CS_GUILD_CREATE.fromObject = function fromObject(object) {
+                if (object instanceof $root.C2S.CS_GUILD_CREATE)
+                    return object;
+                var message = new $root.C2S.CS_GUILD_CREATE();
+                if (object.iconId != null)
+                    message.iconId = object.iconId >>> 0;
+                if (object.guildName != null)
+                    message.guildName = String(object.guildName);
+                return message;
+            };
+    
+            /**
+             * Creates a plain object from a CS_GUILD_CREATE message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof C2S.CS_GUILD_CREATE
+             * @static
+             * @param {C2S.CS_GUILD_CREATE} message CS_GUILD_CREATE
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            CS_GUILD_CREATE.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.defaults) {
+                    object.iconId = 0;
+                    object.guildName = "";
+                }
+                if (message.iconId != null && message.hasOwnProperty("iconId"))
+                    object.iconId = message.iconId;
+                if (message.guildName != null && message.hasOwnProperty("guildName"))
+                    object.guildName = message.guildName;
+                return object;
+            };
+    
+            /**
+             * Converts this CS_GUILD_CREATE to JSON.
+             * @function toJSON
+             * @memberof C2S.CS_GUILD_CREATE
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            CS_GUILD_CREATE.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+    
+            return CS_GUILD_CREATE;
+        })();
+    
         return C2S;
     })();
     
@@ -2612,6 +2856,7 @@
              * @property {S2C.ISC_INIT_FRIEND|null} [SC_INIT_FRIEND] Message SC_INIT_FRIEND
              * @property {S2C.ISC_UPDATE_FRIEND|null} [SC_UPDATE_FRIEND] Message SC_UPDATE_FRIEND
              * @property {S2C.ISC_RANK_GET_RANK|null} [SC_RANK_GET_RANK] Message SC_RANK_GET_RANK
+             * @property {S2C.ISC_GUILD_CREATE|null} [SC_GUILD_CREATE] Message SC_GUILD_CREATE
              */
     
             /**
@@ -2821,17 +3066,25 @@
              */
             Message.prototype.SC_RANK_GET_RANK = null;
     
+            /**
+             * Message SC_GUILD_CREATE.
+             * @member {S2C.ISC_GUILD_CREATE|null|undefined} SC_GUILD_CREATE
+             * @memberof S2C.Message
+             * @instance
+             */
+            Message.prototype.SC_GUILD_CREATE = null;
+    
             // OneOf field names bound to virtual getters and setters
             var $oneOfFields;
     
             /**
              * Message kind.
-             * @member {"SC_TEST_ECHO"|"LOGIN_SC_LOGIN"|"LOGIN_SC_CHOOSE_SERVER"|"LOGIN_SC_GET_SERVER_LIST"|"LOGIN_SC_GET_INFO"|"SC_ROLE_ONLINE"|"SC_ROLE_HEART_BEAT"|"SC_ROLE_PRO_UPDATE"|"SC_GET_REWARD"|"SC_ROLE_SUMMARY"|"SC_INIT_HERO"|"SC_UPDATE_HERO"|"SC_INIT_EQUIP"|"SC_UPDATE_EQUIP"|"SC_INIT_ITEM"|"SC_UPDATE_ITEM"|"SC_INIT_BATTLE_INFO"|"SC_INIT_TASK"|"SC_UPDATE_TASK"|"SC_INIT_MAIL"|"SC_UPDATE_MAIL"|"SC_INIT_FRIEND"|"SC_UPDATE_FRIEND"|"SC_RANK_GET_RANK"|undefined} kind
+             * @member {"SC_TEST_ECHO"|"LOGIN_SC_LOGIN"|"LOGIN_SC_CHOOSE_SERVER"|"LOGIN_SC_GET_SERVER_LIST"|"LOGIN_SC_GET_INFO"|"SC_ROLE_ONLINE"|"SC_ROLE_HEART_BEAT"|"SC_ROLE_PRO_UPDATE"|"SC_GET_REWARD"|"SC_ROLE_SUMMARY"|"SC_INIT_HERO"|"SC_UPDATE_HERO"|"SC_INIT_EQUIP"|"SC_UPDATE_EQUIP"|"SC_INIT_ITEM"|"SC_UPDATE_ITEM"|"SC_INIT_BATTLE_INFO"|"SC_INIT_TASK"|"SC_UPDATE_TASK"|"SC_INIT_MAIL"|"SC_UPDATE_MAIL"|"SC_INIT_FRIEND"|"SC_UPDATE_FRIEND"|"SC_RANK_GET_RANK"|"SC_GUILD_CREATE"|undefined} kind
              * @memberof S2C.Message
              * @instance
              */
             Object.defineProperty(Message.prototype, "kind", {
-                get: $util.oneOfGetter($oneOfFields = ["SC_TEST_ECHO", "LOGIN_SC_LOGIN", "LOGIN_SC_CHOOSE_SERVER", "LOGIN_SC_GET_SERVER_LIST", "LOGIN_SC_GET_INFO", "SC_ROLE_ONLINE", "SC_ROLE_HEART_BEAT", "SC_ROLE_PRO_UPDATE", "SC_GET_REWARD", "SC_ROLE_SUMMARY", "SC_INIT_HERO", "SC_UPDATE_HERO", "SC_INIT_EQUIP", "SC_UPDATE_EQUIP", "SC_INIT_ITEM", "SC_UPDATE_ITEM", "SC_INIT_BATTLE_INFO", "SC_INIT_TASK", "SC_UPDATE_TASK", "SC_INIT_MAIL", "SC_UPDATE_MAIL", "SC_INIT_FRIEND", "SC_UPDATE_FRIEND", "SC_RANK_GET_RANK"]),
+                get: $util.oneOfGetter($oneOfFields = ["SC_TEST_ECHO", "LOGIN_SC_LOGIN", "LOGIN_SC_CHOOSE_SERVER", "LOGIN_SC_GET_SERVER_LIST", "LOGIN_SC_GET_INFO", "SC_ROLE_ONLINE", "SC_ROLE_HEART_BEAT", "SC_ROLE_PRO_UPDATE", "SC_GET_REWARD", "SC_ROLE_SUMMARY", "SC_INIT_HERO", "SC_UPDATE_HERO", "SC_INIT_EQUIP", "SC_UPDATE_EQUIP", "SC_INIT_ITEM", "SC_UPDATE_ITEM", "SC_INIT_BATTLE_INFO", "SC_INIT_TASK", "SC_UPDATE_TASK", "SC_INIT_MAIL", "SC_UPDATE_MAIL", "SC_INIT_FRIEND", "SC_UPDATE_FRIEND", "SC_RANK_GET_RANK", "SC_GUILD_CREATE"]),
                 set: $util.oneOfSetter($oneOfFields)
             });
     
@@ -2899,6 +3152,8 @@
                     $root.S2C.SC_UPDATE_FRIEND.encode(message.SC_UPDATE_FRIEND, writer.uint32(/* id 1702, wireType 2 =*/13618).fork()).ldelim();
                 if (message.SC_RANK_GET_RANK != null && message.hasOwnProperty("SC_RANK_GET_RANK"))
                     $root.S2C.SC_RANK_GET_RANK.encode(message.SC_RANK_GET_RANK, writer.uint32(/* id 1801, wireType 2 =*/14410).fork()).ldelim();
+                if (message.SC_GUILD_CREATE != null && message.hasOwnProperty("SC_GUILD_CREATE"))
+                    $root.S2C.SC_GUILD_CREATE.encode(message.SC_GUILD_CREATE, writer.uint32(/* id 1901, wireType 2 =*/15210).fork()).ldelim();
                 if (message.LOGIN_SC_LOGIN != null && message.hasOwnProperty("LOGIN_SC_LOGIN"))
                     $root.S2C.LOGIN_SC_LOGIN.encode(message.LOGIN_SC_LOGIN, writer.uint32(/* id 9001, wireType 2 =*/72010).fork()).ldelim();
                 if (message.LOGIN_SC_CHOOSE_SERVER != null && message.hasOwnProperty("LOGIN_SC_CHOOSE_SERVER"))
@@ -3012,6 +3267,9 @@
                         break;
                     case 1801:
                         message.SC_RANK_GET_RANK = $root.S2C.SC_RANK_GET_RANK.decode(reader, reader.uint32());
+                        break;
+                    case 1901:
+                        message.SC_GUILD_CREATE = $root.S2C.SC_GUILD_CREATE.decode(reader, reader.uint32());
                         break;
                     default:
                         reader.skipType(tag & 7);
@@ -3287,6 +3545,16 @@
                             return "SC_RANK_GET_RANK." + error;
                     }
                 }
+                if (message.SC_GUILD_CREATE != null && message.hasOwnProperty("SC_GUILD_CREATE")) {
+                    if (properties.kind === 1)
+                        return "kind: multiple values";
+                    properties.kind = 1;
+                    {
+                        var error = $root.S2C.SC_GUILD_CREATE.verify(message.SC_GUILD_CREATE);
+                        if (error)
+                            return "SC_GUILD_CREATE." + error;
+                    }
+                }
                 return null;
             };
     
@@ -3422,6 +3690,11 @@
                         throw TypeError(".S2C.Message.SC_RANK_GET_RANK: object expected");
                     message.SC_RANK_GET_RANK = $root.S2C.SC_RANK_GET_RANK.fromObject(object.SC_RANK_GET_RANK);
                 }
+                if (object.SC_GUILD_CREATE != null) {
+                    if (typeof object.SC_GUILD_CREATE !== "object")
+                        throw TypeError(".S2C.Message.SC_GUILD_CREATE: object expected");
+                    message.SC_GUILD_CREATE = $root.S2C.SC_GUILD_CREATE.fromObject(object.SC_GUILD_CREATE);
+                }
                 return message;
             };
     
@@ -3538,6 +3811,11 @@
                     if (options.oneofs)
                         object.kind = "SC_RANK_GET_RANK";
                 }
+                if (message.SC_GUILD_CREATE != null && message.hasOwnProperty("SC_GUILD_CREATE")) {
+                    object.SC_GUILD_CREATE = $root.S2C.SC_GUILD_CREATE.toObject(message.SC_GUILD_CREATE, options);
+                    if (options.oneofs)
+                        object.kind = "SC_GUILD_CREATE";
+                }
                 if (message.LOGIN_SC_LOGIN != null && message.hasOwnProperty("LOGIN_SC_LOGIN")) {
                     object.LOGIN_SC_LOGIN = $root.S2C.LOGIN_SC_LOGIN.toObject(message.LOGIN_SC_LOGIN, options);
                     if (options.oneofs)
@@ -3573,6 +3851,1008 @@
             };
     
             return Message;
+        })();
+    
+        S2C.GuildSummary = (function() {
+    
+            /**
+             * Properties of a GuildSummary.
+             * @memberof S2C
+             * @interface IGuildSummary
+             * @property {number|null} [uid] GuildSummary uid
+             * @property {string|null} [guildName] GuildSummary guildName
+             * @property {number|null} [iconId] GuildSummary iconId
+             * @property {number|null} [level] GuildSummary level
+             * @property {number|Long|null} [combat] GuildSummary combat
+             * @property {string|null} [notice] GuildSummary notice
+             */
+    
+            /**
+             * Constructs a new GuildSummary.
+             * @memberof S2C
+             * @classdesc Represents a GuildSummary.
+             * @implements IGuildSummary
+             * @constructor
+             * @param {S2C.IGuildSummary=} [properties] Properties to set
+             */
+            function GuildSummary(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+    
+            /**
+             * GuildSummary uid.
+             * @member {number} uid
+             * @memberof S2C.GuildSummary
+             * @instance
+             */
+            GuildSummary.prototype.uid = 0;
+    
+            /**
+             * GuildSummary guildName.
+             * @member {string} guildName
+             * @memberof S2C.GuildSummary
+             * @instance
+             */
+            GuildSummary.prototype.guildName = "";
+    
+            /**
+             * GuildSummary iconId.
+             * @member {number} iconId
+             * @memberof S2C.GuildSummary
+             * @instance
+             */
+            GuildSummary.prototype.iconId = 0;
+    
+            /**
+             * GuildSummary level.
+             * @member {number} level
+             * @memberof S2C.GuildSummary
+             * @instance
+             */
+            GuildSummary.prototype.level = 0;
+    
+            /**
+             * GuildSummary combat.
+             * @member {number|Long} combat
+             * @memberof S2C.GuildSummary
+             * @instance
+             */
+            GuildSummary.prototype.combat = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+    
+            /**
+             * GuildSummary notice.
+             * @member {string} notice
+             * @memberof S2C.GuildSummary
+             * @instance
+             */
+            GuildSummary.prototype.notice = "";
+    
+            /**
+             * Creates a new GuildSummary instance using the specified properties.
+             * @function create
+             * @memberof S2C.GuildSummary
+             * @static
+             * @param {S2C.IGuildSummary=} [properties] Properties to set
+             * @returns {S2C.GuildSummary} GuildSummary instance
+             */
+            GuildSummary.create = function create(properties) {
+                return new GuildSummary(properties);
+            };
+    
+            /**
+             * Encodes the specified GuildSummary message. Does not implicitly {@link S2C.GuildSummary.verify|verify} messages.
+             * @function encode
+             * @memberof S2C.GuildSummary
+             * @static
+             * @param {S2C.IGuildSummary} message GuildSummary message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            GuildSummary.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.uid != null && message.hasOwnProperty("uid"))
+                    writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.uid);
+                if (message.guildName != null && message.hasOwnProperty("guildName"))
+                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.guildName);
+                if (message.iconId != null && message.hasOwnProperty("iconId"))
+                    writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.iconId);
+                if (message.level != null && message.hasOwnProperty("level"))
+                    writer.uint32(/* id 4, wireType 0 =*/32).uint32(message.level);
+                if (message.combat != null && message.hasOwnProperty("combat"))
+                    writer.uint32(/* id 5, wireType 0 =*/40).uint64(message.combat);
+                if (message.notice != null && message.hasOwnProperty("notice"))
+                    writer.uint32(/* id 6, wireType 2 =*/50).string(message.notice);
+                return writer;
+            };
+    
+            /**
+             * Encodes the specified GuildSummary message, length delimited. Does not implicitly {@link S2C.GuildSummary.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof S2C.GuildSummary
+             * @static
+             * @param {S2C.IGuildSummary} message GuildSummary message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            GuildSummary.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+    
+            /**
+             * Decodes a GuildSummary message from the specified reader or buffer.
+             * @function decode
+             * @memberof S2C.GuildSummary
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {S2C.GuildSummary} GuildSummary
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            GuildSummary.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.S2C.GuildSummary();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        message.uid = reader.uint32();
+                        break;
+                    case 2:
+                        message.guildName = reader.string();
+                        break;
+                    case 3:
+                        message.iconId = reader.uint32();
+                        break;
+                    case 4:
+                        message.level = reader.uint32();
+                        break;
+                    case 5:
+                        message.combat = reader.uint64();
+                        break;
+                    case 6:
+                        message.notice = reader.string();
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Decodes a GuildSummary message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof S2C.GuildSummary
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {S2C.GuildSummary} GuildSummary
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            GuildSummary.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+    
+            /**
+             * Verifies a GuildSummary message.
+             * @function verify
+             * @memberof S2C.GuildSummary
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            GuildSummary.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.uid != null && message.hasOwnProperty("uid"))
+                    if (!$util.isInteger(message.uid))
+                        return "uid: integer expected";
+                if (message.guildName != null && message.hasOwnProperty("guildName"))
+                    if (!$util.isString(message.guildName))
+                        return "guildName: string expected";
+                if (message.iconId != null && message.hasOwnProperty("iconId"))
+                    if (!$util.isInteger(message.iconId))
+                        return "iconId: integer expected";
+                if (message.level != null && message.hasOwnProperty("level"))
+                    if (!$util.isInteger(message.level))
+                        return "level: integer expected";
+                if (message.combat != null && message.hasOwnProperty("combat"))
+                    if (!$util.isInteger(message.combat) && !(message.combat && $util.isInteger(message.combat.low) && $util.isInteger(message.combat.high)))
+                        return "combat: integer|Long expected";
+                if (message.notice != null && message.hasOwnProperty("notice"))
+                    if (!$util.isString(message.notice))
+                        return "notice: string expected";
+                return null;
+            };
+    
+            /**
+             * Creates a GuildSummary message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof S2C.GuildSummary
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {S2C.GuildSummary} GuildSummary
+             */
+            GuildSummary.fromObject = function fromObject(object) {
+                if (object instanceof $root.S2C.GuildSummary)
+                    return object;
+                var message = new $root.S2C.GuildSummary();
+                if (object.uid != null)
+                    message.uid = object.uid >>> 0;
+                if (object.guildName != null)
+                    message.guildName = String(object.guildName);
+                if (object.iconId != null)
+                    message.iconId = object.iconId >>> 0;
+                if (object.level != null)
+                    message.level = object.level >>> 0;
+                if (object.combat != null)
+                    if ($util.Long)
+                        (message.combat = $util.Long.fromValue(object.combat)).unsigned = true;
+                    else if (typeof object.combat === "string")
+                        message.combat = parseInt(object.combat, 10);
+                    else if (typeof object.combat === "number")
+                        message.combat = object.combat;
+                    else if (typeof object.combat === "object")
+                        message.combat = new $util.LongBits(object.combat.low >>> 0, object.combat.high >>> 0).toNumber(true);
+                if (object.notice != null)
+                    message.notice = String(object.notice);
+                return message;
+            };
+    
+            /**
+             * Creates a plain object from a GuildSummary message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof S2C.GuildSummary
+             * @static
+             * @param {S2C.GuildSummary} message GuildSummary
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            GuildSummary.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.defaults) {
+                    object.uid = 0;
+                    object.guildName = "";
+                    object.iconId = 0;
+                    object.level = 0;
+                    if ($util.Long) {
+                        var long = new $util.Long(0, 0, true);
+                        object.combat = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    } else
+                        object.combat = options.longs === String ? "0" : 0;
+                    object.notice = "";
+                }
+                if (message.uid != null && message.hasOwnProperty("uid"))
+                    object.uid = message.uid;
+                if (message.guildName != null && message.hasOwnProperty("guildName"))
+                    object.guildName = message.guildName;
+                if (message.iconId != null && message.hasOwnProperty("iconId"))
+                    object.iconId = message.iconId;
+                if (message.level != null && message.hasOwnProperty("level"))
+                    object.level = message.level;
+                if (message.combat != null && message.hasOwnProperty("combat"))
+                    if (typeof message.combat === "number")
+                        object.combat = options.longs === String ? String(message.combat) : message.combat;
+                    else
+                        object.combat = options.longs === String ? $util.Long.prototype.toString.call(message.combat) : options.longs === Number ? new $util.LongBits(message.combat.low >>> 0, message.combat.high >>> 0).toNumber(true) : message.combat;
+                if (message.notice != null && message.hasOwnProperty("notice"))
+                    object.notice = message.notice;
+                return object;
+            };
+    
+            /**
+             * Converts this GuildSummary to JSON.
+             * @function toJSON
+             * @memberof S2C.GuildSummary
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            GuildSummary.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+    
+            return GuildSummary;
+        })();
+    
+        S2C.Guild = (function() {
+    
+            /**
+             * Properties of a Guild.
+             * @memberof S2C
+             * @interface IGuild
+             * @property {number|null} [uid] Guild uid
+             * @property {string|null} [guildName] Guild guildName
+             * @property {number|null} [iconId] Guild iconId
+             * @property {number|null} [level] Guild level
+             * @property {number|Long|null} [combat] Guild combat
+             * @property {string|null} [notice] Guild notice
+             * @property {number|null} [gold] Guild gold
+             * @property {number|Long|null} [exp] Guild exp
+             */
+    
+            /**
+             * Constructs a new Guild.
+             * @memberof S2C
+             * @classdesc Represents a Guild.
+             * @implements IGuild
+             * @constructor
+             * @param {S2C.IGuild=} [properties] Properties to set
+             */
+            function Guild(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+    
+            /**
+             * Guild uid.
+             * @member {number} uid
+             * @memberof S2C.Guild
+             * @instance
+             */
+            Guild.prototype.uid = 0;
+    
+            /**
+             * Guild guildName.
+             * @member {string} guildName
+             * @memberof S2C.Guild
+             * @instance
+             */
+            Guild.prototype.guildName = "";
+    
+            /**
+             * Guild iconId.
+             * @member {number} iconId
+             * @memberof S2C.Guild
+             * @instance
+             */
+            Guild.prototype.iconId = 0;
+    
+            /**
+             * Guild level.
+             * @member {number} level
+             * @memberof S2C.Guild
+             * @instance
+             */
+            Guild.prototype.level = 0;
+    
+            /**
+             * Guild combat.
+             * @member {number|Long} combat
+             * @memberof S2C.Guild
+             * @instance
+             */
+            Guild.prototype.combat = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+    
+            /**
+             * Guild notice.
+             * @member {string} notice
+             * @memberof S2C.Guild
+             * @instance
+             */
+            Guild.prototype.notice = "";
+    
+            /**
+             * Guild gold.
+             * @member {number} gold
+             * @memberof S2C.Guild
+             * @instance
+             */
+            Guild.prototype.gold = 0;
+    
+            /**
+             * Guild exp.
+             * @member {number|Long} exp
+             * @memberof S2C.Guild
+             * @instance
+             */
+            Guild.prototype.exp = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+    
+            /**
+             * Creates a new Guild instance using the specified properties.
+             * @function create
+             * @memberof S2C.Guild
+             * @static
+             * @param {S2C.IGuild=} [properties] Properties to set
+             * @returns {S2C.Guild} Guild instance
+             */
+            Guild.create = function create(properties) {
+                return new Guild(properties);
+            };
+    
+            /**
+             * Encodes the specified Guild message. Does not implicitly {@link S2C.Guild.verify|verify} messages.
+             * @function encode
+             * @memberof S2C.Guild
+             * @static
+             * @param {S2C.IGuild} message Guild message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            Guild.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.uid != null && message.hasOwnProperty("uid"))
+                    writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.uid);
+                if (message.guildName != null && message.hasOwnProperty("guildName"))
+                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.guildName);
+                if (message.iconId != null && message.hasOwnProperty("iconId"))
+                    writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.iconId);
+                if (message.level != null && message.hasOwnProperty("level"))
+                    writer.uint32(/* id 4, wireType 0 =*/32).uint32(message.level);
+                if (message.combat != null && message.hasOwnProperty("combat"))
+                    writer.uint32(/* id 5, wireType 0 =*/40).uint64(message.combat);
+                if (message.notice != null && message.hasOwnProperty("notice"))
+                    writer.uint32(/* id 6, wireType 2 =*/50).string(message.notice);
+                if (message.gold != null && message.hasOwnProperty("gold"))
+                    writer.uint32(/* id 7, wireType 0 =*/56).uint32(message.gold);
+                if (message.exp != null && message.hasOwnProperty("exp"))
+                    writer.uint32(/* id 8, wireType 0 =*/64).uint64(message.exp);
+                return writer;
+            };
+    
+            /**
+             * Encodes the specified Guild message, length delimited. Does not implicitly {@link S2C.Guild.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof S2C.Guild
+             * @static
+             * @param {S2C.IGuild} message Guild message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            Guild.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+    
+            /**
+             * Decodes a Guild message from the specified reader or buffer.
+             * @function decode
+             * @memberof S2C.Guild
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {S2C.Guild} Guild
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            Guild.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.S2C.Guild();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        message.uid = reader.uint32();
+                        break;
+                    case 2:
+                        message.guildName = reader.string();
+                        break;
+                    case 3:
+                        message.iconId = reader.uint32();
+                        break;
+                    case 4:
+                        message.level = reader.uint32();
+                        break;
+                    case 5:
+                        message.combat = reader.uint64();
+                        break;
+                    case 6:
+                        message.notice = reader.string();
+                        break;
+                    case 7:
+                        message.gold = reader.uint32();
+                        break;
+                    case 8:
+                        message.exp = reader.uint64();
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Decodes a Guild message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof S2C.Guild
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {S2C.Guild} Guild
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            Guild.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+    
+            /**
+             * Verifies a Guild message.
+             * @function verify
+             * @memberof S2C.Guild
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            Guild.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.uid != null && message.hasOwnProperty("uid"))
+                    if (!$util.isInteger(message.uid))
+                        return "uid: integer expected";
+                if (message.guildName != null && message.hasOwnProperty("guildName"))
+                    if (!$util.isString(message.guildName))
+                        return "guildName: string expected";
+                if (message.iconId != null && message.hasOwnProperty("iconId"))
+                    if (!$util.isInteger(message.iconId))
+                        return "iconId: integer expected";
+                if (message.level != null && message.hasOwnProperty("level"))
+                    if (!$util.isInteger(message.level))
+                        return "level: integer expected";
+                if (message.combat != null && message.hasOwnProperty("combat"))
+                    if (!$util.isInteger(message.combat) && !(message.combat && $util.isInteger(message.combat.low) && $util.isInteger(message.combat.high)))
+                        return "combat: integer|Long expected";
+                if (message.notice != null && message.hasOwnProperty("notice"))
+                    if (!$util.isString(message.notice))
+                        return "notice: string expected";
+                if (message.gold != null && message.hasOwnProperty("gold"))
+                    if (!$util.isInteger(message.gold))
+                        return "gold: integer expected";
+                if (message.exp != null && message.hasOwnProperty("exp"))
+                    if (!$util.isInteger(message.exp) && !(message.exp && $util.isInteger(message.exp.low) && $util.isInteger(message.exp.high)))
+                        return "exp: integer|Long expected";
+                return null;
+            };
+    
+            /**
+             * Creates a Guild message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof S2C.Guild
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {S2C.Guild} Guild
+             */
+            Guild.fromObject = function fromObject(object) {
+                if (object instanceof $root.S2C.Guild)
+                    return object;
+                var message = new $root.S2C.Guild();
+                if (object.uid != null)
+                    message.uid = object.uid >>> 0;
+                if (object.guildName != null)
+                    message.guildName = String(object.guildName);
+                if (object.iconId != null)
+                    message.iconId = object.iconId >>> 0;
+                if (object.level != null)
+                    message.level = object.level >>> 0;
+                if (object.combat != null)
+                    if ($util.Long)
+                        (message.combat = $util.Long.fromValue(object.combat)).unsigned = true;
+                    else if (typeof object.combat === "string")
+                        message.combat = parseInt(object.combat, 10);
+                    else if (typeof object.combat === "number")
+                        message.combat = object.combat;
+                    else if (typeof object.combat === "object")
+                        message.combat = new $util.LongBits(object.combat.low >>> 0, object.combat.high >>> 0).toNumber(true);
+                if (object.notice != null)
+                    message.notice = String(object.notice);
+                if (object.gold != null)
+                    message.gold = object.gold >>> 0;
+                if (object.exp != null)
+                    if ($util.Long)
+                        (message.exp = $util.Long.fromValue(object.exp)).unsigned = true;
+                    else if (typeof object.exp === "string")
+                        message.exp = parseInt(object.exp, 10);
+                    else if (typeof object.exp === "number")
+                        message.exp = object.exp;
+                    else if (typeof object.exp === "object")
+                        message.exp = new $util.LongBits(object.exp.low >>> 0, object.exp.high >>> 0).toNumber(true);
+                return message;
+            };
+    
+            /**
+             * Creates a plain object from a Guild message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof S2C.Guild
+             * @static
+             * @param {S2C.Guild} message Guild
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            Guild.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.defaults) {
+                    object.uid = 0;
+                    object.guildName = "";
+                    object.iconId = 0;
+                    object.level = 0;
+                    if ($util.Long) {
+                        var long = new $util.Long(0, 0, true);
+                        object.combat = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    } else
+                        object.combat = options.longs === String ? "0" : 0;
+                    object.notice = "";
+                    object.gold = 0;
+                    if ($util.Long) {
+                        var long = new $util.Long(0, 0, true);
+                        object.exp = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                    } else
+                        object.exp = options.longs === String ? "0" : 0;
+                }
+                if (message.uid != null && message.hasOwnProperty("uid"))
+                    object.uid = message.uid;
+                if (message.guildName != null && message.hasOwnProperty("guildName"))
+                    object.guildName = message.guildName;
+                if (message.iconId != null && message.hasOwnProperty("iconId"))
+                    object.iconId = message.iconId;
+                if (message.level != null && message.hasOwnProperty("level"))
+                    object.level = message.level;
+                if (message.combat != null && message.hasOwnProperty("combat"))
+                    if (typeof message.combat === "number")
+                        object.combat = options.longs === String ? String(message.combat) : message.combat;
+                    else
+                        object.combat = options.longs === String ? $util.Long.prototype.toString.call(message.combat) : options.longs === Number ? new $util.LongBits(message.combat.low >>> 0, message.combat.high >>> 0).toNumber(true) : message.combat;
+                if (message.notice != null && message.hasOwnProperty("notice"))
+                    object.notice = message.notice;
+                if (message.gold != null && message.hasOwnProperty("gold"))
+                    object.gold = message.gold;
+                if (message.exp != null && message.hasOwnProperty("exp"))
+                    if (typeof message.exp === "number")
+                        object.exp = options.longs === String ? String(message.exp) : message.exp;
+                    else
+                        object.exp = options.longs === String ? $util.Long.prototype.toString.call(message.exp) : options.longs === Number ? new $util.LongBits(message.exp.low >>> 0, message.exp.high >>> 0).toNumber(true) : message.exp;
+                return object;
+            };
+    
+            /**
+             * Converts this Guild to JSON.
+             * @function toJSON
+             * @memberof S2C.Guild
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            Guild.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+    
+            return Guild;
+        })();
+    
+        S2C.SC_GUILD_INIT = (function() {
+    
+            /**
+             * Properties of a SC_GUILD_INIT.
+             * @memberof S2C
+             * @interface ISC_GUILD_INIT
+             */
+    
+            /**
+             * Constructs a new SC_GUILD_INIT.
+             * @memberof S2C
+             * @classdesc Represents a SC_GUILD_INIT.
+             * @implements ISC_GUILD_INIT
+             * @constructor
+             * @param {S2C.ISC_GUILD_INIT=} [properties] Properties to set
+             */
+            function SC_GUILD_INIT(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+    
+            /**
+             * Creates a new SC_GUILD_INIT instance using the specified properties.
+             * @function create
+             * @memberof S2C.SC_GUILD_INIT
+             * @static
+             * @param {S2C.ISC_GUILD_INIT=} [properties] Properties to set
+             * @returns {S2C.SC_GUILD_INIT} SC_GUILD_INIT instance
+             */
+            SC_GUILD_INIT.create = function create(properties) {
+                return new SC_GUILD_INIT(properties);
+            };
+    
+            /**
+             * Encodes the specified SC_GUILD_INIT message. Does not implicitly {@link S2C.SC_GUILD_INIT.verify|verify} messages.
+             * @function encode
+             * @memberof S2C.SC_GUILD_INIT
+             * @static
+             * @param {S2C.ISC_GUILD_INIT} message SC_GUILD_INIT message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            SC_GUILD_INIT.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                return writer;
+            };
+    
+            /**
+             * Encodes the specified SC_GUILD_INIT message, length delimited. Does not implicitly {@link S2C.SC_GUILD_INIT.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof S2C.SC_GUILD_INIT
+             * @static
+             * @param {S2C.ISC_GUILD_INIT} message SC_GUILD_INIT message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            SC_GUILD_INIT.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+    
+            /**
+             * Decodes a SC_GUILD_INIT message from the specified reader or buffer.
+             * @function decode
+             * @memberof S2C.SC_GUILD_INIT
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {S2C.SC_GUILD_INIT} SC_GUILD_INIT
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            SC_GUILD_INIT.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.S2C.SC_GUILD_INIT();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Decodes a SC_GUILD_INIT message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof S2C.SC_GUILD_INIT
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {S2C.SC_GUILD_INIT} SC_GUILD_INIT
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            SC_GUILD_INIT.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+    
+            /**
+             * Verifies a SC_GUILD_INIT message.
+             * @function verify
+             * @memberof S2C.SC_GUILD_INIT
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            SC_GUILD_INIT.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                return null;
+            };
+    
+            /**
+             * Creates a SC_GUILD_INIT message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof S2C.SC_GUILD_INIT
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {S2C.SC_GUILD_INIT} SC_GUILD_INIT
+             */
+            SC_GUILD_INIT.fromObject = function fromObject(object) {
+                if (object instanceof $root.S2C.SC_GUILD_INIT)
+                    return object;
+                return new $root.S2C.SC_GUILD_INIT();
+            };
+    
+            /**
+             * Creates a plain object from a SC_GUILD_INIT message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof S2C.SC_GUILD_INIT
+             * @static
+             * @param {S2C.SC_GUILD_INIT} message SC_GUILD_INIT
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            SC_GUILD_INIT.toObject = function toObject() {
+                return {};
+            };
+    
+            /**
+             * Converts this SC_GUILD_INIT to JSON.
+             * @function toJSON
+             * @memberof S2C.SC_GUILD_INIT
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            SC_GUILD_INIT.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+    
+            return SC_GUILD_INIT;
+        })();
+    
+        S2C.SC_GUILD_CREATE = (function() {
+    
+            /**
+             * Properties of a SC_GUILD_CREATE.
+             * @memberof S2C
+             * @interface ISC_GUILD_CREATE
+             */
+    
+            /**
+             * Constructs a new SC_GUILD_CREATE.
+             * @memberof S2C
+             * @classdesc Represents a SC_GUILD_CREATE.
+             * @implements ISC_GUILD_CREATE
+             * @constructor
+             * @param {S2C.ISC_GUILD_CREATE=} [properties] Properties to set
+             */
+            function SC_GUILD_CREATE(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+    
+            /**
+             * Creates a new SC_GUILD_CREATE instance using the specified properties.
+             * @function create
+             * @memberof S2C.SC_GUILD_CREATE
+             * @static
+             * @param {S2C.ISC_GUILD_CREATE=} [properties] Properties to set
+             * @returns {S2C.SC_GUILD_CREATE} SC_GUILD_CREATE instance
+             */
+            SC_GUILD_CREATE.create = function create(properties) {
+                return new SC_GUILD_CREATE(properties);
+            };
+    
+            /**
+             * Encodes the specified SC_GUILD_CREATE message. Does not implicitly {@link S2C.SC_GUILD_CREATE.verify|verify} messages.
+             * @function encode
+             * @memberof S2C.SC_GUILD_CREATE
+             * @static
+             * @param {S2C.ISC_GUILD_CREATE} message SC_GUILD_CREATE message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            SC_GUILD_CREATE.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                return writer;
+            };
+    
+            /**
+             * Encodes the specified SC_GUILD_CREATE message, length delimited. Does not implicitly {@link S2C.SC_GUILD_CREATE.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof S2C.SC_GUILD_CREATE
+             * @static
+             * @param {S2C.ISC_GUILD_CREATE} message SC_GUILD_CREATE message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            SC_GUILD_CREATE.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+    
+            /**
+             * Decodes a SC_GUILD_CREATE message from the specified reader or buffer.
+             * @function decode
+             * @memberof S2C.SC_GUILD_CREATE
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {S2C.SC_GUILD_CREATE} SC_GUILD_CREATE
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            SC_GUILD_CREATE.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.S2C.SC_GUILD_CREATE();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Decodes a SC_GUILD_CREATE message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof S2C.SC_GUILD_CREATE
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {S2C.SC_GUILD_CREATE} SC_GUILD_CREATE
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            SC_GUILD_CREATE.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+    
+            /**
+             * Verifies a SC_GUILD_CREATE message.
+             * @function verify
+             * @memberof S2C.SC_GUILD_CREATE
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            SC_GUILD_CREATE.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                return null;
+            };
+    
+            /**
+             * Creates a SC_GUILD_CREATE message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof S2C.SC_GUILD_CREATE
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {S2C.SC_GUILD_CREATE} SC_GUILD_CREATE
+             */
+            SC_GUILD_CREATE.fromObject = function fromObject(object) {
+                if (object instanceof $root.S2C.SC_GUILD_CREATE)
+                    return object;
+                return new $root.S2C.SC_GUILD_CREATE();
+            };
+    
+            /**
+             * Creates a plain object from a SC_GUILD_CREATE message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof S2C.SC_GUILD_CREATE
+             * @static
+             * @param {S2C.SC_GUILD_CREATE} message SC_GUILD_CREATE
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            SC_GUILD_CREATE.toObject = function toObject() {
+                return {};
+            };
+    
+            /**
+             * Converts this SC_GUILD_CREATE to JSON.
+             * @function toJSON
+             * @memberof S2C.SC_GUILD_CREATE
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            SC_GUILD_CREATE.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+    
+            return SC_GUILD_CREATE;
         })();
     
         S2C.RankInfo = (function() {
