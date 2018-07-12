@@ -39,7 +39,7 @@ class Client {
                     id = id === 0 ? 1 : id;
                     let msg = C2S.Message.create({
                         CS_ROLE_HEART_BEAT: {msg: Math.floor(Math.random() * 100) + '' }
-                        // CS_RANK_GET_RANK: {types: [ERankType.level]}
+                        // CS_RANK_GET_RANK: {types: [ERankType.level, ERankType.combat]}
                     });
 
                     let buffer = C2S.Message.encode(msg).finish();
@@ -67,7 +67,7 @@ class Client {
     }
 }
 
-for (let i = 0; i < 1; i++) {
+for (let i = 0; i < 100; i++) {
     let client = new Client(i + 1);
 }
 

@@ -216,11 +216,11 @@ export class RankController {
     }
 
     private getRankRedisKey(rankType: any, serverId: number): string {
-        return 'rank_' + serverId + '_' + rankType;
+        return 'zset_rank_' + serverId + '_' + rankType;
     }
 
     private getRankDataRedisKey(rankType: any, serverId: number): string {
-        return 'rank_data_' + serverId + '_' + rankType;
+        return 'str_rank_data_' + serverId + '_' + rankType;
     }
 
     private getRankDBKey(rankType: any): string {

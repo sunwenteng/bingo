@@ -17,8 +17,9 @@ type ControllerMap = { [index: string]: Function };
 let gameRedis = RedisMgr.getInstance(RedisType.GAME);
 
 export enum WorldDataRedisKey {
-    DIRTY_ROLES = 'dirty_roles',
-    RELOAD_ROLES = 'reload_roles',
+    GAME_SERVERS = 'hash_game_servers',
+    DIRTY_ROLES = 'set_dirty_roles',
+    RELOAD_ROLES = 'set_reload_roles',
 }
 
 class InstanceServerInfo implements LoginDB.Server {
@@ -163,7 +164,7 @@ export class GameWorld extends events.EventEmitter {
         });
 
         await this.addTimer('game_world_update15s', 15 * time.SECOND, async () => {
-            let instances = await gameRedis.hgetall('game_servers');
+            let instances = await gameRedis.hgetall(WorldDataRedisKey.GAME_SERVERS);
             if (instances) {
                 for (let key in instances) {
                     let arr = key.split('_');
@@ -252,7 +253,7 @@ export class GameWorld extends events.EventEmitter {
                         port: self.info.port
                     })];
                 Log.sInfo('updateServerInfo, data=%j', data);
-                gameRedis.hmset('game_servers', data).then(updateServerInfo);
+                gameRedis.hmset(WorldDataRedisKey.GAME_SERVERS, data).then(updateServerInfo);
             }, 5000);
         }
 

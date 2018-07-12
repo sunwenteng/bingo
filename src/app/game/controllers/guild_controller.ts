@@ -5,6 +5,7 @@ import {GameWorld} from "../game_world";
 import {Log} from "../../../lib/util/log";
 import * as WorldDB from "../../../lib/mysql/world_db";
 import {RedisMgr, RedisType} from "../../../lib/redis/redis_mgr";
+import {Guild} from "../modles/guild";
 
 let gameRedis = RedisMgr.getInstance(RedisType.GAME);
 
@@ -20,7 +21,17 @@ export class GuildController {
                     let ret = await WorldDB.conn.execute('select * from guild where serverId=?',
                         [serverId]);
                     for (let i = 0; i < ret.length; ++i) {
-
+                        let guild = new Guild();
+                        for (let k in ret[i]) {
+                            if (guild.has(k)) {
+                                if (typeof guild[k] === 'object') {
+                                    guild[k] = JSON.parse(ret[i][k]);
+                                }
+                                else {
+                                    guild[k] = ret[i][k];
+                                }
+                            }
+                        }
                     }
                 }
             }

@@ -23,8 +23,8 @@ import ERankType = C2S.CS_RANK_GET_RANK.ERankType;
 import {FriendModel} from "./friend_model";
 
 let gameRedis = RedisMgr.getInstance(RedisType.GAME);
-export const roleRedisPrefix: string = 'role';
-const roleSummaryRedisKey: string = 'role_summary';
+export const roleRedisPrefix: string = 'hash_role';
+const roleSummaryRedisKey: string = 'hash_role_summary';
 
 export enum ERoleMask {
     BASE = 'base',

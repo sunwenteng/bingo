@@ -217,7 +217,7 @@ export class RedisMgr {
                             // 定时使用连接，keeplive
                             this._aliveTimer[db] = setInterval(() => {
                                 Log.sInfo('name=%s, redis keeplive,db:' + db, this._name);
-                                this._pool[db].set('redis_keeplive_' + db, Date.now().toString());
+                                this._pool[db].set('str_redis_keeplive_' + db, Date.now().toString());
                             }, 3 * 60 * 1000);
                             resolve(this._pool[db]);
                         }
@@ -272,7 +272,7 @@ export class RedisMgr {
     }
 
     public async lock<T>(key: string, callback: (hasLock: boolean) => Promise<T>, bWaitForLock: boolean = true, lockTime: number = 5000) {
-        let mutexKey = key + '_mutex';
+        let mutexKey = 'mutex_' + key;
         let success = await this.setWithParams(mutexKey, 1, 'PX', lockTime, 'NX');
         if (!success) {
             if (bWaitForLock) {

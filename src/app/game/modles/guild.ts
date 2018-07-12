@@ -12,22 +12,41 @@ interface GuildLog {
 export class Guild extends DirtyModel {
     @dirtyField() uid: number = 0;
     @dirtyField() guildName: string = '';
+    @dirtyField() serverId: number = 0;
+    @dirtyField() iconId: number = 0;
     @dirtyField() level: number = 0;
     @dirtyField() exp: number = 0;
     @dirtyField() gold: number = 0;
     @dirtyField() members: Set<number> = new Set<number>();
     @dirtyField() applicants: Set<number> = new Set<number>();
     @dirtyField() logs: GuildLog[] = [];
+    @dirtyField() notice: string = '';
     @dirtyField() createTime: number = Date.now();
 
-    constructor(uid: number, guildName: string) {
+    constructor(uid?: number, guildName?: string, iconId?: number) {
         super();
-        this.uid = uid;
-        this.guildName = guildName;
+        if (uid && guildName && iconId) {
+            this.uid = uid;
+            this.iconId = iconId;
+            this.guildName = guildName;
+        }
     }
 
-    serialize(): string {
-        return JSON.stringify(this.fields);
+    serialize(): { [key: string]: string } {
+        let ret = {};
+        for (let k in this.fields) {
+            if (typeof this.fields[k] === 'object') {
+                ret[k] = JSON.stringify(this.fields[k]);
+            }
+            else {
+                ret[k] = this.fields[k];
+            }
+        }
+        return ret;
+    }
+
+    getRedisKey() {
+        return 'guild_' + this.uid;
     }
 
     deserialize(data: string) {

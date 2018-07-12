@@ -67,12 +67,15 @@ export async function start(config: MysqlConfig): Promise<void> {
         "CREATE TABLE IF NOT EXISTS " + tableName + " (" +
         "uid            INT 	    UNSIGNED 	NOT NULL," +
         "serverId	    INT         UNSIGNED    NOT NULL    DEFAULT 0," +
+        "iconId 	    INT         UNSIGNED    NOT NULL    DEFAULT 0," +
         "guildName      VARCHAR(64) CHARACTER SET utf8 NOT NULL DEFAULT ''," +
+        "notice         VARCHAR(512) CHARACTER SET utf8 NOT NULL DEFAULT ''," +
         "level  	    INT         UNSIGNED    NOT NULL    DEFAULT 0," +
+        "exp 	        BIGINT(20) 	UNSIGNED 	NOT NULL    DEFAULT 0," +
         "gold   	    INT         UNSIGNED    NOT NULL    DEFAULT 0," +
-        "members	    blob        NULL" +
-        "applicants	    blob        NULL" +
-        "logs   	    blob        NULL" +
+        "members	    blob        NULL," +
+        "applicants	    blob        NULL," +
+        "logs   	    blob        NULL," +
         "createTime	    INT         UNSIGNED    NOT NULL    DEFAULT 0," +
         "PRIMARY KEY (uid)" +
         ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
