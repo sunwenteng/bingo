@@ -433,6 +433,7 @@ export namespace S2C {
         values?: (number[]|null);
         rank?: (number|null);
         value?: (number|null);
+        rankType?: (number|null);
     }
 
     class RankInfo implements IRankInfo {
@@ -441,6 +442,7 @@ export namespace S2C {
         public values: number[];
         public rank: number;
         public value: number;
+        public rankType: number;
         public static create(properties?: S2C.IRankInfo): S2C.RankInfo;
         public static encode(message: S2C.IRankInfo, writer?: $protobuf.Writer): $protobuf.Writer;
         public static encodeDelimited(message: S2C.IRankInfo, writer?: $protobuf.Writer): $protobuf.Writer;

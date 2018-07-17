@@ -150,6 +150,7 @@ export class RankController {
                 ids.push(info.id);
             }
 
+            rankInfo.rankType = rankType;
             rankInfo.roles = await Role.getRoleSummary(ids);
             ret.ranks[rankType] = rankInfo;
         }

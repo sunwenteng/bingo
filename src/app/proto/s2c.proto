@@ -80,6 +80,7 @@ message RankInfo {
     repeated uint32 values = 2;
     uint32 rank = 3;
     uint32 value = 4;
+    uint32 rankType = 5;
 }
 
 message SC_RANK_GET_RANK {

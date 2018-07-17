@@ -423,6 +423,10 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
           value: {
             type: "uint32",
             id: 4
+          },
+          rankType: {
+            type: "uint32",
+            id: 5
           }
         }
       },

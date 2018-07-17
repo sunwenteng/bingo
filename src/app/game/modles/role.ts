@@ -164,6 +164,12 @@ export class Role extends RedisData {
     }
 
     public async create() {
+        for (let k in this.fields) {
+            if (this.fields[k] instanceof RoleModel) {
+                this.fields[k].loaded = true;
+            }
+        }
+
         this.createTime = Time.realNow();
         this.lastAliveTime = Time.realNow();
         this.lastLoginTime = Time.realNow();

@@ -4872,6 +4872,7 @@
              * @property {Array.<number>|null} [values] RankInfo values
              * @property {number|null} [rank] RankInfo rank
              * @property {number|null} [value] RankInfo value
+             * @property {number|null} [rankType] RankInfo rankType
              */
     
             /**
@@ -4924,6 +4925,14 @@
             RankInfo.prototype.value = 0;
     
             /**
+             * RankInfo rankType.
+             * @member {number} rankType
+             * @memberof S2C.RankInfo
+             * @instance
+             */
+            RankInfo.prototype.rankType = 0;
+    
+            /**
              * Creates a new RankInfo instance using the specified properties.
              * @function create
              * @memberof S2C.RankInfo
@@ -4960,6 +4969,8 @@
                     writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.rank);
                 if (message.value != null && message.hasOwnProperty("value"))
                     writer.uint32(/* id 4, wireType 0 =*/32).uint32(message.value);
+                if (message.rankType != null && message.hasOwnProperty("rankType"))
+                    writer.uint32(/* id 5, wireType 0 =*/40).uint32(message.rankType);
                 return writer;
             };
     
@@ -5014,6 +5025,9 @@
                         break;
                     case 4:
                         message.value = reader.uint32();
+                        break;
+                    case 5:
+                        message.rankType = reader.uint32();
                         break;
                     default:
                         reader.skipType(tag & 7);
@@ -5072,6 +5086,9 @@
                 if (message.value != null && message.hasOwnProperty("value"))
                     if (!$util.isInteger(message.value))
                         return "value: integer expected";
+                if (message.rankType != null && message.hasOwnProperty("rankType"))
+                    if (!$util.isInteger(message.rankType))
+                        return "rankType: integer expected";
                 return null;
             };
     
@@ -5108,6 +5125,8 @@
                     message.rank = object.rank >>> 0;
                 if (object.value != null)
                     message.value = object.value >>> 0;
+                if (object.rankType != null)
+                    message.rankType = object.rankType >>> 0;
                 return message;
             };
     
@@ -5131,6 +5150,7 @@
                 if (options.defaults) {
                     object.rank = 0;
                     object.value = 0;
+                    object.rankType = 0;
                 }
                 if (message.roles && message.roles.length) {
                     object.roles = [];
@@ -5146,6 +5166,8 @@
                     object.rank = message.rank;
                 if (message.value != null && message.hasOwnProperty("value"))
                     object.value = message.value;
+                if (message.rankType != null && message.hasOwnProperty("rankType"))
+                    object.rankType = message.rankType;
                 return object;
             };
     
