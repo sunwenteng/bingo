@@ -196,3 +196,8 @@ node-gyp build
 ### 性能调优 Easy-Monitor
 `export NODE_ENV=development&& nodemon --harmony --use_strict XXX.js  -w`
 then visit [127.0.0.1:12333](http://127.0.0.1:12333)
+
+### git
+`git remote set-url origin http://172.16.0.84/sunwenteng/bingo.git`
+`git remote set-url origin http://github.com/sunwenteng/bingo.git`
+`
