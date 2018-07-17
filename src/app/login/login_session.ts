@@ -248,14 +248,33 @@ export class LoginSession extends UserSession {
     public async handleChooseServer(packet: C2S.LOGIN_CS_CHOOSE_SERVER) {
         let server = LoginWorld.instance.serverMap[packet.serverId];
         if (server) {
-            let sql = 'update passport_info set ? where ?';
-            await LoginDB.conn.execute(sql, [{last_login_server: packet.serverId}, {passport_id: this.passportId}]);
+            await LoginDB.conn.execute('update passport_info set ? where ?', [{last_login_server: packet.serverId}, {passport_id: this.passportId}]);
+            let ret = await LoginDB.conn.execute('select role_id from re_passport_player where ?', {
+                passport_id: this.passportId,
+                server_id_origin: packet.serverId
+            });
+            let roleId = 0;
+            if (ret.length === 0) {
+                let dbTime = await LoginDB.getDBTime();
+                let result = await LoginDB.conn.execute('insert into re_passport_player set ?', {
+                    passport_id: this.passportId,
+                    server_id: packet.serverId,
+                    server_id_origin: packet.serverId,
+                    create_time: dbTime
+                });
+                roleId = result['insertId'];
+            }
+            else {
+                roleId = ret[0]['role_id'];
+            }
             let pck = S2C.LOGIN_SC_CHOOSE_SERVER.create();
             pck.ip = server.ip;
             pck.port = server.port;
             pck.resServerAddress = server.res_server_ip;
             pck.resVersion = server.res_version;
             pck.version = server.version;
+            pck.uid = roleId;
+            pck.token = '';
             this.sendProtocol(pck);
         }
     }

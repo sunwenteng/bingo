@@ -1,7 +1,9 @@
 import * as ws from 'ws';
-import * as http from "http";
+import * as express from 'express';
+import * as http from 'http';
 import {Log} from '../../util/log';
-import {UserSession} from "../user_session";
+import {UserSession} from '../user_session';
+import bodyParser = require("body-parser");
 
 let uid: number = 0;
 export let isServerValid = false;
@@ -104,16 +106,30 @@ export class Server {
     public start<T extends UserSession>(sessionClass: new () => T): Promise<void> {
         return new Promise<void>((resolve => {
             isServerValid = true;
+            let app = express();
+            app.use(bodyParser.urlencoded({extended: true, limit: '1mb'}));
+            app.use((req: express.Request, res: express.Response, next) => {
+                res.header("Access-Control-Allow-Credentials", 'true');
+                res.header("Access-Control-Allow-Origin", "*");
+                res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
+                res.header("Access-Control-Allow-Headers", "*");
+                res.header("Content-Type", "application/json;charset=utf-8");
+                if ("OPTIONS" === req.method) {
+                    res.send(200);
+                } else {
+                    next();
+                }
+            });
+
             this._server = new ws.Server({
+                server: http.createServer(app),
+                /*server: https.createServer({
+                    cert: fs.readFileSync('/path/to/cert.pem'),
+                    key: fs.readFileSync('/path/to/key.pem')
+                }, app),*/
                 host: this._host,
                 port: this._port,
                 maxPayload: 10240,
-                verifyClient: (info: { origin: string; secure: boolean; req: http.IncomingMessage }): boolean => {
-                    /**
-                     * 暂时还无用，但是可以用于一些高防直接屏蔽一些请求
-                     */
-                    return true;
-                }
             });
 
             this._server.on('listening', () => {

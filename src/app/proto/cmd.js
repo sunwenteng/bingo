@@ -122,12 +122,12 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
       },
       CS_ROLE_ONLINE: {
         fields: {
-          passport: {
+          token: {
             type: "string",
             id: 1
           },
-          pwd: {
-            type: "string",
+          uid: {
+            type: "uint32",
             id: 2
           }
         }
@@ -798,6 +798,14 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
           resServerAddress: {
             type: "string",
             id: 5
+          },
+          uid: {
+            type: "uint32",
+            id: 6
+          },
+          token: {
+            type: "string",
+            id: 7
           }
         }
       },

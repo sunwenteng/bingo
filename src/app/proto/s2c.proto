@@ -219,6 +219,8 @@ message LOGIN_SC_CHOOSE_SERVER {
     string version = 3;
     string res_version = 4;
     string res_server_address = 5;
+    uint32 uid = 6;
+    string token = 7;
 }
 
 message LOGIN_SC_GET_SERVER_LIST {

@@ -1283,8 +1283,8 @@
              * Properties of a CS_ROLE_ONLINE.
              * @memberof C2S
              * @interface ICS_ROLE_ONLINE
-             * @property {string|null} [passport] CS_ROLE_ONLINE passport
-             * @property {string|null} [pwd] CS_ROLE_ONLINE pwd
+             * @property {string|null} [token] CS_ROLE_ONLINE token
+             * @property {number|null} [uid] CS_ROLE_ONLINE uid
              */
     
             /**
@@ -1303,20 +1303,20 @@
             }
     
             /**
-             * CS_ROLE_ONLINE passport.
-             * @member {string} passport
+             * CS_ROLE_ONLINE token.
+             * @member {string} token
              * @memberof C2S.CS_ROLE_ONLINE
              * @instance
              */
-            CS_ROLE_ONLINE.prototype.passport = "";
+            CS_ROLE_ONLINE.prototype.token = "";
     
             /**
-             * CS_ROLE_ONLINE pwd.
-             * @member {string} pwd
+             * CS_ROLE_ONLINE uid.
+             * @member {number} uid
              * @memberof C2S.CS_ROLE_ONLINE
              * @instance
              */
-            CS_ROLE_ONLINE.prototype.pwd = "";
+            CS_ROLE_ONLINE.prototype.uid = 0;
     
             /**
              * Creates a new CS_ROLE_ONLINE instance using the specified properties.
@@ -1342,10 +1342,10 @@
             CS_ROLE_ONLINE.encode = function encode(message, writer) {
                 if (!writer)
                     writer = $Writer.create();
-                if (message.passport != null && message.hasOwnProperty("passport"))
-                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.passport);
-                if (message.pwd != null && message.hasOwnProperty("pwd"))
-                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.pwd);
+                if (message.token != null && message.hasOwnProperty("token"))
+                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.token);
+                if (message.uid != null && message.hasOwnProperty("uid"))
+                    writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.uid);
                 return writer;
             };
     
@@ -1381,10 +1381,10 @@
                     var tag = reader.uint32();
                     switch (tag >>> 3) {
                     case 1:
-                        message.passport = reader.string();
+                        message.token = reader.string();
                         break;
                     case 2:
-                        message.pwd = reader.string();
+                        message.uid = reader.uint32();
                         break;
                     default:
                         reader.skipType(tag & 7);
@@ -1421,12 +1421,12 @@
             CS_ROLE_ONLINE.verify = function verify(message) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (message.passport != null && message.hasOwnProperty("passport"))
-                    if (!$util.isString(message.passport))
-                        return "passport: string expected";
-                if (message.pwd != null && message.hasOwnProperty("pwd"))
-                    if (!$util.isString(message.pwd))
-                        return "pwd: string expected";
+                if (message.token != null && message.hasOwnProperty("token"))
+                    if (!$util.isString(message.token))
+                        return "token: string expected";
+                if (message.uid != null && message.hasOwnProperty("uid"))
+                    if (!$util.isInteger(message.uid))
+                        return "uid: integer expected";
                 return null;
             };
     
@@ -1442,10 +1442,10 @@
                 if (object instanceof $root.C2S.CS_ROLE_ONLINE)
                     return object;
                 var message = new $root.C2S.CS_ROLE_ONLINE();
-                if (object.passport != null)
-                    message.passport = String(object.passport);
-                if (object.pwd != null)
-                    message.pwd = String(object.pwd);
+                if (object.token != null)
+                    message.token = String(object.token);
+                if (object.uid != null)
+                    message.uid = object.uid >>> 0;
                 return message;
             };
     
@@ -1463,13 +1463,13 @@
                     options = {};
                 var object = {};
                 if (options.defaults) {
-                    object.passport = "";
-                    object.pwd = "";
+                    object.token = "";
+                    object.uid = 0;
                 }
-                if (message.passport != null && message.hasOwnProperty("passport"))
-                    object.passport = message.passport;
-                if (message.pwd != null && message.hasOwnProperty("pwd"))
-                    object.pwd = message.pwd;
+                if (message.token != null && message.hasOwnProperty("token"))
+                    object.token = message.token;
+                if (message.uid != null && message.hasOwnProperty("uid"))
+                    object.uid = message.uid;
                 return object;
             };
     
@@ -10598,6 +10598,8 @@
              * @property {string|null} [version] LOGIN_SC_CHOOSE_SERVER version
              * @property {string|null} [resVersion] LOGIN_SC_CHOOSE_SERVER resVersion
              * @property {string|null} [resServerAddress] LOGIN_SC_CHOOSE_SERVER resServerAddress
+             * @property {number|null} [uid] LOGIN_SC_CHOOSE_SERVER uid
+             * @property {string|null} [token] LOGIN_SC_CHOOSE_SERVER token
              */
     
             /**
@@ -10656,6 +10658,22 @@
             LOGIN_SC_CHOOSE_SERVER.prototype.resServerAddress = "";
     
             /**
+             * LOGIN_SC_CHOOSE_SERVER uid.
+             * @member {number} uid
+             * @memberof S2C.LOGIN_SC_CHOOSE_SERVER
+             * @instance
+             */
+            LOGIN_SC_CHOOSE_SERVER.prototype.uid = 0;
+    
+            /**
+             * LOGIN_SC_CHOOSE_SERVER token.
+             * @member {string} token
+             * @memberof S2C.LOGIN_SC_CHOOSE_SERVER
+             * @instance
+             */
+            LOGIN_SC_CHOOSE_SERVER.prototype.token = "";
+    
+            /**
              * Creates a new LOGIN_SC_CHOOSE_SERVER instance using the specified properties.
              * @function create
              * @memberof S2C.LOGIN_SC_CHOOSE_SERVER
@@ -10689,6 +10707,10 @@
                     writer.uint32(/* id 4, wireType 2 =*/34).string(message.resVersion);
                 if (message.resServerAddress != null && message.hasOwnProperty("resServerAddress"))
                     writer.uint32(/* id 5, wireType 2 =*/42).string(message.resServerAddress);
+                if (message.uid != null && message.hasOwnProperty("uid"))
+                    writer.uint32(/* id 6, wireType 0 =*/48).uint32(message.uid);
+                if (message.token != null && message.hasOwnProperty("token"))
+                    writer.uint32(/* id 7, wireType 2 =*/58).string(message.token);
                 return writer;
             };
     
@@ -10737,6 +10759,12 @@
                         break;
                     case 5:
                         message.resServerAddress = reader.string();
+                        break;
+                    case 6:
+                        message.uid = reader.uint32();
+                        break;
+                    case 7:
+                        message.token = reader.string();
                         break;
                     default:
                         reader.skipType(tag & 7);
@@ -10788,6 +10816,12 @@
                 if (message.resServerAddress != null && message.hasOwnProperty("resServerAddress"))
                     if (!$util.isString(message.resServerAddress))
                         return "resServerAddress: string expected";
+                if (message.uid != null && message.hasOwnProperty("uid"))
+                    if (!$util.isInteger(message.uid))
+                        return "uid: integer expected";
+                if (message.token != null && message.hasOwnProperty("token"))
+                    if (!$util.isString(message.token))
+                        return "token: string expected";
                 return null;
             };
     
@@ -10813,6 +10847,10 @@
                     message.resVersion = String(object.resVersion);
                 if (object.resServerAddress != null)
                     message.resServerAddress = String(object.resServerAddress);
+                if (object.uid != null)
+                    message.uid = object.uid >>> 0;
+                if (object.token != null)
+                    message.token = String(object.token);
                 return message;
             };
     
@@ -10835,6 +10873,8 @@
                     object.version = "";
                     object.resVersion = "";
                     object.resServerAddress = "";
+                    object.uid = 0;
+                    object.token = "";
                 }
                 if (message.ip != null && message.hasOwnProperty("ip"))
                     object.ip = message.ip;
@@ -10846,6 +10886,10 @@
                     object.resVersion = message.resVersion;
                 if (message.resServerAddress != null && message.hasOwnProperty("resServerAddress"))
                     object.resServerAddress = message.resServerAddress;
+                if (message.uid != null && message.hasOwnProperty("uid"))
+                    object.uid = message.uid;
+                if (message.token != null && message.hasOwnProperty("token"))
+                    object.token = message.token;
                 return object;
             };
     

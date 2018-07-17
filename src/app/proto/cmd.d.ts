@@ -111,14 +111,14 @@ export namespace C2S {
     }
 
     interface ICS_ROLE_ONLINE {
-        passport?: (string|null);
-        pwd?: (string|null);
+        token?: (string|null);
+        uid?: (number|null);
     }
 
     class CS_ROLE_ONLINE implements ICS_ROLE_ONLINE {
         constructor(properties?: C2S.ICS_ROLE_ONLINE);
-        public passport: string;
-        public pwd: string;
+        public token: string;
+        public uid: number;
         public static create(properties?: C2S.ICS_ROLE_ONLINE): C2S.CS_ROLE_ONLINE;
         public static encode(message: C2S.ICS_ROLE_ONLINE, writer?: $protobuf.Writer): $protobuf.Writer;
         public static encodeDelimited(message: C2S.ICS_ROLE_ONLINE, writer?: $protobuf.Writer): $protobuf.Writer;
@@ -936,6 +936,8 @@ export namespace S2C {
         version?: (string|null);
         resVersion?: (string|null);
         resServerAddress?: (string|null);
+        uid?: (number|null);
+        token?: (string|null);
     }
 
     class LOGIN_SC_CHOOSE_SERVER implements ILOGIN_SC_CHOOSE_SERVER {
@@ -945,6 +947,8 @@ export namespace S2C {
         public version: string;
         public resVersion: string;
         public resServerAddress: string;
+        public uid: number;
+        public token: string;
         public static create(properties?: S2C.ILOGIN_SC_CHOOSE_SERVER): S2C.LOGIN_SC_CHOOSE_SERVER;
         public static encode(message: S2C.ILOGIN_SC_CHOOSE_SERVER, writer?: $protobuf.Writer): $protobuf.Writer;
         public static encodeDelimited(message: S2C.ILOGIN_SC_CHOOSE_SERVER, writer?: $protobuf.Writer): $protobuf.Writer;

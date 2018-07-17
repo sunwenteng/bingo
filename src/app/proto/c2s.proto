@@ -44,8 +44,8 @@ message CS_ABC_DEF {
 }
 
 message CS_ROLE_ONLINE {
-    string passport = 1;
-    string pwd = 2;
+    string token = 1;
+    uint32 uid = 2;
 }
 
 message LOGIN_CS_LOGIN {

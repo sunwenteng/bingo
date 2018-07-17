@@ -19,7 +19,7 @@ export class RoleController {
     public static instance = new RoleController();
 
     async online(session: GameSession, msg: C2S.CS_ROLE_ONLINE) {
-        let roleId = parseInt(msg.passport);
+        let roleId = msg.uid;
         let role = new Role(roleId);
         await gameRedis.lock(role.getRedisKey(), async () => {
             let isOnline = await GameWorld.instance.isRoleOnline(roleId);
