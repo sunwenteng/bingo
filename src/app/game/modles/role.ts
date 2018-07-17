@@ -4,7 +4,6 @@ import {
     RedisMgr,
     RedisType,
     RedisData,
-    RedisChanel
 } from '../../../lib/redis/redis_mgr';
 import * as WorldDB from '../../../lib/mysql/world_db';
 import {WorldDataRedisKey} from "../game_world";
@@ -21,6 +20,7 @@ import {MailModel} from "./mail_model";
 import {RankController} from "../controllers/rank_controller";
 import ERankType = C2S.CS_RANK_GET_RANK.ERankType;
 import {FriendModel} from "./friend_model";
+import {Guild} from "./guild";
 
 let gameRedis = RedisMgr.getInstance(RedisType.GAME);
 export const roleRedisPrefix: string = 'hash_role';
@@ -96,13 +96,17 @@ export class Role extends RedisData {
         }
     }
 
+    public static getRedisKey(uid: number | string) {
+        return roleRedisPrefix + '_' + uid;
+    }
+
     public async save(bSaveAll: boolean = false): Promise<void> {
         let saveData = this.serialize(bSaveAll);
         if (Object.keys(saveData).length === 0) {
             return;
         }
         // 同步存储到redis
-        await gameRedis.hmset(this.getRedisKey(), saveData, this.redisKeyExpire);
+        await gameRedis.hmset(Role.getRedisKey(this.uid), saveData, this.redisKeyExpire);
         // 往脏数据集合添加
         await gameRedis.sadd(WorldDataRedisKey.DIRTY_ROLES, this.uid);
 
@@ -116,10 +120,9 @@ export class Role extends RedisData {
         this.reset();
     }
 
-    public async saveSummary() {
+    private async saveSummary() {
         let msg = await this.serializeSummaryNetMsg();
-        let str = JSON.stringify(msg.toJSON());
-        await gameRedis.hmset(roleSummaryRedisKey, {[this.uid]: str});
+        await Role.saveRoleSummary(this.uid, msg);
     }
 
     public async load(mask?: ERoleMask | ERoleMask[]): Promise<boolean> {
@@ -130,7 +133,8 @@ export class Role extends RedisData {
             else {
                 // TODO 后续需要根据mask来读取需要的数据，不然每次load数据太大，对每次回写差异比较有负担
                 let queryField = this.getDataFields(mask);
-                let reply = await gameRedis.hmget(this.getRedisKey(), queryField);
+                let key = Role.getRedisKey(this.uid);
+                let reply = await gameRedis.hmget(key, queryField);
                 // 缓存不存在，从db查询然后放到缓存
                 if (Object.keys(reply).length === 0) {
                     let result = await WorldDB.conn.execute('select * from player_info_' + this.getTableNum() + ' where ?', {uid: this.uid});
@@ -145,7 +149,7 @@ export class Role extends RedisData {
                             }
                         }
                         this.deserialize(result[0]);
-                        await gameRedis.hmset(this.getRedisKey(), this.serialize(true), this.redisKeyExpire);
+                        await gameRedis.hmset(key, this.serialize(true), this.redisKeyExpire);
                         resolve(true);
                     }
                 }
@@ -227,7 +231,7 @@ export class Role extends RedisData {
     }
 
     public async serializeSummaryNetMsg(): Promise<S2C.SC_ROLE_SUMMARY> {
-        return new Promise<S2C.SC_ROLE_SUMMARY>(((resolve) => {
+        return new Promise<S2C.SC_ROLE_SUMMARY>(async resolve => {
             let msg = S2C.SC_ROLE_SUMMARY.create();
             for (let k in msg) {
                 if (!this['fields'].hasOwnProperty(k)) {
@@ -236,10 +240,16 @@ export class Role extends RedisData {
                     }
                     continue;
                 }
-                msg[k] = this[k];
+                if (k === 'guildName') {
+                    let ret = gameRedis.hmget(Guild.getRedisKey(this.guildId), k);
+                    msg[k] = ret[k] ? ret[k] : '';
+                }
+                else {
+                    msg[k] = this[k];
+                }
             }
             resolve(msg);
-        }));
+        });
     }
 
     public getRankValue(rankType: ERankType): number {
@@ -255,7 +265,7 @@ export class Role extends RedisData {
      * @param {number | number[]} roleId
      * @returns {Promise<S2C.SC_ROLE_SUMMARY[]>}
      */
-    static async getRoleSummary(roleId: number | number[]): Promise<S2C.SC_ROLE_SUMMARY[]> {
+    static async getRoleSummary(roleId: number | number[] | string | string[]): Promise<S2C.SC_ROLE_SUMMARY[]> {
         return new Promise<S2C.SC_ROLE_SUMMARY[]>((async resolve => {
             let ret = [];
             let roleSummary = await gameRedis.hmget(roleSummaryRedisKey, roleId);
@@ -264,5 +274,10 @@ export class Role extends RedisData {
             }
             resolve(ret);
         }));
+    }
+
+    static async saveRoleSummary(roleId: number | string, msg: S2C.SC_ROLE_SUMMARY) {
+        let str = JSON.stringify(msg.toJSON());
+        await gameRedis.hmset(roleSummaryRedisKey, {[roleId]: str});
     }
 }

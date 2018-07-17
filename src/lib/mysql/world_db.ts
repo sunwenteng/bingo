@@ -78,15 +78,19 @@ export async function start(config: MysqlConfig): Promise<void> {
         "applicants	    blob        NULL," +
         "logs   	    blob        NULL," +
         "createTime	    INT         UNSIGNED    NOT NULL    DEFAULT 0," +
+        "valid  	    INT         UNSIGNED    NOT NULL    DEFAULT 1," +
         "PRIMARY KEY (uid)" +
         ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+    columns = columns.concat([
+        [tableName, 'valid', "INT UNSIGNED NOT NULL DEFAULT 1"],
+    ]);
 
     await conn.createTables(tables);
     await conn.addColumns(columns);
     await conn.addIndexes(indexes);
 
     _timer = setInterval(async () => {
-        await conn.execute('select 1', );
+        await conn.execute('select 1',);
         Log.sInfo('keep mysql alive');
     }, 60000);
 }

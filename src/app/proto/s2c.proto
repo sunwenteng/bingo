@@ -41,7 +41,12 @@ message Message {
         SC_RANK_GET_RANK SC_RANK_GET_RANK = 1801;
 
         SC_GUILD_CREATE SC_GUILD_CREATE = 1901;
+
+        SC_GUILD_DISMISS SC_GUILD_DISMISS = 1902;
     }
+}
+
+message SC_GUILD_DISMISS {
 }
 
 message SC_UPDATE_BATTLE {
@@ -175,6 +180,7 @@ message SC_ROLE_SUMMARY {
     uint32 level = 4;
     uint32 vip_level = 5;
     uint64 combat = 6;
+    string guildName = 7;
 }
 
 message SC_ROLE_PRO_UPDATE {

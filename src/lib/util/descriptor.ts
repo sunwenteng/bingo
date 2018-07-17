@@ -47,7 +47,7 @@ export function controller() {
                 throw new Error('no role in session');
             }
             args[0] = role;
-            return await gameRedis.lock(role.getRedisKey(), async () => {
+            return await gameRedis.lock(Role.getRedisKey(role.uid), async () => {
                 let needReload = await gameRedis.sismember(WorldDataRedisKey.RELOAD_ROLES, role.uid);
                 if (needReload) {
                     await role.load();

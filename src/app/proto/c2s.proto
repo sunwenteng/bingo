@@ -16,6 +16,8 @@ message Message {
         CS_RANK_GET_RANK CS_RANK_GET_RANK = 1801;
 
         CS_GUILD_CREATE CS_GUILD_CREATE = 1901;
+
+        CS_GUILD_DISMISS CS_GUILD_DISMISS = 1902;
     }
 }
 
@@ -81,4 +83,7 @@ message CS_RANK_GET_RANK {
 message CS_GUILD_CREATE {
     uint32 iconId = 1;
     string guildName = 2;
+}
+
+message CS_GUILD_DISMISS {
 }

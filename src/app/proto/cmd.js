@@ -20,7 +20,8 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
               "LOGIN_CS_GET_SERVER_LIST",
               "LOGIN_CS_GET_INFO",
               "CS_RANK_GET_RANK",
-              "CS_GUILD_CREATE"
+              "CS_GUILD_CREATE",
+              "CS_GUILD_DISMISS"
             ]
           }
         },
@@ -64,6 +65,10 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
           CS_GUILD_CREATE: {
             type: "CS_GUILD_CREATE",
             id: 1901
+          },
+          CS_GUILD_DISMISS: {
+            type: "CS_GUILD_DISMISS",
+            id: 1902
           }
         }
       },
@@ -215,6 +220,9 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
             id: 2
           }
         }
+      },
+      CS_GUILD_DISMISS: {
+        fields: {}
       }
     }
   },
@@ -242,7 +250,8 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
               "SC_UPDATE_FRIEND",
               "SC_UPDATE_BATTLE",
               "SC_RANK_GET_RANK",
-              "SC_GUILD_CREATE"
+              "SC_GUILD_CREATE",
+              "SC_GUILD_DISMISS"
             ]
           }
         },
@@ -322,8 +331,15 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
           SC_GUILD_CREATE: {
             type: "SC_GUILD_CREATE",
             id: 1901
+          },
+          SC_GUILD_DISMISS: {
+            type: "SC_GUILD_DISMISS",
+            id: 1902
           }
         }
+      },
+      SC_GUILD_DISMISS: {
+        fields: {}
       },
       SC_UPDATE_BATTLE: {
         fields: {

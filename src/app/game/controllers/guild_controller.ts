@@ -14,8 +14,7 @@ export class GuildController {
 
     @controller()
     async create(role: Role, msg: C2S.CS_GUILD_CREATE) {
-        let guild = new Guild(msg.guildName, msg.iconId);
-        guild.uid = 1;
+        let guild = new Guild(1, msg.guildName, msg.iconId);
         let exist = await guild.load();
         if (exist) {
             console.log('no');
@@ -31,5 +30,13 @@ export class GuildController {
         if (exist) {
             console.log('yes');
         }
+    }
+
+    @controller()
+    async dismiss(role: Role, msg: C2S.CS_GUILD_DISMISS) {
+        await gameRedis.del(Guild.getRedisKey(role.guildId));
+        await WorldDB.conn.execute('update guild set valid = 0 where ?', {uid: role.guildId});
+        role.guildId = 0;
+        role.sendProtocol(S2C.SC_GUILD_DISMISS.create());
     }
 }

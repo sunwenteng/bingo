@@ -37,22 +37,11 @@ export abstract class RedisData extends DirtyModel {
     rankFields: { [key: string]: ERankType } = {};
     revRankFields: { [eRankType: string]: string } = {};
     isSummaryDirty: boolean = false;
-    redisPrefix: string;
     redisKeyExpire: number;
 
     protected constructor(redisPrefix: string, expireTime: number = 3600) {
         super();
-        this.redisPrefix = redisPrefix;
         this.redisKeyExpire = expireTime;
-    }
-
-    public getRedisKey() {
-        if (this.fields['uid']) {
-            return this.redisPrefix + '_' + this.fields['uid'];
-        }
-        else {
-            return this.redisPrefix;
-        }
     }
 
     public reset() {

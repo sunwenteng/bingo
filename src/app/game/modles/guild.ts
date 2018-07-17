@@ -34,7 +34,7 @@ export class Guild extends DirtyModel {
     @dirtyField() notice: string = '';
     @dirtyField() createTime: number = Date.now();
 
-    constructor(guildName?: string, iconId?: number) {
+    constructor(uid:number, guildName?: string, iconId?: number) {
         super();
         if (guildName && iconId) {
             this.iconId = iconId;
@@ -48,10 +48,12 @@ export class Guild extends DirtyModel {
                 resolve(false);
             }
             else {
-                let reply = await gameRedis.hmget(this.getRedisKey(), Object.keys(this.fields));
+                let key = Guild.getRedisKey(this.uid);
+                let reply = await gameRedis.hmget(key, Object.keys(this.fields));
                 if (Object.keys(reply).length === 0) {
                     let ret = await WorldDB.conn.execute('select * from guild where ?', {
-                        uid: this.uid
+                        uid: this.uid,
+                        valid: true,
                     });
 
                     if (ret.length === 0) {
@@ -59,7 +61,7 @@ export class Guild extends DirtyModel {
                     }
                     else {
                         this.deserialize(ret[0]);
-                        await gameRedis.hmset(this.getRedisKey(), this.serialize(true));
+                        await gameRedis.hmset(key, this.serialize(true));
                         resolve(true);
                     }
                 }
@@ -77,7 +79,7 @@ export class Guild extends DirtyModel {
             return;
         }
         // 同步存储到redis
-        await gameRedis.hmset(this.getRedisKey(), saveData);
+        await gameRedis.hmset(Guild.getRedisKey(this.uid), saveData);
         // 往脏数据集合添加
         await gameRedis.sadd(WorldDataRedisKey.DIRTY_GUILDS, this.uid);
     }
@@ -106,8 +108,8 @@ export class Guild extends DirtyModel {
         return ret;
     }
 
-    getRedisKey() {
-        return 'hash_guild_' + this.uid;
+    static getRedisKey(uid) {
+        return 'hash_guild_' + uid;
     }
 
     deserialize(data: { [key: string]: any }) {

@@ -13,6 +13,7 @@ export namespace C2S {
         LOGIN_CS_GET_INFO?: (C2S.ILOGIN_CS_GET_INFO|null);
         CS_RANK_GET_RANK?: (C2S.ICS_RANK_GET_RANK|null);
         CS_GUILD_CREATE?: (C2S.ICS_GUILD_CREATE|null);
+        CS_GUILD_DISMISS?: (C2S.ICS_GUILD_DISMISS|null);
     }
 
     class Message implements IMessage {
@@ -27,7 +28,8 @@ export namespace C2S {
         public LOGIN_CS_GET_INFO?: (C2S.ILOGIN_CS_GET_INFO|null);
         public CS_RANK_GET_RANK?: (C2S.ICS_RANK_GET_RANK|null);
         public CS_GUILD_CREATE?: (C2S.ICS_GUILD_CREATE|null);
-        public kind?: ("CS_TEST_ECHO"|"CS_ROLE_ONLINE"|"CS_ROLE_HEART_BEAT"|"CS_ABC_DEF"|"LOGIN_CS_LOGIN"|"LOGIN_CS_CHOOSE_SERVER"|"LOGIN_CS_GET_SERVER_LIST"|"LOGIN_CS_GET_INFO"|"CS_RANK_GET_RANK"|"CS_GUILD_CREATE");
+        public CS_GUILD_DISMISS?: (C2S.ICS_GUILD_DISMISS|null);
+        public kind?: ("CS_TEST_ECHO"|"CS_ROLE_ONLINE"|"CS_ROLE_HEART_BEAT"|"CS_ABC_DEF"|"LOGIN_CS_LOGIN"|"LOGIN_CS_CHOOSE_SERVER"|"LOGIN_CS_GET_SERVER_LIST"|"LOGIN_CS_GET_INFO"|"CS_RANK_GET_RANK"|"CS_GUILD_CREATE"|"CS_GUILD_DISMISS");
         public static create(properties?: C2S.IMessage): C2S.Message;
         public static encode(message: C2S.IMessage, writer?: $protobuf.Writer): $protobuf.Writer;
         public static encodeDelimited(message: C2S.IMessage, writer?: $protobuf.Writer): $protobuf.Writer;
@@ -259,6 +261,22 @@ export namespace C2S {
         public static toObject(message: C2S.CS_GUILD_CREATE, options?: $protobuf.IConversionOptions): { [k: string]: any };
         public toJSON(): { [k: string]: any };
     }
+
+    interface ICS_GUILD_DISMISS {
+    }
+
+    class CS_GUILD_DISMISS implements ICS_GUILD_DISMISS {
+        constructor(properties?: C2S.ICS_GUILD_DISMISS);
+        public static create(properties?: C2S.ICS_GUILD_DISMISS): C2S.CS_GUILD_DISMISS;
+        public static encode(message: C2S.ICS_GUILD_DISMISS, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: C2S.ICS_GUILD_DISMISS, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): C2S.CS_GUILD_DISMISS;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): C2S.CS_GUILD_DISMISS;
+        public static verify(message: { [k: string]: any }): (string|null);
+        public static fromObject(object: { [k: string]: any }): C2S.CS_GUILD_DISMISS;
+        public static toObject(message: C2S.CS_GUILD_DISMISS, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public toJSON(): { [k: string]: any };
+    }
 }
 
 export namespace S2C {
@@ -283,6 +301,7 @@ export namespace S2C {
         SC_UPDATE_BATTLE?: (S2C.ISC_UPDATE_BATTLE|null);
         SC_RANK_GET_RANK?: (S2C.ISC_RANK_GET_RANK|null);
         SC_GUILD_CREATE?: (S2C.ISC_GUILD_CREATE|null);
+        SC_GUILD_DISMISS?: (S2C.ISC_GUILD_DISMISS|null);
     }
 
     class Message implements IMessage {
@@ -306,7 +325,8 @@ export namespace S2C {
         public SC_UPDATE_BATTLE?: (S2C.ISC_UPDATE_BATTLE|null);
         public SC_RANK_GET_RANK?: (S2C.ISC_RANK_GET_RANK|null);
         public SC_GUILD_CREATE?: (S2C.ISC_GUILD_CREATE|null);
-        public kind?: ("SC_TEST_ECHO"|"LOGIN_SC_LOGIN"|"LOGIN_SC_CHOOSE_SERVER"|"LOGIN_SC_GET_SERVER_LIST"|"LOGIN_SC_GET_INFO"|"SC_ROLE_ONLINE"|"SC_ROLE_HEART_BEAT"|"SC_ROLE_PRO_UPDATE"|"SC_GET_REWARD"|"SC_ROLE_SUMMARY"|"SC_UPDATE_HERO"|"SC_UPDATE_EQUIP"|"SC_UPDATE_ITEM"|"SC_UPDATE_TASK"|"SC_UPDATE_MAIL"|"SC_UPDATE_FRIEND"|"SC_UPDATE_BATTLE"|"SC_RANK_GET_RANK"|"SC_GUILD_CREATE");
+        public SC_GUILD_DISMISS?: (S2C.ISC_GUILD_DISMISS|null);
+        public kind?: ("SC_TEST_ECHO"|"LOGIN_SC_LOGIN"|"LOGIN_SC_CHOOSE_SERVER"|"LOGIN_SC_GET_SERVER_LIST"|"LOGIN_SC_GET_INFO"|"SC_ROLE_ONLINE"|"SC_ROLE_HEART_BEAT"|"SC_ROLE_PRO_UPDATE"|"SC_GET_REWARD"|"SC_ROLE_SUMMARY"|"SC_UPDATE_HERO"|"SC_UPDATE_EQUIP"|"SC_UPDATE_ITEM"|"SC_UPDATE_TASK"|"SC_UPDATE_MAIL"|"SC_UPDATE_FRIEND"|"SC_UPDATE_BATTLE"|"SC_RANK_GET_RANK"|"SC_GUILD_CREATE"|"SC_GUILD_DISMISS");
         public static create(properties?: S2C.IMessage): S2C.Message;
         public static encode(message: S2C.IMessage, writer?: $protobuf.Writer): $protobuf.Writer;
         public static encodeDelimited(message: S2C.IMessage, writer?: $protobuf.Writer): $protobuf.Writer;
@@ -315,6 +335,22 @@ export namespace S2C {
         public static verify(message: { [k: string]: any }): (string|null);
         public static fromObject(object: { [k: string]: any }): S2C.Message;
         public static toObject(message: S2C.Message, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public toJSON(): { [k: string]: any };
+    }
+
+    interface ISC_GUILD_DISMISS {
+    }
+
+    class SC_GUILD_DISMISS implements ISC_GUILD_DISMISS {
+        constructor(properties?: S2C.ISC_GUILD_DISMISS);
+        public static create(properties?: S2C.ISC_GUILD_DISMISS): S2C.SC_GUILD_DISMISS;
+        public static encode(message: S2C.ISC_GUILD_DISMISS, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: S2C.ISC_GUILD_DISMISS, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): S2C.SC_GUILD_DISMISS;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): S2C.SC_GUILD_DISMISS;
+        public static verify(message: { [k: string]: any }): (string|null);
+        public static fromObject(object: { [k: string]: any }): S2C.SC_GUILD_DISMISS;
+        public static toObject(message: S2C.SC_GUILD_DISMISS, options?: $protobuf.IConversionOptions): { [k: string]: any };
         public toJSON(): { [k: string]: any };
     }
 

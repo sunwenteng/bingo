@@ -6,7 +6,7 @@
     var $Reader = $protobuf.Reader, $Writer = $protobuf.Writer, $util = $protobuf.util;
     
     // Exported root namespace
-    var $root = $protobuf || ($protobuf = {});
+    var $root = $protobuf.roots["default"] || ($protobuf.roots["default"] = {});
     
     $root.C2S = (function() {
     
@@ -33,6 +33,7 @@
              * @property {C2S.ILOGIN_CS_GET_INFO|null} [LOGIN_CS_GET_INFO] Message LOGIN_CS_GET_INFO
              * @property {C2S.ICS_RANK_GET_RANK|null} [CS_RANK_GET_RANK] Message CS_RANK_GET_RANK
              * @property {C2S.ICS_GUILD_CREATE|null} [CS_GUILD_CREATE] Message CS_GUILD_CREATE
+             * @property {C2S.ICS_GUILD_DISMISS|null} [CS_GUILD_DISMISS] Message CS_GUILD_DISMISS
              */
     
             /**
@@ -130,17 +131,25 @@
              */
             Message.prototype.CS_GUILD_CREATE = null;
     
+            /**
+             * Message CS_GUILD_DISMISS.
+             * @member {C2S.ICS_GUILD_DISMISS|null|undefined} CS_GUILD_DISMISS
+             * @memberof C2S.Message
+             * @instance
+             */
+            Message.prototype.CS_GUILD_DISMISS = null;
+    
             // OneOf field names bound to virtual getters and setters
             var $oneOfFields;
     
             /**
              * Message kind.
-             * @member {"CS_TEST_ECHO"|"CS_ROLE_ONLINE"|"CS_ROLE_HEART_BEAT"|"CS_ABC_DEF"|"LOGIN_CS_LOGIN"|"LOGIN_CS_CHOOSE_SERVER"|"LOGIN_CS_GET_SERVER_LIST"|"LOGIN_CS_GET_INFO"|"CS_RANK_GET_RANK"|"CS_GUILD_CREATE"|undefined} kind
+             * @member {"CS_TEST_ECHO"|"CS_ROLE_ONLINE"|"CS_ROLE_HEART_BEAT"|"CS_ABC_DEF"|"LOGIN_CS_LOGIN"|"LOGIN_CS_CHOOSE_SERVER"|"LOGIN_CS_GET_SERVER_LIST"|"LOGIN_CS_GET_INFO"|"CS_RANK_GET_RANK"|"CS_GUILD_CREATE"|"CS_GUILD_DISMISS"|undefined} kind
              * @memberof C2S.Message
              * @instance
              */
             Object.defineProperty(Message.prototype, "kind", {
-                get: $util.oneOfGetter($oneOfFields = ["CS_TEST_ECHO", "CS_ROLE_ONLINE", "CS_ROLE_HEART_BEAT", "CS_ABC_DEF", "LOGIN_CS_LOGIN", "LOGIN_CS_CHOOSE_SERVER", "LOGIN_CS_GET_SERVER_LIST", "LOGIN_CS_GET_INFO", "CS_RANK_GET_RANK", "CS_GUILD_CREATE"]),
+                get: $util.oneOfGetter($oneOfFields = ["CS_TEST_ECHO", "CS_ROLE_ONLINE", "CS_ROLE_HEART_BEAT", "CS_ABC_DEF", "LOGIN_CS_LOGIN", "LOGIN_CS_CHOOSE_SERVER", "LOGIN_CS_GET_SERVER_LIST", "LOGIN_CS_GET_INFO", "CS_RANK_GET_RANK", "CS_GUILD_CREATE", "CS_GUILD_DISMISS"]),
                 set: $util.oneOfSetter($oneOfFields)
             });
     
@@ -188,6 +197,8 @@
                     $root.C2S.CS_RANK_GET_RANK.encode(message.CS_RANK_GET_RANK, writer.uint32(/* id 1801, wireType 2 =*/14410).fork()).ldelim();
                 if (message.CS_GUILD_CREATE != null && message.hasOwnProperty("CS_GUILD_CREATE"))
                     $root.C2S.CS_GUILD_CREATE.encode(message.CS_GUILD_CREATE, writer.uint32(/* id 1901, wireType 2 =*/15210).fork()).ldelim();
+                if (message.CS_GUILD_DISMISS != null && message.hasOwnProperty("CS_GUILD_DISMISS"))
+                    $root.C2S.CS_GUILD_DISMISS.encode(message.CS_GUILD_DISMISS, writer.uint32(/* id 1902, wireType 2 =*/15218).fork()).ldelim();
                 return writer;
             };
     
@@ -251,6 +262,9 @@
                         break;
                     case 1901:
                         message.CS_GUILD_CREATE = $root.C2S.CS_GUILD_CREATE.decode(reader, reader.uint32());
+                        break;
+                    case 1902:
+                        message.CS_GUILD_DISMISS = $root.C2S.CS_GUILD_DISMISS.decode(reader, reader.uint32());
                         break;
                     default:
                         reader.skipType(tag & 7);
@@ -386,6 +400,16 @@
                             return "CS_GUILD_CREATE." + error;
                     }
                 }
+                if (message.CS_GUILD_DISMISS != null && message.hasOwnProperty("CS_GUILD_DISMISS")) {
+                    if (properties.kind === 1)
+                        return "kind: multiple values";
+                    properties.kind = 1;
+                    {
+                        var error = $root.C2S.CS_GUILD_DISMISS.verify(message.CS_GUILD_DISMISS);
+                        if (error)
+                            return "CS_GUILD_DISMISS." + error;
+                    }
+                }
                 return null;
             };
     
@@ -450,6 +474,11 @@
                     if (typeof object.CS_GUILD_CREATE !== "object")
                         throw TypeError(".C2S.Message.CS_GUILD_CREATE: object expected");
                     message.CS_GUILD_CREATE = $root.C2S.CS_GUILD_CREATE.fromObject(object.CS_GUILD_CREATE);
+                }
+                if (object.CS_GUILD_DISMISS != null) {
+                    if (typeof object.CS_GUILD_DISMISS !== "object")
+                        throw TypeError(".C2S.Message.CS_GUILD_DISMISS: object expected");
+                    message.CS_GUILD_DISMISS = $root.C2S.CS_GUILD_DISMISS.fromObject(object.CS_GUILD_DISMISS);
                 }
                 return message;
             };
@@ -516,6 +545,11 @@
                     object.CS_GUILD_CREATE = $root.C2S.CS_GUILD_CREATE.toObject(message.CS_GUILD_CREATE, options);
                     if (options.oneofs)
                         object.kind = "CS_GUILD_CREATE";
+                }
+                if (message.CS_GUILD_DISMISS != null && message.hasOwnProperty("CS_GUILD_DISMISS")) {
+                    object.CS_GUILD_DISMISS = $root.C2S.CS_GUILD_DISMISS.toObject(message.CS_GUILD_DISMISS, options);
+                    if (options.oneofs)
+                        object.kind = "CS_GUILD_DISMISS";
                 }
                 return object;
             };
@@ -2814,6 +2848,166 @@
             return CS_GUILD_CREATE;
         })();
     
+        C2S.CS_GUILD_DISMISS = (function() {
+    
+            /**
+             * Properties of a CS_GUILD_DISMISS.
+             * @memberof C2S
+             * @interface ICS_GUILD_DISMISS
+             */
+    
+            /**
+             * Constructs a new CS_GUILD_DISMISS.
+             * @memberof C2S
+             * @classdesc Represents a CS_GUILD_DISMISS.
+             * @implements ICS_GUILD_DISMISS
+             * @constructor
+             * @param {C2S.ICS_GUILD_DISMISS=} [properties] Properties to set
+             */
+            function CS_GUILD_DISMISS(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+    
+            /**
+             * Creates a new CS_GUILD_DISMISS instance using the specified properties.
+             * @function create
+             * @memberof C2S.CS_GUILD_DISMISS
+             * @static
+             * @param {C2S.ICS_GUILD_DISMISS=} [properties] Properties to set
+             * @returns {C2S.CS_GUILD_DISMISS} CS_GUILD_DISMISS instance
+             */
+            CS_GUILD_DISMISS.create = function create(properties) {
+                return new CS_GUILD_DISMISS(properties);
+            };
+    
+            /**
+             * Encodes the specified CS_GUILD_DISMISS message. Does not implicitly {@link C2S.CS_GUILD_DISMISS.verify|verify} messages.
+             * @function encode
+             * @memberof C2S.CS_GUILD_DISMISS
+             * @static
+             * @param {C2S.ICS_GUILD_DISMISS} message CS_GUILD_DISMISS message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            CS_GUILD_DISMISS.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                return writer;
+            };
+    
+            /**
+             * Encodes the specified CS_GUILD_DISMISS message, length delimited. Does not implicitly {@link C2S.CS_GUILD_DISMISS.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof C2S.CS_GUILD_DISMISS
+             * @static
+             * @param {C2S.ICS_GUILD_DISMISS} message CS_GUILD_DISMISS message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            CS_GUILD_DISMISS.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+    
+            /**
+             * Decodes a CS_GUILD_DISMISS message from the specified reader or buffer.
+             * @function decode
+             * @memberof C2S.CS_GUILD_DISMISS
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {C2S.CS_GUILD_DISMISS} CS_GUILD_DISMISS
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            CS_GUILD_DISMISS.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.C2S.CS_GUILD_DISMISS();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Decodes a CS_GUILD_DISMISS message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof C2S.CS_GUILD_DISMISS
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {C2S.CS_GUILD_DISMISS} CS_GUILD_DISMISS
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            CS_GUILD_DISMISS.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+    
+            /**
+             * Verifies a CS_GUILD_DISMISS message.
+             * @function verify
+             * @memberof C2S.CS_GUILD_DISMISS
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            CS_GUILD_DISMISS.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                return null;
+            };
+    
+            /**
+             * Creates a CS_GUILD_DISMISS message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof C2S.CS_GUILD_DISMISS
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {C2S.CS_GUILD_DISMISS} CS_GUILD_DISMISS
+             */
+            CS_GUILD_DISMISS.fromObject = function fromObject(object) {
+                if (object instanceof $root.C2S.CS_GUILD_DISMISS)
+                    return object;
+                return new $root.C2S.CS_GUILD_DISMISS();
+            };
+    
+            /**
+             * Creates a plain object from a CS_GUILD_DISMISS message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof C2S.CS_GUILD_DISMISS
+             * @static
+             * @param {C2S.CS_GUILD_DISMISS} message CS_GUILD_DISMISS
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            CS_GUILD_DISMISS.toObject = function toObject() {
+                return {};
+            };
+    
+            /**
+             * Converts this CS_GUILD_DISMISS to JSON.
+             * @function toJSON
+             * @memberof C2S.CS_GUILD_DISMISS
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            CS_GUILD_DISMISS.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+    
+            return CS_GUILD_DISMISS;
+        })();
+    
         return C2S;
     })();
     
@@ -2851,6 +3045,7 @@
              * @property {S2C.ISC_UPDATE_BATTLE|null} [SC_UPDATE_BATTLE] Message SC_UPDATE_BATTLE
              * @property {S2C.ISC_RANK_GET_RANK|null} [SC_RANK_GET_RANK] Message SC_RANK_GET_RANK
              * @property {S2C.ISC_GUILD_CREATE|null} [SC_GUILD_CREATE] Message SC_GUILD_CREATE
+             * @property {S2C.ISC_GUILD_DISMISS|null} [SC_GUILD_DISMISS] Message SC_GUILD_DISMISS
              */
     
             /**
@@ -3020,17 +3215,25 @@
              */
             Message.prototype.SC_GUILD_CREATE = null;
     
+            /**
+             * Message SC_GUILD_DISMISS.
+             * @member {S2C.ISC_GUILD_DISMISS|null|undefined} SC_GUILD_DISMISS
+             * @memberof S2C.Message
+             * @instance
+             */
+            Message.prototype.SC_GUILD_DISMISS = null;
+    
             // OneOf field names bound to virtual getters and setters
             var $oneOfFields;
     
             /**
              * Message kind.
-             * @member {"SC_TEST_ECHO"|"LOGIN_SC_LOGIN"|"LOGIN_SC_CHOOSE_SERVER"|"LOGIN_SC_GET_SERVER_LIST"|"LOGIN_SC_GET_INFO"|"SC_ROLE_ONLINE"|"SC_ROLE_HEART_BEAT"|"SC_ROLE_PRO_UPDATE"|"SC_GET_REWARD"|"SC_ROLE_SUMMARY"|"SC_UPDATE_HERO"|"SC_UPDATE_EQUIP"|"SC_UPDATE_ITEM"|"SC_UPDATE_TASK"|"SC_UPDATE_MAIL"|"SC_UPDATE_FRIEND"|"SC_UPDATE_BATTLE"|"SC_RANK_GET_RANK"|"SC_GUILD_CREATE"|undefined} kind
+             * @member {"SC_TEST_ECHO"|"LOGIN_SC_LOGIN"|"LOGIN_SC_CHOOSE_SERVER"|"LOGIN_SC_GET_SERVER_LIST"|"LOGIN_SC_GET_INFO"|"SC_ROLE_ONLINE"|"SC_ROLE_HEART_BEAT"|"SC_ROLE_PRO_UPDATE"|"SC_GET_REWARD"|"SC_ROLE_SUMMARY"|"SC_UPDATE_HERO"|"SC_UPDATE_EQUIP"|"SC_UPDATE_ITEM"|"SC_UPDATE_TASK"|"SC_UPDATE_MAIL"|"SC_UPDATE_FRIEND"|"SC_UPDATE_BATTLE"|"SC_RANK_GET_RANK"|"SC_GUILD_CREATE"|"SC_GUILD_DISMISS"|undefined} kind
              * @memberof S2C.Message
              * @instance
              */
             Object.defineProperty(Message.prototype, "kind", {
-                get: $util.oneOfGetter($oneOfFields = ["SC_TEST_ECHO", "LOGIN_SC_LOGIN", "LOGIN_SC_CHOOSE_SERVER", "LOGIN_SC_GET_SERVER_LIST", "LOGIN_SC_GET_INFO", "SC_ROLE_ONLINE", "SC_ROLE_HEART_BEAT", "SC_ROLE_PRO_UPDATE", "SC_GET_REWARD", "SC_ROLE_SUMMARY", "SC_UPDATE_HERO", "SC_UPDATE_EQUIP", "SC_UPDATE_ITEM", "SC_UPDATE_TASK", "SC_UPDATE_MAIL", "SC_UPDATE_FRIEND", "SC_UPDATE_BATTLE", "SC_RANK_GET_RANK", "SC_GUILD_CREATE"]),
+                get: $util.oneOfGetter($oneOfFields = ["SC_TEST_ECHO", "LOGIN_SC_LOGIN", "LOGIN_SC_CHOOSE_SERVER", "LOGIN_SC_GET_SERVER_LIST", "LOGIN_SC_GET_INFO", "SC_ROLE_ONLINE", "SC_ROLE_HEART_BEAT", "SC_ROLE_PRO_UPDATE", "SC_GET_REWARD", "SC_ROLE_SUMMARY", "SC_UPDATE_HERO", "SC_UPDATE_EQUIP", "SC_UPDATE_ITEM", "SC_UPDATE_TASK", "SC_UPDATE_MAIL", "SC_UPDATE_FRIEND", "SC_UPDATE_BATTLE", "SC_RANK_GET_RANK", "SC_GUILD_CREATE", "SC_GUILD_DISMISS"]),
                 set: $util.oneOfSetter($oneOfFields)
             });
     
@@ -3088,6 +3291,8 @@
                     $root.S2C.SC_RANK_GET_RANK.encode(message.SC_RANK_GET_RANK, writer.uint32(/* id 1801, wireType 2 =*/14410).fork()).ldelim();
                 if (message.SC_GUILD_CREATE != null && message.hasOwnProperty("SC_GUILD_CREATE"))
                     $root.S2C.SC_GUILD_CREATE.encode(message.SC_GUILD_CREATE, writer.uint32(/* id 1901, wireType 2 =*/15210).fork()).ldelim();
+                if (message.SC_GUILD_DISMISS != null && message.hasOwnProperty("SC_GUILD_DISMISS"))
+                    $root.S2C.SC_GUILD_DISMISS.encode(message.SC_GUILD_DISMISS, writer.uint32(/* id 1902, wireType 2 =*/15218).fork()).ldelim();
                 if (message.LOGIN_SC_LOGIN != null && message.hasOwnProperty("LOGIN_SC_LOGIN"))
                     $root.S2C.LOGIN_SC_LOGIN.encode(message.LOGIN_SC_LOGIN, writer.uint32(/* id 9001, wireType 2 =*/72010).fork()).ldelim();
                 if (message.LOGIN_SC_CHOOSE_SERVER != null && message.hasOwnProperty("LOGIN_SC_CHOOSE_SERVER"))
@@ -3186,6 +3391,9 @@
                         break;
                     case 1901:
                         message.SC_GUILD_CREATE = $root.S2C.SC_GUILD_CREATE.decode(reader, reader.uint32());
+                        break;
+                    case 1902:
+                        message.SC_GUILD_DISMISS = $root.S2C.SC_GUILD_DISMISS.decode(reader, reader.uint32());
                         break;
                     default:
                         reader.skipType(tag & 7);
@@ -3411,6 +3619,16 @@
                             return "SC_GUILD_CREATE." + error;
                     }
                 }
+                if (message.SC_GUILD_DISMISS != null && message.hasOwnProperty("SC_GUILD_DISMISS")) {
+                    if (properties.kind === 1)
+                        return "kind: multiple values";
+                    properties.kind = 1;
+                    {
+                        var error = $root.S2C.SC_GUILD_DISMISS.verify(message.SC_GUILD_DISMISS);
+                        if (error)
+                            return "SC_GUILD_DISMISS." + error;
+                    }
+                }
                 return null;
             };
     
@@ -3521,6 +3739,11 @@
                         throw TypeError(".S2C.Message.SC_GUILD_CREATE: object expected");
                     message.SC_GUILD_CREATE = $root.S2C.SC_GUILD_CREATE.fromObject(object.SC_GUILD_CREATE);
                 }
+                if (object.SC_GUILD_DISMISS != null) {
+                    if (typeof object.SC_GUILD_DISMISS !== "object")
+                        throw TypeError(".S2C.Message.SC_GUILD_DISMISS: object expected");
+                    message.SC_GUILD_DISMISS = $root.S2C.SC_GUILD_DISMISS.fromObject(object.SC_GUILD_DISMISS);
+                }
                 return message;
             };
     
@@ -3612,6 +3835,11 @@
                     if (options.oneofs)
                         object.kind = "SC_GUILD_CREATE";
                 }
+                if (message.SC_GUILD_DISMISS != null && message.hasOwnProperty("SC_GUILD_DISMISS")) {
+                    object.SC_GUILD_DISMISS = $root.S2C.SC_GUILD_DISMISS.toObject(message.SC_GUILD_DISMISS, options);
+                    if (options.oneofs)
+                        object.kind = "SC_GUILD_DISMISS";
+                }
                 if (message.LOGIN_SC_LOGIN != null && message.hasOwnProperty("LOGIN_SC_LOGIN")) {
                     object.LOGIN_SC_LOGIN = $root.S2C.LOGIN_SC_LOGIN.toObject(message.LOGIN_SC_LOGIN, options);
                     if (options.oneofs)
@@ -3647,6 +3875,166 @@
             };
     
             return Message;
+        })();
+    
+        S2C.SC_GUILD_DISMISS = (function() {
+    
+            /**
+             * Properties of a SC_GUILD_DISMISS.
+             * @memberof S2C
+             * @interface ISC_GUILD_DISMISS
+             */
+    
+            /**
+             * Constructs a new SC_GUILD_DISMISS.
+             * @memberof S2C
+             * @classdesc Represents a SC_GUILD_DISMISS.
+             * @implements ISC_GUILD_DISMISS
+             * @constructor
+             * @param {S2C.ISC_GUILD_DISMISS=} [properties] Properties to set
+             */
+            function SC_GUILD_DISMISS(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+    
+            /**
+             * Creates a new SC_GUILD_DISMISS instance using the specified properties.
+             * @function create
+             * @memberof S2C.SC_GUILD_DISMISS
+             * @static
+             * @param {S2C.ISC_GUILD_DISMISS=} [properties] Properties to set
+             * @returns {S2C.SC_GUILD_DISMISS} SC_GUILD_DISMISS instance
+             */
+            SC_GUILD_DISMISS.create = function create(properties) {
+                return new SC_GUILD_DISMISS(properties);
+            };
+    
+            /**
+             * Encodes the specified SC_GUILD_DISMISS message. Does not implicitly {@link S2C.SC_GUILD_DISMISS.verify|verify} messages.
+             * @function encode
+             * @memberof S2C.SC_GUILD_DISMISS
+             * @static
+             * @param {S2C.ISC_GUILD_DISMISS} message SC_GUILD_DISMISS message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            SC_GUILD_DISMISS.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                return writer;
+            };
+    
+            /**
+             * Encodes the specified SC_GUILD_DISMISS message, length delimited. Does not implicitly {@link S2C.SC_GUILD_DISMISS.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof S2C.SC_GUILD_DISMISS
+             * @static
+             * @param {S2C.ISC_GUILD_DISMISS} message SC_GUILD_DISMISS message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            SC_GUILD_DISMISS.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+    
+            /**
+             * Decodes a SC_GUILD_DISMISS message from the specified reader or buffer.
+             * @function decode
+             * @memberof S2C.SC_GUILD_DISMISS
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {S2C.SC_GUILD_DISMISS} SC_GUILD_DISMISS
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            SC_GUILD_DISMISS.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.S2C.SC_GUILD_DISMISS();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Decodes a SC_GUILD_DISMISS message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof S2C.SC_GUILD_DISMISS
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {S2C.SC_GUILD_DISMISS} SC_GUILD_DISMISS
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            SC_GUILD_DISMISS.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+    
+            /**
+             * Verifies a SC_GUILD_DISMISS message.
+             * @function verify
+             * @memberof S2C.SC_GUILD_DISMISS
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            SC_GUILD_DISMISS.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                return null;
+            };
+    
+            /**
+             * Creates a SC_GUILD_DISMISS message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof S2C.SC_GUILD_DISMISS
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {S2C.SC_GUILD_DISMISS} SC_GUILD_DISMISS
+             */
+            SC_GUILD_DISMISS.fromObject = function fromObject(object) {
+                if (object instanceof $root.S2C.SC_GUILD_DISMISS)
+                    return object;
+                return new $root.S2C.SC_GUILD_DISMISS();
+            };
+    
+            /**
+             * Creates a plain object from a SC_GUILD_DISMISS message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof S2C.SC_GUILD_DISMISS
+             * @static
+             * @param {S2C.SC_GUILD_DISMISS} message SC_GUILD_DISMISS
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            SC_GUILD_DISMISS.toObject = function toObject() {
+                return {};
+            };
+    
+            /**
+             * Converts this SC_GUILD_DISMISS to JSON.
+             * @function toJSON
+             * @memberof S2C.SC_GUILD_DISMISS
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            SC_GUILD_DISMISS.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+    
+            return SC_GUILD_DISMISS;
         })();
     
         S2C.SC_UPDATE_BATTLE = (function() {

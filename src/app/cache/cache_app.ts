@@ -40,7 +40,7 @@ async function main() {
         let roleIds = await gameRedis.smembers(WorldDataRedisKey.DIRTY_ROLES);
         for (let roleId of roleIds) {
             role = new Role(parseInt(roleId));
-            await gameRedis.lock(role.getRedisKey(), async () => {
+            await gameRedis.lock(Role.getRedisKey(role.uid), async () => {
                 let exist = await role.load();
                 if (!exist) {
                     Log.sWarn('role not found in cache, roleKey=%s', roleId);
