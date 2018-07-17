@@ -47,14 +47,14 @@
     },
     "game": {
       "serverId" : 1,
-      "host": "0.0.0.0",
+      "host": "127.0.0.1",
       "port": 5555,
       "config": "../../config/data/",
       "version": "1.0.0",
       "sessionPacketMaxLength": 10000
     },
     "login": {
-      "host": "0.0.0.0",
+      "host": "127.0.0.1",
       "port": 7777,
       "version": "1.0.0",
       "sessionPacketMaxLength": 10000
