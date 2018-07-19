@@ -207,7 +207,7 @@ message Error {
 
 
 message SC_ROLE_ONLINE {
-    int32 role_id = 1;
+    int32 result = 1; // 0 创角色 1 成功
 }
 
 message SC_ROLE_HEART_BEAT {
@@ -234,6 +234,8 @@ message LOGIN_SC_GET_SERVER_LIST {
         uint32 server_id = 1;
         string name = 2;
         uint32 status = 3;
+        uint32 level = 4;
+        uint32 lastLoginTime = 5;
     }
 
     repeated Server servers = 1;

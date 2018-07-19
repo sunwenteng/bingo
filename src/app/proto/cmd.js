@@ -223,6 +223,14 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
       },
       CS_GUILD_DISMISS: {
         fields: {}
+      },
+      CS_ROLE_CREATE: {
+        fields: {
+          name: {
+            type: "string",
+            id: 1
+          }
+        }
       }
     }
   },
@@ -698,6 +706,10 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
           combat: {
             type: "uint64",
             id: 6
+          },
+          guildName: {
+            type: "string",
+            id: 7
           }
         }
       },
@@ -767,7 +779,7 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
       },
       SC_ROLE_ONLINE: {
         fields: {
-          roleId: {
+          result: {
             type: "int32",
             id: 1
           }
@@ -847,6 +859,14 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
               status: {
                 type: "uint32",
                 id: 3
+              },
+              level: {
+                type: "uint32",
+                id: 4
+              },
+              lastLoginTime: {
+                type: "uint32",
+                id: 5
               }
             }
           }

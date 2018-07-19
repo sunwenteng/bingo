@@ -3008,6 +3008,193 @@
             return CS_GUILD_DISMISS;
         })();
     
+        C2S.CS_ROLE_CREATE = (function() {
+    
+            /**
+             * Properties of a CS_ROLE_CREATE.
+             * @memberof C2S
+             * @interface ICS_ROLE_CREATE
+             * @property {string|null} [name] CS_ROLE_CREATE name
+             */
+    
+            /**
+             * Constructs a new CS_ROLE_CREATE.
+             * @memberof C2S
+             * @classdesc Represents a CS_ROLE_CREATE.
+             * @implements ICS_ROLE_CREATE
+             * @constructor
+             * @param {C2S.ICS_ROLE_CREATE=} [properties] Properties to set
+             */
+            function CS_ROLE_CREATE(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+    
+            /**
+             * CS_ROLE_CREATE name.
+             * @member {string} name
+             * @memberof C2S.CS_ROLE_CREATE
+             * @instance
+             */
+            CS_ROLE_CREATE.prototype.name = "";
+    
+            /**
+             * Creates a new CS_ROLE_CREATE instance using the specified properties.
+             * @function create
+             * @memberof C2S.CS_ROLE_CREATE
+             * @static
+             * @param {C2S.ICS_ROLE_CREATE=} [properties] Properties to set
+             * @returns {C2S.CS_ROLE_CREATE} CS_ROLE_CREATE instance
+             */
+            CS_ROLE_CREATE.create = function create(properties) {
+                return new CS_ROLE_CREATE(properties);
+            };
+    
+            /**
+             * Encodes the specified CS_ROLE_CREATE message. Does not implicitly {@link C2S.CS_ROLE_CREATE.verify|verify} messages.
+             * @function encode
+             * @memberof C2S.CS_ROLE_CREATE
+             * @static
+             * @param {C2S.ICS_ROLE_CREATE} message CS_ROLE_CREATE message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            CS_ROLE_CREATE.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (message.name != null && message.hasOwnProperty("name"))
+                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.name);
+                return writer;
+            };
+    
+            /**
+             * Encodes the specified CS_ROLE_CREATE message, length delimited. Does not implicitly {@link C2S.CS_ROLE_CREATE.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof C2S.CS_ROLE_CREATE
+             * @static
+             * @param {C2S.ICS_ROLE_CREATE} message CS_ROLE_CREATE message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            CS_ROLE_CREATE.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+    
+            /**
+             * Decodes a CS_ROLE_CREATE message from the specified reader or buffer.
+             * @function decode
+             * @memberof C2S.CS_ROLE_CREATE
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {C2S.CS_ROLE_CREATE} CS_ROLE_CREATE
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            CS_ROLE_CREATE.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.C2S.CS_ROLE_CREATE();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    case 1:
+                        message.name = reader.string();
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Decodes a CS_ROLE_CREATE message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof C2S.CS_ROLE_CREATE
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {C2S.CS_ROLE_CREATE} CS_ROLE_CREATE
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            CS_ROLE_CREATE.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+    
+            /**
+             * Verifies a CS_ROLE_CREATE message.
+             * @function verify
+             * @memberof C2S.CS_ROLE_CREATE
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            CS_ROLE_CREATE.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (message.name != null && message.hasOwnProperty("name"))
+                    if (!$util.isString(message.name))
+                        return "name: string expected";
+                return null;
+            };
+    
+            /**
+             * Creates a CS_ROLE_CREATE message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof C2S.CS_ROLE_CREATE
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {C2S.CS_ROLE_CREATE} CS_ROLE_CREATE
+             */
+            CS_ROLE_CREATE.fromObject = function fromObject(object) {
+                if (object instanceof $root.C2S.CS_ROLE_CREATE)
+                    return object;
+                var message = new $root.C2S.CS_ROLE_CREATE();
+                if (object.name != null)
+                    message.name = String(object.name);
+                return message;
+            };
+    
+            /**
+             * Creates a plain object from a CS_ROLE_CREATE message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof C2S.CS_ROLE_CREATE
+             * @static
+             * @param {C2S.CS_ROLE_CREATE} message CS_ROLE_CREATE
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            CS_ROLE_CREATE.toObject = function toObject(message, options) {
+                if (!options)
+                    options = {};
+                var object = {};
+                if (options.defaults)
+                    object.name = "";
+                if (message.name != null && message.hasOwnProperty("name"))
+                    object.name = message.name;
+                return object;
+            };
+    
+            /**
+             * Converts this CS_ROLE_CREATE to JSON.
+             * @function toJSON
+             * @memberof C2S.CS_ROLE_CREATE
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            CS_ROLE_CREATE.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+    
+            return CS_ROLE_CREATE;
+        })();
+    
         return C2S;
     })();
     
@@ -9279,6 +9466,7 @@
              * @property {number|null} [level] SC_ROLE_SUMMARY level
              * @property {number|null} [vipLevel] SC_ROLE_SUMMARY vipLevel
              * @property {number|Long|null} [combat] SC_ROLE_SUMMARY combat
+             * @property {string|null} [guildName] SC_ROLE_SUMMARY guildName
              */
     
             /**
@@ -9345,6 +9533,14 @@
             SC_ROLE_SUMMARY.prototype.combat = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
     
             /**
+             * SC_ROLE_SUMMARY guildName.
+             * @member {string} guildName
+             * @memberof S2C.SC_ROLE_SUMMARY
+             * @instance
+             */
+            SC_ROLE_SUMMARY.prototype.guildName = "";
+    
+            /**
              * Creates a new SC_ROLE_SUMMARY instance using the specified properties.
              * @function create
              * @memberof S2C.SC_ROLE_SUMMARY
@@ -9380,6 +9576,8 @@
                     writer.uint32(/* id 5, wireType 0 =*/40).uint32(message.vipLevel);
                 if (message.combat != null && message.hasOwnProperty("combat"))
                     writer.uint32(/* id 6, wireType 0 =*/48).uint64(message.combat);
+                if (message.guildName != null && message.hasOwnProperty("guildName"))
+                    writer.uint32(/* id 7, wireType 2 =*/58).string(message.guildName);
                 return writer;
             };
     
@@ -9431,6 +9629,9 @@
                         break;
                     case 6:
                         message.combat = reader.uint64();
+                        break;
+                    case 7:
+                        message.guildName = reader.string();
                         break;
                     default:
                         reader.skipType(tag & 7);
@@ -9485,6 +9686,9 @@
                 if (message.combat != null && message.hasOwnProperty("combat"))
                     if (!$util.isInteger(message.combat) && !(message.combat && $util.isInteger(message.combat.low) && $util.isInteger(message.combat.high)))
                         return "combat: integer|Long expected";
+                if (message.guildName != null && message.hasOwnProperty("guildName"))
+                    if (!$util.isString(message.guildName))
+                        return "guildName: string expected";
                 return null;
             };
     
@@ -9519,6 +9723,8 @@
                         message.combat = object.combat;
                     else if (typeof object.combat === "object")
                         message.combat = new $util.LongBits(object.combat.low >>> 0, object.combat.high >>> 0).toNumber(true);
+                if (object.guildName != null)
+                    message.guildName = String(object.guildName);
                 return message;
             };
     
@@ -9546,6 +9752,7 @@
                         object.combat = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
                     } else
                         object.combat = options.longs === String ? "0" : 0;
+                    object.guildName = "";
                 }
                 if (message.uid != null && message.hasOwnProperty("uid"))
                     object.uid = message.uid;
@@ -9562,6 +9769,8 @@
                         object.combat = options.longs === String ? String(message.combat) : message.combat;
                     else
                         object.combat = options.longs === String ? $util.Long.prototype.toString.call(message.combat) : options.longs === Number ? new $util.LongBits(message.combat.low >>> 0, message.combat.high >>> 0).toNumber(true) : message.combat;
+                if (message.guildName != null && message.hasOwnProperty("guildName"))
+                    object.guildName = message.guildName;
                 return object;
             };
     
@@ -10397,7 +10606,7 @@
              * Properties of a SC_ROLE_ONLINE.
              * @memberof S2C
              * @interface ISC_ROLE_ONLINE
-             * @property {number|null} [roleId] SC_ROLE_ONLINE roleId
+             * @property {number|null} [result] SC_ROLE_ONLINE result
              */
     
             /**
@@ -10416,12 +10625,12 @@
             }
     
             /**
-             * SC_ROLE_ONLINE roleId.
-             * @member {number} roleId
+             * SC_ROLE_ONLINE result.
+             * @member {number} result
              * @memberof S2C.SC_ROLE_ONLINE
              * @instance
              */
-            SC_ROLE_ONLINE.prototype.roleId = 0;
+            SC_ROLE_ONLINE.prototype.result = 0;
     
             /**
              * Creates a new SC_ROLE_ONLINE instance using the specified properties.
@@ -10447,8 +10656,8 @@
             SC_ROLE_ONLINE.encode = function encode(message, writer) {
                 if (!writer)
                     writer = $Writer.create();
-                if (message.roleId != null && message.hasOwnProperty("roleId"))
-                    writer.uint32(/* id 1, wireType 0 =*/8).int32(message.roleId);
+                if (message.result != null && message.hasOwnProperty("result"))
+                    writer.uint32(/* id 1, wireType 0 =*/8).int32(message.result);
                 return writer;
             };
     
@@ -10484,7 +10693,7 @@
                     var tag = reader.uint32();
                     switch (tag >>> 3) {
                     case 1:
-                        message.roleId = reader.int32();
+                        message.result = reader.int32();
                         break;
                     default:
                         reader.skipType(tag & 7);
@@ -10521,9 +10730,9 @@
             SC_ROLE_ONLINE.verify = function verify(message) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (message.roleId != null && message.hasOwnProperty("roleId"))
-                    if (!$util.isInteger(message.roleId))
-                        return "roleId: integer expected";
+                if (message.result != null && message.hasOwnProperty("result"))
+                    if (!$util.isInteger(message.result))
+                        return "result: integer expected";
                 return null;
             };
     
@@ -10539,8 +10748,8 @@
                 if (object instanceof $root.S2C.SC_ROLE_ONLINE)
                     return object;
                 var message = new $root.S2C.SC_ROLE_ONLINE();
-                if (object.roleId != null)
-                    message.roleId = object.roleId | 0;
+                if (object.result != null)
+                    message.result = object.result | 0;
                 return message;
             };
     
@@ -10558,9 +10767,9 @@
                     options = {};
                 var object = {};
                 if (options.defaults)
-                    object.roleId = 0;
-                if (message.roleId != null && message.hasOwnProperty("roleId"))
-                    object.roleId = message.roleId;
+                    object.result = 0;
+                if (message.result != null && message.hasOwnProperty("result"))
+                    object.result = message.result;
                 return object;
             };
     
@@ -11509,6 +11718,8 @@
                  * @property {number|null} [serverId] Server serverId
                  * @property {string|null} [name] Server name
                  * @property {number|null} [status] Server status
+                 * @property {number|null} [level] Server level
+                 * @property {number|null} [lastLoginTime] Server lastLoginTime
                  */
     
                 /**
@@ -11551,6 +11762,22 @@
                 Server.prototype.status = 0;
     
                 /**
+                 * Server level.
+                 * @member {number} level
+                 * @memberof S2C.LOGIN_SC_GET_SERVER_LIST.Server
+                 * @instance
+                 */
+                Server.prototype.level = 0;
+    
+                /**
+                 * Server lastLoginTime.
+                 * @member {number} lastLoginTime
+                 * @memberof S2C.LOGIN_SC_GET_SERVER_LIST.Server
+                 * @instance
+                 */
+                Server.prototype.lastLoginTime = 0;
+    
+                /**
                  * Creates a new Server instance using the specified properties.
                  * @function create
                  * @memberof S2C.LOGIN_SC_GET_SERVER_LIST.Server
@@ -11580,6 +11807,10 @@
                         writer.uint32(/* id 2, wireType 2 =*/18).string(message.name);
                     if (message.status != null && message.hasOwnProperty("status"))
                         writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.status);
+                    if (message.level != null && message.hasOwnProperty("level"))
+                        writer.uint32(/* id 4, wireType 0 =*/32).uint32(message.level);
+                    if (message.lastLoginTime != null && message.hasOwnProperty("lastLoginTime"))
+                        writer.uint32(/* id 5, wireType 0 =*/40).uint32(message.lastLoginTime);
                     return writer;
                 };
     
@@ -11622,6 +11853,12 @@
                             break;
                         case 3:
                             message.status = reader.uint32();
+                            break;
+                        case 4:
+                            message.level = reader.uint32();
+                            break;
+                        case 5:
+                            message.lastLoginTime = reader.uint32();
                             break;
                         default:
                             reader.skipType(tag & 7);
@@ -11667,6 +11904,12 @@
                     if (message.status != null && message.hasOwnProperty("status"))
                         if (!$util.isInteger(message.status))
                             return "status: integer expected";
+                    if (message.level != null && message.hasOwnProperty("level"))
+                        if (!$util.isInteger(message.level))
+                            return "level: integer expected";
+                    if (message.lastLoginTime != null && message.hasOwnProperty("lastLoginTime"))
+                        if (!$util.isInteger(message.lastLoginTime))
+                            return "lastLoginTime: integer expected";
                     return null;
                 };
     
@@ -11688,6 +11931,10 @@
                         message.name = String(object.name);
                     if (object.status != null)
                         message.status = object.status >>> 0;
+                    if (object.level != null)
+                        message.level = object.level >>> 0;
+                    if (object.lastLoginTime != null)
+                        message.lastLoginTime = object.lastLoginTime >>> 0;
                     return message;
                 };
     
@@ -11708,6 +11955,8 @@
                         object.serverId = 0;
                         object.name = "";
                         object.status = 0;
+                        object.level = 0;
+                        object.lastLoginTime = 0;
                     }
                     if (message.serverId != null && message.hasOwnProperty("serverId"))
                         object.serverId = message.serverId;
@@ -11715,6 +11964,10 @@
                         object.name = message.name;
                     if (message.status != null && message.hasOwnProperty("status"))
                         object.status = message.status;
+                    if (message.level != null && message.hasOwnProperty("level"))
+                        object.level = message.level;
+                    if (message.lastLoginTime != null && message.hasOwnProperty("lastLoginTime"))
+                        object.lastLoginTime = message.lastLoginTime;
                     return object;
                 };
     

@@ -20,5 +20,6 @@ module Water
 		 public static SC_UPDATE_BATTLE_ID = "SC_UPDATE_BATTLE";
 		 public static SC_RANK_GET_RANK_ID = "SC_RANK_GET_RANK";
 		 public static SC_GUILD_CREATE_ID = "SC_GUILD_CREATE";
+		 public static SC_GUILD_DISMISS_ID = "SC_GUILD_DISMISS";
 	}
 }

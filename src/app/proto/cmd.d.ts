@@ -277,6 +277,24 @@ export namespace C2S {
         public static toObject(message: C2S.CS_GUILD_DISMISS, options?: $protobuf.IConversionOptions): { [k: string]: any };
         public toJSON(): { [k: string]: any };
     }
+
+    interface ICS_ROLE_CREATE {
+        name?: (string|null);
+    }
+
+    class CS_ROLE_CREATE implements ICS_ROLE_CREATE {
+        constructor(properties?: C2S.ICS_ROLE_CREATE);
+        public name: string;
+        public static create(properties?: C2S.ICS_ROLE_CREATE): C2S.CS_ROLE_CREATE;
+        public static encode(message: C2S.ICS_ROLE_CREATE, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: C2S.ICS_ROLE_CREATE, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): C2S.CS_ROLE_CREATE;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): C2S.CS_ROLE_CREATE;
+        public static verify(message: { [k: string]: any }): (string|null);
+        public static fromObject(object: { [k: string]: any }): C2S.CS_ROLE_CREATE;
+        public static toObject(message: C2S.CS_ROLE_CREATE, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public toJSON(): { [k: string]: any };
+    }
 }
 
 export namespace S2C {
@@ -815,6 +833,7 @@ export namespace S2C {
         level?: (number|null);
         vipLevel?: (number|null);
         combat?: (number|Long|null);
+        guildName?: (string|null);
     }
 
     class SC_ROLE_SUMMARY implements ISC_ROLE_SUMMARY {
@@ -825,6 +844,7 @@ export namespace S2C {
         public level: number;
         public vipLevel: number;
         public combat: (number|Long);
+        public guildName: string;
         public static create(properties?: S2C.ISC_ROLE_SUMMARY): S2C.SC_ROLE_SUMMARY;
         public static encode(message: S2C.ISC_ROLE_SUMMARY, writer?: $protobuf.Writer): $protobuf.Writer;
         public static encodeDelimited(message: S2C.ISC_ROLE_SUMMARY, writer?: $protobuf.Writer): $protobuf.Writer;
@@ -911,12 +931,12 @@ export namespace S2C {
     }
 
     interface ISC_ROLE_ONLINE {
-        roleId?: (number|null);
+        result?: (number|null);
     }
 
     class SC_ROLE_ONLINE implements ISC_ROLE_ONLINE {
         constructor(properties?: S2C.ISC_ROLE_ONLINE);
-        public roleId: number;
+        public result: number;
         public static create(properties?: S2C.ISC_ROLE_ONLINE): S2C.SC_ROLE_ONLINE;
         public static encode(message: S2C.ISC_ROLE_ONLINE, writer?: $protobuf.Writer): $protobuf.Writer;
         public static encodeDelimited(message: S2C.ISC_ROLE_ONLINE, writer?: $protobuf.Writer): $protobuf.Writer;
@@ -1020,6 +1040,8 @@ export namespace S2C {
             serverId?: (number|null);
             name?: (string|null);
             status?: (number|null);
+            level?: (number|null);
+            lastLoginTime?: (number|null);
         }
 
         class Server implements IServer {
@@ -1027,6 +1049,8 @@ export namespace S2C {
             public serverId: number;
             public name: string;
             public status: number;
+            public level: number;
+            public lastLoginTime: number;
             public static create(properties?: S2C.LOGIN_SC_GET_SERVER_LIST.IServer): S2C.LOGIN_SC_GET_SERVER_LIST.Server;
             public static encode(message: S2C.LOGIN_SC_GET_SERVER_LIST.IServer, writer?: $protobuf.Writer): $protobuf.Writer;
             public static encodeDelimited(message: S2C.LOGIN_SC_GET_SERVER_LIST.IServer, writer?: $protobuf.Writer): $protobuf.Writer;

@@ -87,3 +87,7 @@ message CS_GUILD_CREATE {
 
 message CS_GUILD_DISMISS {
 }
+
+message CS_ROLE_CREATE {
+    string name = 1;
+}
