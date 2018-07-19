@@ -91,7 +91,7 @@ async function main() {
             addition2: assert(args, 'platform'),
             diamond_pay: assert(args, 'diamond_pay')
         };
-        
+
         // validate
         let ret = await LoginDB.conn.execute('select * from re_passport_player where ?', {role_id: data.role_id});
         if (ret.length === 0) {
@@ -110,7 +110,7 @@ async function main() {
 
         // execute
         await LoginDB.conn.execute('insert into charge_info set ?', data);
-        res.send('OK');
+        res.send(OK);
     });
 }
 
