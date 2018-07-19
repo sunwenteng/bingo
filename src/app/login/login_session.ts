@@ -204,16 +204,36 @@ export class LoginSession extends UserSession {
         this.sendProtocol(pck);
     }
 
-    public handleGetServerList() {
+    public async handleGetServerList() {
+        let ret = await LoginDB.conn.execute('select * from re_passport_player where ?', {passport_id: this.passportId});
+        let data = {};
+        for (let i = 0; i < ret.length; i++) {
+            const info = ret[i];
+            let reply = await LoginDB.conn.execute('select last_login_time from player_info where ?', {role_id: info.role_id});
+            if (reply.length === 0) {
+                Log.sError('data in re_passport_player, level not in role, roleId=' + info.role_id + ', passport_id=' + this.passportId);
+                continue;
+            }
+            data[info.server_id] = {
+                role_id: info.role_id,
+                last_login_time: reply[0].last_login_time,
+                level: reply[0].level
+            };
+        }
         let pck = S2C.LOGIN_SC_GET_SERVER_LIST.create();
         for (let obj in LoginWorld.instance.serverMap) {
             let server = LoginWorld.instance.serverMap[obj];
             if (this.isServerAccess(server.login_strategy_id)) {
-                pck.servers.push({
+                let serverPck: S2C.LOGIN_SC_GET_SERVER_LIST.IServer = {
                     serverId: server.server_id,
                     name: server.server_name,
                     status: 1
-                });
+                };
+                if (data[server.server_id]) {
+                    serverPck.lastLoginTime = data[server.server_id].last_login_time;
+                    serverPck.level = data[server.server_id].level;
+                }
+                pck.servers.push(data);
             }
         }
         this.sendProtocol(pck);

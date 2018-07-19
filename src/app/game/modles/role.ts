@@ -167,7 +167,7 @@ export class Role extends RedisData {
         });
     }
 
-    public async create() {
+    public async create(name?: string) {
         for (let k in this.fields) {
             if (this.fields[k] instanceof RoleModel) {
                 this.fields[k].loaded = true;
@@ -184,7 +184,7 @@ export class Role extends RedisData {
         this.exp = Math.floor(Math.random() * 10000);
         this.vipExp = Math.floor(Math.random() * 10000);
         this.vipLevel = Math.floor(Math.random() * 10000);
-        this.nickname = 'robot' + this.uid;
+        this.nickname = name ? name : 'robot' + this.uid;
         this.headimgurl = 'img' + this.uid;
 
         await WorldDB.conn.execute('insert into player_info_' + this.getTableNum() + ' set ?', this.serialize(true));

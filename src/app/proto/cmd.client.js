@@ -3015,6 +3015,7 @@
              * @memberof C2S
              * @interface ICS_ROLE_CREATE
              * @property {string|null} [name] CS_ROLE_CREATE name
+             * @property {number|null} [uid] CS_ROLE_CREATE uid
              */
     
             /**
@@ -3039,6 +3040,14 @@
              * @instance
              */
             CS_ROLE_CREATE.prototype.name = "";
+    
+            /**
+             * CS_ROLE_CREATE uid.
+             * @member {number} uid
+             * @memberof C2S.CS_ROLE_CREATE
+             * @instance
+             */
+            CS_ROLE_CREATE.prototype.uid = 0;
     
             /**
              * Creates a new CS_ROLE_CREATE instance using the specified properties.
@@ -3066,6 +3075,8 @@
                     writer = $Writer.create();
                 if (message.name != null && message.hasOwnProperty("name"))
                     writer.uint32(/* id 1, wireType 2 =*/10).string(message.name);
+                if (message.uid != null && message.hasOwnProperty("uid"))
+                    writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.uid);
                 return writer;
             };
     
@@ -3102,6 +3113,9 @@
                     switch (tag >>> 3) {
                     case 1:
                         message.name = reader.string();
+                        break;
+                    case 2:
+                        message.uid = reader.uint32();
                         break;
                     default:
                         reader.skipType(tag & 7);
@@ -3141,6 +3155,9 @@
                 if (message.name != null && message.hasOwnProperty("name"))
                     if (!$util.isString(message.name))
                         return "name: string expected";
+                if (message.uid != null && message.hasOwnProperty("uid"))
+                    if (!$util.isInteger(message.uid))
+                        return "uid: integer expected";
                 return null;
             };
     
@@ -3158,6 +3175,8 @@
                 var message = new $root.C2S.CS_ROLE_CREATE();
                 if (object.name != null)
                     message.name = String(object.name);
+                if (object.uid != null)
+                    message.uid = object.uid >>> 0;
                 return message;
             };
     
@@ -3174,10 +3193,14 @@
                 if (!options)
                     options = {};
                 var object = {};
-                if (options.defaults)
+                if (options.defaults) {
                     object.name = "";
+                    object.uid = 0;
+                }
                 if (message.name != null && message.hasOwnProperty("name"))
                     object.name = message.name;
+                if (message.uid != null && message.hasOwnProperty("uid"))
+                    object.uid = message.uid;
                 return object;
             };
     
@@ -12218,6 +12241,166 @@
             };
     
             return LOGIN_SC_GET_INFO;
+        })();
+    
+        S2C.SC_ROLE_CREATE = (function() {
+    
+            /**
+             * Properties of a SC_ROLE_CREATE.
+             * @memberof S2C
+             * @interface ISC_ROLE_CREATE
+             */
+    
+            /**
+             * Constructs a new SC_ROLE_CREATE.
+             * @memberof S2C
+             * @classdesc Represents a SC_ROLE_CREATE.
+             * @implements ISC_ROLE_CREATE
+             * @constructor
+             * @param {S2C.ISC_ROLE_CREATE=} [properties] Properties to set
+             */
+            function SC_ROLE_CREATE(properties) {
+                if (properties)
+                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null)
+                            this[keys[i]] = properties[keys[i]];
+            }
+    
+            /**
+             * Creates a new SC_ROLE_CREATE instance using the specified properties.
+             * @function create
+             * @memberof S2C.SC_ROLE_CREATE
+             * @static
+             * @param {S2C.ISC_ROLE_CREATE=} [properties] Properties to set
+             * @returns {S2C.SC_ROLE_CREATE} SC_ROLE_CREATE instance
+             */
+            SC_ROLE_CREATE.create = function create(properties) {
+                return new SC_ROLE_CREATE(properties);
+            };
+    
+            /**
+             * Encodes the specified SC_ROLE_CREATE message. Does not implicitly {@link S2C.SC_ROLE_CREATE.verify|verify} messages.
+             * @function encode
+             * @memberof S2C.SC_ROLE_CREATE
+             * @static
+             * @param {S2C.ISC_ROLE_CREATE} message SC_ROLE_CREATE message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            SC_ROLE_CREATE.encode = function encode(message, writer) {
+                if (!writer)
+                    writer = $Writer.create();
+                return writer;
+            };
+    
+            /**
+             * Encodes the specified SC_ROLE_CREATE message, length delimited. Does not implicitly {@link S2C.SC_ROLE_CREATE.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof S2C.SC_ROLE_CREATE
+             * @static
+             * @param {S2C.ISC_ROLE_CREATE} message SC_ROLE_CREATE message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            SC_ROLE_CREATE.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer).ldelim();
+            };
+    
+            /**
+             * Decodes a SC_ROLE_CREATE message from the specified reader or buffer.
+             * @function decode
+             * @memberof S2C.SC_ROLE_CREATE
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {S2C.SC_ROLE_CREATE} SC_ROLE_CREATE
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            SC_ROLE_CREATE.decode = function decode(reader, length) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.S2C.SC_ROLE_CREATE();
+                while (reader.pos < end) {
+                    var tag = reader.uint32();
+                    switch (tag >>> 3) {
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
+                    }
+                }
+                return message;
+            };
+    
+            /**
+             * Decodes a SC_ROLE_CREATE message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof S2C.SC_ROLE_CREATE
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {S2C.SC_ROLE_CREATE} SC_ROLE_CREATE
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            SC_ROLE_CREATE.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+    
+            /**
+             * Verifies a SC_ROLE_CREATE message.
+             * @function verify
+             * @memberof S2C.SC_ROLE_CREATE
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            SC_ROLE_CREATE.verify = function verify(message) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                return null;
+            };
+    
+            /**
+             * Creates a SC_ROLE_CREATE message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof S2C.SC_ROLE_CREATE
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {S2C.SC_ROLE_CREATE} SC_ROLE_CREATE
+             */
+            SC_ROLE_CREATE.fromObject = function fromObject(object) {
+                if (object instanceof $root.S2C.SC_ROLE_CREATE)
+                    return object;
+                return new $root.S2C.SC_ROLE_CREATE();
+            };
+    
+            /**
+             * Creates a plain object from a SC_ROLE_CREATE message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof S2C.SC_ROLE_CREATE
+             * @static
+             * @param {S2C.SC_ROLE_CREATE} message SC_ROLE_CREATE
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            SC_ROLE_CREATE.toObject = function toObject() {
+                return {};
+            };
+    
+            /**
+             * Converts this SC_ROLE_CREATE to JSON.
+             * @function toJSON
+             * @memberof S2C.SC_ROLE_CREATE
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            SC_ROLE_CREATE.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+    
+            return SC_ROLE_CREATE;
         })();
     
         return S2C;

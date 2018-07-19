@@ -246,3 +246,6 @@ message LOGIN_SC_GET_INFO {
     string version = 2;
     string update_address = 3;
 }
+
+message SC_ROLE_CREATE {
+}

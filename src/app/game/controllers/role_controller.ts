@@ -28,8 +28,13 @@ export class RoleController {
             }
             let exist = await role.load();
             if (!exist) {
-                await role.create();
-                await role.save(true);
+                // await role.create();
+                // await role.save(true);
+
+                let pck = S2C.SC_ROLE_ONLINE.create();
+                pck.result = 0;
+                role.sendProtocol(pck);
+                return;
             }
             session.role = role;
             role._session = session;
@@ -48,12 +53,33 @@ export class RoleController {
 
             // put it to the end
             let pck = S2C.SC_ROLE_ONLINE.create();
-            pck.roleId = roleId;
+            pck.result = 1;
             role.sendProtocol(pck);
 
             role.lastAliveTime = Time.realNow();
             role.lastLoginTime = Time.realNow();
             await role.save();
+        });
+    }
+
+    async create(session: GameSession, msg: C2S.CS_ROLE_CREATE) {
+        let roleId = msg.uid;
+        let roleName = msg.name;
+        let role = new Role(roleId);
+        await gameRedis.lock(Role.getRedisKey(role.uid), async () => {
+            let isOnline = await GameWorld.instance.isRoleOnline(roleId);
+            if (isOnline) {
+                Log.sError('role create error, role online, uid=' + roleId);
+                return;
+            }
+            let exist = await role.load();
+            if (exist) {
+                Log.sError('role create error, role exist, uid=' + roleId);
+                return;
+            }
+            await role.create(roleName);
+            await role.save(true);
+            role.sendProtocol(S2C.SC_ROLE_CREATE.create());
         });
     }
 

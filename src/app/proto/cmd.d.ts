@@ -280,11 +280,13 @@ export namespace C2S {
 
     interface ICS_ROLE_CREATE {
         name?: (string|null);
+        uid?: (number|null);
     }
 
     class CS_ROLE_CREATE implements ICS_ROLE_CREATE {
         constructor(properties?: C2S.ICS_ROLE_CREATE);
         public name: string;
+        public uid: number;
         public static create(properties?: C2S.ICS_ROLE_CREATE): C2S.CS_ROLE_CREATE;
         public static encode(message: C2S.ICS_ROLE_CREATE, writer?: $protobuf.Writer): $protobuf.Writer;
         public static encodeDelimited(message: C2S.ICS_ROLE_CREATE, writer?: $protobuf.Writer): $protobuf.Writer;
@@ -1082,6 +1084,22 @@ export namespace S2C {
         public static verify(message: { [k: string]: any }): (string|null);
         public static fromObject(object: { [k: string]: any }): S2C.LOGIN_SC_GET_INFO;
         public static toObject(message: S2C.LOGIN_SC_GET_INFO, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public toJSON(): { [k: string]: any };
+    }
+
+    interface ISC_ROLE_CREATE {
+    }
+
+    class SC_ROLE_CREATE implements ISC_ROLE_CREATE {
+        constructor(properties?: S2C.ISC_ROLE_CREATE);
+        public static create(properties?: S2C.ISC_ROLE_CREATE): S2C.SC_ROLE_CREATE;
+        public static encode(message: S2C.ISC_ROLE_CREATE, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: S2C.ISC_ROLE_CREATE, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): S2C.SC_ROLE_CREATE;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): S2C.SC_ROLE_CREATE;
+        public static verify(message: { [k: string]: any }): (string|null);
+        public static fromObject(object: { [k: string]: any }): S2C.SC_ROLE_CREATE;
+        public static toObject(message: S2C.SC_ROLE_CREATE, options?: $protobuf.IConversionOptions): { [k: string]: any };
         public toJSON(): { [k: string]: any };
     }
 }

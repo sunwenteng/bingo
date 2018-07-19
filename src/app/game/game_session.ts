@@ -13,6 +13,7 @@ let gameRedis = RedisMgr.getInstance(RedisType.GAME);
 export class GameSession extends UserSession {
     // public roleId: number = 0;
     public role: Role = null;
+
     //private _isUpdating = false;
 
     constructor() {
@@ -93,11 +94,11 @@ export class GameSession extends UserSession {
             this.packets.deleteNode(t);
             cur = cur.next;
 
-            if (packet.kind !== 'CS_ROLE_ONLINE' && this.role === null) {
+            if (packet.kind !== 'CS_ROLE_ONLINE' && packet.kind !== 'CS_ROLE_CREATE' && this.role === null) {
                 Log.sError('not receive online packet yet, uid=' + this.socket.uid);
                 continue;
             }
-            else if (packet.kind === 'CS_ROLE_ONLINE' && this.role !== null) {
+            else if (packet.kind === 'CS_ROLE_ONLINE' && packet.kind !== 'CS_ROLE_CREATE' && this.role !== null) {
                 Log.sError('already online, duplicate online packet, roleId=%d, socketUid=%d', this.role.uid, this.socket.uid);
                 continue;
             }

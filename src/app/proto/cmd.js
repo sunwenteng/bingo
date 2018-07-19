@@ -229,6 +229,10 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
           name: {
             type: "string",
             id: 1
+          },
+          uid: {
+            type: "uint32",
+            id: 2
           }
         }
       }
@@ -887,6 +891,9 @@ var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $pr
             id: 3
           }
         }
+      },
+      SC_ROLE_CREATE: {
+        fields: {}
       }
     }
   }
