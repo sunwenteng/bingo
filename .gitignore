@@ -3,7 +3,7 @@
 node_modules/
 dist/
 tool/crawler
-
+src/config/*.json
 # files
 
 /src/game_app/proto/Protocol.ts
