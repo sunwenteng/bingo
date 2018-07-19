@@ -27,6 +27,7 @@ async function main() {
         process.nextTick(async () => {
             await gameRedis.stop();
             await WorldDB.stop();
+            await LoginDB.stop();
             process.exit(0);
         });
     });

@@ -4,6 +4,12 @@ import {MysqlConnection, MysqlConfig} from "./lib/mysql_connection";
 export let conn: MysqlConnection;
 let _timer;
 
+export enum EChargeState {
+    unpay = 0, // 未支付
+    paied = 1, // 已经支付
+    distributed = 2 // 已发放货币
+}
+
 // notice_info_v2 这张表里有乱七八糟各种信息，都是key-value，用来存储各种杂乱信息
 export interface LoginNoticeInfo {
     auto_id:number;

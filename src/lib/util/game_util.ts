@@ -4,7 +4,8 @@ import * as http from 'http';
 import {ERROR_CODE} from './error_code';
 import * as crypto from 'crypto';
 import * as request from 'request';
-import {type} from "os";
+import * as express from 'express';
+import url = require('url');
 
 export function md5(param: string): string {
     let md5sum = crypto.createHash('md5');
@@ -464,4 +465,38 @@ export function mkdirpSync(dirName) {
         }
     }
     return false;
+}
+
+export function parseHttpParams(req: express.Request): { [key: string]: any } {
+    let urlData = url.parse(req.url);
+    let args = {};
+    // 获取get参数
+    if (urlData.query) {
+        let querySplits = urlData.query.split('&');
+        for (let Key in querySplits) {
+            if (querySplits[Key]) {
+                let argSplits = querySplits[Key].split('=');
+                args[argSplits[0]] = argSplits[1];
+            }
+        }
+    }
+    // 如果请求方式为POST，将post参数合并到args中
+    if (typeof req.body === 'object') {
+        for (let key in req.body) {
+            args[key] = req.body[key];
+        }
+    }
+
+    let ipAddress = null;
+    if (req && typeof(req.headers['x-forwarded-for']) !== 'undefined') {
+        let forwardedIpsStr = req.headers['x-forwarded-for'].toString();
+        let forwardedIps = forwardedIpsStr.split(',');
+        ipAddress = forwardedIps[0];
+    }
+
+    if (req && !ipAddress) {
+        ipAddress = req.ip;
+    }
+    args["IP"] = ipAddress;
+    return args;
 }
