@@ -38,7 +38,6 @@
     "easy-monitor": "^2.2.3",
     "express": "^4.16.3",
     "hiredis": "^0.5.0",
-    "mkdirp": "^0.5.1",
     "moment": "^2.22.2",
     "mysql": "^2.15.0",
     "protobufjs": "^6.8.6",
@@ -52,7 +51,6 @@
   "devDependencies": {
     "@types/core-js": "^0.9.46",
     "@types/express": "^4.11.1",
-    "@types/mkdirp": "^0.5.2",
     "@types/moment": "^2.13.0",
     "@types/mysql": "^2.15.4",
     "@types/node": "^10.1.2",
@@ -68,10 +66,10 @@
     "gulp-sourcemaps": "^2.6.4",
     "gulp-typescript": "^4.0.2",
     "tslint": "^5.10.0",
-    "typescript": "^2.8.3"
+    "typescript": "^2.8.3",
+    "xlsx": "^0.13.2"
   },
-  "scripts": {
-  },
+  "scripts": {},
   "maintainers": [
     {
       "username": "sunwenteng",

@@ -453,3 +453,15 @@ function parseHttpResBody(error: any, response: any, body: string, dataType: HTT
 export function capitalize(str: string): string {
     return str.toLowerCase().replace(/( |^)[a-z]/g, (L) => L.toUpperCase());
 }
+
+export function mkdirpSync(dirName) {
+    if (fs.existsSync(dirName)) {
+        return true;
+    } else {
+        if (mkdirpSync(path.dirname(dirName))) {
+            fs.mkdirSync(dirName);
+            return true;
+        }
+    }
+    return false;
+}
